@@ -224,15 +224,26 @@
                 <i class="fa-regular fa-xmark"></i>
             </div>
         </div>
-        <div class="off-canvas-menu">
+        <div class="off-canvas-menu" style="padding-bottom: 0;">
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'about' %}">Who we are?</a></li>
-                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'services' %}">Domes</a></li>
                 <li><a href="{% url 'activities' %}">Activities</a></li>
                 <li><a href="{% url 'blog_grid' %}">Blog</a></li>
                 <li><a href="{% url 'contact' %}">Contact Us</a></li>
             </ul>
+        </div>
+        <div class="off-canvas-menubar-btn m-t-0 p-l-20 p-r-20">
+            <a href="{% url 'booking' %}" class="e-primary-btn has-icon w-100 justify-content-center">
+                Book Now
+                <span class="icon-wrap">
+                    <span class="icon">
+                        <i class="fa-regular fa-arrow-right"></i>
+                        <i class="fa-regular fa-arrow-right"></i>
+                    </span>
+                </span>
+            </a>
         </div>
     </div>
     <div class="off-canvas-menubar-overlay" data-close="menubar"></div>
@@ -242,7 +253,7 @@
 {% block content %}{% endblock %}
 {% block footer %}
 <!-- footer-section start -->
-<footer class="footer-section p-t-80" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "assets/img/new/6.jpeg" %}'); background-size: cover; background-position: center;">
+<footer class="footer-section p-t-80" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "assets/img/new/22.jpeg" %}'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="row justify-content-between row-gap-md-5 row-gap-4 p-b-30">
             <div class="col-xl-4 col-lg-8 col-md-7">
@@ -252,14 +263,14 @@
                             <a href="{% url 'home' %}"><img alt="logo" src="{% static 'white.png' %}"></a>
                         </div>
                         <div class="text">
-                            <p>
-                                Domes Inn Heaven is Kerala's most immersive luxury dome glamping retreat, where nature becomes your greatest indulgence. Nestled amid lush landscapes and open skies, we offer a stay that is equal parts wild and refined — for those who believe the finest rooms have no ceilings.
+                            <p style="color: white !important;">
+                                Ready to wake up to the mist? Secure your premium dome experience today and reconnect with nature.
                             </p>
                         </div>
-                        <div class="info">
+                        {% comment %} <div class="info">
                             <p><b>We Are Available !!</b></p>
                             <p>Mon-Sat: <span>10:00am to 07:30pm</span></p>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="social-links">
                             <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
                             <a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
@@ -299,7 +310,7 @@
                 <div class="footer-widget">
                     <h3 class="w-title">Book Your Stay</h3>
                     <div class="text m-b-25">
-                        <p>Ready to wake up to the mist? Secure your premium dome experience today and reconnect with nature.</p>
+                        <p style="color: white !important;">Ready to wake up to the mist? Secure your premium dome experience today and reconnect with nature.</p>
                     </div>
                     <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
                         Book Now

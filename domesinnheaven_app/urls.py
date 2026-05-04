@@ -9,16 +9,16 @@ urlpatterns = [
 
     path('about/', views.about, name='about'),
 
-    path('services/', views.services, name='services'),
-    path('services/<slug:slug>/', views.service_single, name='service_single'),
-    path('services-details/', views.services_details, name='services_details'),
+    path('dome/', views.services, name='services'),
+    path('dome/<slug:slug>/', views.service_single, name='service_single'),
+    path('dome-details/', views.services_details, name='services_details'),
 
     path('activities/', views.activities, name='activities'),
     path('activities/<slug:slug>/', views.activity_details, name='activity_details'),
     
     path('gallery/', views.gallery, name='gallery'),
 
-    path('blog-grid/', views.blog_grid, name='blog_grid'),
+    path('blogs/', views.blog_grid, name='blog_grid'),
     path('blog-standard/', views.blog_standard, name='blog_standard'),
     path('blog-details/', views.blog_details, name='blog_details'),
     path('blogs/<slug:slug>/', views.blog_details, name='blog_detail_slug'),

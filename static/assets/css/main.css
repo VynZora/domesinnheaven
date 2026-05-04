@@ -8724,6 +8724,103 @@ label {
   }
 }
 
+.google-review-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none !important;
+  background: var(--white-color);
+  border-radius: 50px;
+  padding: 10px 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+.google-review-badge:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+.google-review-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.google-review-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.google-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--theme-color-3);
+  letter-spacing: -0.2px;
+}
+.google-stars-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.google-score {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--theme-color-3);
+  line-height: 1;
+}
+.google-max {
+  font-size: 12px;
+  opacity: 0.6;
+  font-weight: 400;
+}
+.google-stars {
+  display: flex;
+  gap: 2px;
+}
+.google-stars i {
+  color: #fbbc05;
+  font-size: 13px;
+}
+.google-count {
+  font-size: 12px;
+  color: var(--body-color);
+  font-weight: 400;
+}
+.google-review-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-25deg);
+  transition: none;
+}
+.google-review-badge:hover .google-review-shine {
+  animation: google-shine 0.75s;
+}
+@keyframes google-shine {
+  100% {
+    left: 125%;
+  }
+}
+@media (max-width: 767px) {
+  .google-review-badge {
+    padding: 8px 18px;
+    gap: 10px;
+  }
+  .google-label {
+    font-size: 13px;
+  }
+  .google-score {
+    font-size: 14px;
+  }
+  .google-stars i {
+    font-size: 11px;
+  }
+}
 .testimonial-card {
   background-color: var(--theme-color-3);
   padding: 20px;
