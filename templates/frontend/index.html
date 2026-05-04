@@ -1,6 +1,17 @@
 {% extends "frontend/base.html" %}
 {% load static %}
 {% block content %}
+<style>
+    .blog-card .thumb {
+        height: 250px;
+        overflow: hidden;
+    }
+    .blog-card .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
 
 <!-- preloader start-->
 <div id="preloader">

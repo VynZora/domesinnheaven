@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,7 +9,9 @@
     <link href="{% static 'assets/img/logo/favicon.webp' %}" rel="shortcut icon" type="image/x-icon">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
     <link href="{% static 'assets/vendor/animate/animate.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/fontawesome-pro/fontawesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
@@ -19,407 +22,502 @@
     <link href="{% static 'assets/css/main.css' %}?v=20260502" rel="stylesheet">
     {% block extra_head %}{% endblock %}
 </head>
+
 <body>
-{% block header_menu %}
- <!-- header-section start -->
- <style>
-    /* Reduce only the thumbnail/header height */
-    .breadcrumb-section,
-    .breadcrumb-thumb {
-        height: 500px !important;
-    }
-    @media (max-width: 767px) {
+    {% block header_menu %}
+    <!-- header-section start -->
+    <style>
+        /* Reduce only the thumbnail/header height */
         .breadcrumb-section,
         .breadcrumb-thumb {
-            height: 250px !important;
+            height: 500px !important;
         }
-    }
-    .breadcrumb-thumb img {
-        height: 100% !important;
-        object-fit: cover !important; /* Ensures it looks good in any orientation */
-    }
- </style>
-{% if request.path == '/' %}
-<header class="header-section-1">
-    <div class="top-bar d-none d-md-block">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="top-bar-content text-center">
-                        <div class="text-wrap">
-                            <img src="{% static 'assets/img/icons/calendar-time.svg' %}" alt="icon">
-                            <span>Join Our Event (28 Nov, 2024) New Market, California.</span>
-                        </div>
-                        <a href="{% url 'donations' %}" class="e-primary-btn is-hover-white top-btn">Donate Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	<div class="header-bottom-layout-2">
-		<div class="header-left">
-			<div class="logo-wrap-2">
-				<a href="{% url 'home' %}">
-					<img src="{% static 'white.png' %}" alt="logo"/>
-				</a>
-			</div>
-		</div>
-		<div class="w-100 d-none d-xl-block">
-			<div class="header-middle">
-				<nav class="main-menu-2 d-none d-xl-block">
-					<ul>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">Who we are?</a></li>
-                        <li><a href="{% url 'services' %}">Domes</a></li>
-                        <li><a href="{% url 'activities' %}">Activities</a></li>
-                        <li><a href="{% url 'blog_grid' %}">Blog</a></li>
-                        <li><a href="{% url 'gallery' %}">Gallery</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-					</ul>
-				</nav>
-				<div class="header-info-wrap">
-					<div class="header-info-3 d-none d-xl-flex">
-						<a href="tel:+16295550129" class="header-info-icon">
-							<i class="fa-regular fa-phone-volume"></i>
-						</a>
-					</div>
-					<div class="header-btn-wrap d-none d-xl-flex">
-						<a href="{% url 'booking' %}" class="e-primary-btn has-icon">
-							Book Now
-							<span class="icon-wrap">
-								<span class="icon">
-									<i class="fa-regular fa-arrow-right"></i>
-									<i class="fa-regular fa-arrow-right"></i>
-								</span>
-							</span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="header-right">
-			<div class="header-bar-3 d-none d-xl-flex" data-toggle="sidebar">
-				<div class="bar bar-1"></div>
-				<div class="bar bar-2"></div>
-				<div class="bar bar-3"></div>
-			</div>
-			<div class="header-bar-3 d-xl-none" data-toggle="menubar">
-				<div class="bar bar-1"></div>
-				<div class="bar bar-2"></div>
-				<div class="bar bar-3"></div>
-			</div>
-		</div>
-	</div>
-</header>
-{% else %}
-<header class="header-section">
-    <div class="top-bar d-none d-md-block">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="top-bar-content text-center">
-                        <div class="text-wrap">
-                            <img src="{% static 'assets/img/icons/calendar-time.svg' %}" alt="icon">
-                            <span>Join Our Event (28 Nov, 2024) New Market, California.</span>
-                        </div>
-                        <a href="{% url 'donations' %}" class="e-primary-btn is-hover-white top-btn">Donate Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="header-bottom">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="header-bottom-layout">
-                        <div class="header-left">
-                            <div class="logo-wrap">
-                                <a href="{% url 'home' %}">
-                                    <img src="{% static 'green.png' %}" alt="logo">
-                                </a>
-                            </div>
-                            <nav class="main-menu d-none d-xl-block">
-                                <ul>
-                                    <li><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="{% url 'about' %}">Who we are?</a></li>
-                                    <li><a href="{% url 'services' %}">Domes</a></li>
-                                    <li><a href="{% url 'activities' %}">Activities</a></li>
-                                    <li><a href="{% url 'blog_grid' %}">Blog</a></li>
-                                    <li><a href="{% url 'gallery' %}">Gallery</a></li>
-                                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div class="header-right">
-                            <div class="header-info d-none d-xl-flex">
-                                <a href="tel:+16295550129" class="header-info-icon">
-                                    <i class="fa-regular fa-phone-volume"></i>
-                                </a>
-                            </div>
-                            <div class="header-btn-wrap d-none d-xl-flex">
-                                <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
-                                    Book Now
-                                    <span class="icon-wrap">
-                                        <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="header-bar open-sidebar d-none d-xl-flex" data-toggle="sidebar">
-                                <div class="bar bar-1"></div>
-                                <div class="bar bar-2"></div>
-                                <div class="bar bar-3"></div>
-                            </div>
-                            <div class="header-bar open-mobile-menu d-xl-none" data-toggle="menubar">
-                                <div class="bar bar-1"></div>
-                                <div class="bar bar-2"></div>
-                                <div class="bar bar-3"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-{% endif %}
-<!-- header-section end -->
 
-<!-- off-canvas-sidebar start -->
-<div class="off-canvas-sidebar">
-    <div class="off-canvas-sidebar-body">
-        <div class="off-canvas-sidebar-close" data-close="sidebar">
-            <i class="fa-regular fa-xmark"></i>
-        </div>
-        <div class="off-canvas-logo m-b-20">
-            <a href="{% url 'home' %}">
-                <img src="{% static 'green.png' %}" alt="logo"/>
-            </a>
-        </div>
-        <div class="off-canvas-contact m-b-40">
-            <a href="mailto:support@example.com" class="off-canvas-contact-item">
-                <div class="icon"><i class="fa-solid fa-paper-plane"></i></div>
-                <div class="text"><h6>Email</h6><p>Support@example.com</p></div>
-            </a>
-            <a href="tel:+70264566579" class="off-canvas-contact-item">
-                <div class="icon"><i class="fa-solid fa-phone-arrow-up-right"></i></div>
-                <div class="text"><h6>Phone</h6><p>+70 264 566 579</p></div>
-            </a>
-        </div>
-    </div>
-    <div class="off-canvas-sidebar-overlay" data-close="sidebar"></div>
-</div>
-<!-- off-canvas-sidebar end -->
+        @media (max-width: 767px) {
 
-<!-- off-canvas-menubar start -->
-<div class="off-canvas-menubar">
-    <div class="off-canvas-menubar-body">
-        <div class="off-canvas-head">
-            <div class="off-canvas-logo">
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'green.png' %}" alt="logo"/>
-                </a>
-            </div>
-            <div class="off-canvas-menubar-close" data-close="menubar">
-                <i class="fa-regular fa-xmark"></i>
-            </div>
-        </div>
-        <div class="off-canvas-menu" style="padding-bottom: 0;">
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'about' %}">Who we are?</a></li>
-                <li><a href="{% url 'services' %}">Domes</a></li>
-                <li><a href="{% url 'activities' %}">Activities</a></li>
-                <li><a href="{% url 'blog_grid' %}">Blog</a></li>
-                <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            </ul>
-        </div>
-        <div class="off-canvas-menubar-btn m-t-0 p-l-20 p-r-20">
-            <a href="{% url 'booking' %}" class="e-primary-btn has-icon w-100 justify-content-center">
-                Book Now
-                <span class="icon-wrap">
-                    <span class="icon">
-                        <i class="fa-regular fa-arrow-right"></i>
-                        <i class="fa-regular fa-arrow-right"></i>
-                    </span>
-                </span>
-            </a>
-        </div>
-    </div>
-    <div class="off-canvas-menubar-overlay" data-close="menubar"></div>
-</div>
-<!-- off-canvas-menubar end -->
-{% endblock %}
-{% block content %}{% endblock %}
-{% block footer %}
-<!-- footer-section start -->
-<footer class="footer-section p-t-80" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "assets/img/new/22.jpeg" %}'); background-size: cover; background-position: center;">
-    <div class="container">
-        <div class="row justify-content-between row-gap-md-5 row-gap-4 p-b-30">
-            <div class="col-xl-4 col-lg-8 col-md-7">
-                <div class="footer-widget">
-                    <div class="about-widget">
-                        <div class="footer-logo">
-                            <a href="{% url 'home' %}"><img alt="logo" src="{% static 'white.png' %}"></a>
-                        </div>
-                        <div class="text">
-                            <p style="color: white !important;">
-                                Ready to wake up to the mist? Secure your premium dome experience today and reconnect with nature.
-                            </p>
-                        </div>
-                        {% comment %} <div class="info">
-                            <p><b>We Are Available !!</b></p>
-                            <p>Mon-Sat: <span>10:00am to 07:30pm</span></p>
-                        </div> {% endcomment %}
-                        <div class="social-links">
-                            <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-                            <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+            .breadcrumb-section,
+            .breadcrumb-thumb {
+                height: 250px !important;
+            }
+        }
+
+        .breadcrumb-thumb img {
+            height: 100% !important;
+            object-fit: cover !important;
+            /* Ensures it looks good in any orientation */
+        }
+    </style>
+    {% if request.path == '/' %}
+    <header class="header-section-1">
+        {% comment %} <div class="top-bar d-none d-md-block">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="top-bar-content text-center">
+                            <div class="text-wrap">
+                                <img src="{% static 'assets/img/icons/calendar-time.svg' %}" alt="icon">
+                                <span>Join Our Event (28 Nov, 2024) New Market, California.</span>
+                            </div>
+                            <a href="{% url 'donations' %}" class="e-primary-btn is-hover-white top-btn">Donate Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-4 col-md-5">
-                <div class="footer-widget">
-                    <h3 class="w-title">Quick Links</h3>
-                    <ul>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">Who we are?</a></li>
-                        <li><a href="{% url 'services' %}">Our Domes</a></li>
-                        <li><a href="{% url 'activities' %}">Activities</a></li>
-                        <li><a href="{% url 'blog_grid' %}">Latest Blog</a></li>
-                        <li><a href="{% url 'gallery' %}">Gallery</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-2 col-lg-4 col-md-5">
-                <div class="footer-widget">
-                    <h3 class="w-title">Our Stays</h3>
-                    <ul>
-                        <li><a href="{% url 'camping' %}">Dome Stays</a></li>
-                        <li><a href="{% url 'services' %}">Glamping Packages</a></li>
-                        <li><a href="{% url 'activities' %}">Nature Activities</a></li>
-                        <li><a href="{% url 'booking' %}">Book Your Stay</a></li>
-                        <li><a href="{% url 'contact' %}">Support</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-5">
-                <div class="footer-widget">
-                    <h3 class="w-title">Book Your Stay</h3>
-                    <div class="text m-b-25">
-                        <p style="color: white !important;">Ready to wake up to the mist? Secure your premium dome experience today and reconnect with nature.</p>
-                    </div>
-                    <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
-                        Book Now
-                        <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span>
+        </div> {% endcomment %}
+        <div class="header-bottom-layout-2">
+            <div class="header-left">
+                <div class="logo-wrap-2">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'white.png' %}" alt="logo" />
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom-3">
-            <div class="footer-bottom-layout-2">
-                <div class="footer-copyright">
-                    © 2025 Domes Inn Heaven. All Rights Reserved.
+            <div class="w-100 d-none d-xl-block">
+                <div class="header-middle">
+                    <nav class="main-menu-2 d-none d-xl-block">
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">Who we are?</a></li>
+                            <li><a href="{% url 'services' %}">Domes</a></li>
+                            <li><a href="{% url 'activities' %}">Activities</a></li>
+                            <li><a href="{% url 'blog_grid' %}">Blog</a></li>
+                            <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                    <div class="header-info-wrap">
+                        <div class="header-info-3 d-none d-xl-flex">
+                            <a href="tel:+16295550129" class="header-info-icon">
+                                <i class="fa-regular fa-phone-volume"></i>
+                            </a>
+                        </div>
+                        <div class="header-btn-wrap d-none d-xl-flex">
+                            <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+                                Book Now
+                                <span class="icon-wrap">
+                                    <span class="icon">
+                                        <i class="fa-regular fa-arrow-right"></i>
+                                        <i class="fa-regular fa-arrow-right"></i>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="footer-bottom-menu">
-                    <ul>
-                        <li><a href="{% url 'contact' %}">Terms & Condition</a></li>
-                        <li><a href="{% url 'contact' %}">Privacy Policy</a></li>
-                    </ul>
+            </div>
+            <div class="header-right">
+                <div class="header-bar-3 d-none d-xl-flex" data-toggle="sidebar">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                </div>
+                <div class="header-bar-3 d-xl-none" data-toggle="menubar">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- footer-section end -->
-{% endblock %}
-<style>
-    .global-toast {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        min-width: 300px;
-        max-width: 500px;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        padding: 16px 20px;
-        display: flex;
-        align-items: center;
-        z-index: 99999;
-        transform: translateX(120%);
-        opacity: 0;
-        transition: all 0.3s ease;
-        border-left: 4px solid var(--theme-color);
-    }
-    .global-toast.show {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    .global-toast.success { border-left-color: var(--theme-color); }
-    .global-toast.error { border-left-color: var(--error-color); }
-    .global-toast.warning { border-left-color: var(--warning-color); }
-    .global-toast.info { border-left-color: var(--theme-color-3); }
-    .toast-content { display: flex; align-items: center; flex: 1; }
-    .toast-icon { font-size: 20px; margin-right: 12px; }
-    .global-toast.success .toast-icon { color: var(--theme-color); content: '✓'; }
-    .global-toast.error .toast-icon { color: var(--error-color); content: '⚠'; }
-    .global-toast.warning .toast-icon { color: var(--warning-color); content: '⚠'; }
-    .global-toast.info .toast-icon { color: var(--theme-color-3); content: 'ℹ'; }
-    .toast-message { font-size: 14px; color: #333; line-height: 1.4; }
-    .toast-progress {
-        position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: rgba(0, 0, 0, 0.1);
-    }
-    .toast-progress:before {
-        content: ''; position: absolute; bottom: 0; left: 0; height: 100%; width: 100%;
-        background: currentColor; animation: toastProgress 5s linear forwards;
-    }
-    .global-toast.success .toast-progress:before { background: var(--theme-color); }
-    .global-toast.error .toast-progress:before { background: var(--error-color); }
-    .global-toast.warning .toast-progress:before { background: var(--warning-color); }
-    .global-toast.info .toast-progress:before { background: var(--theme-color-3); }
-    @keyframes toastProgress { 0% { width: 100%; } 100% { width: 0%; } }
-</style>
+    </header>
+    {% else %}
+    <header class="header-section">
+        {% comment %} <div class="top-bar d-none d-md-block">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="top-bar-content text-center">
+                            <div class="text-wrap">
+                                <img src="{% static 'assets/img/icons/calendar-time.svg' %}" alt="icon">
+                                <span>Join Our Event (28 Nov, 2024) New Market, California.</span>
+                            </div>
+                            <a href="{% url 'donations' %}" class="e-primary-btn is-hover-white top-btn">Donate Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        <div class="header-bottom">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="header-bottom-layout">
+                            <div class="header-left">
+                                <div class="logo-wrap">
+                                    <a href="{% url 'home' %}">
+                                        <img src="{% static 'green.png' %}" alt="logo">
+                                    </a>
+                                </div>
+                                <nav class="main-menu d-none d-xl-block">
+                                    <ul>
+                                        <li><a href="{% url 'home' %}">Home</a></li>
+                                        <li><a href="{% url 'about' %}">Who we are?</a></li>
+                                        <li><a href="{% url 'services' %}">Domes</a></li>
+                                        <li><a href="{% url 'activities' %}">Activities</a></li>
+                                        <li><a href="{% url 'blog_grid' %}">Blog</a></li>
+                                        <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="header-right">
+                                <div class="header-info d-none d-xl-flex">
+                                    <a href="tel:+16295550129" class="header-info-icon">
+                                        <i class="fa-regular fa-phone-volume"></i>
+                                    </a>
+                                </div>
+                                <div class="header-btn-wrap d-none d-xl-flex">
+                                    <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+                                        Book Now
+                                        <span class="icon-wrap">
+                                            <span class="icon"><i class="fa-regular fa-arrow-right"></i><i
+                                                    class="fa-regular fa-arrow-right"></i></span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="header-bar open-sidebar d-none d-xl-flex" data-toggle="sidebar">
+                                    <div class="bar bar-1"></div>
+                                    <div class="bar bar-2"></div>
+                                    <div class="bar bar-3"></div>
+                                </div>
+                                <div class="header-bar open-mobile-menu d-xl-none" data-toggle="menubar">
+                                    <div class="bar bar-1"></div>
+                                    <div class="bar bar-2"></div>
+                                    <div class="bar bar-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+    <!-- header-section end -->
 
-<div id="global-toast" class="global-toast">
-    <div class="toast-content">
-        <i class="toast-icon"></i>
-        <span class="toast-message"></span>
+    <!-- off-canvas-sidebar start -->
+    <div class="off-canvas-sidebar">
+        <div class="off-canvas-sidebar-body">
+            <div class="off-canvas-sidebar-close" data-close="sidebar">
+                <i class="fa-regular fa-xmark"></i>
+            </div>
+            <div class="off-canvas-logo m-b-20">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'green.png' %}" alt="logo" />
+                </a>
+            </div>
+            <div class="off-canvas-contact m-b-40">
+                <a href="mailto:support@example.com" class="off-canvas-contact-item">
+                    <div class="icon"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div class="text">
+                        <h6>Email</h6>
+                        <p>Support@example.com</p>
+                    </div>
+                </a>
+                <a href="tel:+70264566579" class="off-canvas-contact-item">
+                    <div class="icon"><i class="fa-solid fa-phone-arrow-up-right"></i></div>
+                    <div class="text">
+                        <h6>Phone</h6>
+                        <p>+70 264 566 579</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="off-canvas-sidebar-overlay" data-close="sidebar"></div>
     </div>
-    <div class="toast-progress"></div>
-</div>
+    <!-- off-canvas-sidebar end -->
 
-<script>
-    function showGlobalToast(message, type = 'success') {
-        const toast = document.getElementById('global-toast');
-        const toastMessage = toast.querySelector('.toast-message');
-        const toastIcon = toast.querySelector('.toast-icon');
-        toastMessage.textContent = message;
-        toast.classList.remove('success', 'error', 'warning', 'info');
-        toast.classList.add(type);
-        switch (type) {
-            case 'success': toastIcon.className = 'toast-icon fas fa-check-circle'; break;
-            case 'error': toastIcon.className = 'toast-icon fas fa-times-circle'; break;
-            case 'warning': toastIcon.className = 'toast-icon fas fa-exclamation-triangle'; break;
-            case 'info': toastIcon.className = 'toast-icon fas fa-info-circle'; break;
-            default: toastIcon.className = 'toast-icon fas fa-info-circle';
+    <!-- off-canvas-menubar start -->
+    <div class="off-canvas-menubar">
+        <div class="off-canvas-menubar-body">
+            <div class="off-canvas-head">
+                <div class="off-canvas-logo">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'green.png' %}" alt="logo" />
+                    </a>
+                </div>
+                <div class="off-canvas-menubar-close" data-close="menubar">
+                    <i class="fa-regular fa-xmark"></i>
+                </div>
+            </div>
+            <div class="off-canvas-menu" style="padding-bottom: 0;">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">Who we are?</a></li>
+                    <li><a href="{% url 'services' %}">Domes</a></li>
+                    <li><a href="{% url 'activities' %}">Activities</a></li>
+                    <li><a href="{% url 'blog_grid' %}">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="off-canvas-menubar-btn m-t-0 p-l-20 p-r-20">
+                <a href="{% url 'booking' %}" class="e-primary-btn has-icon w-100 justify-content-center">
+                    Book Now
+                    <span class="icon-wrap">
+                        <span class="icon">
+                            <i class="fa-regular fa-arrow-right"></i>
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="off-canvas-menubar-overlay" data-close="menubar"></div>
+    </div>
+    <!-- off-canvas-menubar end -->
+    {% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <!-- footer-section start -->
+    <footer class="footer-section p-t-80"
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "
+        assets/img/new/22.jpeg" %}'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="row justify-content-between row-gap-md-5 row-gap-4 p-b-30">
+                <div class="col-xl-4 col-lg-8 col-md-7">
+                    <div class="footer-widget">
+                        <div class="about-widget">
+                            <div class="footer-logo">
+                                <a href="{% url 'home' %}"><img alt="logo" src="{% static 'white.png' %}"></a>
+                            </div>
+                            <div class="text">
+                                <p style="color: white !important;">
+                                    Ready to wake up to the mist? Secure your premium dome experience today and
+                                    reconnect with nature.
+                                </p>
+                            </div>
+                            {% comment %} <div class="info">
+                                <p><b>We Are Available !!</b></p>
+                                <p>Mon-Sat: <span>10:00am to 07:30pm</span></p>
+                            </div> {% endcomment %}
+                            <div class="social-links">
+                                <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
+                                <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                                <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-5">
+                    <div class="footer-widget">
+                        <h3 class="w-title">Quick Links</h3>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">Who we are?</a></li>
+                            <li><a href="{% url 'services' %}">Our Domes</a></li>
+                            <li><a href="{% url 'activities' %}">Activities</a></li>
+                            <li><a href="{% url 'blog_grid' %}">Latest Blog</a></li>
+                            <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-5">
+                    <div class="footer-widget">
+                        <h3 class="w-title">Our Stays</h3>
+                        <ul>
+                            <li><a href="{% url 'camping' %}">Dome Stays</a></li>
+                            <li><a href="{% url 'services' %}">Glamping Packages</a></li>
+                            <li><a href="{% url 'activities' %}">Nature Activities</a></li>
+                            <li><a href="{% url 'booking' %}">Book Your Stay</a></li>
+                            <li><a href="{% url 'contact' %}">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-5">
+                    <div class="footer-widget">
+                        <h3 class="w-title">Book Your Stay</h3>
+                        <div class="text m-b-25">
+                            <p style="color: white !important;">Ready to wake up to the mist? Secure your premium dome
+                                experience today and reconnect with nature.</p>
+                        </div>
+                        <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+                            Book Now
+                            <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i
+                                        class="fa-regular fa-arrow-right"></i></span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom-3">
+                <div class="footer-bottom-layout-2">
+                    <div class="footer-copyright">
+                        © 2025 Domes Inn Heaven. All Rights Reserved.
+                    </div>
+                    <div class="footer-bottom-menu">
+                        <ul>
+                            <li><a href="{% url 'contact' %}">Terms & Condition</a></li>
+                            <li><a href="{% url 'contact' %}">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer-section end -->
+    {% endblock %}
+    <style>
+        .global-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            min-width: 300px;
+            max-width: 500px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 99999;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--theme-color);
         }
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); }, 5000);
-    }
-    document.getElementById('global-toast').addEventListener('click', function () {
-        this.classList.remove('show');
-    });
-    document.addEventListener('DOMContentLoaded', function () {
-        {% if messages %}
-        {% for message in messages %}
-        showGlobalToast("{{ message }}", "{{ message.tags }}");
-        {% endfor %}
-        {% endif %}
-    });
-</script>
+
+        .global-toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .global-toast.success {
+            border-left-color: var(--theme-color);
+        }
+
+        .global-toast.error {
+            border-left-color: var(--error-color);
+        }
+
+        .global-toast.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .global-toast.info {
+            border-left-color: var(--theme-color-3);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .toast-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .global-toast.success .toast-icon {
+            color: var(--theme-color);
+            content: '✓';
+        }
+
+        .global-toast.error .toast-icon {
+            color: var(--error-color);
+            content: '⚠';
+        }
+
+        .global-toast.warning .toast-icon {
+            color: var(--warning-color);
+            content: '⚠';
+        }
+
+        .global-toast.info .toast-icon {
+            color: var(--theme-color-3);
+            content: 'ℹ';
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .toast-progress:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: currentColor;
+            animation: toastProgress 5s linear forwards;
+        }
+
+        .global-toast.success .toast-progress:before {
+            background: var(--theme-color);
+        }
+
+        .global-toast.error .toast-progress:before {
+            background: var(--error-color);
+        }
+
+        .global-toast.warning .toast-progress:before {
+            background: var(--warning-color);
+        }
+
+        .global-toast.info .toast-progress:before {
+            background: var(--theme-color-3);
+        }
+
+        @keyframes toastProgress {
+            0% {
+                width: 100%;
+            }
+
+            100% {
+                width: 0%;
+            }
+        }
+    </style>
+
+    <div id="global-toast" class="global-toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <script>
+        function showGlobalToast(message, type = 'success') {
+            const toast = document.getElementById('global-toast');
+            const toastMessage = toast.querySelector('.toast-message');
+            const toastIcon = toast.querySelector('.toast-icon');
+            toastMessage.textContent = message;
+            toast.classList.remove('success', 'error', 'warning', 'info');
+            toast.classList.add(type);
+            switch (type) {
+                case 'success': toastIcon.className = 'toast-icon fas fa-check-circle'; break;
+                case 'error': toastIcon.className = 'toast-icon fas fa-times-circle'; break;
+                case 'warning': toastIcon.className = 'toast-icon fas fa-exclamation-triangle'; break;
+                case 'info': toastIcon.className = 'toast-icon fas fa-info-circle'; break;
+                default: toastIcon.className = 'toast-icon fas fa-info-circle';
+            }
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 5000);
+        }
+        document.getElementById('global-toast').addEventListener('click', function () {
+            this.classList.remove('show');
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            {% if messages %}
+            {% for message in messages %}
+            showGlobalToast("{{ message }}", "{{ message.tags }}");
+            {% endfor %}
+            {% endif %}
+        });
+    </script>
 </body>
+
 </html>
