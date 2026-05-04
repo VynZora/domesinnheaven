@@ -120,18 +120,32 @@
 								</div>
 							</div>
 							<div class="row form-row">
-								<div class="col-xl-12">
+								<div class="col-xl-6 col-md-6">
 									<div class="select-wrap mb-4">
-										<select name="camping_package">
-											<option value="">Select Package (Optional)</option>
-											{% for pkg in packages %}
-												<option value="{{ pkg.id }}" {% if form.camping_package.value|stringformat:"s" == pkg.id|stringformat:"s" %}selected{% endif %}>{{ pkg.name }}</option>
+										<select name="dome_category" id="id_dome_category" required>
+											<option value="">Select Category</option>
+											{% for cat in categories %}
+												<option value="{{ cat.id }}" {% if form.dome_category.value|stringformat:"s" == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
 											{% endfor %}
 										</select>
 										<div class="select-icon">
 											<i class="fa-regular fa-angle-down"></i>
 										</div>
-										{{ form.camping_package.errors }}
+										{{ form.dome_category.errors }}
+									</div>
+								</div>
+								<div class="col-xl-6 col-md-6">
+									<div class="select-wrap mb-4">
+										<select name="dome_type" id="id_dome_type" required>
+											<option value="">Select Dome Type</option>
+                                            {% if form.instance.dome_type %}
+                                                <option value="{{ form.instance.dome_type.id }}" selected>{{ form.instance.dome_type.name }}</option>
+                                            {% endif %}
+										</select>
+										<div class="select-icon">
+											<i class="fa-regular fa-angle-down"></i>
+										</div>
+										{{ form.dome_type.errors }}
 									</div>
 								</div>
 							</div>
@@ -246,4 +260,56 @@
 <!-- Main Js -->
 <script src="{% static 'assets/js/script.js' %}"></script>
 
+<script>
+    (function($) {
+        $(document).ready(function() {
+            var $categorySelect = $("#id_dome_category");
+            var $typeSelect = $("#id_dome_type"); 
+
+            // Use name attribute if ID is tricky
+            if ($categorySelect.length === 0) $categorySelect = $("select[name='dome_category']");
+            if ($typeSelect.length === 0) $typeSelect = $("select[name='dome_type']");
+
+            $categorySelect.on('change', function() {
+                var categoryId = $(this).val();
+                var url = "{% url 'ajax_load_dome_types' %}";
+
+                if (!categoryId) {
+                    $typeSelect.html('<option value="">Select Dome Type</option>');
+                    return;
+                }
+
+                $.ajax({
+                    url: url,
+                    data: {
+                        'category_id': categoryId
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        var options = '<option value="">Select Dome Type</option>';
+                        if (data && data.length > 0) {
+                            options = ''; // Remove placeholder if we have data
+                            $.each(data, function(index, item) {
+                                options += '<option value="' + item.id + '">' + item.name + '</option>';
+                            });
+                            $typeSelect.html(options);
+                            // Auto-select first one
+                            $typeSelect.val(data[0].id).trigger('change');
+                        } else {
+                            $typeSelect.html(options);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", status, error);
+                    }
+                });
+            });
+
+            // Trigger change on load if a category is already selected
+            if ($categorySelect.val()) {
+                $categorySelect.trigger('change');
+            }
+        });
+    })(jQuery);
+</script>
 {% endblock %}

@@ -983,7 +983,7 @@
             </button>
 
             <a href="{% url 'admin_dashboard' %}" class="logo">
-                <img src="{% static 'logo.png' %}" alt="Logo" style="height:200px;">
+                <img src="{% static 'green.png' %}" alt="Logo" style="height: 50px;">
             </a>
         </div>
 
@@ -1091,12 +1091,26 @@
                         </a>
                     </li>
                     {% endcomment %}
-                    <li>
-                        <a href="{% url 'admin_camping_package_list' %}"
-                            class="{% if request.resolver_match.url_name == 'admin_camping_package_list' %}active{% endif %}">
-                            <i class="icofont-quote-left"></i>
-                            Dome Stays
+                    <li
+                        class="has-dropdown {% if request.resolver_match.url_name == 'admin_dome_category_list' or request.resolver_match.url_name == 'admin_dome_type_list' %}open{% endif %}">
+                        <a href="#">
+                            <i class="icofont-folder"></i>
+                            Dome Categories
                         </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{% url 'admin_dome_category_list' %}"
+                                    class="{% if request.resolver_match.url_name == 'admin_dome_category_list' %}active{% endif %}">
+                                    Categories
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'admin_dome_type_list' %}"
+                                    class="{% if request.resolver_match.url_name == 'admin_dome_type_list' %}active{% endif %}">
+                                    Types
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="{% url 'admin_activity_list' %}"

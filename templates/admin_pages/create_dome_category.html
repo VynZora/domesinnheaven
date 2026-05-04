@@ -1,0 +1,79 @@
+{% extends "admin_pages/base.html" %}
+{% load static %}
+
+{% block title %}{% if category %}Update{% else %}Create{% endif %} Dome Category | Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard sp_bottom_100">
+    <div class="container-fluid full__width__padding">
+        <div class="row">
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                <div class="dashboard__section__title">
+                    <h4 class="mb-0">{% if category %}Update{% else %}Add{% endif %} Dome Category</h4>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <form method="post" enctype="multipart/form-data" class="needs-validation form-wrapper" novalidate>
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- Name -->
+                                <div class="col-12 mb-4">
+                                    <label for="name" class="form-label">Category Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" id="name" class="form-control modern-input" placeholder="Enter category name" value="{{ category.name|default:'' }}" required>
+                                    <div class="invalid-feedback">Please provide a category name.</div>
+                                </div>
+
+                                 <!-- Image -->
+                                <div class="col-12 mb-4">
+                                    <label for="image" class="form-label">Category Cover Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="image" id="image" class="form-control modern-input" accept="image/*" {% if not category %}required{% endif %}>
+                                    <div class="form-text">Recommended size: 800x600 pixels. Max size: 2MB</div>
+                                    {% if category.image %}
+                                    <div class="mt-2">
+                                        <p>Current Image:</p>
+                                        <img src="{{ category.image.url }}" alt="Preview" style="max-width: 200px; border-radius: 8px;">
+                                    </div>
+                                    {% endif %}
+                                    <div id="imagePreview" class="mt-2" style="display: none; border: 2px dashed #d1d5db; border-radius: 8px; width: 200px; height: 150px; align-items: center; justify-content: center; overflow: hidden;"></div>
+                                </div>
+
+
+
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-4">
+                                    <div class="dashboard__form__button">
+                                        <button type="submit" class="btn btn-primary">{% if category %}Update{% else %}Save{% endif %} Category</button>
+                                        <a href="{% url 'admin_dome_category_list' %}" class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('image').addEventListener('change', function() {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = '';
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.style.display = 'flex';
+                    imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: cover;">`;
+                };
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

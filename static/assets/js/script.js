@@ -315,6 +315,52 @@
         })
     }
 
+    if (jQuery(".dome-types-slider-active .swiper").length > 0) {
+        let domeTypesSlider = new Swiper('.dome-types-slider-active .swiper', {
+            loop: true,
+            spaceBetween: 30,
+            slidesPerView: 1,
+            slidesPerColumn: 1,
+            paginationClickable: true,
+            centeredSlides: true,
+
+            autoplay: {
+                delay: 4000,
+            },
+
+            pagination: {
+                el: '.dome-types-pagination',
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: '.dome-types-button-next',
+                prevEl: '.dome-types-button-prev',
+            },
+
+            a11y: false,
+
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    centeredSlides: false,
+                },
+                768: {
+                    slidesPerView: 2,
+                    centeredSlides: false,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    centeredSlides: true,
+                },
+                1200: {
+                    slidesPerView: 4,
+                    centeredSlides: true,
+                },
+            },
+        })
+    }
+
     if (jQuery(".camping-slider-active-2 .swiper").length > 0) {
         let campingSlider2 = new Swiper('.camping-slider-active-2 .swiper', {
             loop: true,

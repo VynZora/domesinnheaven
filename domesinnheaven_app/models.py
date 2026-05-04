@@ -25,6 +25,62 @@ class OptimizedImageModel(models.Model):
                 optimize_image(image_field.path)
 
 
+class DomeCategory(OptimizedImageModel):
+    image_fields = ["image"]
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
+    image = models.ImageField(upload_to="dome_categories/", help_text="Category cover image")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Dome Categories"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+class DomeType(OptimizedImageModel):
+    image_fields = ["main_image"]
+    category = models.ForeignKey(DomeCategory, on_delete=models.CASCADE, related_name="domes")
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField()
+    main_image = models.ImageField(upload_to="domes/")
+    
+    check_in = models.CharField(max_length=20, default="12:00 PM")
+    check_out = models.CharField(max_length=20, default="11:00 AM")
+    
+    normal_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    special_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    package_items = models.TextField(help_text="Enter items separated by new lines")
+    facilities = models.TextField(help_text="Enter facilities separated by new lines")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Dome Type"
+        verbose_name_plural = "Dome Types"
+
+    def __str__(self):
+        return f"{self.category.name} - {self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def get_package_items_list(self):
+        return [item.strip() for item in self.package_items.split('\n') if item.strip()]
+
+    def get_facilities_list(self):
+        return [item.strip() for item in self.facilities.split('\n') if item.strip()]
+
 class CampingPackage(OptimizedImageModel):
     image_fields = ["main_image"]
 
@@ -36,7 +92,6 @@ class CampingPackage(OptimizedImageModel):
     check_in = models.CharField(max_length=20)
     check_out = models.CharField(max_length=20)
     
-    # Prices are optional because some packages may be informational-only.
     normal_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     special_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
@@ -177,6 +232,8 @@ class Booking(models.Model):
     check_in = models.DateField()
     check_out = models.DateField()
     camping_package = models.ForeignKey(CampingPackage, on_delete=models.SET_NULL, null=True, blank=True)
+    dome_category = models.ForeignKey(DomeCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    dome_type = models.ForeignKey(DomeType, on_delete=models.SET_NULL, null=True, blank=True)
     guests = models.IntegerField()
     message = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)

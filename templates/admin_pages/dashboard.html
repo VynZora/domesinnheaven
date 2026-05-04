@@ -52,11 +52,29 @@
 
         <div class="stat-card stat-primary">
             <div class="stat-top">
-                <span class="stat-label">Glamping Packages</span>
+                <span class="stat-label">Dome Categories</span>
+                <div class="stat-icon"><i class="icofont-folder"></i></div>
+            </div>
+            <div class="stat-value">{{ stats.total_dome_categories }}</div>
+            <div class="stat-footer">Managed Categories</div>
+        </div>
+
+        <div class="stat-card stat-green">
+            <div class="stat-top">
+                <span class="stat-label">Dome Types</span>
+                <div class="stat-icon"><i class="icofont-layout"></i></div>
+            </div>
+            <div class="stat-value">{{ stats.total_dome_types }}</div>
+            <div class="stat-footer">Total Active Domes</div>
+        </div>
+
+        <div class="stat-card stat-primary">
+            <div class="stat-top">
+                <span class="stat-label">Glamping (Legacy)</span>
                 <div class="stat-icon"><i class="icofont-tent"></i></div>
             </div>
             <div class="stat-value">{{ stats.total_packages }}</div>
-            <div class="stat-footer">Total Active</div>
+            <div class="stat-footer">Legacy Records</div>
         </div>
 
     </div>
@@ -299,7 +317,7 @@
     /* Stats */
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 18px;
     }
 

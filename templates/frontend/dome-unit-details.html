@@ -1,0 +1,269 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- preloader start-->
+<div id="preloader">
+	<div class="preloader">
+		<img src="{% static 'assets/img/thumbs/preloader_new.png' %}" alt="preloader">
+	</div>
+</div>
+<!-- preloader end  -->
+
+<main>
+	<!-- breadcrumb-section start -->
+	<section class="breadcrumb-section">
+		<div class="container-fluid">
+			<div class="row g-0">
+				<div class="col-xl-6 col-lg-6">
+					<div class="breadcrumb-content" style="background-image: url('{% static "assets/img/bg/breadcrumb-bg.webp" %}')">
+						<div class="breadcrumb-nav" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+							<ul>
+								<li><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'services' %}">Domes</a></li>
+                                <li><a href="{% url 'service_single' dome.category.slug %}">{{ dome.category.name }}</a></li>
+                                <li><a href="#">{{ dome.name }}</a></li>
+							</ul>
+						</div>
+						<div class="breadcrumb-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+							<h2>{{ dome.name }}</h2>
+						</div>
+						<div class="shape-1">
+							<img src="{% static 'assets/img/shapes/shape-1.webp' %}" alt="shape"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6 d-none d-lg-block">
+					<div class="breadcrumb-thumb">
+						<img src="{{ dome.main_image.url }}" alt="{{ dome.name }}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- breadcrumb-section end -->
+
+	<!-- services-details-section start -->
+	<section class="services-details-section p-t-120 p-b-250 p-t-lg-80 p-t-md-80 p-t-xs-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="details-layout-wrap">
+						<div class="details-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+							<div class="thumb-wrap m-b-50" style="height: 500px; overflow: hidden; border-radius: 15px;">
+								<img src="{{ dome.main_image.url }}" alt="{{ dome.name }}" style="width: 100%; height: 100%; object-fit: cover;"/>
+							</div>
+							
+                            <div class="details-title m-b-15">
+								<h2>{{ dome.name }}</h2>
+							</div>
+
+                            <div class="notice m-b-35" style="background: var(--theme-color-2); padding: 15px; border-radius: 10px; border-left: 4px solid var(--theme-color);">
+                                <p class="m-0" style="color: var(--theme-color); font-weight: 500;">
+                                    Check-in: <strong>{{ dome.check_in }}</strong> &nbsp; | &nbsp; Check-out: <strong>{{ dome.check_out }}</strong>
+                                </p>
+                            </div>
+
+							<div class="detail-text m-b-40">
+								{{ dome.description|safe }}
+							</div>
+
+                            <div class="payment-method-form m-b-50">
+                                <div class="payment-title m-b-20">
+                                    <h3 style="font-size: 24px; font-weight: 700;">Stay Inclusions</h3>
+                                </div>
+                                <div class="inclusions-list m-b-30">
+                                    <ul style="list-style-type: disc; padding-left: 20px;">
+                                        {% for item in dome.get_package_items_list %}
+                                        <li style="margin-bottom: 8px; font-weight: 500; color: #444;">{{ item }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                
+                                <div class="payment-title m-t-40 m-b-20">
+                                    <h3 style="font-size: 24px; font-weight: 700;">Facilities</h3>
+                                </div>
+                                <div class="facilities-list">
+                                    <ul style="list-style-type: disc; padding-left: 20px;">
+                                        {% for facility in dome.get_facilities_list %}
+                                        <li style="margin-bottom: 8px; font-weight: 500; color: #444;">{{ facility }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+						</div>
+
+						<div class="detail-sidebar" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+							<div class="detail-sidebar-inner">
+                                <!-- Info Widget -->
+								<div class="s-widget-wrap m-b-30">
+									<div class="w-title">
+										<h3>Stay Information</h3>
+										<div class="bar-wrap">
+											<div class="bar-1"></div>
+											<div class="bar-2"></div>
+										</div>
+									</div>
+									<div class="project-info-wrap">
+										<div class="project-info">
+											<div class="icon">
+												<i class="fa-solid fa-indian-rupee-sign"></i>
+											</div>
+											<div class="key-value">
+												<div class="key"><p>Starting From</p></div>
+												<div class="value"><h6>₹{{ dome.normal_price|default:'0' }}</h6></div>
+											</div>
+										</div>
+										<div class="project-info">
+											<div class="icon">
+												<i class="fa-regular fa-clock"></i>
+											</div>
+											<div class="key-value">
+												<div class="key"><p>Check-in</p></div>
+												<div class="value"><h6>{{ dome.check_in }}</h6></div>
+											</div>
+										</div>
+										<div class="project-info">
+											<div class="icon">
+												<i class="fa-regular fa-calendar-check"></i>
+											</div>
+											<div class="key-value">
+												<div class="key"><p>Category</p></div>
+												<div class="value"><h6>{{ dome.category.name }}</h6></div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+                                <!-- Booking Widget -->
+                                <div class="s-widget-wrap m-b-30" style="background: #f8f9fa; border: 1px solid #eee;">
+                                    <div class="w-title">
+										<h3>Book Your Stay</h3>
+										<div class="bar-wrap">
+											<div class="bar-1"></div>
+											<div class="bar-2"></div>
+										</div>
+									</div>
+                                    <div class="p-t-10">
+                                        <p class="m-b-20" style="font-size: 14px; line-height: 1.6;">Secure your luxury dome experience today. We offer a seamless booking process and instant confirmation.</p>
+                                        <a href="{% url 'booking' %}" class="e-primary-btn has-icon w-100 justify-content-center">
+                                            Book Now
+                                            <span class="icon-wrap">
+                                                <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Other Stays -->
+								<div class="s-widget-wrap m-b-30">
+									<div class="w-title">
+										<h3>Other Stays</h3>
+										<div class="bar-wrap">
+											<div class="bar-1"></div>
+											<div class="bar-2"></div>
+										</div>
+									</div>
+									<div class="recent-course-slider-active">
+										<div class="swiper">
+											<div class="swiper-wrapper">
+                                                {% for item in recent_domes %}
+												<div class="swiper-slide">
+													<div class="camping-card-2 widget-style" style="box-shadow: none; border: 1px solid #eee;">
+														<div class="thumb" style="height: 150px;">
+															<a href="{% url 'services_details' %}?slug={{ item.slug }}">
+																<img src="{{ item.main_image.url }}" alt="{{ item.name }}" style="height: 100%; object-fit: cover;"/>
+															</a>
+														</div>
+														<div class="content p-3">
+															<h5 class="m-b-5" style="font-size: 16px;"><a href="{% url 'services_details' %}?slug={{ item.slug }}">{{ item.name }}</a></h5>
+															<p style="font-size: 13px; color: #666;">₹{{ item.normal_price }} / Night</p>
+														</div>
+													</div>
+												</div>
+                                                {% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="d-shape-1"><img alt="shape-31" src="{% static 'assets/img/shapes/shape-31.webp' %}"></div>
+	</section>
+	<!-- services-details-section end -->
+
+	<!-- contact-info-section start -->
+	<section class="contact-info-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="contact-info-layout">
+						<a href="mailto:support.domes@gmail.com" class="contact-info active">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-paper-plane"></i>
+								</div>
+							</div>
+							<h3>support.domes@gmail.com</h3>
+							<p>Send a Email</p>
+						</a>
+						<a href="tel:+70264566579" class="contact-info">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-phone-arrow-up-right"></i>
+								</div>
+							</div>
+							<h3>+70 264 566 579</h3>
+							<p>Any Time Call Us</p>
+						</a>
+						<a href="#" class="contact-info">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-location-dot"></i>
+								</div>
+							</div>
+							<h3>Jones Street, New York, USA</h3>
+							<p>Our Address</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- contact-info-section end -->
+</main>
+
+<!-- Vendors Js -->
+<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+<script src="{% static 'assets/vendor/fancybox/fancybox.umd.js' %}"></script>
+<script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
+
+<!-- Main Js -->
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof Swiper !== 'undefined') {
+            new Swiper('.recent-course-slider-active .swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                },
+            });
+        }
+    });
+</script>
+{% endblock %}

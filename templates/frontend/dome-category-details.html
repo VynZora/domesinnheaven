@@ -16,15 +16,16 @@
 		<div class="container-fluid">
 			<div class="row g-0">
 				<div class="col-xl-6 col-lg-6">
-					<div class="breadcrumb-content" style="background-image: url('{% static "assets/img/new/3.jpeg" %}')">
+					<div class="breadcrumb-content" style="background-image: url('{% static "assets/img/bg/breadcrumb-bg.webp" %}')">
 						<div class="breadcrumb-nav" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
 							<ul>
 								<li><a href="{% url 'home' %}">Home</a></li>
-								<li><a href="#">Camping</a></li>
+								<li><a href="{% url 'services' %}">Domes</a></li>
+                                <li><a href="#">{{ category.name }}</a></li>
 							</ul>
 						</div>
 						<div class="breadcrumb-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-							<h2>Our Camping</h2>
+							<h2>{{ category.name }} Domes</h2>
 						</div>
 						<div class="shape-1">
 							<img src="{% static 'assets/img/shapes/shape-1.webp' %}" alt="shape"/>
@@ -33,7 +34,7 @@
 				</div>
 				<div class="col-xl-6 col-lg-6 d-none d-lg-block">
 					<div class="breadcrumb-thumb">
-						<img src="{% static 'assets/img/thumbs/thumb-1.webp' %}" alt="thumb"/>
+						<img src="{{ category.image.url }}" alt="{{ category.name }}"/>
 					</div>
 				</div>
 			</div>
@@ -44,26 +45,30 @@
 	<!-- services-section start -->
 	<section class="services-section p-t-100 p-b-120">
 		<div class="container">
-			<div class="row justify-content-center text-center m-b-50 m-b-xs-40">
+			<div class="row justify-content-center text-center m-b-30 m-b-xs-20">
 				<div class="col-xl-8">
 					<div class="common-subtitle" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-						<span>Our Camping Categories</span>
+						<img alt="icon-1" src="{% static 'assets/img/icons/icon-2.svg' %}"> <span>Our {{ category.name }} Domes</span>
 					</div>
 					<div class="common-title m-b-0" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
-						<h2>Experience Nature Like Never Before</h2>
+						<h2>Experience Luxury in Our {{ category.name }} Domes</h2>
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<div class="container">
+			<style>
+				.camping-card .content .content-top .text p { margin-bottom: 0 !important; margin-top: 0 !important; }
+			</style>
 			<div class="row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				{% for category in categories %}
+				{% for dome in domes %}
 				<div class="col-xl-4 m-b-30">
 					<div class="camping-card">
 						<div class="thumb">
-							<a href="{% url 'service_single' category.slug %}"><img alt="{{ category.name }}" src="{{ category.image.url }}"></a>
+							<a href="{% url 'services_details' %}?slug={{ dome.slug }}"><img alt="{{ dome.name }}" src="{{ dome.main_image.url }}"></a>
 							<div class="category">
-								<a href="{% url 'service_single' category.slug %}">{{ category.name }}</a>
+								<a href="#">{{ category.name }}</a>
 							</div>
 						</div>
 						<div class="content">
@@ -72,15 +77,19 @@
 									<img alt="calendar-icon" src="{% static 'assets/img/icons/calendar.svg' %}"> <span>Stay</span>
 								</div>
 								<div class="title">
-									<h3><a href="{% url 'service_single' category.slug %}">{{ category.name }} Dome Stays</a></h3>
+									<h3><a href="{% url 'services_details' %}?slug={{ dome.slug }}">{{ dome.name }}</a></h3>
 								</div>
-								<div class="text">
-									<p>Discover our range of premium {{ category.name }} domes designed for your comfort.</p>
+								<div class="text" style="margin-bottom: 0px !important;">
+									{{ dome.description|truncatewords_html:15|safe }}
 								</div>
 							</div>
 							<div class="donation-wrap" style="padding-bottom: 20px;">
+                                <div class="fund" style="margin-bottom: 15px;">
+									<p>Check-in: <span>{{ dome.check_in }}</span></p>
+									<p>Check-out: <span>{{ dome.check_out }}</span></p>
+								</div>
 								<div class="d-bottom">
-									<a class="e-primary-btn has-icon d-btn" href="{% url 'service_single' category.slug %}">View Domes <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+									<a class="e-primary-btn has-icon d-btn" href="{% url 'services_details' %}?slug={{ dome.slug }}">View Details <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
 								</div>
 							</div>
 						</div>
@@ -88,10 +97,44 @@
 				</div>
 				{% empty %}
 				<div class="col-12">
-					<p class="text-center">No categories available yet.</p>
+					<p class="text-center">No domes available in this category yet.</p>
 				</div>
 				{% endfor %}
 			</div>
+
+            {% if domes.has_other_pages %}
+			<div class="row justify-content-center text-center m-t-30">
+				<div class="col-xl-6">
+					<div class="project-pagination">
+						<ul>
+                            {% if domes.has_previous %}
+							<li class="icon">
+								<a href="?page={{ domes.previous_page_number }}"><i class="fa-regular fa-arrow-left"></i></a>
+							</li>
+                            {% endif %}
+
+                            {% for num in domes.paginator.page_range %}
+                                {% if domes.number == num %}
+							    <li class="active">
+								    <a href="#">{{ num|stringformat:"02d" }}</a>
+							    </li>
+                                {% else %}
+                                <li>
+                                    <a href="?page={{ num }}">{{ num|stringformat:"02d" }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if domes.has_next %}
+							<li class="icon">
+								<a href="?page={{ domes.next_page_number }}"><i class="fa-regular fa-arrow-right"></i></a>
+							</li>
+                            {% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+            {% endif %}
 		</div>
 	</section>
 	<!-- services-section end -->
@@ -102,14 +145,14 @@
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="contact-info-layout">
-						<a class="contact-info active" href="mailto:support.Domes@gmail.com">
+						<a class="contact-info active" href="mailto:support.domes@gmail.com">
 							<div class="icon-wrap">
 								<div class="icon-shape"></div>
 								<div class="icon">
 									<i class="fa-solid fa-paper-plane"></i>
 								</div>
 							</div>
-							<h3>support.Domes@gmail.com</h3>
+							<h3>support.domes@gmail.com</h3>
 							<p>Send a Email</p>
 						</a>
 						<a class="contact-info" href="tel:+70264566579">

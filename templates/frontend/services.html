@@ -180,20 +180,35 @@
 			</div>
 		</div>
 		<div class="container">
+			<style>
+				.project-card.style-service { position: relative; transition: transform 0.3s ease; }
+				.project-card.style-service:hover { transform: translateY(-5px); }
+				.project-card.style-service .full-clickable-link::after {
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					z-index: 5;
+					content: "";
+				}
+				.project-card.style-service .content, .project-card.style-service .thumb { z-index: 2; }
+				.project-card.style-service .join-us { z-index: 6; position: relative; }
+			</style>
 			<div class="row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				{% for package in packages %}
+				{% for category in categories %}
 				<div class="col-xl-4 m-b-30">
 					<div class="project-card style-service">
 						<div class="thumb">
-							<a href="{% url 'service_single' package.slug %}"><img alt="{{ package.name }}" src="{{ package.main_image.url }}"></a>
+							<a href="{% url 'service_single' category.slug %}"><img alt="{{ category.name }}" src="{{ category.image.url }}"></a>
 							<div class="tag">
 								<p>No - {{ forloop.counter|stringformat:"02d" }}</p>
 							</div>
 							<div class="content">
-								<h5>{{ package.name }}</h5>
-								<p>{{ package.description|truncatewords_html:14|safe }}</p>
+								<h5>{{ category.name }}</h5>
+
 								<div class="join-us">
-									<a class="e-primary-btn has-icon is-hover-white" href="{% url 'service_single' package.slug %}">Read More <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+									<a class="e-primary-btn has-icon is-hover-white full-clickable-link" href="{% url 'service_single' category.slug %}">View Domes <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
 								</div>
 							</div>
 						</div>
@@ -201,7 +216,7 @@
 				</div>
 				{% empty %}
 				<div class="col-12">
-					<p class="text-center">No Dome Stays available yet.</p>
+					<p class="text-center">No Dome Categories available yet.</p>
 				</div>
 				{% endfor %}
 			</div>

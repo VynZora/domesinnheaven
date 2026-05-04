@@ -1,0 +1,140 @@
+{% extends "admin_pages/base.html" %}
+{% load static %}
+
+{% block title %}{% if dome_type %}Update{% else %}Create{% endif %} Dome Type | Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard sp_bottom_100">
+    <div class="container-fluid full__width__padding">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="dashboard__section__title">
+                    <h4 class="mb-0">{% if dome_type %}Update{% else %}Add{% endif %} Dome Type</h4>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <form method="post" enctype="multipart/form-data" class="needs-validation form-wrapper" novalidate style="max-width: 1000px;">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- Category -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <select name="category" id="category" class="form-select modern-input" required>
+                                        <option value="">Select a Category</option>
+                                        {% for cat in form.fields.category.queryset %}
+                                        <option value="{{ cat.id }}" {% if dome_type.category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="invalid-feedback">Please select a category.</div>
+                                </div>
+
+                                <!-- Name -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="name" class="form-label">Dome Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" id="name" class="form-control modern-input" placeholder="Enter dome name" value="{{ dome_type.name|default:'' }}" required>
+                                    <div class="invalid-feedback">Please provide a dome name.</div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="col-12 mb-4">
+                                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                                    <textarea name="description" id="description" class="form-control modern-input rich-editor" rows="5" placeholder="Describe the dome..." required>{{ dome_type.description|default:'' }}</textarea>
+                                    <div class="invalid-feedback">Please provide a description.</div>
+                                </div>
+
+                                <!-- Image -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="main_image" class="form-label">Main Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="main_image" id="main_image" class="form-control modern-input" accept="image/*" {% if not dome_type %}required{% endif %}>
+                                    {% if dome_type.main_image %}
+                                    <div class="mt-2">
+                                        <img src="{{ dome_type.main_image.url }}" alt="Preview" style="max-width: 200px; border-radius: 8px;">
+                                    </div>
+                                    {% endif %}
+                                    <div id="imagePreview" class="mt-2" style="display: none; border: 2px dashed #d1d5db; border-radius: 8px; width: 200px; height: 150px; align-items: center; justify-content: center; overflow: hidden;"></div>
+                                </div>
+
+                                <!-- Prices -->
+                                <div class="col-md-3 mb-4">
+                                    <label for="normal_price" class="form-label">Normal Price</label>
+                                    <input type="number" step="0.01" name="normal_price" id="normal_price" class="form-control modern-input" placeholder="0.00" value="{{ dome_type.normal_price|default:'' }}">
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <label for="special_price" class="form-label">Special Price</label>
+                                    <input type="number" step="0.01" name="special_price" id="special_price" class="form-control modern-input" placeholder="0.00" value="{{ dome_type.special_price|default:'' }}">
+                                </div>
+
+                                <!-- Check-in/out -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="check_in" class="form-label">Check-in Time</label>
+                                    <input type="text" name="check_in" id="check_in" class="form-control modern-input" placeholder="e.g. 12:00 PM" value="{{ dome_type.check_in|default:'12:00 PM' }}">
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="check_out" class="form-label">Check-out Time</label>
+                                    <input type="text" name="check_out" id="check_out" class="form-control modern-input" placeholder="e.g. 11:00 AM" value="{{ dome_type.check_out|default:'11:00 AM' }}">
+                                </div>
+
+                                <!-- Package Items -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="package_items" class="form-label">Package Items</label>
+                                    <textarea name="package_items" id="package_items" class="form-control modern-input" rows="4" placeholder="Enter items separated by new lines">{{ dome_type.package_items|default:'' }}</textarea>
+                                    <div class="form-text">One item per line.</div>
+                                </div>
+
+                                <!-- Facilities -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="facilities" class="form-label">Facilities</label>
+                                    <textarea name="facilities" id="facilities" class="form-control modern-input" rows="4" placeholder="Enter facilities separated by new lines">{{ dome_type.facilities|default:'' }}</textarea>
+                                    <div class="form-text">One facility per line.</div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-4">
+                                    <div class="dashboard__form__button">
+                                        <button type="submit" class="btn btn-primary">{% if dome_type %}Update{% else %}Save{% endif %} Dome Type</button>
+                                        <a href="{% url 'admin_dome_type_list' %}" class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|', 'blockQuote', 'undo', 'redo'
+                ]
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        document.getElementById('main_image').addEventListener('change', function() {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = '';
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.style.display = 'flex';
+                    imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: cover;">`;
+                };
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

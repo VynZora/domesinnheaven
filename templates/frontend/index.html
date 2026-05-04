@@ -519,6 +519,67 @@
 		</div>
 	</section>
 	<!-- why-us-section end -->
+	
+	<!-- dome-types-section start -->
+	<section class="volunteer-section p-t-100 p-b-100 p-t-xs-80 p-b-xs-80">
+		<div class="container text-center">
+			<div class="text-center m-b-50 m-b-xs-40">
+				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+					<span>Our Luxury Domes</span>
+				</div>
+				<div class="common-title mb-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+					<h2>Choose Your Heavenly Escape</h2>
+				</div>
+			</div>
+            <div class="dome-types-slider-active" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        {% for dome in dome_types %}
+                        <div class="swiper-slide">
+                            <div class="volunteer-card">
+                                <a href="{% url 'services_details' %}?slug={{ dome.slug }}">
+                                    <div class="thumb" style="height: 300px; overflow: hidden; border-radius: 15px;">
+                                        <img alt="{{ dome.name }}" src="{{ dome.main_image.url }}" style="height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="author-info">
+                                        <h5>{{ dome.name }}</h5>
+                                        <p>{{ dome.category.name }}</p>
+                                    </div>
+                                </a>
+                                <div class="socials" style="background: var(--theme-color); color: white; padding: 10px; border-radius: 0 0 15px 15px; display: flex; justify-content: center; align-items: center;">
+                                    <div style="font-weight: 700; font-size: 18px;">
+                                        ₹{{ dome.normal_price|default:"0" }} <small style="font-size: 12px; font-weight: 400;">/ Night</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="camping-pagination-wrap mt-4">
+                    <div class="dome-types-pagination"></div>
+                </div>
+                <div class="dome-types-button-prev camping-button-prev" style="left: -50px;">
+                    <i class="fa-regular fa-arrow-left"></i>
+                </div>
+                <div class="dome-types-button-next camping-button-next" style="right: -50px;">
+                    <i class="fa-regular fa-arrow-right"></i>
+                </div>
+            </div>
+			<div class="contact-details mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+				<div class="details-btn">
+					<a class="e-primary-btn has-icon" href="{% url 'services' %}">View All Domes
+						<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+				</div>
+				<div class="join-us-btn">
+					<img alt="shape-12" src="{% static 'assets/img/shapes/shape-12.webp' %}">
+					<a class="review-btn" href="{% url 'booking' %}"><span>Ready to experience heaven?</span>
+						<i class="fa-solid fa-arrow-right"></i></a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- dome-types-section end -->
 
 	<!-- our-camping start -->
 	<section class="our-camping-section overflow-x-clip p-t-60 p-b-60 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/new/11.jpeg" %}')">
@@ -595,110 +656,6 @@
 		</div>
 	</section>
 	<!-- our-camping end -->
-
-	{% comment %} <!-- volunteer-section start -->
-	<section class="volunteer-section p-t-100 p-b-100 p-t-xs-80 p-b-xs-80">
-		<div class="container text-center">
-			<div class="text-center m-b-50 m-b-xs-40">
-				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-					<!-- <img alt="icon-2" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>We Are Volunteer</span>
-				</div>
-				<div class="common-title mb-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-					<h2>Together For The Planet</h2>
-				</div>
-			</div>
-			<div class="row row-gap-4 p-b-60" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-				<div class="col-xl-3 col-lg-4 col-md-6">
-					<div class="volunteer-card">
-						<a href="{% url 'volunteer_details' %}">
-							<div class="thumb"><img alt="thumb-17" src="{% static 'assets/img/thumbs/thumb-17.webp' %}"></div>
-							<div class="author-info">
-								<h5>Joshua Sendu</h5>
-								<p>CEO-Founder</p>
-							</div>
-						</a>
-						<div class="socials">
-							<button class="share-button"><i class="fa-light fa-share-nodes"></i></button>
-							<div class="social-links">
-								<a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-								<a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-								<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
-					<div class="volunteer-card">
-						<a href="{% url 'volunteer_details' %}">
-							<div class="thumb"><img alt="thumb-18" src="{% static 'assets/img/thumbs/thumb-18.webp' %}"></div>
-							<div class="author-info">
-								<h5>John Maxwell</h5>
-								<p>Team Leader</p>
-							</div>
-						</a>
-						<div class="socials">
-							<button class="share-button"><i class="fa-light fa-share-nodes"></i></button>
-							<div class="social-links">
-								<a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-								<a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-								<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
-					<div class="volunteer-card">
-						<a href="{% url 'volunteer_details' %}">
-							<div class="thumb"><img alt="thumb-19" src="{% static 'assets/img/thumbs/thumb-19.webp' %}"></div>
-							<div class="author-info">
-								<h5>Bm Ashik (Moni)</h5>
-								<p>Sr. Volunteer</p>
-							</div>
-						</a>
-						<div class="socials">
-							<button class="share-button"><i class="fa-light fa-share-nodes"></i></button>
-							<div class="social-links">
-								<a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-								<a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-								<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-lg-4 col-md-6">
-					<div class="volunteer-card">
-						<a href="{% url 'volunteer_details' %}">
-							<div class="thumb"><img alt="thumb-20" src="{% static 'assets/img/thumbs/thumb-20.webp' %}"></div>
-							<div class="author-info">
-								<h5>Denial Pasha</h5>
-								<p>Volunteer</p>
-							</div>
-						</a>
-						<div class="socials">
-							<button class="share-button"><i class="fa-light fa-share-nodes"></i></button>
-							<div class="social-links">
-								<a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-								<a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-								<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="contact-details" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				<div class="details-btn">
-					<a class="e-primary-btn has-icon" href="{% url 'volunteer' %}">View All Volunteer
-						<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-				</div>
-				<div class="join-us-btn">
-					<img alt="shape-12" src="{% static 'assets/img/shapes/shape-12.webp' %}">
-					<a class="review-btn" href="{% url 'be_volunteer' %}"><span>If you want to join us, you can</span>
-						<i class="fa-solid fa-arrow-right"></i></a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- volunteer-section end --> {% endcomment %}
 	<!-- testimonial start -->
 	<section class="testimonial p-t-120 p-t-md-100 p-t-xs-40 p-b-120 p-b-md-100 p-b-xs-40">
 		<div class="container">

@@ -42,8 +42,14 @@
                             <span><strong>Check In:</strong> {{ booking.check_in|date:"M d, Y" }}</span>
                             <span><strong>Check Out:</strong> {{ booking.check_out|date:"M d, Y" }}</span>
                             <span><strong>Guests:</strong> {{ booking.guests }}</span>
+                            {% if booking.dome_category %}
+                            <span class="text-success mt-1"><strong>Category:</strong> {{ booking.dome_category.name }}</span>
+                            {% endif %}
+                            {% if booking.dome_type %}
+                            <span class="text-info mt-1"><strong>Dome:</strong> {{ booking.dome_type.name }}</span>
+                            {% endif %}
                             {% if booking.camping_package %}
-                            <span class="text-success mt-1"><strong>Package:</strong> {{ booking.camping_package.name }}</span>
+                            <span class="text-secondary mt-1"><strong>Package:</strong> {{ booking.camping_package.name }}</span>
                             {% endif %}
                         </div>
                     </td>
@@ -102,8 +108,14 @@
                 <p><strong>Check In:</strong> {{ booking.check_in|date:"M d, Y" }}</p>
                 <p><strong>Check Out:</strong> {{ booking.check_out|date:"M d, Y" }}</p>
                 <p><strong>Guests:</strong> {{ booking.guests }}</p>
+                {% if booking.dome_category %}
+                <p><strong>Category:</strong> <span class="badge bg-success">{{ booking.dome_category.name }}</span></p>
+                {% endif %}
+                {% if booking.dome_type %}
+                <p><strong>Dome Type:</strong> <span class="badge bg-info">{{ booking.dome_type.name }}</span></p>
+                {% endif %}
                 {% if booking.camping_package %}
-                <p><strong>Selected Package:</strong> <span class="badge bg-success">{{ booking.camping_package.name }}</span></p>
+                <p><strong>Selected Package:</strong> <span class="badge bg-secondary">{{ booking.camping_package.name }}</span></p>
                 {% endif %}
                 {% if booking.message %}
                 <p><strong>Message:</strong></p>

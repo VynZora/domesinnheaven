@@ -1,0 +1,142 @@
+{% extends "admin_pages/base.html" %}
+{% load static %}
+
+{% block title %}Dome Category List | Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard__form__wraper">
+    <div class="create__course__title mb-4">
+        <h4>Dome Category List</h4>
+        <a href="{% url 'dome_category_create' %}" class="btn btn-primary btn-sm me-2">
+            <i class="fas fa-plus"></i> Add New Category
+        </a>
+        <a href="{% url 'admin_dome_type_list' %}" class="btn btn-success btn-sm">
+            <i class="fas fa-list"></i> View Dome Types
+        </a>
+    </div>
+
+    <div class="custom-table-container">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                        {% else %}
+                        <div style="width: 50px; height: 50px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            <i class="fas fa-image text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td>{{ category.name }}</td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#updateCategoryModal{{ category.id }}">
+                                Update
+                            </button>
+                            <!-- Delete Modal Trigger -->
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal{{ category.id }}">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Update Category Modal -->
+                <div class="modal fade" id="updateCategoryModal{{ category.id }}" tabindex="-1" aria-labelledby="updateCategoryModalLabel{{ category.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" action="{% url 'dome_category_update' category.id %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="updateCategoryModalLabel{{ category.id }}">Update Category</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Category Name</label>
+                                        <input type="text" name="name" class="form-control" value="{{ category.name }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Category Image</label>
+                                        <input type="file" name="image" class="form-control" accept="image/*">
+                                        {% if category.image %}
+                                        <div class="mt-2 text-center">
+                                            <img src="{{ category.image.url }}" alt="Preview" style="max-width: 100px; border-radius: 4px;">
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Category Modal -->
+                <div class="modal fade" id="deleteCategoryModal{{ category.id }}" tabindex="-1" aria-labelledby="deleteCategoryModalLabel{{ category.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" action="{% url 'dome_category_delete' category.id %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteCategoryModalLabel{{ category.id }}">Delete Category</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete <strong>{{ category.name }}</strong>? All dome types in this category will also be deleted.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center py-4">
+                        <p class="text-muted">No dome categories found. <a href="{% url 'dome_category_create' %}">Add your first category</a></p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if categories.has_other_pages %}
+    <nav aria-label="Category pagination">
+        <ul class="pagination justify-content-center mt-4">
+            {% if categories.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ categories.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for i in categories.paginator.page_range %}
+                {% if categories.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% endblock %}
