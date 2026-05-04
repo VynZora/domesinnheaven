@@ -135,10 +135,13 @@
 								<div class="col-xl-12">
 									<div class="select-wrap mb-4">
 										<select name="contact_time">
-											<option value="" {% if not contact_form_data.contact_time %}selected{% endif %}>Best Time to Contact</option>
-											<option value="Morning" {% if contact_form_data.contact_time == "Morning" %}selected{% endif %}>Morning</option>
-											<option value="Afternoon" {% if contact_form_data.contact_time == "Afternoon" %}selected{% endif %}>Afternoon</option>
-											<option value="Evening" {% if contact_form_data.contact_time == "Evening" %}selected{% endif %}>Evening</option>
+											<option value="" {% if not contact_form_data.contact_time %}selected{% endif %}>Reason for Contacting</option>
+											<option value="Stay & Reservation Inquiry" {% if contact_form_data.contact_time == "Stay & Reservation Inquiry" %}selected{% endif %}>Stay & Reservation Inquiry</option>
+											<option value="Special Events & Celebrations" {% if contact_form_data.contact_time == "Special Events & Celebrations" %}selected{% endif %}>Special Events & Celebrations</option>
+											<option value="Group & Corporate Packages" {% if contact_form_data.contact_time == "Group & Corporate Packages" %}selected{% endif %}>Group & Corporate Packages</option>
+											<option value="Feedback & Guest Experience" {% if contact_form_data.contact_time == "Feedback & Guest Experience" %}selected{% endif %}>Feedback & Guest Experience</option>
+											<option value="Partnership & Media Requests" {% if contact_form_data.contact_time == "Partnership & Media Requests" %}selected{% endif %}>Partnership & Media Requests</option>
+											<option value="Technical Assistance" {% if contact_form_data.contact_time == "Technical Assistance" %}selected{% endif %}>Technical Assistance</option>
 										</select>
 										<div class="select-icon">
 											<i class="fa-regular fa-angle-down"></i>
