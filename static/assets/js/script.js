@@ -304,12 +304,12 @@
                     centeredSlides: false,
                 },
                 1024: {
-                    slidesPerView: 3,
-                    centeredSlides: true,
+                    slidesPerView: 2,
+                    centeredSlides: false,
                 },
                 1200: {
-                    slidesPerView: 3,
-                    centeredSlides: true,
+                    slidesPerView: 2,
+                    centeredSlides: false,
                 },
             },
         })
@@ -395,12 +395,12 @@
                     slidesPerView: 2,
                 },
                 1024: {
-                    slidesPerView: 3,
-                    centeredSlides: true,
+                    slidesPerView: 2,
+                    centeredSlides: false,
                 },
                 1200: {
-                    slidesPerView: 3,
-                    centeredSlides: true,
+                    slidesPerView: 2,
+                    centeredSlides: false,
                 },
             },
         })
@@ -438,10 +438,10 @@
                     slidesPerView: 2,
                 },
                 1024: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
                 },
                 1200: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
                 },
             },
         })

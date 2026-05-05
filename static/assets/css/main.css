@@ -43,6 +43,14 @@ Version: 1.0
 36 Donations CSS
 37 Blog Standard CSS
 ************ TABLE OF CONTENTS ***************/
+@media (min-width: 768px) and (max-width: 991px) {
+  .m-t-md-60 { margin-top: 60px !important; }
+  .p-t-md-60 { padding-top: 60px !important; }
+  .p-b-md-60 { padding-bottom: 60px !important; }
+  .p-t-md-40 { padding-top: 40px !important; }
+  .p-b-md-40 { padding-bottom: 40px !important; }
+}
+
 :root {
   --theme-color: #3C4B33;
   --theme-shade-color: #5A6A50;
@@ -715,11 +723,11 @@ label {
   background: var(--white-color);
 }
 .e-primary-btn.is-hover-white:hover {
-  color: var(--theme-color-3);
+  color: var(--theme-color-3) !important;
 }
 .e-primary-btn.is-hover-white:hover .icon-wrap {
   background: var(--theme-color-2);
-  color: var(--theme-color-3);
+  color: var(--theme-color-3) !important;
 }
 .e-primary-btn:hover {
   color: var(--white-color);
@@ -3008,6 +3016,13 @@ label {
     margin-left: -8px;
   }
 }
+@media (max-width: 991px) {
+  .breadcrumb-thumb {
+    clip-path: none;
+    margin-left: 0;
+    border-radius: 10px;
+  }
+}
 .breadcrumb-thumb img {
   width: 100%;
   height: 100%;
@@ -3087,7 +3102,7 @@ label {
 @media (min-width: 768px) and (max-width: 991px) {
   .breadcrumb-content {
     margin-right: 0;
-    padding: 60px 20px;
+    padding: 40px 20px;
     clip-path: none;
     border-radius: 10px;
   }
@@ -3555,6 +3570,12 @@ label {
 .hero-slider-active-1 {
   position: relative;
   z-index: 1;
+}
+@media (max-width: 991px) {
+  .hero-video-section {
+    height: 70vh !important;
+    min-height: 500px !important;
+  }
 }
 .hero-slider-active-1 .hero-slider-pagination-1 {
   position: absolute;
@@ -4095,7 +4116,7 @@ label {
 @media (min-width: 768px) and (max-width: 991px) {
   .hero-slide-3 {
     padding-top: 80px;
-    padding-bottom: 160px;
+    padding-bottom: 80px;
   }
 }
 @media (max-width: 767px) {
@@ -5207,10 +5228,11 @@ label {
   display: block;
   border-radius: 10px;
   overflow: hidden;
+  height: 380px;
 }
 .camping-card .thumb img {
   width: 100%;
-  height: 190px;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -5292,10 +5314,10 @@ label {
   font-size: 15px;
   line-height: 24px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  height: 72px;
+  height: 120px;
 }
 .camping-card .content .donation-wrap {
   padding: 12px 15px 15px;
@@ -5364,7 +5386,7 @@ label {
 }
 .camping-card .content .donation-wrap .d-bottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 20px;
 }
@@ -5826,8 +5848,15 @@ label {
   overflow: visible;
   overflow-x: clip;
 }
+.camping-slider-active .swiper-wrapper {
+  align-items: stretch;
+}
 .camping-slider-active .swiper-slide {
   height: auto;
+  display: flex;
+}
+.camping-slider-active .camping-card {
+  flex: 1;
 }
 .camping-slider-active .camping-button-prev {
   position: absolute;
@@ -8871,6 +8900,7 @@ label {
 @media (max-width: 767px) {
   .testimonial-card .thumb {
     width: 100%;
+    max-height: 250px;
   }
 }
 .testimonial-card .thumb img {
@@ -11700,6 +11730,11 @@ label {
 .why-us-section .thumb {
   height: auto;
   position: relative;
+}
+@media (max-width: 991px) {
+  .why-us-section .thumb {
+    margin-bottom: 250px;
+  }
 }
 .why-us-section .thumb .thumb-1 {
   position: relative;
@@ -14597,7 +14632,7 @@ label {
 @media (min-width: 768px) and (max-width: 991px) {
   .shape-wrapped-thumb-1 .experience-shape-2 {
     gap: 10px;
-    right: 70px;
+    right: 20px;
   }
 }
 @media (max-width: 767px) {
@@ -14706,7 +14741,8 @@ label {
 @media (min-width: 768px) and (max-width: 991px) {
   .shape-wrapped-thumb-1 .award-shape {
     gap: 12px;
-    left: -40px;
+    left: 20px;
+    bottom: 20px;
   }
 }
 @media (max-width: 767px) {
@@ -15241,7 +15277,7 @@ label {
 }
 @media (max-width: 767px) {
   .about-us-section-3 .adjusted-margin .adjusted-padding {
-    padding: 80px 0 80px;
+    padding: 40px 0 40px;
   }
 }
 .about-us-section-3 .tab-content .year {
@@ -17625,7 +17661,13 @@ label {
   margin: 0;
 }
 .gallery-slider-active .gallery-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
-  background: var(--theme-color-2);
+  background: var(--theme-color-3);
+}
+
+.gallery-slider-active {
+  position: relative;
+  max-width: 1250px;
+  margin: 0 auto;
 }
 
 .testimonial-wrap {
@@ -19093,3 +19135,17 @@ label {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+/* --- Activity Cards: Permanent Filled Button State --- */
+.camping-slider-active .camping-card .content .donation-wrap .d-bottom .d-btn {
+  color: var(--theme-color-3);
+}
+.camping-slider-active .camping-card .content .donation-wrap .d-bottom .d-btn:before {
+  background: var(--theme-color-2);
+  left: -10%;
+  transform: translateX(0%) translateY(-50%);
+}
+.camping-slider-active .camping-card .content .donation-wrap .d-bottom .d-btn .icon-wrap {
+  background: var(--theme-color-3);
+  color: var(--theme-color-2);
+}

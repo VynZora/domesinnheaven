@@ -220,7 +220,7 @@
 	<!-- hero-section end -->
 
 	<!-- about-us-section start -->
-	<section class="about-us-section m-t-120 m-t-md-100 m-t-xs-40">
+	<section class="about-us-section m-t-120 m-t-md-60 m-t-xs-40">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-xl-6">
@@ -387,7 +387,7 @@
 	<!-- company-achievements-section end -->
 
 	<!-- what-we-do-section start -->
-	<section class="what-we-do-section m-t-80 m-t-xs-40 p-t-100 p-b-120 p-b-md-100 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/new/7.jpeg" %}')">
+	<section class="what-we-do-section m-t-80 m-t-xs-40 p-t-100 p-b-120 p-b-md-100 p-t-xs-40 p-b-xs-40" style="position: relative; overflow: hidden; background-image: url('{% static "assets/img/new/7.jpeg" %}'); background-size: cover; background-position: center;">
 		<div class="container">
 			<div class="section-top-2">
 				<div class="left">
@@ -521,68 +521,6 @@
 		</div>
 	</section>
 	<!-- why-us-section end -->
-	
-	<!-- dome-types-section start -->
-	<section class="volunteer-section p-t-100 p-b-100 p-t-xs-80 p-b-xs-80">
-		<div class="container text-center">
-			<div class="text-center m-b-50 m-b-xs-40">
-				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-					<span>Our Luxury Domes</span>
-				</div>
-				<div class="common-title mb-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-					<h2>Choose Your Heavenly Escape</h2>
-				</div>
-			</div>
-            <div class="dome-types-slider-active" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        {% for dome in dome_types %}
-                        <div class="swiper-slide">
-                            <div class="volunteer-card">
-                                <a href="{% url 'services_details_with_slug' dome.slug %}">
-                                    <div class="thumb" style="height: 300px; overflow: hidden; border-radius: 15px;">
-                                        <img alt="{{ dome.name }}" src="{{ dome.main_image.url }}" style="height: 100%; object-fit: cover;">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>{{ dome.name }}</h5>
-                                        <p>{{ dome.category.name }}</p>
-                                    </div>
-                                </a>
-                                <div class="socials" style="background: var(--theme-color); color: white; padding: 10px; border-radius: 0 0 15px 15px; display: flex; justify-content: center; align-items: center;">
-                                    <div style="font-weight: 700; font-size: 18px;">
-                                        ₹{{ dome.normal_price|default:"0" }} <small style="font-size: 12px; font-weight: 400;">/ Night</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="camping-pagination-wrap mt-4">
-                    <div class="dome-types-pagination"></div>
-                </div>
-                <div class="dome-types-button-prev camping-button-prev" style="left: -50px;">
-                    <i class="fa-regular fa-arrow-left"></i>
-                </div>
-                <div class="dome-types-button-next camping-button-next" style="right: -50px;">
-                    <i class="fa-regular fa-arrow-right"></i>
-                </div>
-            </div>
-			<div class="contact-details mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				<div class="details-btn">
-					<a class="e-primary-btn has-icon" href="{% url 'services' %}">View All Domes
-						<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-				</div>
-				<div class="join-us-btn">
-					<img alt="shape-12" src="{% static 'assets/img/shapes/shape-12.webp' %}">
-					<a class="review-btn" href="{% url 'booking' %}"><span>Ready to experience heaven?</span>
-						<i class="fa-solid fa-arrow-right"></i></a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- dome-types-section end -->
-
 	<!-- our-camping start -->
 	<section class="our-camping-section overflow-x-clip p-t-60 p-b-60 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/new/11.jpeg" %}')">
 		<div class="container">
@@ -622,19 +560,16 @@
 												</div>
 												<div class="text">
 													<p>
-														{{ activity.description|truncatewords_html:20|safe }}
+														{{ activity.description|truncatewords_html:40|safe }}
 													</p>
 												</div>
 											</div>
 											<div class="donation-wrap">
 												<div class="d-bottom">
-													<a class="e-primary-btn has-icon d-btn" href="{% url 'activity_details' activity.slug %}">
+													<a class="e-primary-btn has-icon d-btn" href="{% url 'activity_details' activity.slug %}" style="min-width:340px; display:inline-flex; margin:0 auto;">
 														View Details
 														<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span>
 													</a>
-													<button class="d-wishlist"><i class="fa-regular fa-heart"></i>
-														<span>{{ forloop.counter }}00</span>
-													</button>
 												</div>
 											</div>
 										</div>
@@ -646,10 +581,10 @@
 						<div class="camping-pagination-wrap">
 							<div class="camping-pagination"></div>
 						</div>
-						<div class="camping-button-prev">
+						<div class="camping-button-prev d-none">
 							<i class="fa-regular fa-arrow-left"></i>
 						</div>
-						<div class="camping-button-next">
+						<div class="camping-button-next d-none">
 							<i class="fa-regular fa-arrow-right"></i>
 						</div>
 					</div>
@@ -658,11 +593,73 @@
 		</div>
 	</section>
 	<!-- our-camping end -->
+	<!-- dome-types-section start -->
+	<section class="volunteer-section p-t-100 p-b-100 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+		<div class="container text-center">
+			<div class="text-center m-b-50 m-b-xs-40">
+				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+					<span>Our Luxury Domes</span>
+				</div>
+				<div class="common-title mb-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+					<h2>Choose Your Heavenly Escape</h2>
+				</div>
+			</div>
+            <div class="dome-types-slider-active" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        {% for dome in dome_types %}
+                        <div class="swiper-slide">
+                            <div class="volunteer-card">
+                                <a href="{% url 'services_details_with_slug' dome.slug %}">
+                                    <div class="thumb" style="height: 300px; overflow: hidden; border-radius: 15px;">
+                                        <img alt="{{ dome.name }}" src="{{ dome.main_image.url }}" style="height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="author-info">
+                                        <h5>{{ dome.name }}</h5>
+                                        <p>{{ dome.category.name }}</p>
+                                    </div>
+                                </a>
+                                <div class="socials" style="background: var(--theme-color); color: white; padding: 10px; border-radius: 0 0 15px 15px; display: flex; justify-content: center; align-items: center;">
+                                    <div style="font-weight: 700; font-size: 18px;">
+                                        ₹{{ dome.normal_price|default:"0" }} <small style="font-size: 12px; font-weight: 400;">/ Night</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="camping-pagination-wrap mt-4">
+                    <div class="dome-types-pagination"></div>
+                </div>
+                <div class="dome-types-button-prev camping-button-prev d-none" style="left: -50px;">
+                    <i class="fa-regular fa-arrow-left"></i>
+                </div>
+                <div class="dome-types-button-next camping-button-next d-none" style="right: -50px;">
+                    <i class="fa-regular fa-arrow-right"></i>
+                </div>
+            </div>
+			<div class="contact-details mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+				<div class="details-btn">
+					<a class="e-primary-btn has-icon" href="{% url 'services' %}">View All Domes
+						<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+				</div>
+				<div class="join-us-btn">
+					<img alt="shape-12" src="{% static 'assets/img/shapes/shape-12.webp' %}">
+					<a class="review-btn" href="{% url 'booking' %}"><span>Ready to experience heaven?</span>
+						<i class="fa-solid fa-arrow-right"></i></a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- dome-types-section end -->
+
+	
 	<!-- testimonial start -->
 	<section class="testimonial p-t-120 p-t-md-100 p-t-xs-40 p-b-120 p-b-md-100 p-b-xs-40">
 		<div class="container">
 			<div class="row align-items-center justify-content-between">
-				<div class="col-xl-4 m-b-lg-60 m-b-md-60 m-b-xs-60">
+				<div class="col-xl-4 m-b-lg-60 m-b-md-60 m-b-xs-40">
 					<div class="testimonial-content" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 						<div class="common-subtitle">
 							<!-- <img alt="icon-2" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Testimonials</span>
@@ -676,7 +673,7 @@
 						<div class="reviews">
 							<h3>
 								<span class="purecounter" data-purecounter-duration="1" data-purecounter-end="99">0</span>%
-							</h3><img alt="favicon" src="{% static 'assets/img/logo/favicon.webp' %}">
+							</h3><!-- <img alt="favicon" src="{% static 'assets/img/logo/favicon.webp' %}"> -->
 							<h5>Positive Reviews</h5>
 						</div>
 						<a href="{{ google_review_url }}" target="_blank" rel="noopener noreferrer"
@@ -754,7 +751,7 @@
 	<!-- testimonial end -->
 
 	{% comment %} <!-- major-partners start -->
-	<section class="major-partners p-t-80 p-b-140 p-b-lg-120 p-b-md-100 p-b-xs-80">
+	<section class="major-partners p-t-80 p-b-140 p-b-lg-120 p-b-md-100 p-b-xs-40">
 		<div class="container">
 			<div class="partners-title" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 				<div class="line-right"><img alt="shape-4" src="{% static 'assets/img/shapes/shape-4.webp' %}"></div>
@@ -912,11 +909,45 @@
 	<!-- completed-project end -->
 
 	 {% endcomment %}
+
+	 <!-- video-cta-section start -->
+	 <section class="video-cta-section" style="position: relative; overflow: hidden; height: 70vh; min-height: 500px; display: flex; align-items: center; justify-content: center;">
+		 <!-- Background video -->
+		 <video autoplay muted loop playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 0; transform: translate(-50%, -50%); object-fit: cover;">
+			 <source src="{% static 'assets/img/new/video.mp4' %}" type="video/mp4">
+		 </video>
+		 <!-- Dark overlay -->
+		 <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.52); z-index: 1;"></div>
+		 <!-- Content -->
+		 <div class="container" style="position: relative; z-index: 2; text-align: center;" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+			 <div class="common-subtitle" style="justify-content: center; margin-bottom: 16px;">
+				 <span style="color: var(--theme-color-2);">Experience Domes Inn Heaven</span>
+			 </div>
+			 <h2 style="color: #ffffff; font-size: clamp(32px, 5vw, 60px); font-weight: 700; line-height: 1.15; margin-bottom: 18px;">
+				 Where Nature Meets <span style="color: var(--theme-color-2);">Luxury</span>
+			 </h2>
+			 <p style="color: rgba(255,255,255,0.82); font-size: 18px; max-width: 560px; margin: 0 auto 36px;">
+				 Wake up to mist-covered hills, birdsong, and the quiet magic of Kerala — all from inside your private dome.
+			 </p>
+			 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+				 <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+					 Book Your Stay
+					 <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
+				 </a>
+				 <a href="{% url 'activities' %}" class="e-primary-btn is-hover-white has-icon" style="background: transparent; border: 2px solid rgba(255,255,255,0.6); color: white;">
+					 Explore Activities
+					 <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
+				 </a>
+			 </div>
+		 </div>
+	 </section>
+	 <!-- video-cta-section end -->
+ 
 	
 	<!-- latest-blog-section start -->
-	<section class="latest-blog-section p-t-100 p-t-xs-80 p-b-60 p-b-xs-20 p-b-md-20 p-b-lg-20 p-b-xl-20" style="background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}')">
+	<section class="latest-blog-section p-t-100 p-t-xs-40 p-b-60 p-b-xs-20 p-b-md-20 p-b-lg-20 p-b-xl-20" style="background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}')">
 		<div class="container">
-			<div class="row justify-content-between m-b-150 m-b-xl-120 m-b-lg-100 m-b-md-80 m-b-xs-80">
+			<div class="row justify-content-between m-b-150 m-b-xl-120 m-b-lg-100 m-b-md-80 m-b-xs-40">
 				<div class="col-xl-3 col-md-6 col-12">
 					<div class="latest-blog-content" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 						<div class="common-subtitle">
@@ -963,15 +994,6 @@
 											<div class="content-bottom">
 												<a class="e-primary-btn has-icon has-small" href="{% url 'blog_detail_slug' blog.slug %}">Read More
 													<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span></a>
-												<div class="social-share">
-													<button class="total-shared"><i class="fa-solid fa-share-nodes"></i>
-														<span>{{ forloop.counter }}k</span></button>
-													<div class="social-links">
-														<a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
-														<a href="https://twitter.com"><i class="fab fa-x-twitter"></i></a>
-														<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-													</div>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -1029,36 +1051,10 @@
 	</section>
 	<!-- contact-us end --> {% endcomment %}
 
-	<!-- news-subscription start -->
-	<section class="news-subscription p-t-100 p-b-100 p-t-xs-80 p-b-xs-80">
-		<div class="container">
-			<div class="latest-blog-row-bottom" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				<div class="row-bottom-thumb">
-					<div class="thumb"><img alt="thumb" src="{% static 'assets/img/thumbs/thumb-84.webp' %}"></div>
-				</div>
-				<div class="row row-gap-4 align-items-center">
-					<div class="col-md-6 col-12">
-						<div class="common-title text-start">
-							<h2>Ready for an <span><img alt="icon" src="{% static 'assets/img/icons/icon-12.svg' %}"></span> Unforgettable Stay?
-								<span><i class="fa-solid fa-arrow-right-long"></i></span></h2>
-						</div>
-						<p>Experience the ultimate luxury glamping in the heart of nature.</p>
-					</div>
-					<div class="col-md-6 col-12">
-						<div class="booking-cta-btn text-md-end">
-							<a href="{% url 'booking' %}" class="e-primary-btn has-icon">Book Your Stay
-								<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- news-subscription end -->
+
 
 	{% comment %} <!-- our-events-section start -->
-	<section class="our-events-section p-t-120 p-t-md-100 p-t-xs-80 p-b-120 p-b-md-100 p-b-xs-80">
+	<section class="our-events-section p-t-120 p-t-md-100 p-t-xs-40 p-b-120 p-b-md-100 p-b-xs-40">
 		<div class="container text-center">
 			<div class="text-center m-b-50 m-b-xs-40">
 				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
@@ -1172,6 +1168,6 @@
 <script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
 
 <!-- Main Js -->
-<script src="{% static 'assets/js/script.js' %}"></script>
+<script src="{% static 'assets/js/script.js' %}?v=2"></script>
 
 {% endblock %}
