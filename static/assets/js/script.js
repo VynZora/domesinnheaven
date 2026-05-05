@@ -317,12 +317,12 @@
 
     if (jQuery(".dome-types-slider-active .swiper").length > 0) {
         let domeTypesSlider = new Swiper('.dome-types-slider-active .swiper', {
-            loop: true,
+            loop: false,
             spaceBetween: 30,
             slidesPerView: 1,
             slidesPerColumn: 1,
             paginationClickable: true,
-            centeredSlides: true,
+            centeredSlides: false,
 
             autoplay: {
                 delay: 4000,
@@ -351,11 +351,11 @@
                 },
                 1024: {
                     slidesPerView: 3,
-                    centeredSlides: true,
+                    centeredSlides: false,
                 },
                 1200: {
                     slidesPerView: 4,
-                    centeredSlides: true,
+                    centeredSlides: false,
                 },
             },
         })
