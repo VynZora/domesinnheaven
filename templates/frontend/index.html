@@ -818,82 +818,31 @@
 			<div class="completed-project-slider-active" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
 				<div class="swiper">
 					<div class="swiper-wrapper">
+						{% for activity in activities %}
 						<div class="swiper-slide">
 							<div class="project-card">
 								<div class="thumb">
-									<a href="{% url 'activities' %}"><img alt="thumb-11" src="{% static 'assets/img/thumbs/thumb-11.webp' %}"></a>
+									<a href="{% url 'activity_details' activity.slug %}"><img alt="{{ activity.title }}" src="{{ activity.image.url }}"></a>
 									<div class="number">
-										<a href="{% url 'activities' %}">No - 02</a>
+										<a href="{% url 'activity_details' activity.slug %}">Activity {{ forloop.counter|stringformat:"02d" }}</a>
 									</div>
 									<div class="content">
-										<h5>Forest Cleaning</h5>
-										<p>Energy consulting involves providing of advice and guidance on energy</p>
+										<h5>{{ activity.title }}</h5>
+										<p>{{ activity.description|truncatewords:10 }}</p>
 										<div class="details-btn">
-											<a class="e-primary-btn is-hover-white has-icon" href="{% url 'activities' %}">View
-												All Projects
+											<a class="e-primary-btn is-hover-white has-icon" href="{% url 'activity_details' activity.slug %}">View
+												Details
 												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href="{% url 'activities' %}"><img alt="thumb-12" src="{% static 'assets/img/thumbs/thumb-12.webp' %}"></a>
-									<div class="number">
-										<a href="{% url 'activities' %}">No - 03</a>
-									</div>
-									<div class="content">
-										<h5>Waste Management</h5>
-										<p>Energy consulting involves providing of advice and guidance on energy</p>
-										<div class="details-btn">
-											<a class="e-primary-btn is-hover-white has-icon" href="{% url 'activities' %}">View
-												All Projects
-												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-										</div>
-									</div>
-								</div>
-							</div>
+						{% empty %}
+						<div class="swiper-slide text-center">
+							<p>No activities available yet.</p>
 						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href="{% url 'activities' %}"><img alt="thumb-13" src="{% static 'assets/img/thumbs/thumb-13.webp' %}"></a>
-									<div class="number">
-										<a href="{% url 'activities' %}">No - 04</a>
-									</div>
-									<div class="content">
-										<h5>Cleaning & Recycling</h5>
-										<p>Energy consulting involves providing of advice and guidance on energy</p>
-										<div class="details-btn">
-											<a class="e-primary-btn is-hover-white has-icon" href="{% url 'activities' %}">View
-												All Projects
-												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href="{% url 'activities' %}"><img alt="thumb-12" src="{% static 'assets/img/thumbs/thumb-12.webp' %}"></a>
-									<div class="number">
-										<a href="{% url 'activities' %}">No - 03</a>
-									</div>
-									<div class="content">
-										<h5>Waste Management</h5>
-										<p>Energy consulting involves providing of advice and guidance on energy</p>
-										<div class="details-btn">
-											<a class="e-primary-btn is-hover-white has-icon" href="{% url 'activities' %}">View
-												All Projects
-												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 				<div class="container">
