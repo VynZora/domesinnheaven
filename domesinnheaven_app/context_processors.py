@@ -45,3 +45,9 @@ def admin_unread_contacts(request) -> dict[str, Any]:
         "admin_unread_booking_count": unread_bookings,
         "admin_unread_enquiries_total": unread_contacts + unread_bookings
     }
+
+
+def recaptcha_settings(request) -> dict[str, Any]:
+    return {
+        "RECAPTCHA_SITE_KEY": getattr(settings, "RECAPTCHA_SITE_KEY", "")
+    }

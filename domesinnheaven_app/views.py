@@ -9,6 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.conf import settings
 from django.db.models import Q
+import requests
 from urllib.parse import quote
 
 from .forms import BlogForm, ContactForm, TestimonialForm, ActivityForm, CampingPackageForm, BookingForm, DomeCategoryForm, DomeTypeForm
@@ -139,6 +140,26 @@ def donations(request):
 
 def contact(request):
     if request.method == "POST":
+        # reCAPTCHA Validation
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        if not recaptcha_response:
+            messages.error(request, "Please complete the reCAPTCHA.")
+            return render(request, "frontend/contact.html", {"contact_form_data": request.POST})
+
+        verify_data = {
+            'secret': settings.RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        try:
+            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=verify_data)
+            result = r.json()
+            if not result.get('success'):
+                messages.error(request, "reCAPTCHA verification failed. Please try again.")
+                return render(request, "frontend/contact.html", {"contact_form_data": request.POST})
+        except Exception:
+            # Fallback if request fails
+            pass
+
         full_name = (request.POST.get("name") or "").strip()
         phone = (request.POST.get("phone") or "").strip()
         email = (request.POST.get("email") or "").strip()

@@ -1,6 +1,48 @@
 {% extends "frontend/base.html" %}
 {% load static %}
 {% block content %}
+<style>
+    .captcha-wrapper {
+        margin-bottom: 25px;
+        padding: 18px;
+        background: linear-gradient(180deg, rgba(60, 75, 51, 0.04) 0%, rgba(60, 75, 51, 0.08) 100%);
+        border: 1px solid rgba(60, 75, 51, 0.15);
+        border-radius: 16px;
+        display: inline-flex;
+        flex-direction: column;
+        gap: 12px;
+        box-shadow: 0 10px 30px rgba(60, 75, 51, 0.05);
+    }
+
+    .captcha-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #3C4B33;
+        opacity: 0.8;
+        line-height: 1;
+    }
+
+    .captcha-wrapper .g-recaptcha {
+        transform: scale(0.95);
+        transform-origin: left top;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .captcha-wrapper {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .captcha-wrapper .g-recaptcha {
+            transform: scale(0.88);
+            transform-origin: left top;
+        }
+    }
+</style>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
 <!-- preloader start-->
 <div id="preloader">
@@ -136,12 +178,9 @@
 									<div class="select-wrap mb-4">
 										<select name="contact_time">
 											<option value="" {% if not contact_form_data.contact_time %}selected{% endif %}>Reason for Contacting</option>
-											<option value="Stay & Reservation Inquiry" {% if contact_form_data.contact_time == "Stay & Reservation Inquiry" %}selected{% endif %}>Stay & Reservation Inquiry</option>
-											<option value="Special Events & Celebrations" {% if contact_form_data.contact_time == "Special Events & Celebrations" %}selected{% endif %}>Special Events & Celebrations</option>
-											<option value="Group & Corporate Packages" {% if contact_form_data.contact_time == "Group & Corporate Packages" %}selected{% endif %}>Group & Corporate Packages</option>
-											<option value="Feedback & Guest Experience" {% if contact_form_data.contact_time == "Feedback & Guest Experience" %}selected{% endif %}>Feedback & Guest Experience</option>
-											<option value="Partnership & Media Requests" {% if contact_form_data.contact_time == "Partnership & Media Requests" %}selected{% endif %}>Partnership & Media Requests</option>
-											<option value="Technical Assistance" {% if contact_form_data.contact_time == "Technical Assistance" %}selected{% endif %}>Technical Assistance</option>
+											<option value="Stay & Service Enquiry" {% if contact_form_data.contact_time == "Stay & Service Enquiry" %}selected{% endif %}>Stay & Service Enquiry</option>
+											<option value="Partnership" {% if contact_form_data.contact_time == "Partnership" %}selected{% endif %}>Partnership</option>
+											<option value="Special Events" {% if contact_form_data.contact_time == "Special Events" %}selected{% endif %}>Special Events</option>
 										</select>
 										<div class="select-icon">
 											<i class="fa-regular fa-angle-down"></i>
@@ -154,7 +193,12 @@
 									<div class="input-wrap">
 										<textarea placeholder="Say Something..." name="message">{{ contact_form_data.message|default:'' }}</textarea>
 									</div>
+									<div class="captcha-wrapper">
+										<span class="captcha-label">Security Check</span>
+										<div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}" data-theme="light"></div>
+									</div>
 									<div class="input-button">
+
 										<button type="submit" class="e-primary-btn has-icon">
 											Submit Now
 											<span class="icon-wrap">

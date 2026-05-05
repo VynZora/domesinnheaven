@@ -63,6 +63,7 @@ TEMPLATES = [
                 'domesinnheaven_app.context_processors.google_reviews',
                 'domesinnheaven_app.context_processors.footer_packages',
                 'domesinnheaven_app.context_processors.admin_unread_contacts',
+                'domesinnheaven_app.context_processors.recaptcha_settings',
             ],
         },
     },
@@ -118,8 +119,8 @@ GOOGLE_REVIEW_COUNT = 900
 GOOGLE_REVIEW_URL = "https://www.google.com/travel/search?q=domesinnheaven_pro%20camping%20reviews"
 
 # RECAPTCHA - REPLACE WITH YOUR KEYS
-RECAPTCHA_SITE_KEY = "your-recaptcha-site-key"
-RECAPTCHA_SECRET_KEY = "your-recaptcha-secret-key"
+RECAPTCHA_SITE_KEY = "6LdDzNksAAAAACA5R9MhWkyiuXRP1JnAQKwm00Ou"
+RECAPTCHA_SECRET_KEY = "6LdDzNksAAAAAOnJqfhpuEXemB91WRqFy16yO8TA"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
