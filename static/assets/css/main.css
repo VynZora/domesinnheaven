@@ -3573,8 +3573,9 @@ label {
 }
 @media (max-width: 991px) {
   .hero-video-section {
-    height: 70vh !important;
-    min-height: 500px !important;
+    height: 100vh !important;
+    height: 100svh !important;
+    min-height: auto !important;
   }
 }
 .hero-slider-active-1 .hero-slider-pagination-1 {
