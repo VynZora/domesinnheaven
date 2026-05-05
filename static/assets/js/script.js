@@ -641,51 +641,6 @@
         })
     }
 
-    /*--------------------------------------------------------------
-   13 What We Do Slider Active JS
-   --------------------------------------------------------------*/
-    if (jQuery(".whatwedo-slider-active .swiper").length > 0) {
-        let whatwedoSlider = new Swiper('.whatwedo-slider-active .swiper', {
-            loop: true,
-            spaceBetween: 30,
-            slidesPerView: 4,
-            slidesPerColumn: 1,
-            paginationClickable: true,
-            autoplay: {
-                delay: 3000,
-            },
-
-            pagination: {
-                el: '.whatwedo-pagination',
-                clickable: true,
-            },
-
-            navigation: {
-                nextEl: '.whatwedo-button-next',
-                prevEl: '.whatwedo-button-prev',
-            },
-
-            a11y: false,
-
-            breakpoints: {
-                320: {
-                    slidesPerView: 1,
-                },
-                768: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-                1200: {
-                    slidesPerView: 4,
-                },
-                1440: {
-                    slidesPerView: 4.7,
-                },
-            },
-        })
-    }
 
     /*--------------------------------------------------------------
    14 Testimonial Slider Active JS

@@ -21,12 +21,14 @@ def home(request):
     activities = Activity.objects.all().order_by("-created_at")[:6]
     blogs = Blog.objects.all().order_by("-created_at")[:3]
     dome_types = DomeType.objects.all().order_by("-created_at")
+    dome_categories = DomeCategory.objects.all()
     return render(request, 'frontend/index.html', {
         'testimonials': testimonials,
         'camping_packages': camping_packages,
         'activities': activities,
         'blogs': blogs,
-        'dome_types': dome_types
+        'dome_types': dome_types,
+        'dome_categories': dome_categories
     })
 
 def home_v2(request):

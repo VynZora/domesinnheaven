@@ -411,28 +411,29 @@
 					</a>
 				</div>
 			</div>
-			<div class="row row-gap-md-5 row-gap-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
-				{% for package in camping_packages %}
-				<div class="col-xl-4 col-md-6 col-sm-12">
+			<div class="row justify-content-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+				{% with count=dome_categories|length %}
+				{% for category in dome_categories %}
+				<div class="{% if count == 1 %}col-xl-6 col-lg-8{% elif count == 2 %}col-xl-6 col-lg-6{% elif count == 3 %}col-xl-4 col-lg-4{% else %}col-xl-3 col-lg-4{% endif %} col-md-6 m-b-30">
 					<div class="project-card">
 						<div class="thumb">
-							<a href="{% url 'package_details' package.slug %}">
-								<img src="{{ package.main_image.url }}" alt="{{ package.name }}"/>
+							<a href="{% url 'service_single' category.slug %}">
+								<img src="{{ category.image.url }}" alt="{{ category.name }}"/>
 							</a>
 							<div class="number">
-								<a href="{% url 'package_details' package.slug %}">No - 0{{ forloop.counter }}</a>
+								<a href="{% url 'service_single' category.slug %}">0{{ forloop.counter }}</a>
 							</div>
 							<div class="content">
-								<h5>{{ package.name }}</h5>
+								<h5>{{ category.name }}</h5>
 								<p>
-									{{ package.description|truncatewords:20|safe }}
+									Experience luxury in our handcrafted {{ category.name }} domes.
 								</p>
 								<div class="details-btn">
-									<a href="{% url 'package_details' package.slug %}" class="e-primary-btn has-icon is-hover-white">
+									<a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon is-hover-white">
 										Read More
 										<span class="icon-wrap">
 											<span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
-				                        </span>
+										</span>
 									</a>
 								</div>
 							</div>
@@ -441,9 +442,10 @@
 				</div>
 				{% empty %}
 				<div class="col-12 text-center">
-					<p>No camping packages available at the moment.</p>
+					<p>No dome categories available at the moment.</p>
 				</div>
 				{% endfor %}
+				{% endwith %}
 			</div>
 		</div>
 		<div class="shape-10">
