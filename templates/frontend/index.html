@@ -537,7 +537,7 @@
                         {% for dome in dome_types %}
                         <div class="swiper-slide">
                             <div class="volunteer-card">
-                                <a href="{% url 'services_details' %}?slug={{ dome.slug }}">
+                                <a href="{% url 'services_details_with_slug' dome.slug %}">
                                     <div class="thumb" style="height: 300px; overflow: hidden; border-radius: 15px;">
                                         <img alt="{{ dome.name }}" src="{{ dome.main_image.url }}" style="height: 100%; object-fit: cover;">
                                     </div>

@@ -12,6 +12,7 @@ urlpatterns = [
     path('dome/', views.services, name='services'),
     path('dome/<slug:slug>/', views.service_single, name='service_single'),
     path('dome-details/', views.services_details, name='services_details'),
+    path('dome-details/<slug:slug>/', views.services_details, name='services_details_with_slug'),
     path('ajax/load-dome-types/', views.load_dome_types, name='ajax_load_dome_types'),
 
     path('activities/', views.activities, name='activities'),

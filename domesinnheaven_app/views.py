@@ -57,8 +57,9 @@ def services(request):
     categories = DomeCategory.objects.all().order_by("name")
     return render(request, 'frontend/services.html', {'categories': categories})
 
-def services_details(request):
-    slug = request.GET.get('slug')
+def services_details(request, slug=None):
+    if not slug:
+        slug = request.GET.get('slug')
     if slug:
         dome = get_object_or_404(DomeType, slug=slug)
     else:

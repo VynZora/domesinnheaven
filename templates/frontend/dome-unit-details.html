@@ -171,12 +171,12 @@
 												<div class="swiper-slide">
 													<div class="camping-card-2 widget-style" style="box-shadow: none; border: 1px solid #eee;">
 														<div class="thumb" style="height: 150px;">
-															<a href="{% url 'services_details' %}?slug={{ item.slug }}">
+															<a href="{% url 'services_details_with_slug' item.slug %}">
 																<img src="{{ item.main_image.url }}" alt="{{ item.name }}" style="height: 100%; object-fit: cover;"/>
 															</a>
 														</div>
 														<div class="content p-3">
-															<h5 class="m-b-5" style="font-size: 16px;"><a href="{% url 'services_details' %}?slug={{ item.slug }}">{{ item.name }}</a></h5>
+															<h5 class="m-b-5" style="font-size: 16px;"><a href="{% url 'services_details_with_slug' item.slug %}">{{ item.name }}</a></h5>
 															<p style="font-size: 13px; color: #666;">₹{{ item.normal_price }} / Night</p>
 														</div>
 													</div>
