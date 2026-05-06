@@ -5,4 +5,4 @@ Disallow: /admin-login/
 Allow: /static/
 Allow: /media/
 
-Sitemap: https://koodaramglamping.com/sitemap.xml
+Sitemap: https://domesinnheaven.com/sitemap.xml

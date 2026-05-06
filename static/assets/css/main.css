@@ -5394,6 +5394,11 @@ label {
 .camping-card .content .donation-wrap .d-bottom .d-btn {
   color: var(--theme-color-2);
   background: var(--theme-color-3);
+  width: 100%;
+  max-width: 340px;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 .camping-card .content .donation-wrap .d-bottom .d-btn:before {
   background: var(--theme-color-3);
@@ -19149,4 +19154,81 @@ label {
 .camping-slider-active .camping-card .content .donation-wrap .d-bottom .d-btn .icon-wrap {
   background: var(--theme-color-3);
   color: var(--theme-color-2);
+}
+
+/* Footer Copyright Section (Ported from Koodaram) */
+.footer-copyright-royal {
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: 60px;
+    padding: 30px 0;
+    z-index: 1;
+}
+
+.footer-copyright-text-royal p {
+    color: var(--white-color);
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+.footer-copyright-text-royal small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+}
+
+.footer-copyright-text-royal a {
+    color: var(--theme-color-2) !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-social-links-royal {
+    text-align: right;
+}
+
+@media (max-width: 767px) {
+    .footer-social-links-royal {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .footer-copyright-text-royal {
+        text-align: center;
+    }
+}
+
+.footer-social-links-royal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-social-links-royal ul li {
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.footer-social-links-royal ul li:last-child {
+    margin-right: 0;
+}
+
+.footer-social-links-royal ul li a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: var(--white-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.footer-social-links-royal ul li a:hover {
+    background: var(--theme-color-2);
+    color: var(--theme-color-3);
+    border-color: var(--theme-color-2);
+}
+
+.footer-social-links-royal ul li a i {
+    font-size: 18px;
 }

@@ -80,13 +80,13 @@
 							<div class="row form-row">
 								<div class="col-xl-6 col-md-6">
 									<div class="input-wrap">
-										<input placeholder="Full Name" type="text" name="name" value="{{ form.name.value|default:'' }}" required>
+										<input placeholder="e.g. John Doe" type="text" name="name" value="{{ form.name.value|default:'' }}" required>
 										{{ form.name.errors }}
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-6">
 									<div class="input-wrap">
-										<input placeholder="Phone Number" type="tel" name="phone" value="{{ form.phone.value|default:'' }}" required>
+										<input placeholder="e.g. +91 9946 280 626" type="tel" name="phone" value="{{ form.phone.value|default:'' }}" required>
 										{{ form.phone.errors }}
 									</div>
 								</div>
@@ -94,13 +94,13 @@
 							<div class="row form-row">
 								<div class="col-xl-6 col-md-6">
 									<div class="input-wrap">
-										<input placeholder="Email Address" type="email" name="email" value="{{ form.email.value|default:'' }}" required>
+										<input placeholder="e.g. john@example.com" type="email" name="email" value="{{ form.email.value|default:'' }}" required>
 										{{ form.email.errors }}
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-6">
 									<div class="input-wrap">
-										<input placeholder="Number of Guests" type="number" name="guests" value="{{ form.guests.value|default:'' }}" required min="1">
+										<input placeholder="e.g. 2" type="number" name="guests" value="{{ form.guests.value|default:'' }}" required min="1">
 										{{ form.guests.errors }}
 									</div>
 								</div>
@@ -152,7 +152,7 @@
 							<div class="row">
 								<div class="col-xl-12">
 									<div class="input-wrap">
-										<textarea placeholder="Any special requests or messages?" name="message">{{ form.message.value|default:'' }}</textarea>
+										<textarea placeholder="Any special requests for your Munnar stay?" name="message">{{ form.message.value|default:'' }}</textarea>
 										{{ form.message.errors }}
 									</div>
 									<div class="input-button">
@@ -237,7 +237,7 @@
 									<i class="fa-solid fa-location-dot"></i>
 								</div>
 							</div>
-							<h3>Vagamon, Kerala 685503, India</h3>
+							<h3>Munnar, Kerala, India</h3>
 							<p>Our Address</p>
 						</a>
 					</div>
