@@ -95,7 +95,9 @@
         max-height: 600px;
     }
     .wwd-mobile-pagination {
-        display: none;
+        display: block;
+        margin-top: 20px;
+        text-align: center;
     }
 }
 @media (min-width: 576px) and (max-width: 1199px) {
@@ -1598,22 +1600,58 @@
 
         if (!track || !wrapper || !section) return;
 
-        // How far the track needs to travel = total card strip width minus visible area
-        const getScrollDistance = () =>
-            track.scrollWidth - trackOuter.offsetWidth;
+        const sv = gsap.matchMedia();
 
-        gsap.to(track, {
-            x        : () => -getScrollDistance(),
-            ease     : "none",              // linear = scroll drives it 1:1
-            scrollTrigger: {
-                trigger          : section,
-                pin              : section,    // pins the whole section
-                anticipatePin    : 1,
-                scrub            : 1,       // scrub is correct HERE — it's on the tween, not the pin
-                start            : "top top",
-                end              : () => `+=${getScrollDistance()}`,
-                invalidateOnRefresh: true,
-            }
+        // ── Desktop: GSAP Horizontal Scroll ───────────────────────────────
+        sv.add("(min-width: 1200px)", () => {
+            const getScrollDistance = () => track.scrollWidth - trackOuter.offsetWidth;
+
+            gsap.to(track, {
+                x        : () => -getScrollDistance(),
+                ease     : "none",
+                scrollTrigger: {
+                    trigger          : section,
+                    pin              : section,
+                    anticipatePin    : 1,
+                    scrub            : 1,
+                    start            : "top top",
+                    end              : () => `+=${getScrollDistance()}`,
+                    invalidateOnRefresh: true,
+                }
+            });
+
+            return () => {
+                gsap.set(track, { clearProps: "all" });
+            };
+        });
+
+        // ── Mobile: Swiper Carousel ───────────────────────────────────────
+        sv.add("(max-width: 1199px)", () => {
+            const swiper = new Swiper('.wwd-track-outer', {
+                wrapperClass: 'wwd-track',
+                slideClass: 'wwd-card',
+                slidesPerView: 1.2,
+                spaceBetween: 20,
+                pagination: {
+                    el: '.wwd-mobile-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    576: {
+                        slidesPerView: 2.2,
+                        spaceBetween: 30,
+                    },
+                    768: {
+                        slidesPerView: 2.5,
+                        spaceBetween: 30,
+                    }
+                }
+            });
+
+            return () => {
+                swiper.destroy(true, true);
+                gsap.set(track, { clearProps: "all" });
+            };
         });
     });
 </script>
