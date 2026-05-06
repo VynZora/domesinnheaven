@@ -1591,35 +1591,29 @@
         gsap.registerPlugin(ScrollTrigger);
         gsap.ticker.lagSmoothing(0);
 
-        // WRAP IN gsap.matchMedia() — desktop only
-        gsap.matchMedia().add("(min-width: 1200px)", () => {
-            const track      = document.querySelector('.wwd-track');
-            const trackOuter = document.querySelector('.wwd-track-outer');
-            const wrapper    = document.querySelector('.wwd-sticky-wrapper');
-            const section    = document.querySelector('.what-we-do-section');
+        const track      = document.querySelector('.wwd-track');
+        const trackOuter = document.querySelector('.wwd-track-outer');
+        const wrapper    = document.querySelector('.wwd-sticky-wrapper');
+        const section    = document.querySelector('.what-we-do-section');
 
-            if (!track || !wrapper || !section) return;
+        if (!track || !wrapper || !section) return;
 
-            const getScrollDistance = () =>
-                track.scrollWidth - trackOuter.offsetWidth;
+        // How far the track needs to travel = total card strip width minus visible area
+        const getScrollDistance = () =>
+            track.scrollWidth - trackOuter.offsetWidth;
 
-            gsap.to(track, {
-                x        : () => -getScrollDistance(),
-                ease     : "none",
-                scrollTrigger: {
-                    trigger          : section,
-                    pin              : section,
-                    anticipatePin    : 1,
-                    scrub            : 1,
-                    start            : "top top",
-                    end              : () => `+=${getScrollDistance()}`,
-                    invalidateOnRefresh: true,
-                }
-            });
-
-            return () => {
-                // cleanup when exiting breakpoint
-            };
+        gsap.to(track, {
+            x        : () => -getScrollDistance(),
+            ease     : "none",              // linear = scroll drives it 1:1
+            scrollTrigger: {
+                trigger          : section,
+                pin              : section,    // pins the whole section
+                anticipatePin    : 1,
+                scrub            : 1,       // scrub is correct HERE — it's on the tween, not the pin
+                start            : "top top",
+                end              : () => `+=${getScrollDistance()}`,
+                invalidateOnRefresh: true,
+            }
         });
     });
 </script>
@@ -1628,54 +1622,47 @@
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // WRAP IN gsap.matchMedia() — desktop only
-        gsap.matchMedia().add("(min-width: 1200px)", () => {
-            const section     = document.querySelector('.dome-showcase-section');
-            const detailItems = document.querySelectorAll('.dome-detail-item');
-            const images      = document.querySelectorAll('.dome-showcase-image');
-            const dots        = document.querySelectorAll('.dome-dot');
+        const section     = document.querySelector('.dome-showcase-section');
+        const detailItems = document.querySelectorAll('.dome-detail-item');
+        const images      = document.querySelectorAll('.dome-showcase-image');
+        const dots        = document.querySelectorAll('.dome-dot');
 
-            if (!section || !detailItems.length) return;
+        if (!section || !detailItems.length) return;
 
-            const totalDomes    = detailItems.length;
-            const scrollPerDome = 600;
-            const totalScroll   = totalDomes * scrollPerDome;
-            let   currentIndex  = 0;
+        const totalDomes    = detailItems.length;
+        const scrollPerDome = 600;
+        const totalScroll   = totalDomes * scrollPerDome;
+        let   currentIndex  = 0;
 
-            const goTo = (index) => {
-                if (index === currentIndex) return;
+        const goTo = (index) => {
+            if (index === currentIndex) return;
 
-                // Swap detail item
-                detailItems[currentIndex].classList.remove('active');
-                images[currentIndex].classList.remove('active');
-                dots[currentIndex].classList.remove('active');
+            // Swap detail item
+            detailItems[currentIndex].classList.remove('active');
+            images[currentIndex].classList.remove('active');
+            dots[currentIndex].classList.remove('active');
 
-                currentIndex = index;
+            currentIndex = index;
 
-                detailItems[currentIndex].classList.add('active');
-                images[currentIndex].classList.add('active');
-                dots[currentIndex].classList.add('active');
-            };
+            detailItems[currentIndex].classList.add('active');
+            images[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+        };
 
-            ScrollTrigger.create({
-                trigger          : section,
-                pin              : true,
-                anticipatePin    : 1,
-                start            : "top top",
-                end              : `+=${totalScroll}`,
-                invalidateOnRefresh: true,
-                onUpdate: (self) => {
-                    const index = Math.min(
-                        Math.floor(self.progress * totalDomes),
-                        totalDomes - 1
-                    );
-                    goTo(index);
-                }
-            });
-
-            return () => {
-                // cleanup when exiting breakpoint
-            };
+        ScrollTrigger.create({
+            trigger          : section,
+            pin              : true,
+            anticipatePin    : 1,
+            start            : "top top",
+            end              : `+=${totalScroll}`,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+                const index = Math.min(
+                    Math.floor(self.progress * totalDomes),
+                    totalDomes - 1
+                );
+                goTo(index);
+            }
         });
     });
 </script>

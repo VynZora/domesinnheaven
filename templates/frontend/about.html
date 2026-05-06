@@ -812,98 +812,92 @@
 
 			gsap.ticker.lagSmoothing(0); // stop GSAP fighting the browser render loop
 
-			// WRAP IN gsap.matchMedia() — desktop only
-			gsap.matchMedia().add("(min-width: 1200px)", () => {
-				const panels = gsap.utils.toArray('.dome-event-panel');
-				if (!panels.length) return;
+			// ── Global: Stacked Pinning ──────────────────────────────────────────
+			const panels = gsap.utils.toArray('.dome-event-panel');
+			if (!panels.length) return;
 
-				const BASE_OFFSET      = 110;
-				const OFFSET_INCREMENT = 30;
-				const pinWrap  = document.querySelector('.dome-events-stack-wrap');
-				const area     = pinWrap?.closest('.dome-events-area');
+			const BASE_OFFSET      = 110;
+			const OFFSET_INCREMENT = 30;
+			const pinWrap  = document.querySelector('.dome-events-stack-wrap');
+			const area     = pinWrap?.closest('.dome-events-area');
 
-				const setBottomPadding = () => {
-					if (!area) return;
-					const travel = BASE_OFFSET + Math.max(0, panels.length - 1) * OFFSET_INCREMENT;
-					let maxPanelHeight = 0;
-					panels.forEach(p => {
-						if (p.offsetHeight > maxPanelHeight) maxPanelHeight = p.offsetHeight;
-					});
-					area.style.setProperty('padding-bottom', `${travel + maxPanelHeight + 50}px`, 'important');
-				};
-				setBottomPadding();
-				ScrollTrigger.addEventListener('refreshInit', setBottomPadding);
-
-				panels.forEach((panel, index) => {
-					panel.style.zIndex = String(index + 1);
-
-					ScrollTrigger.create({
-						trigger          : panel,
-						pin              : panel,
-						anticipatePin    : 1,      // eliminates the flash/jump on pin start
-						pinSpacing       : false,
-						invalidateOnRefresh: true,
-						start: () => {
-							const max = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
-							return `top ${Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max)}px`;
-						},
-						end: () => {
-							const max   = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
-							const pinAt = Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max);
-							return `bottom ${pinAt + 20}px`;
-						},
-						endTrigger: '.dome-events-stack-wrap',
-						// NO scrub here — scrub on a pin is what causes the rubbery lag
-					});
+			const setBottomPadding = () => {
+				if (!area) return;
+				const travel = BASE_OFFSET + Math.max(0, panels.length - 1) * OFFSET_INCREMENT;
+				let maxPanelHeight = 0;
+				panels.forEach(p => {
+					if (p.offsetHeight > maxPanelHeight) maxPanelHeight = p.offsetHeight;
 				});
+				area.style.setProperty('padding-bottom', `${travel + maxPanelHeight + 50}px`, 'important');
+			};
+			setBottomPadding();
+			ScrollTrigger.addEventListener('refreshInit', setBottomPadding);
 
-				// Batch all image loads into a single refresh call
-				const images  = document.querySelectorAll('.dome-event-panel img');
-				const pending = [...images].filter(img => !img.complete);
-				if (!pending.length) {
-					requestAnimationFrame(() => ScrollTrigger.refresh());
-				} else {
-					let loaded = 0;
-					const onLoad = () => {
-						if (++loaded >= pending.length)
-							requestAnimationFrame(() => ScrollTrigger.refresh());
-					};
-					pending.forEach(img => {
-						img.addEventListener('load',  onLoad, { once: true });
-						img.addEventListener('error', onLoad, { once: true });
-					});
-				}
+			panels.forEach((panel, index) => {
+				panel.style.zIndex = String(index + 1);
 
-				// ── Text Gradient Scrub ───────────────────────────────────────────────
-				const splitInstances = [];
-				document.querySelectorAll(".dome_text_invert").forEach(target => {
-					if (target.dataset.split === "1") return;
-					target.dataset.split = "1";
-
-					const split = new SplitType(target, { types: 'lines' });
-					splitInstances.push(split);
-
-					split.lines.forEach(line => {
-						gsap.to(line, {
-							backgroundPositionX : 0,
-							ease                : "none",
-							scrollTrigger: {
-								trigger           : line,
-								scrub             : 0.6,
-								start             : 'top 88%',
-								end               : 'bottom 55%',
-								invalidateOnRefresh: true,
-							}
-						});
-					});
+				ScrollTrigger.create({
+					trigger          : panel,
+					pin              : panel,
+					anticipatePin    : 1,      // eliminates the flash/jump on pin start
+					pinSpacing       : false,
+					invalidateOnRefresh: true,
+					start: () => {
+						const max = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+						return `top ${Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max)}px`;
+					},
+					end: () => {
+						const max   = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+						const pinAt = Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max);
+						return `bottom ${pinAt + 20}px`;
+					},
+					endTrigger: '.dome-events-stack-wrap',
+					// NO scrub here — scrub on a pin is what causes the rubbery lag
 				});
-
-				window.addEventListener('beforeunload', () => splitInstances.forEach(s => s.revert()));
-
-				return () => {
-					// cleanup when exiting breakpoint
-				};
 			});
+
+			// Batch all image loads into a single refresh call
+			const images  = document.querySelectorAll('.dome-event-panel img');
+			const pending = [...images].filter(img => !img.complete);
+			if (!pending.length) {
+				requestAnimationFrame(() => ScrollTrigger.refresh());
+			} else {
+				let loaded = 0;
+				const onLoad = () => {
+					if (++loaded >= pending.length)
+						requestAnimationFrame(() => ScrollTrigger.refresh());
+				};
+				pending.forEach(img => {
+					img.addEventListener('load',  onLoad, { once: true });
+					img.addEventListener('error', onLoad, { once: true });
+				});
+			}
+
+			// ── Text Gradient Scrub ───────────────────────────────────────────────
+			const splitInstances = [];
+			document.querySelectorAll(".dome_text_invert").forEach(target => {
+				if (target.dataset.split === "1") return;
+				target.dataset.split = "1";
+
+				const split = new SplitType(target, { types: 'lines' });
+				splitInstances.push(split);
+
+				split.lines.forEach(line => {
+					gsap.to(line, {
+						backgroundPositionX : 0,
+						ease                : "none",
+						scrollTrigger: {
+							trigger           : line,
+							scrub             : 0.6,
+							start             : 'top 88%',
+							end               : 'bottom 55%',
+							invalidateOnRefresh: true,
+						}
+					});
+				});
+			});
+
+			window.addEventListener('beforeunload', () => splitInstances.forEach(s => s.revert()));
 		});
 	</script>
 
