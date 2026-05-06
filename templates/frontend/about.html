@@ -883,31 +883,39 @@
 				};
 			});
 
-			// ── Text Gradient Scrub ───────────────────────────────────────────────
-			const splitInstances = [];
-			document.querySelectorAll(".dome_text_invert").forEach(target => {
-				if (target.dataset.split === "1") return;
-				target.dataset.split = "1";
+			// ── Text Gradient Scrub — desktop only ───────────────────────────────
+			sv.add("(min-width: 1200px)", () => {
+				const splitInstances = [];
 
-				const split = new SplitType(target, { types: 'lines' });
-				splitInstances.push(split);
+				document.querySelectorAll(".dome_text_invert").forEach(target => {
+					if (target.dataset.split === "1") return;
+					target.dataset.split = "1";
 
-				split.lines.forEach(line => {
-					gsap.to(line, {
-						backgroundPositionX : 0,
-						ease                : "none",
-						scrollTrigger: {
-							trigger           : line,
-							scrub             : 0.6,
-							start             : 'top 88%',
-							end               : 'bottom 55%',
-							invalidateOnRefresh: true,
-						}
+					const split = new SplitType(target, { types: 'lines' });
+					splitInstances.push(split);
+
+					split.lines.forEach(line => {
+						gsap.to(line, {
+							backgroundPositionX : 0,
+							ease                : "none",
+							scrollTrigger: {
+								trigger            : line,
+								scrub              : 0.6,
+								start              : 'top 88%',
+								end                : 'bottom 55%',
+								invalidateOnRefresh: true,
+							}
+						});
 					});
 				});
-			});
 
-			window.addEventListener('beforeunload', () => splitInstances.forEach(s => s.revert()));
+				return () => {
+					splitInstances.forEach(s => s.revert());
+					document.querySelectorAll(".dome_text_invert").forEach(t => {
+						delete t.dataset.split;
+					});
+				};
+			});
 		});
 	</script>
 
