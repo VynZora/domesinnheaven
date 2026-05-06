@@ -11,6 +11,89 @@
         height: 100%;
         object-fit: cover;
     }
+
+/* ── What We Do: Horizontal Scroll Section ── */
+.wwd-scroll-section {
+    /* overflow: hidden; Removed to allow GSAP pinning */
+    height: 100vh;
+}
+
+.wwd-sticky-wrapper {
+    width: 100%;
+}
+
+.wwd-inner {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    min-height: 600px;
+    padding: 60px 60px 60px 80px;
+    gap: 60px;
+    box-sizing: border-box;
+}
+
+.wwd-left {
+    flex: 0 0 340px;
+    width: 340px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2;
+}
+
+.wwd-track-outer {
+    flex: 1;
+    overflow: hidden; /* clips the track — GSAP handles the movement */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.wwd-track {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    will-change: transform;
+}
+
+.wwd-card {
+    flex: 0 0 360px; /* fixed card width — adjust to match your .project-card size */
+    width: 360px;
+}
+
+/* Mobile: disable the effect and stack normally */
+@media (max-width: 1199px) {
+    .wwd-inner {
+        flex-direction: column;
+        height: auto;
+        padding: 60px 20px;
+        align-items: flex-start;
+    }
+    .wwd-left {
+        flex: unset;
+        width: 100%;
+    }
+    .wwd-track-outer {
+        overflow: visible;
+        width: 100%;
+    }
+    .wwd-track {
+        flex-wrap: wrap;
+        will-change: unset;
+    }
+    .wwd-card {
+        flex: 0 0 calc(50% - 15px);
+        width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 575px) {
+    .wwd-card {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+}
 </style>
 
 <!-- preloader start-->
@@ -387,6 +470,7 @@
 	<!-- company-achievements-section end -->
 
 	<!-- what-we-do-section start -->
+    {% comment %}
 	<section class="what-we-do-section m-t-80 m-t-xs-40 p-t-100 p-b-120 p-b-md-100 p-t-xs-40 p-b-xs-40" style="position: relative; overflow: hidden; background-image: url('{% static "assets/img/new/7.jpeg" %}'); background-size: cover; background-position: center;">
 		<div class="container">
 			<div class="section-top-2">
@@ -455,7 +539,70 @@
 			<img src="{% static 'assets/img/shapes/shape-11.webp' %}" alt="shape-11"/>
 		</div>
 	</section>
+    {% endcomment %}
 	<!-- what-we-do-section end -->
+
+<!-- what-we-do-section start -->
+<section class="what-we-do-section wwd-scroll-section m-t-80 m-t-xs-40"
+    style="position: relative; background-image: url('{% static "assets/img/new/7.jpeg" %}'); background-size: cover; background-position: center;">
+
+    <div class="wwd-sticky-wrapper">
+        <div class="wwd-inner">
+
+            <!-- LEFT: stays pinned -->
+            <div class="wwd-left">
+                <div class="common-title text-start">
+                    <h2 style="color: white !important;">Every detail of your stay is curated for comfort, wonder, and ease</h2>
+                </div>
+                <a href="{% url 'services' %}" class="e-primary-btn has-icon mt-4">
+                    View All Domes
+                    <span class="icon-wrap">
+                        <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
+                    </span>
+                </a>
+            </div>
+
+            <!-- RIGHT: horizontal scroll track -->
+            <div class="wwd-track-outer">
+                <div class="wwd-track">
+                    {% for dome in dome_types %}
+                    <div class="wwd-card">
+                        <div class="project-card">
+                            <div class="thumb">
+                                <a href="{% url 'services_details_with_slug' dome.slug %}">
+                                    <img src="{{ dome.main_image.url }}" alt="{{ dome.name }}"/>
+                                </a>
+                                <div class="number">
+                                    <a href="{% url 'services_details_with_slug' dome.slug %}">0{{ forloop.counter }}</a>
+                                </div>
+                                <div class="content">
+                                    <h5>{{ dome.name }}</h5>
+                                    <p>Experience luxury in our handcrafted {{ dome.name }}.</p>
+                                    <div class="details-btn">
+                                        <a href="{% url 'services_details_with_slug' dome.slug %}" class="e-primary-btn has-icon is-hover-white">
+                                            Read More
+                                            <span class="icon-wrap">
+                                                <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="color:white;">No domes available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="shape-10"><img src="{% static 'assets/img/shapes/shape-10.webp' %}" alt="shape-10"/></div>
+    <div class="shape-11"><img src="{% static 'assets/img/shapes/shape-11.webp' %}" alt="shape-11"/></div>
+</section>
+<!-- what-we-do-section end -->
 
 	<!-- why-us-section start -->
 	<section class="why-us-section p-t-100 p-b-100 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/bg/why-us-bg.webp" %}')">
@@ -1118,5 +1265,41 @@
 
 <!-- Main Js -->
 <script src="{% static 'assets/js/script.js' %}?v=2"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.ticker.lagSmoothing(0);
+
+        gsap.matchMedia().add("(min-width: 1200px)", () => {
+            const track      = document.querySelector('.wwd-track');
+            const trackOuter = document.querySelector('.wwd-track-outer');
+            const wrapper    = document.querySelector('.wwd-sticky-wrapper');
+            const section    = document.querySelector('.what-we-do-section');
+
+            if (!track || !wrapper || !section) return;
+
+            // How far the track needs to travel = total card strip width minus visible area
+            const getScrollDistance = () =>
+                track.scrollWidth - trackOuter.offsetWidth;
+
+            gsap.to(track, {
+                x        : () => -getScrollDistance(),
+                ease     : "none",              // linear = scroll drives it 1:1
+                scrollTrigger: {
+                    trigger          : section,
+                    pin              : section,    // pins the whole section
+                    anticipatePin    : 1,
+                    scrub            : 1,       // scrub is correct HERE — it's on the tween, not the pin
+                    start            : "top top",
+                    end              : () => `+=${getScrollDistance()}`,
+                    invalidateOnRefresh: true,
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}
