@@ -64,35 +64,366 @@
 
 /* Mobile: disable the effect and stack normally */
 @media (max-width: 1199px) {
+    .wwd-scroll-section {
+        height: auto !important;
+    }
     .wwd-inner {
         flex-direction: column;
         height: auto;
-        padding: 60px 20px;
-        align-items: flex-start;
+        padding: 50px 20px 40px;
+        gap: 30px;
     }
     .wwd-left {
         flex: unset;
         width: 100%;
     }
     .wwd-track-outer {
-        overflow: visible;
+        overflow: hidden;
         width: 100%;
+        height: auto;
     }
     .wwd-track {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         will-change: unset;
     }
     .wwd-card {
-        flex: 0 0 calc(50% - 15px);
-        width: calc(50% - 15px);
+        flex: 0 0 80%;
+        width: 80%;
+    }
+    .wwd-mobile-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+    }
+}
+@media (min-width: 576px) and (max-width: 1199px) {
+    .wwd-card { flex: 0 0 60%; width: 60%; }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+    .wwd-card { flex: 0 0 45%; width: 45%; }
+}
+
+/* ── Cinematic Showcase Section ── */
+.dome-showcase-section {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.dome-showcase-inner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.dome-showcase-left {
+    flex: 0 0 45%;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 50px 60px 80px;
+    gap: 24px;
+    z-index: 2;
+}
+
+.dome-showcase-details {
+    position: relative;
+}
+
+.dome-detail-item {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dome-detail-item.active {
+    display: flex;
+}
+
+.dome-showcase-dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.dome-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(60, 75, 51, 0.2); /* Semi-transparent dark green to match theme */
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.dome-dot.active {
+    background: var(--theme-color);
+}
+
+.dome-showcase-right {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.dome-showcase-image {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.dome-showcase-image.active {
+    opacity: 1;
+}
+
+.dome-showcase-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mobile */
+@media (max-width: 1199px) {
+    .dome-showcase-section {
+        height: auto !important;
+        padding: 60px 0 40px;
+    }
+    /* Hide the entire desktop split layout on mobile */
+    .dome-showcase-inner {
+        display: none !important;
+    }
+    /* Show the mobile swiper instead */
+    .dome-mobile-wrap {
+        display: block;
+        padding: 0 20px;
+    }
+    .dome-mobile-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .dome-mobile-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .dome-mobile-card {
+        border-radius: 15px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .dome-mobile-card .dome-mobile-img {
+        height: 240px;
+        overflow: hidden;
+    }
+    .dome-mobile-card .dome-mobile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .dome-mobile-card .dome-mobile-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .dome-mobile-card .dome-mobile-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: #3C4B33;
+        margin: 0;
+    }
+    .dome-mobile-card .dome-mobile-cat {
+        color: #d4a373;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 13px;
+        margin: 0;
+    }
+    .dome-mobile-card .dome-mobile-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #3C4B33;
+    }
+    .dome-mobile-card .dome-mobile-price span {
+        font-size: 13px;
+        font-weight: 400;
+        color: #888;
+    }
+}
+@media (min-width: 1200px) {
+    .dome-mobile-wrap { display: none; }
+}
+
+/* ── Why Us: Sticky Image + Accordion List ── */
+.why-us-new-section {
+    background-color: #f8f7f0;
+    padding: 100px 0;
+}
+
+.why-us-new-inner {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
+    gap: 80px;
+}
+
+/* LEFT: sticky image */
+.wun-image-panel {
+    flex: 0 0 48%;
+    width: 48%;
+    position: sticky;
+    top: 100px;
+    height: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.wun-image {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.wun-image.active {
+    opacity: 1;
+}
+
+.wun-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* RIGHT: list panel */
+.wun-list-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 10px;
+}
+
+.wun-header {
+    margin-bottom: 40px;
+}
+
+.wun-items {
+    border-top: 1px solid #e0ddd6;
+}
+
+.wun-item {
+    border-bottom: 1px solid #e0ddd6;
+    padding: 28px 0;
+    cursor: pointer;
+    transition: padding 0.3s ease;
+}
+
+.wun-item-top {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.wun-number {
+    font-size: 13px;
+    font-weight: 600;
+    color: #d4a373;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+    transition: color 0.3s;
+}
+
+.wun-title {
+    font-size: clamp(22px, 2.5vw, 34px);
+    font-weight: 600;
+    color: #bbb; /* muted by default like the reference */
+    margin: 0;
+    transition: color 0.3s ease;
+    line-height: 1.2;
+}
+
+/* Active/hover state */
+.wun-item.active .wun-title,
+.wun-item:hover .wun-title {
+    color: #3C4B33;
+}
+
+.wun-item.active .wun-number,
+.wun-item:hover .wun-number {
+    color: #d4a373;
+}
+
+/* Description — hidden by default, slides open */
+.wun-desc {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    opacity: 0;
+    margin-top: 0;
+    padding-left: calc(13px + 20px); /* aligns under the title */
+}
+
+.wun-item.active .wun-desc,
+.wun-item:hover .wun-desc {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 14px;
+}
+
+.wun-desc p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.wun-footer {
+    margin-top: 40px;
+}
+
+/* Mobile */
+@media (max-width: 1199px) {
+    .why-us-new-inner {
+        flex-direction: column;
+        padding: 0 20px;
+        gap: 40px;
+    }
+    .wun-image-panel {
+        flex: unset;
+        width: 100%;
+        position: relative;
+        top: unset;
+        height: 300px;
+    }
+    .wun-title {
+        font-size: 22px;
     }
 }
 
 @media (max-width: 575px) {
-    .wwd-card {
-        flex: 0 0 100%;
-        width: 100%;
+    .why-us-new-section {
+        padding: 60px 0;
     }
+    .wun-image-panel {
+        height: 240px;
+    }
+}
+
+/* Global Swiper Pagination Overrides */
+.swiper-pagination-bullet {
+    background: rgba(60, 75, 51, 0.3) !important;
+    opacity: 1 !important;
+}
+.swiper-pagination-bullet-active {
+    background: #3C4B33 !important;
 }
 </style>
 
@@ -315,7 +646,7 @@
 							</h3>
 							<p>Years of experience</p>
 						</div>
-						<div class="award-shape" style="background-image: url('{% static "assets/img/shapes/shape-18.webp" %}')">
+						<div class="award-shape d-none d-lg-block" style="background-image: url('{% static "assets/img/shapes/shape-18.webp" %}')">
 							<img src="{% static 'assets/img/icons/icon-6.svg' %}" alt="icon"/>
 							<p>2024-We are the best award winner</p>
 						</div>
@@ -595,6 +926,7 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="wwd-mobile-pagination d-xl-none"></div>
 
         </div>
     </div>
@@ -604,70 +936,93 @@
 </section>
 <!-- what-we-do-section end -->
 
-	<!-- why-us-section start -->
-	<section class="why-us-section p-t-100 p-b-100 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/bg/why-us-bg.webp" %}')">
-		<div class="container">
-			<div class="row row-gap-5 align-items-center">
-				<div class="col-xl-6">
-					<div class="thumb px-xl-5 left" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-						<div class="thumb-1">
-							<img alt="thumb-1" src="{% static 'assets/img/new/1.jpeg' %}">
-							<div class="s-shape-1"><img alt="shape-1" src="{% static 'assets/img/shapes/shape-14.webp' %}"></div>
-						</div>
-						<div class="thumb-2"><img alt="thumb-2" src="{% static 'assets/img/new/4.jpeg' %}"></div>
-						<div class="thumb-3">
-							<div class="shape-wrapped-thumb">
-								<img alt="thumb-3" src="{% static 'assets/img/new/5.jpeg' %}">
-								<div class="s-shape-1"><img alt="shape-1" src="{% static 'assets/img/shapes/shape-13.webp' %}"></div>
-								<div class="s-shape-2"><img alt="shape-2" src="{% static 'assets/img/shapes/shape-15.webp' %}"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-6">
-					<div class="why-us-content" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-						<div class="common-subtitle">
-							<!-- <img alt="icon-2" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Why Stay With Us?</span>
-						</div>
-						<div class="common-title text-start">
-							<h2>Why Domes Inn Heaven is Unlike Anywhere Else</h2>
-						</div>
-						<div class="text">
-							<p>At Domes Inn Heaven, we don't just offer a place to sleep — we offer a completely new way to experience the natural world. Every dome, every meal, every guided walk is thoughtfully designed to make you feel something real.</p>
-						</div>
-						<div class="services">
-							<div class="service-left">
-								<div class="service">
-									<i class="fa-solid fa-check"></i>
-									<p>Panoramic Valley & Forest Views from Every Dome</p>
-								</div>
-								<div class="service">
-									<i class="fa-solid fa-check"></i>
-									<p>Transparent Stargazing Roofs</p>
-								</div>
-							</div>
-							<div class="service-right">
-								<div class="service">
-									<i class="fa-solid fa-check"></i>
-									<p>Farm-to-Table Dining</p>
-								</div>
-								<div class="service">
-									<i class="fa-solid fa-check"></i>
-									<p>24/7 Personalised Guest Service</p>
-								</div>
-							</div>
-						</div>
-						<div class="annual-donation-wrap">
-							<a class="e-primary-btn has-icon" href="{% url 'activities' %}">Explore All Posts
-								<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+<!-- why-us-section start -->
+<section class="why-us-new-section">
+    <div class="why-us-new-inner">
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- why-us-section end -->
+        <!-- LEFT: sticky image panel -->
+        <div class="wun-image-panel">
+            <div class="wun-image active" data-item="0">
+                <img src="{% static 'assets/img/new/1.jpeg' %}" alt="Panoramic Views">
+            </div>
+            <div class="wun-image" data-item="1">
+                <img src="{% static 'assets/img/new/4.jpeg' %}" alt="Stargazing">
+            </div>
+            <div class="wun-image" data-item="2">
+                <img src="{% static 'assets/img/new/5.jpeg' %}" alt="Dining">
+            </div>
+            <div class="wun-image" data-item="3">
+                <img src="{% static 'assets/img/new/7.jpeg' %}" alt="Guest Service">
+            </div>
+        </div>
+
+        <!-- RIGHT: accordion list -->
+        <div class="wun-list-panel">
+            <div class="wun-header">
+                <div class="common-subtitle"><span>Why Stay With Us?</span></div>
+                <div class="common-title text-start">
+                    <h2>Why Domes Inn Heaven is Unlike Anywhere Else</h2>
+                </div>
+            </div>
+
+            <div class="wun-items">
+
+                <div class="wun-item active" data-index="0">
+                    <div class="wun-item-top">
+                        <span class="wun-number">01</span>
+                        <h3 class="wun-title">Panoramic Valley & Forest Views</h3>
+                    </div>
+                    <div class="wun-desc">
+                        <p>Every dome is positioned to frame Kerala's rolling hills and forest canopy. Wake up to a living painting outside your window, every single morning.</p>
+                    </div>
+                </div>
+
+                <div class="wun-item" data-index="1">
+                    <div class="wun-item-top">
+                        <span class="wun-number">02</span>
+                        <h3 class="wun-title">Transparent Stargazing Roofs</h3>
+                    </div>
+                    <div class="wun-desc">
+                        <p>Our geodesic domes feature clear panels directly above the bed — fall asleep under a sky full of stars without ever leaving the comfort of your room.</p>
+                    </div>
+                </div>
+
+                <div class="wun-item" data-index="2">
+                    <div class="wun-item-top">
+                        <span class="wun-number">03</span>
+                        <h3 class="wun-title">Farm-to-Table Dining</h3>
+                    </div>
+                    <div class="wun-desc">
+                        <p>Every meal is prepared fresh using locally sourced ingredients from nearby farms. Our chef curates seasonal menus that taste as good as the view looks.</p>
+                    </div>
+                </div>
+
+                <div class="wun-item" data-index="3">
+                    <div class="wun-item-top">
+                        <span class="wun-number">04</span>
+                        <h3 class="wun-title">24/7 Personalised Guest Service</h3>
+                    </div>
+                    <div class="wun-desc">
+                        <p>From the moment you arrive to the moment you leave, our team is available around the clock to make your stay exactly how you imagined it.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="wun-footer">
+                <a class="e-primary-btn has-icon" href="{% url 'booking' %}">
+                    Book Your Stay
+                    <span class="icon-wrap"><span class="icon">
+                        <i class="fa-regular fa-arrow-right"></i>
+                        <i class="fa-regular fa-arrow-right"></i>
+                    </span></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- why-us-section end -->
 	<!-- our-camping start -->
 	<section class="our-camping-section overflow-x-clip p-t-60 p-b-60 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/new/11.jpeg" %}')">
 		<div class="container">
@@ -740,66 +1095,90 @@
 		</div>
 	</section>
 	<!-- our-camping end -->
-	<!-- dome-types-section start -->
-	<section class="volunteer-section p-t-100 p-b-100 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-		<div class="container text-center">
-			<div class="text-center m-b-50 m-b-xs-40">
-				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-					<span>Our Luxury Domes</span>
-				</div>
-				<div class="common-title mb-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-					<h2>Choose Your Heavenly Escape</h2>
-				</div>
-			</div>
-            <div class="dome-types-slider-active" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        {% for dome in dome_types %}
-                        <div class="swiper-slide">
-                            <div class="volunteer-card">
-                                <a href="{% url 'services_details_with_slug' dome.slug %}">
-                                    <div class="thumb" style="height: 300px; overflow: hidden; border-radius: 15px;">
-                                        <img alt="{{ dome.name }}" src="{{ dome.main_image.url }}" style="height: 100%; object-fit: cover;">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>{{ dome.name }}</h5>
-                                        <p>{{ dome.category.name }}</p>
-                                    </div>
-                                </a>
-                                <div class="socials" style="background: var(--theme-color); color: white; padding: 10px; border-radius: 0 0 15px 15px; display: flex; justify-content: center; align-items: center;">
-                                    <div style="font-weight: 700; font-size: 18px;">
-                                        ₹{{ dome.normal_price|default:"0" }} <small style="font-size: 12px; font-weight: 400;">/ Night</small>
-                                    </div>
-                                </div>
-                            </div>
+<!-- dome-types-section start -->
+<section class="dome-showcase-section" style="background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}');">
+
+    <div class="dome-showcase-inner">
+
+        <!-- LEFT: static details panel -->
+        <div class="dome-showcase-left">
+            <div class="common-subtitle"><span>Our Luxury Domes</span></div>
+            <div class="common-title text-start"><h2>Choose Your Heavenly Escape</h2></div>
+
+            <div class="dome-showcase-details">
+                {% for category in dome_categories %}
+                <div class="dome-detail-item {% if forloop.first %}active{% endif %}"
+                     data-index="{{ forloop.counter0 }}"
+                     data-url="{% url 'service_single' category.slug %}">
+                    <h3 class="dome-detail-name" style="font-family: var(--outfit-font); font-weight: 700; color: #3C4B33; font-size: 36px; margin-bottom: 0;">{{ category.name }}</h3>
+                    <p class="dome-detail-category" style="color: #d4a373; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0;">Category</p>
+                    <div class="dome-detail-price" style="font-size: 18px; color: #3C4B33; font-weight: 600; line-height: 1.6;">Immerse yourself in unparalleled luxury with our handcrafted {{ category.name }} accommodations. Wake up to breathtaking panoramic views, unwind in nature's embrace, and experience a heavenly retreat designed exclusively for your comfort and serenity.</div>
+                    <a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon mt-3" style="width: fit-content;">
+                        View Category
+                        <span class="icon-wrap"><span class="icon">
+                            <i class="fa-regular fa-arrow-right"></i>
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </span></span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="dome-showcase-dots mt-4">
+                {% for category in dome_categories %}
+                <span class="dome-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- RIGHT: image crossfade panel -->
+        <div class="dome-showcase-right">
+            {% for category in dome_categories %}
+            <div class="dome-showcase-image {% if forloop.first %}active{% endif %}"
+                 data-index="{{ forloop.counter0 }}">
+                <img src="{{ category.image.url }}" alt="{{ category.name }}">
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Mobile-only Swiper for dome showcase -->
+    <div class="dome-mobile-wrap">
+        <div class="dome-mobile-header">
+            <div class="common-subtitle"><span>Our Luxury Domes</span></div>
+            <div class="common-title"><h2>Choose Your Heavenly Escape</h2></div>
+        </div>
+        <div class="dome-mobile-swiper swiper">
+            <div class="swiper-wrapper">
+                {% for category in dome_categories %}
+                <div class="swiper-slide">
+                    <div class="dome-mobile-card">
+                        <div class="dome-mobile-img">
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}">
                         </div>
-                        {% endfor %}
+                        <div class="dome-mobile-body">
+                            <h3 class="dome-mobile-name">{{ category.name }}</h3>
+                            <p class="dome-mobile-cat">Category</p>
+                            <div class="dome-mobile-price" style="font-size: 14px; font-weight: 500; color: #555; line-height: 1.6;">Immerse yourself in unparalleled luxury with our handcrafted {{ category.name }} accommodations. Wake up to breathtaking panoramic views, unwind in nature's embrace, and experience a heavenly retreat designed exclusively for your comfort and serenity.</div>
+                            <a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon mt-2" style="width: fit-content;">
+                                View Category
+                                <span class="icon-wrap"><span class="icon">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                </span></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="camping-pagination-wrap mt-4">
-                    <div class="dome-types-pagination"></div>
-                </div>
-                <div class="dome-types-button-prev camping-button-prev d-none" style="left: -50px;">
-                    <i class="fa-regular fa-arrow-left"></i>
-                </div>
-                <div class="dome-types-button-next camping-button-next d-none" style="right: -50px;">
-                    <i class="fa-regular fa-arrow-right"></i>
-                </div>
+                {% endfor %}
             </div>
-			<div class="contact-details mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				<div class="details-btn">
-					<a class="e-primary-btn has-icon" href="{% url 'services' %}">View All Domes
-						<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-				</div>
-				<div class="join-us-btn">
-					<img alt="shape-12" src="{% static 'assets/img/shapes/shape-12.webp' %}">
-					<a class="review-btn" href="{% url 'booking' %}"><span>Ready to experience heaven?</span>
-						<i class="fa-solid fa-arrow-right"></i></a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- dome-types-section end -->
+        </div>
+        <div class="dome-mobile-pagination"></div>
+    </div>
+
+</section>
+<!-- dome-types-section end -->
 
 	
 	<!-- testimonial start -->
@@ -1299,7 +1678,150 @@
                 }
             });
         });
+
+        gsap.matchMedia().add("(max-width: 1199px)", () => {
+            const trackOuter = document.querySelector('.wwd-track-outer');
+            const track      = document.querySelector('.wwd-track');
+            const cards      = document.querySelectorAll('.wwd-card');
+
+            if (!trackOuter || !track) return;
+
+            // Add Swiper classes dynamically so we don't need to change HTML
+            trackOuter.classList.add('swiper');
+            track.classList.add('swiper-wrapper');
+            cards.forEach(card => card.classList.add('swiper-slide'));
+
+            const wwdSwiper = new Swiper(trackOuter, {
+                slidesPerView  : 1.15,
+                spaceBetween   : 20,
+                grabCursor     : true,
+                pagination     : {
+                    el        : '.wwd-mobile-pagination',
+                    clickable : true,
+                },
+                breakpoints: {
+                    576: { slidesPerView: 1.5, spaceBetween: 20 },
+                    768: { slidesPerView: 2.1, spaceBetween: 24 },
+                }
+            });
+
+            return () => {
+                // Cleanup when breakpoint exits
+                wwdSwiper.destroy(true, true);
+                trackOuter.classList.remove('swiper');
+                track.classList.remove('swiper-wrapper');
+                cards.forEach(card => card.classList.remove('swiper-slide'));
+            };
+        });
     });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.matchMedia().add("(min-width: 1200px)", () => {
+            const section     = document.querySelector('.dome-showcase-section');
+            const detailItems = document.querySelectorAll('.dome-detail-item');
+            const images      = document.querySelectorAll('.dome-showcase-image');
+            const dots        = document.querySelectorAll('.dome-dot');
+
+            if (!section || !detailItems.length) return;
+
+            const totalDomes    = detailItems.length;
+            const scrollPerDome = 600;
+            const totalScroll   = totalDomes * scrollPerDome;
+            let   currentIndex  = 0;
+
+            const goTo = (index) => {
+                if (index === currentIndex) return;
+
+                // Swap detail item
+                detailItems[currentIndex].classList.remove('active');
+                images[currentIndex].classList.remove('active');
+                dots[currentIndex].classList.remove('active');
+
+                currentIndex = index;
+
+                detailItems[currentIndex].classList.add('active');
+                images[currentIndex].classList.add('active');
+                dots[currentIndex].classList.add('active');
+            };
+
+            ScrollTrigger.create({
+                trigger          : section,
+                pin              : true,
+                anticipatePin    : 1,
+                start            : "top top",
+                end              : `+=${totalScroll}`,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    const index = Math.min(
+                        Math.floor(self.progress * totalDomes),
+                        totalDomes - 1
+                    );
+                    goTo(index);
+                }
+            });
+
+            return () => {
+                detailItems.forEach((el, i) => {
+                    el.classList.toggle('active', i === 0);
+                });
+                images.forEach((el, i) => el.classList.toggle('active', i === 0));
+                dots.forEach((el, i) => el.classList.toggle('active', i === 0));
+            };
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth < 1200) {
+        const el = document.querySelector('.dome-mobile-swiper');
+        if (el) {
+            new Swiper(el, {
+                slidesPerView  : 1.1,
+                spaceBetween   : 20,
+                grabCursor     : true,
+                centeredSlides : false,
+                pagination     : {
+                    el        : '.dome-mobile-pagination',
+                    clickable : true,
+                },
+                breakpoints: {
+                    480: { slidesPerView: 1.3 },
+                    768: { slidesPerView: 2.1, spaceBetween: 24 },
+                }
+            });
+        }
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const items  = document.querySelectorAll('.wun-item');
+    const images = document.querySelectorAll('.wun-image');
+
+    if (!items.length) return;
+
+    const activate = (index) => {
+        items.forEach(el  => el.classList.remove('active'));
+        images.forEach(el => el.classList.remove('active'));
+        items[index].classList.add('active');
+        images[index].classList.add('active');
+    };
+
+    items.forEach((item, i) => {
+        item.addEventListener('mouseenter', () => activate(i));
+    });
+
+    // Keep first item active when mouse leaves the list entirely
+    document.querySelector('.wun-items').addEventListener('mouseleave', () => {
+        activate(0);
+    });
+});
 </script>
 
 {% endblock %}
