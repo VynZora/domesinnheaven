@@ -62,38 +62,40 @@
     width: 360px;
 }
 
-/* Mobile: disable the effect and stack normally */
+/* Mobile: adjust layout for GSAP horizontal scroll */
 @media (max-width: 1199px) {
-    .wwd-scroll-section {
-        height: auto !important;
-    }
     .wwd-inner {
         flex-direction: column;
-        height: auto;
-        padding: 50px 20px 40px;
-        gap: 30px;
+        justify-content: center;
+        padding: 80px 20px 60px;
+        gap: 40px;
     }
     .wwd-left {
         flex: unset;
         width: 100%;
+        text-align: center;
+    }
+    .wwd-left .common-title {
+        text-align: center !important;
+    }
+    .wwd-left .e-primary-btn {
+        margin: 0 auto;
     }
     .wwd-track-outer {
         overflow: hidden;
         width: 100%;
-        height: auto;
-    }
-    .wwd-track {
-        flex-wrap: nowrap;
-        will-change: unset;
     }
     .wwd-card {
-        flex: 0 0 80%;
-        width: 80%;
+        flex: 0 0 85%;
+        width: 85%;
+    }
+    .wwd-card .project-card .thumb > a {
+        height: 55vh; /* Increase height */
+        min-height: 420px;
+        max-height: 600px;
     }
     .wwd-mobile-pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 16px;
+        display: none;
     }
 }
 @media (min-width: 576px) and (max-width: 1199px) {
@@ -188,75 +190,44 @@
 /* Mobile */
 @media (max-width: 1199px) {
     .dome-showcase-section {
-        height: auto !important;
-        padding: 60px 0 40px;
+        height: 100vh !important;
+        padding: 0;
     }
-    /* Hide the entire desktop split layout on mobile */
     .dome-showcase-inner {
-        display: none !important;
+        display: flex !important;
+        flex-direction: column;
     }
-    /* Show the mobile swiper instead */
-    .dome-mobile-wrap {
-        display: block;
-        padding: 0 20px;
-    }
-    .dome-mobile-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .dome-mobile-pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-    .dome-mobile-card {
-        border-radius: 15px;
-        overflow: hidden;
-        background: #fff;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    .dome-mobile-card .dome-mobile-img {
-        height: 240px;
-        overflow: hidden;
-    }
-    .dome-mobile-card .dome-mobile-img img {
+    .dome-showcase-right {
+        flex: unset;
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        z-index: 1;
     }
-    .dome-mobile-card .dome-mobile-body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+    .dome-showcase-left {
+        flex: unset;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        padding: 40px 20px;
+        justify-content: flex-end;
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 100%);
     }
-    .dome-mobile-card .dome-mobile-name {
-        font-size: 22px;
-        font-weight: 700;
-        color: #3C4B33;
-        margin: 0;
+    .dome-showcase-left .common-subtitle span {
+        color: #fff !important;
     }
-    .dome-mobile-card .dome-mobile-cat {
-        color: #d4a373;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: 13px;
-        margin: 0;
+    .dome-showcase-left h2 {
+        color: #fff !important;
     }
-    .dome-mobile-card .dome-mobile-price {
-        font-size: 20px;
-        font-weight: 700;
-        color: #3C4B33;
+    .dome-detail-item .dome-detail-name,
+    .dome-detail-item .dome-detail-category,
+    .dome-detail-item .dome-detail-price {
+        color: #fff !important;
     }
-    .dome-mobile-card .dome-mobile-price span {
-        font-size: 13px;
-        font-weight: 400;
-        color: #888;
-    }
-}
-@media (min-width: 1200px) {
-    .dome-mobile-wrap { display: none; }
 }
 
 /* ── Why Us: Sticky Image + Accordion List ── */
@@ -1143,39 +1114,7 @@
 
     </div>
 
-    <!-- Mobile-only Swiper for dome showcase -->
-    <div class="dome-mobile-wrap">
-        <div class="dome-mobile-header">
-            <div class="common-subtitle"><span>Our Luxury Domes</span></div>
-            <div class="common-title"><h2>Choose Your Heavenly Escape</h2></div>
-        </div>
-        <div class="dome-mobile-swiper swiper">
-            <div class="swiper-wrapper">
-                {% for category in dome_categories %}
-                <div class="swiper-slide">
-                    <div class="dome-mobile-card">
-                        <div class="dome-mobile-img">
-                            <img src="{{ category.image.url }}" alt="{{ category.name }}">
-                        </div>
-                        <div class="dome-mobile-body">
-                            <h3 class="dome-mobile-name">{{ category.name }}</h3>
-                            <p class="dome-mobile-cat">Category</p>
-                            <div class="dome-mobile-price" style="font-size: 14px; font-weight: 500; color: #555; line-height: 1.6;">Immerse yourself in unparalleled luxury with our handcrafted {{ category.name }} accommodations. Wake up to breathtaking panoramic views, unwind in nature's embrace, and experience a heavenly retreat designed exclusively for your comfort and serenity.</div>
-                            <a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon mt-2" style="width: fit-content;">
-                                View Category
-                                <span class="icon-wrap"><span class="icon">
-                                    <i class="fa-regular fa-arrow-right"></i>
-                                    <i class="fa-regular fa-arrow-right"></i>
-                                </span></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="dome-mobile-pagination"></div>
-    </div>
+
 
 </section>
 <!-- dome-types-section end -->
@@ -1652,66 +1591,29 @@
         gsap.registerPlugin(ScrollTrigger);
         gsap.ticker.lagSmoothing(0);
 
-        gsap.matchMedia().add("(min-width: 1200px)", () => {
-            const track      = document.querySelector('.wwd-track');
-            const trackOuter = document.querySelector('.wwd-track-outer');
-            const wrapper    = document.querySelector('.wwd-sticky-wrapper');
-            const section    = document.querySelector('.what-we-do-section');
+        const track      = document.querySelector('.wwd-track');
+        const trackOuter = document.querySelector('.wwd-track-outer');
+        const wrapper    = document.querySelector('.wwd-sticky-wrapper');
+        const section    = document.querySelector('.what-we-do-section');
 
-            if (!track || !wrapper || !section) return;
+        if (!track || !wrapper || !section) return;
 
-            // How far the track needs to travel = total card strip width minus visible area
-            const getScrollDistance = () =>
-                track.scrollWidth - trackOuter.offsetWidth;
+        // How far the track needs to travel = total card strip width minus visible area
+        const getScrollDistance = () =>
+            track.scrollWidth - trackOuter.offsetWidth;
 
-            gsap.to(track, {
-                x        : () => -getScrollDistance(),
-                ease     : "none",              // linear = scroll drives it 1:1
-                scrollTrigger: {
-                    trigger          : section,
-                    pin              : section,    // pins the whole section
-                    anticipatePin    : 1,
-                    scrub            : 1,       // scrub is correct HERE — it's on the tween, not the pin
-                    start            : "top top",
-                    end              : () => `+=${getScrollDistance()}`,
-                    invalidateOnRefresh: true,
-                }
-            });
-        });
-
-        gsap.matchMedia().add("(max-width: 1199px)", () => {
-            const trackOuter = document.querySelector('.wwd-track-outer');
-            const track      = document.querySelector('.wwd-track');
-            const cards      = document.querySelectorAll('.wwd-card');
-
-            if (!trackOuter || !track) return;
-
-            // Add Swiper classes dynamically so we don't need to change HTML
-            trackOuter.classList.add('swiper');
-            track.classList.add('swiper-wrapper');
-            cards.forEach(card => card.classList.add('swiper-slide'));
-
-            const wwdSwiper = new Swiper(trackOuter, {
-                slidesPerView  : 1.15,
-                spaceBetween   : 20,
-                grabCursor     : true,
-                pagination     : {
-                    el        : '.wwd-mobile-pagination',
-                    clickable : true,
-                },
-                breakpoints: {
-                    576: { slidesPerView: 1.5, spaceBetween: 20 },
-                    768: { slidesPerView: 2.1, spaceBetween: 24 },
-                }
-            });
-
-            return () => {
-                // Cleanup when breakpoint exits
-                wwdSwiper.destroy(true, true);
-                trackOuter.classList.remove('swiper');
-                track.classList.remove('swiper-wrapper');
-                cards.forEach(card => card.classList.remove('swiper-slide'));
-            };
+        gsap.to(track, {
+            x        : () => -getScrollDistance(),
+            ease     : "none",              // linear = scroll drives it 1:1
+            scrollTrigger: {
+                trigger          : section,
+                pin              : section,    // pins the whole section
+                anticipatePin    : 1,
+                scrub            : 1,       // scrub is correct HERE — it's on the tween, not the pin
+                start            : "top top",
+                end              : () => `+=${getScrollDistance()}`,
+                invalidateOnRefresh: true,
+            }
         });
     });
 </script>
@@ -1720,84 +1622,52 @@
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.matchMedia().add("(min-width: 1200px)", () => {
-            const section     = document.querySelector('.dome-showcase-section');
-            const detailItems = document.querySelectorAll('.dome-detail-item');
-            const images      = document.querySelectorAll('.dome-showcase-image');
-            const dots        = document.querySelectorAll('.dome-dot');
+        const section     = document.querySelector('.dome-showcase-section');
+        const detailItems = document.querySelectorAll('.dome-detail-item');
+        const images      = document.querySelectorAll('.dome-showcase-image');
+        const dots        = document.querySelectorAll('.dome-dot');
 
-            if (!section || !detailItems.length) return;
+        if (!section || !detailItems.length) return;
 
-            const totalDomes    = detailItems.length;
-            const scrollPerDome = 600;
-            const totalScroll   = totalDomes * scrollPerDome;
-            let   currentIndex  = 0;
+        const totalDomes    = detailItems.length;
+        const scrollPerDome = 600;
+        const totalScroll   = totalDomes * scrollPerDome;
+        let   currentIndex  = 0;
 
-            const goTo = (index) => {
-                if (index === currentIndex) return;
+        const goTo = (index) => {
+            if (index === currentIndex) return;
 
-                // Swap detail item
-                detailItems[currentIndex].classList.remove('active');
-                images[currentIndex].classList.remove('active');
-                dots[currentIndex].classList.remove('active');
+            // Swap detail item
+            detailItems[currentIndex].classList.remove('active');
+            images[currentIndex].classList.remove('active');
+            dots[currentIndex].classList.remove('active');
 
-                currentIndex = index;
+            currentIndex = index;
 
-                detailItems[currentIndex].classList.add('active');
-                images[currentIndex].classList.add('active');
-                dots[currentIndex].classList.add('active');
-            };
+            detailItems[currentIndex].classList.add('active');
+            images[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+        };
 
-            ScrollTrigger.create({
-                trigger          : section,
-                pin              : true,
-                anticipatePin    : 1,
-                start            : "top top",
-                end              : `+=${totalScroll}`,
-                invalidateOnRefresh: true,
-                onUpdate: (self) => {
-                    const index = Math.min(
-                        Math.floor(self.progress * totalDomes),
-                        totalDomes - 1
-                    );
-                    goTo(index);
-                }
-            });
-
-            return () => {
-                detailItems.forEach((el, i) => {
-                    el.classList.toggle('active', i === 0);
-                });
-                images.forEach((el, i) => el.classList.toggle('active', i === 0));
-                dots.forEach((el, i) => el.classList.toggle('active', i === 0));
-            };
+        ScrollTrigger.create({
+            trigger          : section,
+            pin              : true,
+            anticipatePin    : 1,
+            start            : "top top",
+            end              : `+=${totalScroll}`,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+                const index = Math.min(
+                    Math.floor(self.progress * totalDomes),
+                    totalDomes - 1
+                );
+                goTo(index);
+            }
         });
     });
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth < 1200) {
-        const el = document.querySelector('.dome-mobile-swiper');
-        if (el) {
-            new Swiper(el, {
-                slidesPerView  : 1.1,
-                spaceBetween   : 20,
-                grabCursor     : true,
-                centeredSlides : false,
-                pagination     : {
-                    el        : '.dome-mobile-pagination',
-                    clickable : true,
-                },
-                breakpoints: {
-                    480: { slidesPerView: 1.3 },
-                    768: { slidesPerView: 2.1, spaceBetween: 24 },
-                }
-            });
-        }
-    }
-});
-</script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
