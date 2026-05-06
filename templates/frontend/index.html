@@ -90,12 +90,13 @@
         flex-wrap: nowrap !important;
     }
     .wwd-card {
+        flex: unset !important;
         height: auto !important;
     }
     .wwd-card .project-card .thumb > a {
-        height: 55vh; /* Increase height */
-        min-height: 420px;
-        max-height: 600px;
+        height: 50vh; 
+        min-height: 380px;
+        max-height: 550px;
     }
     .wwd-mobile-pagination {
         display: block;
@@ -103,12 +104,7 @@
         text-align: center;
     }
 }
-@media (min-width: 576px) and (max-width: 1199px) {
-    .wwd-card { height: auto !important; }
-}
-@media (min-width: 768px) and (max-width: 1199px) {
-    .wwd-card { height: auto !important; }
-}
+
 
 /* ── Cinematic Showcase Section ── */
 .dome-showcase-section {
@@ -228,10 +224,27 @@
     .dome-showcase-left h2 {
         color: #fff !important;
     }
+    .dome-showcase-details {
+        width: 100%;
+        overflow: hidden;
+    }
+    .dome-showcase-swiper-wrapper {
+        display: flex !important;
+        width: 100%;
+    }
+    .dome-detail-item {
+        display: flex !important;
+        flex: 0 0 100%;
+        width: 100%;
+    }
     .dome-detail-item .dome-detail-name,
     .dome-detail-item .dome-detail-category,
     .dome-detail-item .dome-detail-price {
         color: #fff !important;
+    }
+    .dome-showcase-dots {
+        justify-content: center;
+        margin-top: 30px;
     }
 }
 
@@ -1082,22 +1095,24 @@
             <div class="common-title text-start"><h2>Choose Your Heavenly Escape</h2></div>
 
             <div class="dome-showcase-details">
-                {% for category in dome_categories %}
-                <div class="dome-detail-item {% if forloop.first %}active{% endif %}"
-                     data-index="{{ forloop.counter0 }}"
-                     data-url="{% url 'service_single' category.slug %}">
-                    <h3 class="dome-detail-name" style="font-family: var(--outfit-font); font-weight: 700; color: #3C4B33; font-size: 36px; margin-bottom: 0;">{{ category.name }}</h3>
-                    <p class="dome-detail-category" style="color: #d4a373; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0;">Category</p>
-                    <div class="dome-detail-price" style="font-size: 18px; color: #3C4B33; font-weight: 600; line-height: 1.6;">Immerse yourself in unparalleled luxury with our handcrafted {{ category.name }} accommodations. Wake up to breathtaking panoramic views, unwind in nature's embrace, and experience a heavenly retreat designed exclusively for your comfort and serenity.</div>
-                    <a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon mt-3" style="width: fit-content;">
-                        View Category
-                        <span class="icon-wrap"><span class="icon">
-                            <i class="fa-regular fa-arrow-right"></i>
-                            <i class="fa-regular fa-arrow-right"></i>
-                        </span></span>
-                    </a>
+                <div class="dome-showcase-swiper-wrapper">
+                    {% for category in dome_categories %}
+                    <div class="dome-detail-item {% if forloop.first %}active{% endif %}"
+                         data-index="{{ forloop.counter0 }}"
+                         data-url="{% url 'service_single' category.slug %}">
+                        <h3 class="dome-detail-name" style="font-family: var(--outfit-font); font-weight: 700; color: #3C4B33; font-size: 36px; margin-bottom: 0;">{{ category.name }}</h3>
+                        <p class="dome-detail-category" style="color: #d4a373; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0;">Category</p>
+                        <div class="dome-detail-price" style="font-size: 18px; color: #3C4B33; font-weight: 600; line-height: 1.6;">Immerse yourself in unparalleled luxury with our handcrafted {{ category.name }} accommodations. Wake up to breathtaking panoramic views, unwind in nature's embrace, and experience a heavenly retreat designed exclusively for your comfort and serenity.</div>
+                        <a href="{% url 'service_single' category.slug %}" class="e-primary-btn has-icon mt-3" style="width: fit-content;">
+                            View Category
+                            <span class="icon-wrap"><span class="icon">
+                                <i class="fa-regular fa-arrow-right"></i>
+                                <i class="fa-regular fa-arrow-right"></i>
+                            </span></span>
+                        </a>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
 
             <div class="dome-showcase-dots mt-4">
@@ -1634,19 +1649,19 @@
             const swiper = new Swiper('.wwd-track-outer', {
                 wrapperClass: 'wwd-track',
                 slideClass: 'wwd-card',
-                slidesPerView: 1.2,
-                spaceBetween: 20,
+                slidesPerView: 1,
+                spaceBetween: 24,
                 pagination: {
                     el: '.wwd-mobile-pagination',
                     clickable: true,
                 },
                 breakpoints: {
-                    576: {
-                        slidesPerView: 2.2,
-                        spaceBetween: 30,
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 24,
                     },
                     768: {
-                        slidesPerView: 2.5,
+                        slidesPerView: 2,
                         spaceBetween: 30,
                     }
                 }
@@ -1691,20 +1706,53 @@
             dots[currentIndex].classList.add('active');
         };
 
-        ScrollTrigger.create({
-            trigger          : section,
-            pin              : true,
-            anticipatePin    : 1,
-            start            : "top top",
-            end              : `+=${totalScroll}`,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-                const index = Math.min(
-                    Math.floor(self.progress * totalDomes),
-                    totalDomes - 1
-                );
-                goTo(index);
-            }
+        const sv = gsap.matchMedia();
+
+        // ── Desktop: GSAP Pinning + Crossfade ───────────────────────────
+        sv.add("(min-width: 1200px)", () => {
+            ScrollTrigger.create({
+                trigger          : section,
+                pin              : true,
+                anticipatePin    : 1,
+                start            : "top top",
+                end              : `+=${totalScroll}`,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    const index = Math.min(
+                        Math.floor(self.progress * totalDomes),
+                        totalDomes - 1
+                    );
+                    goTo(index);
+                }
+            });
+        });
+
+        // ── Mobile: Swiper Slider ───────────────────────────────────────
+        sv.add("(max-width: 1199px)", () => {
+            const swiper = new Swiper('.dome-showcase-details', {
+                wrapperClass: 'dome-showcase-swiper-wrapper',
+                slideClass: 'dome-detail-item',
+                slidesPerView: 1,
+                spaceBetween: 0,
+                pagination: {
+                    el: '.dome-showcase-dots',
+                    clickable: true,
+                    bulletClass: 'dome-dot',
+                    bulletActiveClass: 'active',
+                    renderBullet: function (index, className) {
+                        return '<div class="' + className + '"></div>';
+                    }
+                },
+                on: {
+                    slideChange: function () {
+                        goTo(this.activeIndex);
+                    }
+                }
+            });
+
+            return () => {
+                swiper.destroy(true, true);
+            };
         });
     });
 </script>
