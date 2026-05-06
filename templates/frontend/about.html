@@ -809,7 +809,7 @@
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			gsap.registerPlugin(ScrollTrigger);
-
+			ScrollTrigger.config({ ignoreMobileResize: true });
 			gsap.ticker.lagSmoothing(0); // stop GSAP fighting the browser render loop
 
 			// ── Global: Stacked Pinning ──────────────────────────────────────────

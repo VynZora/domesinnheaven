@@ -1589,6 +1589,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
         gsap.ticker.lagSmoothing(0);
 
         const track      = document.querySelector('.wwd-track');
@@ -1621,6 +1622,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
 
         const section     = document.querySelector('.dome-showcase-section');
         const detailItems = document.querySelectorAll('.dome-detail-item');
