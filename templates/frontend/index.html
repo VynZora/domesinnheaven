@@ -85,9 +85,12 @@
         overflow: hidden;
         width: 100%;
     }
+    .wwd-track {
+        gap: 0 !important;
+        flex-wrap: nowrap !important;
+    }
     .wwd-card {
-        flex: 0 0 85%;
-        width: 85%;
+        height: auto !important;
     }
     .wwd-card .project-card .thumb > a {
         height: 55vh; /* Increase height */
@@ -101,10 +104,10 @@
     }
 }
 @media (min-width: 576px) and (max-width: 1199px) {
-    .wwd-card { flex: 0 0 60%; width: 60%; }
+    .wwd-card { height: auto !important; }
 }
 @media (min-width: 768px) and (max-width: 1199px) {
-    .wwd-card { flex: 0 0 45%; width: 45%; }
+    .wwd-card { height: auto !important; }
 }
 
 /* ── Cinematic Showcase Section ── */
@@ -1591,6 +1594,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
         gsap.ticker.lagSmoothing(0);
 
         const track      = document.querySelector('.wwd-track');
