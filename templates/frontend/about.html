@@ -1,6 +1,102 @@
 {% extends "frontend/base.html" %}
 {% load static %}
 {% block content %}
+	<style>
+		.dome-events-area {
+			background-color: #f8f7f0; /* match site cream background */
+		}
+		.dome-events-stack-wrap {
+			position: relative;
+			padding-bottom: 100px;
+		}
+		.dome-event-panel {
+			position: relative;
+			transform: translateZ(0);
+		}
+		/* Individual Card Design */
+		.dome-event-panel .event-card-2 {
+			padding: 30px !important;
+			background-color: #ffffff !important;
+			border-radius: 15px !important;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+			border: 1px solid rgba(212, 163, 115, 0.1);
+			will-change: transform;
+			transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+		.dome-event-panel:hover .event-card-2 {
+			box-shadow: 0 15px 45px rgba(212, 163, 115, 0.15) !important;
+			border-color: rgba(212, 163, 115, 0.3);
+		}
+		/* Section Heading */
+		@media (min-width: 1200px) {
+			.our-events-section-2 {
+				overflow: visible !important;
+			}
+		}
+		.dome_text_invert {
+			background-image: linear-gradient(to right, #d4a373 50%, #2A3324 50%);
+			background-size: 200% 100%;
+			background-position: 100%;
+			color: transparent;
+			-webkit-background-clip: text;
+			background-clip: text;
+			display: inline-block;
+		}
+		/* Badge Overlay */
+		.dome-event-panel .event-date {
+			background: #d4a373 !important;
+			padding: 8px 16px !important;
+			border-radius: 6px !important;
+			top: 20px !important;
+			right: 20px !important;
+		}
+		.dome-event-panel .event-date h5 {
+			color: #ffffff !important;
+			font-size: 13px !important;
+			font-weight: 600 !important;
+			letter-spacing: 1px !important;
+			text-transform: uppercase !important;
+			margin: 0 !important;
+		}
+		/* Image Styling */
+		.dome-event-panel .event-thumb {
+			border-radius: 10px !important;
+			overflow: hidden !important;
+			margin-bottom: 25px !important;
+		}
+		.dome-event-panel .event-thumb img {
+			transition: transform 0.8s ease !important;
+		}
+		.dome-event-panel:hover .event-thumb img {
+			transform: scale(1.04);
+		}
+		/* Content & Price */
+		.dome-event-panel .event-card-title h2 {
+			font-family: var(--outfit-font);
+			font-weight: 700;
+			margin-bottom: 25px;
+		}
+		.dome-event-panel .join-event {
+			border-top: 1px solid #f0f0f0;
+			padding-top: 25px;
+			margin-top: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.dome-event-panel .people-joined h5 {
+			color: #3C4B33 !important;
+			font-size: 24px !important;
+			font-weight: 700 !important;
+			margin-bottom: 2px !important;
+		}
+		.dome-event-panel .people-joined span {
+			font-size: 12px !important;
+			color: #3C4B33 !important;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+	</style>
 
 <!-- preloader start-->
 <div id="preloader">
@@ -161,8 +257,8 @@
 	</section>
 
 	<!-- our-events-section-2 start -->
-	<section class="our-events-section-2 p-t-120 p-b-120 p-t-xs-40 p-b-xs-40"
-		style="position: relative; overflow: hidden; background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+	<section class="our-events-section-2 dome-events-area p-t-120 p-b-120 p-t-xs-40 p-b-xs-40"
+		style="position: relative; overflow: hidden; background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}'); background-size: cover; background-repeat: no-repeat; background-position: center center; z-index: 1;">
 		<div class="container">
 			<div class="row align-items-end m-b-60 m-b-xs-40">
 				<div class="col-xl-6 col-md-8 m-b-xs-20">
@@ -172,7 +268,7 @@
 					</div>
 					<div class="common-title m-b-0 style-color-3 text-start" data-aos="fade-up" data-aos-duration="1000"
 						data-aos-delay="400">
-						<h2>Explore Our Dome Categories</h2>
+						<h2 class="dome_text_invert">Explore Our Dome Categories</h2>
 					</div>
 				</div>
 				<div class="col-xl-6 col-md-4 text-md-end">
@@ -186,59 +282,54 @@
 					</a>
 				</div>
 			</div>
-			<div class="row" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+			<div class="row">
 				<div class="col-xl-12">
-					<div class="gallery-slider-active">
-						<div class="swiper">
-							<div class="swiper-wrapper">
-								{% for category in dome_categories %}
-								<div class="swiper-slide">
-									<div class="event-card-2 m-b-30" style="padding: 20px;">
-										<div class="event-thumb">
-											<a href="{% url 'service_single' category.slug %}">
-												<img src="{{ category.image.url }}" alt="{{ category.name }}" style="height: 350px; width: 100%; object-fit: cover; border-radius: 10px;" />
+					<div class="dome-events-stack-wrap">
+						{% for category in dome_categories %}
+						<div class="dome-event-panel mb-4">
+							<div class="event-card-2">
+								<div class="event-thumb">
+									<a href="{% url 'service_single' category.slug %}">
+										<img src="{{ category.image.url }}" alt="{{ category.name }}" style="height: 350px; width: 100%; object-fit: cover;" />
+									</a>
+									<div class="event-date">
+										<h5>Luxury Stay</h5>
+									</div>
+								</div>
+								<div class="card-content">
+									<div class="event-card-title">
+										<h2>
+											<a href="{% url 'service_single' category.slug %}" class="dome_text_invert">
+												{{ category.name }}
 											</a>
-											<div class="event-date">
-												<h5>Luxury Stay</h5>
-											</div>
-										</div>
-										<div class="card-content">
-											<div class="event-card-title">
-												<h2>
-													<a href="{% url 'service_single' category.slug %}">
-														{{ category.name }}
-													</a>
-												</h2>
-											</div>
+										</h2>
+									</div>
 
-											<div class="join-event">
-												<div class="blog-btn">
-													<a href="{% url 'service_single' category.slug %}"
-														class="e-primary-btn has-icon">
-														View Domes
-														<span class="icon-wrap">
-															<span class="icon"><i
-																	class="fa-regular fa-arrow-right"></i><i
-																	class="fa-regular fa-arrow-right"></i></span>
-														</span>
-													</a>
-												</div>
-												<div class="top-right" style="margin-left: 100px;">
-													<div class="people-joined">
-														<h5>₹{{ category.domes.first.normal_price|default:"0" }}</h5>
-														<span>Starting From</span>
-													</div>
-												</div>
+									<div class="join-event">
+										<div class="blog-btn">
+											<a href="{% url 'service_single' category.slug %}"
+												class="e-primary-btn has-icon">
+												View Domes
+												<span class="icon-wrap">
+													<span class="icon"><i
+															class="fa-regular fa-arrow-right"></i><i
+															class="fa-regular fa-arrow-right"></i></span>
+												</span>
+											</a>
+										</div>
+										<div class="top-right">
+											<div class="people-joined">
+												<h5>₹{{ category.domes.first.normal_price|default:"0" }}</h5>
+												<span>Starting From</span>
 											</div>
 										</div>
 									</div>
 								</div>
-								{% empty %}
-								<p class="text-center">No categories available at the moment.</p>
-								{% endfor %}
 							</div>
 						</div>
-						<div class="gallery-pagination mt-4 text-center"></div>
+						{% empty %}
+						<p class="text-center">No categories available at the moment.</p>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -709,8 +800,133 @@
 <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
 <script src="{% static 'assets/vendor/fancybox/fancybox.umd.js' %}"></script>
 <script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
 
 <!-- Main Js -->
-<script src="{% static 'assets/js/script.js' %}"></script>
+	<script src="{% static 'assets/js/script.js' %}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			gsap.registerPlugin(ScrollTrigger);
+
+			gsap.ticker.lagSmoothing(0); // stop GSAP fighting the browser render loop
+
+			const sv = gsap.matchMedia();
+
+			// ── Desktop: Stacked Pinning ──────────────────────────────────────────
+			sv.add("(min-width: 1200px)", () => {
+				const panels = gsap.utils.toArray('.dome-event-panel');
+				if (!panels.length) return;
+
+				const BASE_OFFSET      = 110;
+				const OFFSET_INCREMENT = 30;
+				const pinWrap  = document.querySelector('.dome-events-stack-wrap');
+				const area     = pinWrap?.closest('.dome-events-area');
+
+				const setBottomPadding = () => {
+					if (!area) return;
+					const travel = BASE_OFFSET + Math.max(0, panels.length - 1) * OFFSET_INCREMENT;
+					area.style.setProperty('padding-bottom', `${Math.max(250, travel + 260)}px`, 'important');
+				};
+				setBottomPadding();
+				ScrollTrigger.addEventListener('refreshInit', setBottomPadding);
+
+				panels.forEach((panel, index) => {
+					panel.style.zIndex = String(index + 1);
+
+					ScrollTrigger.create({
+						trigger          : panel,
+						pin              : panel,
+						anticipatePin    : 1,      // eliminates the flash/jump on pin start
+						pinSpacing       : false,
+						invalidateOnRefresh: true,
+						start: () => {
+							const max = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+							return `top ${Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max)}px`;
+						},
+						end: () => {
+							const max   = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+							const pinAt = Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max);
+							return `bottom ${pinAt + 20}px`;
+						},
+						endTrigger: '.dome-events-stack-wrap',
+						// NO scrub here — scrub on a pin is what causes the rubbery lag
+					});
+				});
+
+				// Batch all image loads into a single refresh call
+				const images  = document.querySelectorAll('.dome-event-panel img');
+				const pending = [...images].filter(img => !img.complete);
+				if (!pending.length) {
+					requestAnimationFrame(() => ScrollTrigger.refresh());
+				} else {
+					let loaded = 0;
+					const onLoad = () => {
+						if (++loaded >= pending.length)
+							requestAnimationFrame(() => ScrollTrigger.refresh());
+					};
+					pending.forEach(img => {
+						img.addEventListener('load',  onLoad, { once: true });
+						img.addEventListener('error', onLoad, { once: true });
+					});
+				}
+
+				return () => {
+					ScrollTrigger.removeEventListener('refreshInit', setBottomPadding);
+					area?.style.removeProperty('padding-bottom');
+					panels.forEach(p => p.style.zIndex = '');
+				};
+			});
+
+			// ── Mobile: Scroll-triggered fade in ─────────────────────────────────
+			sv.add("(max-width: 1199px)", () => {
+				const panels = gsap.utils.toArray('.dome-event-panel');
+				if (!panels.length) return;
+
+				panels.forEach(panel => {
+					gsap.from(panel, {
+						opacity : 0,
+						y       : 22,
+						duration: 0.55,
+						ease    : "power2.out",
+						scrollTrigger: {
+							trigger: panel,
+							start  : 'top 90%',
+							once   : true, // fires once when card enters view, never reruns
+						}
+					});
+				});
+
+				return () => gsap.set(panels, { clearProps: "opacity,transform,zIndex" });
+			});
+
+			// ── Text Gradient Scrub ───────────────────────────────────────────────
+			const splitInstances = [];
+			document.querySelectorAll(".dome_text_invert").forEach(target => {
+				if (target.dataset.split === "1") return;
+				target.dataset.split = "1";
+
+				const split = new SplitType(target, { types: 'lines' });
+				splitInstances.push(split);
+
+				split.lines.forEach(line => {
+					gsap.to(line, {
+						backgroundPositionX : 0,
+						ease                : "none",
+						scrollTrigger: {
+							trigger           : line,
+							scrub             : 0.6,
+							start             : 'top 88%',
+							end               : 'bottom 55%',
+							invalidateOnRefresh: true,
+						}
+					});
+				});
+			});
+
+			window.addEventListener('beforeunload', () => splitInstances.forEach(s => s.revert()));
+		});
+	</script>
 
 {% endblock %}
