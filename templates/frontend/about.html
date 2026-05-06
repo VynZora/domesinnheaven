@@ -812,94 +812,66 @@
 
 			gsap.ticker.lagSmoothing(0); // stop GSAP fighting the browser render loop
 
-			const sv = gsap.matchMedia();
+			// ── Global: Stacked Pinning ──────────────────────────────────────────
+			const panels = gsap.utils.toArray('.dome-event-panel');
+			if (!panels.length) return;
 
-			// ── Desktop: Stacked Pinning ──────────────────────────────────────────
-			sv.add("(min-width: 1200px)", () => {
-				const panels = gsap.utils.toArray('.dome-event-panel');
-				if (!panels.length) return;
+			const BASE_OFFSET      = 110;
+			const OFFSET_INCREMENT = 30;
+			const pinWrap  = document.querySelector('.dome-events-stack-wrap');
+			const area     = pinWrap?.closest('.dome-events-area');
 
-				const BASE_OFFSET      = 110;
-				const OFFSET_INCREMENT = 30;
-				const pinWrap  = document.querySelector('.dome-events-stack-wrap');
-				const area     = pinWrap?.closest('.dome-events-area');
-
-				const setBottomPadding = () => {
-					if (!area) return;
-					const travel = BASE_OFFSET + Math.max(0, panels.length - 1) * OFFSET_INCREMENT;
-					area.style.setProperty('padding-bottom', `${Math.max(250, travel + 260)}px`, 'important');
-				};
-				setBottomPadding();
-				ScrollTrigger.addEventListener('refreshInit', setBottomPadding);
-
-				panels.forEach((panel, index) => {
-					panel.style.zIndex = String(index + 1);
-
-					ScrollTrigger.create({
-						trigger          : panel,
-						pin              : panel,
-						anticipatePin    : 1,      // eliminates the flash/jump on pin start
-						pinSpacing       : false,
-						invalidateOnRefresh: true,
-						start: () => {
-							const max = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
-							return `top ${Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max)}px`;
-						},
-						end: () => {
-							const max   = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
-							const pinAt = Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max);
-							return `bottom ${pinAt + 20}px`;
-						},
-						endTrigger: '.dome-events-stack-wrap',
-						// NO scrub here — scrub on a pin is what causes the rubbery lag
-					});
+			const setBottomPadding = () => {
+				if (!area) return;
+				const travel = BASE_OFFSET + Math.max(0, panels.length - 1) * OFFSET_INCREMENT;
+				let maxPanelHeight = 0;
+				panels.forEach(p => {
+					if (p.offsetHeight > maxPanelHeight) maxPanelHeight = p.offsetHeight;
 				});
+				area.style.setProperty('padding-bottom', `${travel + maxPanelHeight + 50}px`, 'important');
+			};
+			setBottomPadding();
+			ScrollTrigger.addEventListener('refreshInit', setBottomPadding);
 
-				// Batch all image loads into a single refresh call
-				const images  = document.querySelectorAll('.dome-event-panel img');
-				const pending = [...images].filter(img => !img.complete);
-				if (!pending.length) {
-					requestAnimationFrame(() => ScrollTrigger.refresh());
-				} else {
-					let loaded = 0;
-					const onLoad = () => {
-						if (++loaded >= pending.length)
-							requestAnimationFrame(() => ScrollTrigger.refresh());
-					};
-					pending.forEach(img => {
-						img.addEventListener('load',  onLoad, { once: true });
-						img.addEventListener('error', onLoad, { once: true });
-					});
-				}
+			panels.forEach((panel, index) => {
+				panel.style.zIndex = String(index + 1);
 
-				return () => {
-					ScrollTrigger.removeEventListener('refreshInit', setBottomPadding);
-					area?.style.removeProperty('padding-bottom');
-					panels.forEach(p => p.style.zIndex = '');
-				};
+				ScrollTrigger.create({
+					trigger          : panel,
+					pin              : panel,
+					anticipatePin    : 1,      // eliminates the flash/jump on pin start
+					pinSpacing       : false,
+					invalidateOnRefresh: true,
+					start: () => {
+						const max = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+						return `top ${Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max)}px`;
+					},
+					end: () => {
+						const max   = Math.max(70, window.innerHeight - panel.offsetHeight - 40);
+						const pinAt = Math.min(BASE_OFFSET + index * OFFSET_INCREMENT, max);
+						return `bottom ${pinAt + 20}px`;
+					},
+					endTrigger: '.dome-events-stack-wrap',
+					// NO scrub here — scrub on a pin is what causes the rubbery lag
+				});
 			});
 
-			// ── Mobile: Scroll-triggered fade in ─────────────────────────────────
-			sv.add("(max-width: 1199px)", () => {
-				const panels = gsap.utils.toArray('.dome-event-panel');
-				if (!panels.length) return;
-
-				panels.forEach(panel => {
-					gsap.from(panel, {
-						opacity : 0,
-						y       : 22,
-						duration: 0.55,
-						ease    : "power2.out",
-						scrollTrigger: {
-							trigger: panel,
-							start  : 'top 90%',
-							once   : true, // fires once when card enters view, never reruns
-						}
-					});
+			// Batch all image loads into a single refresh call
+			const images  = document.querySelectorAll('.dome-event-panel img');
+			const pending = [...images].filter(img => !img.complete);
+			if (!pending.length) {
+				requestAnimationFrame(() => ScrollTrigger.refresh());
+			} else {
+				let loaded = 0;
+				const onLoad = () => {
+					if (++loaded >= pending.length)
+						requestAnimationFrame(() => ScrollTrigger.refresh());
+				};
+				pending.forEach(img => {
+					img.addEventListener('load',  onLoad, { once: true });
+					img.addEventListener('error', onLoad, { once: true });
 				});
-
-				return () => gsap.set(panels, { clearProps: "opacity,transform,zIndex" });
-			});
+			}
 
 			// ── Text Gradient Scrub ───────────────────────────────────────────────
 			const splitInstances = [];
