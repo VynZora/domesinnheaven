@@ -194,6 +194,131 @@
 				}
 				.project-card.style-service .content, .project-card.style-service .thumb { z-index: 2; }
 				.project-card.style-service .join-us { z-index: 6; position: relative; }
+
+				/* ── Policies Accordion ── */
+				.policies-section {
+					background-color: #f8f7f0;
+				}
+
+				.policies-accordion {
+					max-width: 860px;
+					margin: 0 auto;
+				}
+
+				.policy-item {
+					border-bottom: 1px solid #d9d5cc;
+				}
+
+				.policy-item:first-child {
+					border-top: 1px solid #d9d5cc;
+				}
+
+				.policy-header {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 28px 0;
+					cursor: pointer;
+					gap: 20px;
+				}
+
+				.policy-title {
+					font-size: clamp(16px, 2vw, 20px);
+					font-weight: 600;
+					color: #3C4B33;
+					margin: 0;
+					letter-spacing: 0.5px;
+					transition: color 0.3s ease;
+				}
+
+				.policy-item.open .policy-title {
+					color: var(--theme-color, #d4a373);
+				}
+
+				.policy-icon {
+					flex-shrink: 0;
+					width: 38px;
+					height: 38px;
+					border-radius: 50%;
+					background-color: #3C4B33;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #fff;
+					font-size: 14px;
+					transition: background-color 0.3s ease, transform 0.35s ease;
+				}
+
+				.policy-item.open .policy-icon {
+					background-color: var(--theme-color, #d4a373);
+					transform: rotate(45deg);
+				}
+
+				.policy-body {
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+					padding-bottom: 0;
+				}
+
+				/* max-height is now set by JS dynamically */
+				.policy-item.open .policy-body {
+					padding-bottom: 28px;
+				}
+
+				/* Open state styling */
+				.policy-item {
+					border-bottom: 1px solid #d9d5cc;
+					padding-left: 0;
+					border-left: 3px solid transparent;
+					transition: border-left-color 0.3s ease, padding-left 0.3s ease, background 0.3s ease;
+				}
+
+				.policy-item.open {
+					border-left-color: #d4a373;
+					padding-left: 20px;
+					background: rgba(212, 163, 115, 0.05);
+				}
+
+				.policy-body ul {
+					list-style: none;
+					padding: 0;
+					margin: 0;
+					display: flex;
+					flex-direction: column;
+					gap: 14px;
+				}
+
+				.policy-body ul li {
+					padding-left: 20px;
+					position: relative;
+					color: #555;
+					font-size: 15px;
+					line-height: 1.75;
+				}
+
+				.policy-body ul li::before {
+					content: '—';
+					position: absolute;
+					left: 0;
+					color: var(--theme-color, #d4a373);
+					font-weight: 700;
+				}
+
+				@media (max-width: 575px) {
+					.policy-header {
+						padding: 22px 0;
+					}
+					.policy-icon {
+						width: 32px;
+						height: 32px;
+						font-size: 12px;
+					}
+				}
+
+				.contact-info-section {
+					background-color: #f8f7f0;
+				}
 			</style>
 			<div class="row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 				{% for category in categories %}
@@ -437,6 +562,98 @@
 	</section>
 	<!-- faq-section end-->
 
+	<!-- policies-section start -->
+	<section class="policies-section p-t-100 p-b-100 p-t-xs-60 p-b-xs-60">
+		<div class="container">
+
+			<div class="text-center m-b-60 m-b-xs-40">
+				<div class="common-subtitle"><span>Know Before You Go</span></div>
+				<div class="common-title mb-0"><h2>Resort Policies & Guidelines</h2></div>
+			</div>
+
+			<div class="policies-accordion">
+
+				<!-- Resort Policies -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">01</span>
+							<h3 class="policy-title">Resort Policies</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>Check-in time is 2:00 PM and Check-out time is 11:00 AM. Early check-in and late check-out are subject to availability and additional charges.</li>
+							<li>It is mandatory to present a valid government-issued photo ID for Indian citizens. All other nationalities must present a valid Passport and Visa at check-in.</li>
+							<li>Pets are not allowed inside the resort.</li>
+							<li>Photo-shoots can be done on a chargeable basis only.</li>
+							<li>All rooms are strictly non-smoking.</li>
+							<li>In-room dining is not available.</li>
+							<li>Loud music is not permitted in public areas. We prioritize maintaining a peaceful environment for all guests and the surrounding nature.</li>
+							<li>Visitors are not allowed inside the resort premises.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Child Policy -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">02</span>
+							<h3 class="policy-title">Child Policy</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>Two children up to 5 years of age can stay free of charge in the parents' room when using the existing bed. A maximum of one extra bed can be provided on a chargeable basis.</li>
+							<li>A child aged 6–12 years, a child above 12 years, or an extra adult will be charged additionally.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Cancellation / No-Show Policy -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">03</span>
+							<h3 class="policy-title">Cancellation &amp; No-Show Policy</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>In case of no-show or cancellation of a guaranteed reservation, the resort reserves the right to levy a retention charge for the entire stay.</li>
+							<li>50% retention charges apply for cancellations made within 14 days of arrival. Full retention charges apply for cancellations within 7 days of arrival.</li>
+							<li>Online payment fees and bank transaction charges will be levied on any refund processed within the eligible cancellation period.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Terms & Conditions -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">04</span>
+							<h3 class="policy-title">Terms &amp; Conditions</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>The services of this site are available only to individuals who can form legally binding contracts under applicable law, and are not available to minors.</li>
+							<li>By using this site, you confirm that you are of sufficient legal age to create binding legal obligations for any liability incurred as a result of your use of this site.</li>
+							<li>You also confirm that you are legally authorized to make travel reservations and/or purchases for yourself or for another person for whom you are authorized to act.</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<!-- policies-section end -->
+
 	<!-- contact-info-section start -->
 	<section class="contact-info-section">
 		<div class="container">
@@ -492,5 +709,29 @@
 
 <!-- Main Js -->
 <script src="{% static 'assets/js/script.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.policy-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item   = header.parentElement;
+            const body   = item.querySelector('.policy-body');
+            const isOpen = item.classList.contains('open');
+
+            // Close all open items and reset their max-height
+            document.querySelectorAll('.policy-item.open').forEach(el => {
+                el.classList.remove('open');
+                el.querySelector('.policy-body').style.maxHeight = '0';
+            });
+
+            // If it was closed, open it with exact height
+            if (!isOpen) {
+                item.classList.add('open');
+                body.style.maxHeight = body.scrollHeight + 'px';
+            }
+        });
+    });
+});
+</script>
 
 {% endblock %}
