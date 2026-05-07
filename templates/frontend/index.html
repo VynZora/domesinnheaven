@@ -62,18 +62,28 @@
     width: 360px;
 }
 
-/* Mobile: adjust layout for GSAP horizontal scroll */
+/* ── Mobile / Tablet: replace GSAP scroll with normal Swiper slider ── */
 @media (max-width: 1199px) {
+    .wwd-scroll-section {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    .wwd-sticky-wrapper {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+    }
     .wwd-inner {
-        flex-direction: column;
-        justify-content: center;
-        padding: 80px 20px 60px;
-        gap: 40px;
+        display: block !important;
+        height: auto !important;
+        min-height: unset !important;
+        padding: 60px 20px 40px !important;
     }
     .wwd-left {
-        flex: unset;
-        width: 100%;
+        width: 100% !important;
+        flex: unset !important;
         text-align: center;
+        padding: 0 0 30px;
     }
     .wwd-left .common-title {
         text-align: center !important;
@@ -82,26 +92,51 @@
         margin: 0 auto;
     }
     .wwd-track-outer {
-        overflow: hidden;
-        width: 100%;
-    }
-    .wwd-track {
-        gap: 0 !important;
-        flex-wrap: nowrap !important;
-    }
-    .wwd-card {
+        display: block !important;
         flex: unset !important;
         height: auto !important;
+        overflow: clip !important;
+        width: 100% !important;
+        position: relative;
+    }
+    .wwd-track {
+        gap: 0; /* Kill desktop gap:30px — Swiper handles spacing via margin (spaceBetween) */
+    }
+    .wwd-card {
+        flex: none;        /* Resets desktop flex:0 0 360px → auto basis, defers to Swiper's inline width */
+        height: auto;
+        box-sizing: border-box;
+        /* NOTE: Do NOT set width here — Swiper injects inline width:Xpx which must be the sole authority */
+    }
+    .wwd-card .project-card {
+        margin: 0 auto;
     }
     .wwd-card .project-card .thumb > a {
-        height: 50vh; 
-        min-height: 380px;
-        max-height: 550px;
+        display: block;
+        height: 55vw;
+        min-height: 240px;
+        max-height: 420px;
     }
     .wwd-mobile-pagination {
         display: block;
-        margin-top: 20px;
+        margin-top: 24px;
         text-align: center;
+    }
+    .wwd-mobile-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        margin: 0 5px !important;
+        background: rgba(255,255,255,0.5) !important;
+        opacity: 1 !important;
+    }
+    .wwd-mobile-pagination .swiper-pagination-bullet-active {
+        background: #fff !important;
+    }
+    .swiper-wrapper {
+        box-sizing: border-box;
+    }
+    .swiper-slide {
+        height: auto;
     }
 }
 
@@ -1644,25 +1679,44 @@
             };
         });
 
-        // ── Mobile: Swiper Carousel ───────────────────────────────────────
+        // ── Mobile: Swiper Carousel ──
         sv.add("(max-width: 1199px)", () => {
             const swiper = new Swiper('.wwd-track-outer', {
                 wrapperClass: 'wwd-track',
                 slideClass: 'wwd-card',
+
+                loop: false,
+                centeredSlides: false,
+
                 slidesPerView: 1,
-                spaceBetween: 24,
+                spaceBetween: 16,
+
+                observer: true,
+                observeParents: true,
+                watchOverflow: true,
+
                 pagination: {
                     el: '.wwd-mobile-pagination',
                     clickable: true,
                 },
+
                 breakpoints: {
-                    640: {
-                        slidesPerView: 1,
-                        spaceBetween: 24,
-                    },
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 30,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 2,
+                        spaceBetween: 24,
+                    },
+                },
+
+                on: {
+                    init() {
+                        this.update();
+                    },
+                    resize() {
+                        this.update();
                     }
                 }
             });
