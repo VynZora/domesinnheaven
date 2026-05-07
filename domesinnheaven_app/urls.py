@@ -30,6 +30,8 @@ urlpatterns = [
     path('camping/<slug:slug>/', views.camping_details, name='package_details'),
     path('camping-donation/', views.camping_donation, name='camping_donation'),
 
+    path('terms-and-privacy/', views.terms, name='terms'),
+
     path('donations/', views.donations, name='donations'),
 
     path('contact/', views.contact, name='contact'),

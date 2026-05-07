@@ -141,6 +141,9 @@ def camping_donation(request):
 def donations(request):
     return render(request, 'frontend/donations.html')
 
+def terms(request):
+    return render(request, 'frontend/terms.html')
+
 def contact(request):
     if request.method == "POST":
         # reCAPTCHA Validation

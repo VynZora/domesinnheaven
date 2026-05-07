@@ -1,0 +1,459 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- preloader start-->
+<div id="preloader">
+	<div class="preloader">
+		<img src="{% static 'assets/img/thumbs/preloader_new.png' %}" alt="preloader">
+	</div>
+</div>
+<!-- preloader end  -->
+
+<style>
+	/* ── Terms Page ── */
+
+	.terms-main {
+		background: #f8f7f0;
+	}
+
+	/* ── Section Block ── */
+	.terms-block {
+		padding: 80px 0;
+		border-bottom: 1px solid #ece9e0;
+	}
+	.terms-block:nth-child(even) {
+		background: #fff;
+	}
+	.terms-block:nth-child(odd) {
+		background: #f8f7f0;
+	}
+
+	.section-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 2.5px;
+		text-transform: uppercase;
+		color: var(--theme-color, #3C4B33);
+		margin-bottom: 16px;
+	}
+	.section-label::before {
+		content: '';
+		width: 28px; height: 2px;
+		background: var(--theme-color, #3C4B33);
+		display: inline-block;
+		border-radius: 2px;
+	}
+	.block-title {
+		font-size: clamp(28px, 4vw, 40px);
+		font-weight: 800;
+		color: #3C4B33;
+		margin-bottom: 12px;
+		line-height: 1.2;
+	}
+	.block-lead {
+		font-size: 16px;
+		color: #888;
+		margin-bottom: 0;
+		max-width: 520px;
+		line-height: 1.7;
+	}
+	.block-divider {
+		width: 50px; height: 4px;
+		background: #3C4B33;
+		border-radius: 2px;
+		margin-top: 20px;
+	}
+
+	/* ── Terms Clause Cards ── */
+	.clause-card {
+		display: flex;
+		gap: 24px;
+		align-items: flex-start;
+		padding: 30px 32px;
+		background: #fff;
+		border-radius: 14px;
+		border: 1px solid #e8e5dc;
+		border-left: 4px solid #3C4B33;
+		margin-bottom: 18px;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	.clause-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 14px 40px rgba(60, 75, 51, 0.1);
+	}
+	.clause-num {
+		flex-shrink: 0;
+		width: 42px; height: 42px;
+		border-radius: 50%;
+		background: #3C4B33;
+		color: #fff;
+		display: flex; align-items: center; justify-content: center;
+		font-size: 13px; font-weight: 800;
+		letter-spacing: 0.5px;
+	}
+	.clause-text {
+		font-size: 16px;
+		line-height: 1.8;
+		color: #555;
+		margin: 0;
+		padding-top: 8px;
+	}
+
+	/* ── Privacy Info Cards ── */
+	.info-card-v2 {
+		padding: 36px;
+		border-radius: 18px;
+		border: 1px solid #e8e5dc;
+		background: #fff;
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	.info-card-v2::before {
+		content: '';
+		position: absolute;
+		top: 0; left: 0;
+		width: 100%; height: 4px;
+		background: #3C4B33;
+	}
+	.info-card-v2:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 20px 50px rgba(60, 75, 51, 0.1);
+	}
+	.info-card-v2 .card-icon {
+		width: 52px; height: 52px;
+		border-radius: 14px;
+		background: rgba(60, 75, 51, 0.08);
+		display: flex; align-items: center; justify-content: center;
+		font-size: 22px;
+		color: #3C4B33;
+		margin-bottom: 20px;
+	}
+	.info-card-v2 h5 {
+		font-size: 19px;
+		font-weight: 700;
+		color: #3C4B33;
+		margin-bottom: 12px;
+	}
+	.info-card-v2 p {
+		font-size: 15px;
+		color: #777;
+		line-height: 1.75;
+		margin: 0;
+	}
+
+	/* ── Policy Rows ── */
+	.policy-row {
+		display: flex;
+		gap: 20px;
+		align-items: flex-start;
+		padding: 28px 0;
+		border-bottom: 1px solid #ece9e0;
+	}
+	.policy-row:last-child { border-bottom: none; }
+	.policy-row-icon {
+		flex-shrink: 0;
+		width: 44px; height: 44px;
+		border-radius: 12px;
+		background: rgba(60, 75, 51, 0.08);
+		color: #3C4B33;
+		display: flex; align-items: center; justify-content: center;
+		font-size: 18px;
+	}
+	.policy-row-content h5 {
+		font-size: 17px;
+		font-weight: 700;
+		color: #3C4B33;
+		margin-bottom: 6px;
+	}
+	.policy-row-content p {
+		font-size: 15px;
+		color: #777;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ── GDPR Pills ── */
+	.gdpr-pill {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 16px 20px;
+		background: #f8f7f0;
+		border-radius: 12px;
+		border: 1px solid #e8e5dc;
+		transition: all 0.3s ease;
+	}
+	.gdpr-pill:hover {
+		border-color: #3C4B33;
+		background: rgba(60, 75, 51, 0.05);
+		transform: translateY(-2px);
+	}
+	.gdpr-pill i {
+		color: #3C4B33;
+		font-size: 17px;
+	}
+	.gdpr-pill span {
+		font-weight: 600;
+		font-size: 15px;
+		color: #444;
+	}
+
+	/* ── GDPR Assurance Banner ── */
+	.gdpr-banner {
+		background: #3C4B33;
+		border-radius: 20px;
+		padding: 48px;
+		position: relative;
+		overflow: hidden;
+		margin-top: 0;
+	}
+	.gdpr-banner::before {
+		content: '';
+		position: absolute;
+		top: -50px; right: -50px;
+		width: 220px; height: 220px;
+		border-radius: 50%;
+		background: rgba(255,255,255,0.04);
+	}
+	.gdpr-banner::after {
+		content: '';
+		position: absolute;
+		bottom: -30px; left: -30px;
+		width: 150px; height: 150px;
+		border-radius: 50%;
+		background: rgba(255,255,255,0.03);
+	}
+	.gdpr-banner h4 {
+		color: #fff;
+		font-size: 22px;
+		font-weight: 700;
+		margin-bottom: 28px;
+		position: relative;
+	}
+	.gdpr-banner h4 i {
+		color: rgba(255,255,255,0.6);
+	}
+	.gdpr-banner-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		margin-bottom: 18px;
+		position: relative;
+	}
+	.gdpr-banner-item:last-child { margin-bottom: 0; }
+	.gdpr-banner-item i {
+		color: #a8c49a;
+		font-size: 16px;
+		margin-top: 3px;
+		flex-shrink: 0;
+	}
+	.gdpr-banner-item p {
+		color: rgba(255,255,255,0.75);
+		font-size: 15px;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ── Contact CTA ── */
+	.terms-cta {
+		background: #fff;
+		padding: 80px 0;
+		text-align: center;
+	}
+	.terms-cta h3 {
+		font-size: 30px;
+		font-weight: 700;
+		color: #3C4B33;
+		margin-bottom: 14px;
+	}
+	.terms-cta p {
+		color: #888;
+		font-size: 16px;
+		margin-bottom: 30px;
+	}
+
+	@media (max-width: 768px) {
+		.terms-block { padding: 60px 0; }
+		.gdpr-banner { padding: 30px; }
+		.clause-card { flex-direction: column; gap: 14px; }
+		.clause-card { padding: 22px; }
+	}
+</style>
+
+<main class="terms-main">
+
+	<!-- breadcrumb-section start -->
+	<section class="breadcrumb-section">
+		<div class="container-fluid">
+			<div class="row g-0">
+				<div class="col-xl-6 col-lg-6">
+					<div class="breadcrumb-content" style="background-image: url('{% static "assets/img/bg/breadcrumb-bg.webp" %}')">
+						<div class="breadcrumb-nav" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+							<ul>
+								<li><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="#">Terms & Privacy</a></li>
+							</ul>
+						</div>
+						<div class="breadcrumb-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+							<h2>Terms & Privacy Policy</h2>
+						</div>
+						<div class="shape-1">
+							<img src="{% static 'assets/img/shapes/shape-1.webp' %}" alt="shape"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6 d-none d-lg-block">
+					<div class="breadcrumb-thumb">
+						<img src="{% static 'assets/img/new/12.jpeg' %}" alt="Terms & Privacy"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- breadcrumb-section end -->
+
+	<!-- ── Terms & Conditions ── -->
+	<div class="terms-block" id="terms">
+		<div class="container">
+			<div class="row g-5 align-items-start">
+				<div class="col-lg-4" data-aos="fade-right" data-aos-duration="800">
+					<div class="section-label">Legal Framework</div>
+					<h2 class="block-title">Terms &<br>Conditions</h2>
+					<p class="block-lead">By accessing our platform and services, you agree to the following terms.</p>
+					<div class="block-divider"></div>
+				</div>
+				<div class="col-lg-8">
+					<div class="clause-card" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+						<div class="clause-num">01</div>
+						<p class="clause-text">The services of this site are available only to individuals who can form legally binding contracts under applicable law, and thus, are <strong>not available to minors</strong>.</p>
+					</div>
+					<div class="clause-card" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+						<div class="clause-num">02</div>
+						<p class="clause-text">By using this site, you confirm that you are of <strong>sufficient legal age</strong> to create binding legal obligations for any liability you may incur as a result of your use of this site.</p>
+					</div>
+					<div class="clause-card" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+						<div class="clause-num">03</div>
+						<p class="clause-text">You confirm that you are <strong>legally authorized</strong> to make travel reservations and/or purchases for yourself or for another person for whom you are duly authorized to act.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Privacy Policy ── -->
+	<div class="terms-block" id="privacy">
+		<div class="container">
+			<div class="text-center m-b-60" data-aos="fade-up" data-aos-duration="700">
+				<div class="section-label" style="justify-content: center;">Data Protection</div>
+				<h2 class="block-title">Privacy Policy</h2>
+				<p class="block-lead mx-auto" style="max-width: 560px;">We handle your data with the same care and discretion we bring to every aspect of your stay.</p>
+			</div>
+
+			<div class="row g-4 m-b-50">
+				<div class="col-md-6" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+					<div class="info-card-v2">
+						<div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
+						<h5>Personal Information</h5>
+						<p>We collect your name, email address, phone number, postal address, and payment details when you make a booking or sign up for our newsletter.</p>
+					</div>
+				</div>
+				<div class="col-md-6" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
+					<div class="info-card-v2">
+						<div class="card-icon"><i class="fa-solid fa-chart-bar"></i></div>
+						<h5>Non-Personal Information</h5>
+						<p>This includes browser type, device information, IP address, and usage data collected through cookies and tracking technologies to improve your experience.</p>
+					</div>
+				</div>
+			</div>
+
+			<div data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+				<div class="policy-row">
+					<div class="policy-row-icon"><i class="fa-solid fa-lock"></i></div>
+					<div class="policy-row-content">
+						<h5>Data Privacy & Sharing</h5>
+						<p>Your personal data is kept strictly confidential. We do not share your information with third parties except as necessary to provide our services (e.g., payment processors under confidentiality agreements) or when required by law.</p>
+					</div>
+				</div>
+				<div class="policy-row">
+					<div class="policy-row-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+					<div class="policy-row-content">
+						<h5>Cookies & Tracking Technologies</h5>
+						<p>We use cookies to improve your browsing experience and analyse site traffic. You can manage your cookie preferences through your browser settings, though disabling them may affect some site features.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── GDPR Rights ── -->
+	<div class="terms-block" id="gdpr">
+		<div class="container">
+			<div class="row g-5 align-items-start">
+				<div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
+					<div class="section-label">GDPR Compliance</div>
+					<h2 class="block-title">Your Rights</h2>
+					<p class="block-lead">Under GDPR, you hold full control over your personal data. Here is what you can do.</p>
+					<div class="block-divider m-b-40"></div>
+					<div class="row g-3">
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="100"><div class="gdpr-pill"><i class="fa-solid fa-eye"></i><span>Access</span></div></div>
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="150"><div class="gdpr-pill"><i class="fa-solid fa-pen-to-square"></i><span>Rectification</span></div></div>
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="200"><div class="gdpr-pill"><i class="fa-solid fa-trash-can"></i><span>Erasure</span></div></div>
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="250"><div class="gdpr-pill"><i class="fa-solid fa-hand"></i><span>Restriction</span></div></div>
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="300"><div class="gdpr-pill"><i class="fa-solid fa-ban"></i><span>Objection</span></div></div>
+						<div class="col-6" data-aos="zoom-in" data-aos-delay="350"><div class="gdpr-pill"><i class="fa-solid fa-right-left"></i><span>Portability</span></div></div>
+					</div>
+				</div>
+				<div class="col-lg-7" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+					<div class="gdpr-banner">
+						<h4><i class="fa-solid fa-shield-halved me-2"></i>GDPR Compliance Assurances</h4>
+						<div class="gdpr-banner-item">
+							<i class="fa-solid fa-circle-check"></i>
+							<p>Data is collected and processed lawfully, transparently, and for specific, legitimate purposes only.</p>
+						</div>
+						<div class="gdpr-banner-item">
+							<i class="fa-solid fa-circle-check"></i>
+							<p>You have the right to access, rectify, delete, restrict, object to, or request the portability of your data at any time.</p>
+						</div>
+						<div class="gdpr-banner-item">
+							<i class="fa-solid fa-circle-check"></i>
+							<p>You may withdraw your consent for data processing at any time by contacting us directly and we will act promptly.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Contact CTA ── -->
+	<div class="terms-cta" data-aos="fade-up" data-aos-duration="700">
+		<div class="container">
+			<h3>Have Questions About Our Policies?</h3>
+			<p>Our team is always happy to clarify anything regarding your data, rights, or terms of service.</p>
+			<a href="{% url 'contact' %}" class="e-primary-btn has-icon">
+				Get In Touch
+				<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
+			</a>
+		</div>
+	</div>
+
+</main>
+
+<!-- Vendors Js -->
+<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+<script src="{% static 'assets/vendor/fancybox/fancybox.umd.js' %}"></script>
+<script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
+
+<!-- Main Js -->
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+{% endblock %}
