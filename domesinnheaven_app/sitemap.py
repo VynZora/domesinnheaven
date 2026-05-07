@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from .models import Blog, Activity, CampingPackage
+from .models import Blog, Activity, CampingPackage, DomeCategory, DomeType
 
 
 class StaticViewSitemap(Sitemap):
@@ -13,14 +13,14 @@ class StaticViewSitemap(Sitemap):
         return [
             "home",
             "about",
-            "trips",
-            "team",
-            "image_gallery",
-            "blog",
-            "activity_list",
-            "camping_packages",
+            "services",
+            "activities",
+            "gallery",
+            "blog_grid",
+            "camping",
             "contact",
             "booking",
+            "terms",
         ]
 
     def location(self, item):
@@ -35,7 +35,7 @@ class BlogSitemap(Sitemap):
         return Blog.objects.all()
 
     def location(self, obj):
-        return reverse("blog_single", kwargs={"slug": obj.slug})
+        return reverse("blog_detail_slug", kwargs={"slug": obj.slug})
 
 
 class CampingPackageSitemap(Sitemap):
@@ -46,7 +46,7 @@ class CampingPackageSitemap(Sitemap):
         return CampingPackage.objects.all()
 
     def location(self, obj):
-        return reverse("camping_package_single", kwargs={"slug": obj.slug})
+        return reverse("package_details", kwargs={"slug": obj.slug})
 
 
 class ActivitySitemap(Sitemap):
@@ -57,4 +57,26 @@ class ActivitySitemap(Sitemap):
         return Activity.objects.all()
 
     def location(self, obj):
-        return reverse("activity_single", kwargs={"slug": obj.slug})
+        return reverse("activity_details", kwargs={"slug": obj.slug})
+
+
+class DomeCategorySitemap(Sitemap):
+    priority = 0.9
+    changefreq = "monthly"
+
+    def items(self):
+        return DomeCategory.objects.all()
+
+    def location(self, obj):
+        return reverse("service_single", kwargs={"slug": obj.slug})
+
+
+class DomeTypeSitemap(Sitemap):
+    priority = 0.8
+    changefreq = "monthly"
+
+    def items(self):
+        return DomeType.objects.all()
+
+    def location(self, obj):
+        return reverse("services_details_with_slug", kwargs={"slug": obj.slug})

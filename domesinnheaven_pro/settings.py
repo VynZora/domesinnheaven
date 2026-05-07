@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # WARNING: Keep secret key, passwords, and API keys secret in production!
 SECRET_KEY = 'your-secret-key-here-change-in-production'
 DEBUG = True  # Changed to False for production safety
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['domesinnheaven.com', 'www.domesinnheaven.com', '*']
 
 # APPS
 INSTALLED_APPS = [
@@ -116,7 +116,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # GOOGLE REVIEWS
 GOOGLE_REVIEW_RATING = 4.7
 GOOGLE_REVIEW_COUNT = 900
-GOOGLE_REVIEW_URL = "https://www.google.com/travel/search?q=domesinnheaven_pro%20camping%20reviews"
+GOOGLE_REVIEW_URL = "https://www.google.com/travel/search?q=domes%20inn%20heaven%20camping%20reviews"
 
 # RECAPTCHA - REPLACE WITH YOUR KEYS
 RECAPTCHA_SITE_KEY = "6LdDzNksAAAAACA5R9MhWkyiuXRP1JnAQKwm00Ou"

@@ -26,6 +26,8 @@ from domesinnheaven_app.sitemap import (
     ActivitySitemap,
     BlogSitemap,
     CampingPackageSitemap,
+    DomeCategorySitemap,
+    DomeTypeSitemap,
     StaticViewSitemap,
 )
 
@@ -36,6 +38,8 @@ sitemaps = {
     "blog": BlogSitemap,
     "camping_package": CampingPackageSitemap,
     "activity": ActivitySitemap,
+    "dome_category": DomeCategorySitemap,
+    "dome_type": DomeTypeSitemap,
 }
 
 
