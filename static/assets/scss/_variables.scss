@@ -1,8 +1,9 @@
 :root {
-    --theme-color: #3C4B33;
+    /* Brand book 2026 palette */
+    --theme-color: #3D4B33; /* Forest Evergreen */
     --theme-shade-color: #5A6A50;
-    --theme-color-2: #FFEFCB;
-    --theme-color-3: #3C4B33;
+    --theme-color-2: #FFEFCD; /* Soft Ivory Sand */
+    --theme-color-3: #3D4B33;
     --title-color: #2A3324;
     --body-color: #5F635A;
     --gray-color: #383838;
@@ -14,20 +15,20 @@
     --white-color: #fff;
     --black-color: #000;
     --hr-color: #000;
-    --outfit-font: "Outfit", sans-serif;
-    --dm-sans-font: "DM Sans", sans-serif;
-    --albert-sans-font: "Albert Sans", sans-serif;
+    /* Brand typography (Chirp is not bundled; keep sane fallback chain) */
+    --display-font: "Manuale", serif;
+    --body-font: "Chirp", "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     --icon-font: "Font Awesome 6 Pro";
     --body-fz: 16px;
 }
 
-$body-fonts: var(--dm-sans-font);
-$header-fonts: var(--outfit-font);
+$body-fonts: var(--body-font);
+$header-fonts: var(--display-font);
 
 $icon-font: var(--icon-font);
-$Outfit: var(--outfit-font);
-$DMSans: var(--dm-sans-font);
-$AlbertSans: var(--albert-sans-font);
+$Outfit: var(--display-font);
+$DMSans: var(--body-font);
+$AlbertSans: var(--body-font);
 
 $body-fz: var(--body-fz);
 
@@ -48,10 +49,10 @@ $theme-shade-color: var(--theme-shade-color);
 $theme-color-2: var(--theme-color-2);
 $theme-color-3: var(--theme-color-3);
 
-$theme-color-rgb: #3C4B33;
+$theme-color-rgb: #3D4B33;
 $theme-shade-color-rgb: #5A6A50;
-$theme-color-2-rgb: #FFEFCB;
-$theme-color-3-rgb: #3C4B33;
+$theme-color-2-rgb: #FFEFCD;
+$theme-color-3-rgb: #3D4B33;
 
 $warning-color: var(--warning-color);
 $success-color: var(--success-color);

@@ -52,10 +52,10 @@ Version: 1.0
 }
 
 :root {
-  --theme-color: #3C4B33;
+  --theme-color: #3D4B33;
   --theme-shade-color: #5A6A50;
-  --theme-color-2: #FFEFCB;
-  --theme-color-3: #3C4B33;
+  --theme-color-2: #FFEFCD;
+  --theme-color-3: #3D4B33;
   --title-color: #2A3324;
   --body-color: #5F635A;
   --gray-color: #383838;
@@ -67,9 +67,10 @@ Version: 1.0
   --white-color: #fff;
   --black-color: #000;
   --hr-color: #000;
-  --outfit-font: "Outfit", sans-serif;
-  --dm-sans-font: "DM Sans", sans-serif;
-  --albert-sans-font: "Albert Sans", sans-serif;
+  /* Brand typography: Manuale (display/logo) + Chirp (body). Chirp is not bundled, so keep a fallback chain. */
+  --outfit-font: "Manuale", serif;
+  --dm-sans-font: "Chirp", "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --albert-sans-font: "Chirp", "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --icon-font: "Font Awesome 6 Pro";
   --body-fz: 16px;
 }
