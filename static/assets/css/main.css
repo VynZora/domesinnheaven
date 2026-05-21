@@ -554,7 +554,11 @@ label {
 }
 
 .preloader img {
-  width: 70%;
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+  margin-top: -10px;
+  display: block;
   animation: pulseLogo 2s ease-in-out infinite;
   z-index: 2;
   position: relative;
