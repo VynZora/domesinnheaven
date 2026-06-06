@@ -1,14 +1,50 @@
 {% extends "frontend/base.html" %}
 {% load static %}
 {% block content %}
+<style>
+/* Sidebar gallery fix — uniform grid, no whitespace — all screen sizes */
+.s-widget-wrap .sidebar-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+}
 
+.s-widget-wrap .sidebar-gallery .thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 6px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.s-widget-wrap .sidebar-gallery .thumb a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.s-widget-wrap .sidebar-gallery .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.s-widget-wrap .sidebar-gallery .thumb:hover img {
+    transform: scale(1.05);
+}
+</style>
 <div id="preloader"><div class="preloader"><img src="{% static 'green.png' %}" alt="preloader"></div></div>
 
 <main>
 <section class="breadcrumb-section bg-cream">
   <div class="container-fluid"><div class="row g-0">
     <div class="col-xl-6 col-lg-6">
-      <div class="breadcrumb-content" style="background-image: url('{% static "assets/img/new/3.jpeg" %}')">
+      <div class="breadcrumb-content" style="background-image: url('{% static "assets/img/static_images_new/1.png" %}')">
         <div class="breadcrumb-nav"><ul><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'blog_grid' %}">Blog</a></li><li><a href="#">{{ blog.title|truncatewords:4 }}</a></li></ul></div>
         <div class="breadcrumb-title"><h2>{{ blog.title }}</h2></div>
       </div>
@@ -28,7 +64,7 @@
               <div class="content">
                 <div class="blog-info">
                   {% comment %} <div class="publisher-info">
-                    <img alt="thumb" src="{% static 'assets/img/thumbs/thumb-143.webp' %}">
+                    <img alt="thumb" src="{% static 'assets/img/static_images_new/19.png' %}">
                     <p>By Rebecca</p>
                   </div> {% endcomment %}
                   <div class="date">
