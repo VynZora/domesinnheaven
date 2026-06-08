@@ -52,3 +52,6 @@ static/assets/img/clips/
 
 # Ignored index v2
 templates/frontend/index_v2.html
+
+db.sqlite3
+*.sqlite3
