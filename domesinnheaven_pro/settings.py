@@ -126,6 +126,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Cloudinary (hardcoded for clips delivery)
 # Upload your clips into: domes/clips/<sequence-number>/ezgif-frame-XXX.<ext>
-CLOUDINARY_CLOUD_NAME = "dwyxmxume"
-CLOUDINARY_BASE_DELIVERY_URL = f"https://res.cloudinary.com/{CLOUDINARY_CLOUD_NAME}/image/upload"
-CLOUDINARY_CLIPS_BASE_URL = f"{CLOUDINARY_BASE_DELIVERY_URL}/f_auto,q_auto/domes/clips"
+# CLOUDINARY_CLOUD_NAME = "dwyxmxume"
+# CLOUDINARY_BASE_DELIVERY_URL = f"https://res.cloudinary.com/{CLOUDINARY_CLOUD_NAME}/image/upload"
+# CLOUDINARY_CLIPS_BASE_URL = f"{CLOUDINARY_BASE_DELIVERY_URL}/f_auto,q_auto/domes/clips"

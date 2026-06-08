@@ -49,3 +49,6 @@ static/*.mp4
 
 # Scrollytelling clips
 static/assets/img/clips/
+
+# Ignored index v2
+templates/frontend/index_v2.html
