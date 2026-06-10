@@ -8,8 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 SECRET_KEY = 'your-secret-key-here-change-in-production'
-DEBUG = False  
-ALLOWED_HOSTS = ['domesinnheaven.com', 'www.domesinnheaven.com']
+DEBUG = True 
+ALLOWED_HOSTS = ['domesinnheaven.com', 'www.domesinnheaven.com','*']
 
 # APPS
 INSTALLED_APPS = [
