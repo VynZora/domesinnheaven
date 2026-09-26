@@ -136,14 +136,69 @@ class GalleryImage(OptimizedImageModel):
         return self.title if self.title else f"Image {self.id}"
 
 
+# class Activity(OptimizedImageModel):
+#     image_fields = ["image"]
+
+#     title = models.CharField(
+#         max_length=500
+#     )
+
+#     slug = models.SlugField(
+#         max_length=250,
+#         unique=True,
+#         blank=True
+#     )
+#     description = models.TextField()
+#     image = models.ImageField(upload_to="activities/", help_text="Activity cover image")
+#     duration = models.CharField(max_length=100, blank=True, help_text="Duration (e.g., 3 Days, 2 Hours)")
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         ordering = ["-created_at"]
+#         verbose_name_plural = "Activities"
+
+#     def __str__(self):
+#         return self.title
+
+#     def save(self, *args, **kwargs):
+#         if not self.slug:
+#             base_slug = slugify(self.title)
+#             slug = base_slug
+#             counter = 1
+#             while Activity.objects.filter(slug=slug).exists():
+#                 slug = f"{base_slug}-{counter}"
+#                 counter += 1
+#             self.slug = slug
+#         super().save(*args, **kwargs)
+
+
+
 class Activity(OptimizedImageModel):
     image_fields = ["image"]
 
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    title = models.CharField(
+        max_length=500
+    )
+
+    slug = models.SlugField(
+        max_length=250,
+        unique=True,
+        blank=True
+    )
+
     description = models.TextField()
-    image = models.ImageField(upload_to="activities/", help_text="Activity cover image")
-    duration = models.CharField(max_length=100, blank=True, help_text="Duration (e.g., 3 Days, 2 Hours)")
+
+    image = models.ImageField(
+        upload_to="activities/",
+        help_text="Activity cover image"
+    )
+
+    duration = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Duration (e.g., 3 Days, 2 Hours)"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -155,13 +210,28 @@ class Activity(OptimizedImageModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.title)
+
+            # Keep enough space for "-1", "-2", etc.
+            base_slug = slugify(self.title)[:230]
+
             slug = base_slug
             counter = 1
-            while Activity.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{counter}"
+
+            while Activity.objects.filter(
+                slug=slug
+            ).exclude(pk=self.pk).exists():
+
+                suffix = f"-{counter}"
+
+                slug = (
+                    f"{base_slug[:250 - len(suffix)]}"
+                    f"{suffix}"
+                )
+
                 counter += 1
+
             self.slug = slug
+
         super().save(*args, **kwargs)
 
 class Blog(OptimizedImageModel):
@@ -188,13 +258,27 @@ class Blog(OptimizedImageModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.title)
+
+            base_slug = slugify(self.title)[:230]
+
             slug = base_slug
             counter = 1
-            while Blog.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{counter}"
-                counter += 1
+
+            while Blog.objects.filter(
+            slug=slug
+            ).exclude(pk=self.pk).exists():
+
+               suffix = f"-{counter}"
+
+               slug = (
+                f"{base_slug[:250 - len(suffix)]}"
+                f"{suffix}"
+                )
+
+               counter += 1
+
             self.slug = slug
+
         super().save(*args, **kwargs)
     
 class Testimonial(OptimizedImageModel):
