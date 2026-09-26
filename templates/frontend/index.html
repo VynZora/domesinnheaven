@@ -1053,7 +1053,6 @@
 
     .dih-faq-intro {
         max-width: 650px;
-
         margin-bottom: 45px;
     }
 
@@ -1061,20 +1060,22 @@
         max-width: 570px;
     }
 
-    /*
-       Keep the dome very subtle on tablet because
-       the FAQ list now occupies the full width.
-    */
-
+    /* KEEP IMAGE FULL COLOR */
     .dih-faq-dome-image {
-        width: 70%;
-
-        left: -20%;
+        width: 75%;
+        left: -15%;
         bottom: 0;
 
-        opacity: 0.08;
+        opacity: 1 !important;
+
+        filter: none !important;
+        mix-blend-mode: normal !important;
     }
 
+    .dih-faq-dome-image img {
+        opacity: 1 !important;
+        filter: none !important;
+    }
 }
 
 
@@ -1088,96 +1089,48 @@
         padding: 60px 0;
     }
 
-    /*
-       Remove artwork on phones.
-       Keeps accordion clean and readable.
-    */
-
     .dih-faq-dome-image {
-        display: none;
+        display: block !important;
+
+        /* MAKE IMAGE MUCH BIGGER */
+        width: 155% !important;
+        max-width: none !important;
+
+        /* POSITION IT */
+        left: -35% !important;
+        bottom: -1% !important;
+
+        opacity: 1 !important;
+
+        filter: none !important;
+        mix-blend-mode: normal !important;
+
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .dih-faq-dome-image img {
+        display: block;
+
+        width: 100% !important;
+        height: auto !important;
+
+        opacity: 1 !important;
+        filter: none !important;
+
+        object-fit: contain;
+        object-position: left bottom;
     }
 
     .dih-faq-pattern {
         opacity: 0.04;
     }
 
-    .dih-faq-intro {
-        margin-bottom: 35px;
+    .dih-faq-intro,
+    .dih-faq-list {
+        position: relative;
+        z-index: 5;
     }
-
-    .dih-faq-label {
-        padding: 7px 14px;
-
-        margin-bottom: 15px;
-
-        font-size: 11px;
-    }
-
-    .dih-faq-title {
-        margin-bottom: 17px;
-    }
-
-    .dih-faq-title h2 {
-        font-size: clamp(37px, 11vw, 50px);
-
-        line-height: 1.02;
-    }
-
-    .dih-faq-description {
-        font-size: 16px;
-        line-height: 1.65;
-    }
-
-    .dih-faq-help {
-        font-size: 14px;
-    }
-
-    .dih-faq-item {
-        margin-bottom: 9px;
-
-        border-radius: 14px;
-    }
-
-    .dih-faq-question {
-        grid-template-columns:
-            44px
-            minmax(0, 1fr)
-            36px;
-
-        gap: 10px;
-
-        padding: 13px 12px;
-    }
-
-    .dih-faq-number {
-        width: 44px;
-        height: 38px;
-
-        font-size: 14px;
-    }
-
-    .dih-faq-question-text {
-        font-size: 15px;
-        line-height: 1.45;
-    }
-
-    .dih-faq-toggle {
-        width: 34px;
-        height: 34px;
-
-        font-size: 14px;
-    }
-
-    .dih-faq-answer-inner p,
-    .dih-faq-item.active .dih-faq-answer-inner p {
-        padding-left: 66px;
-        padding-right: 18px;
-        padding-bottom: 20px;
-
-        font-size: 14px;
-        line-height: 1.65;
-    }
-
 }
 
 
