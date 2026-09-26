@@ -450,6 +450,807 @@
 .swiper-pagination-bullet-active {
     background: #3D4B33 !important;
 }
+
+
+
+{% comment %} FAQ css start {% endcomment %}
+/* ==========================================================
+   DOMES INN HEAVEN
+   FAQ SECTION
+========================================================== */
+
+.dih-faq-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    padding: 105px 0 100px;
+
+    background:
+        radial-gradient(
+            circle at 12% 78%,
+            rgba(224, 207, 158, 0.17),
+            transparent 33%
+        ),
+        linear-gradient(
+            110deg,
+            #fbfaf5 0%,
+            #f8f6ef 52%,
+            #fcfbf7 100%
+        );
+}
+
+
+/* ==========================================================
+   CONTOUR / TOPOGRAPHIC BACKGROUND
+========================================================== */
+
+.dih-faq-pattern {
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+    pointer-events: none;
+
+    opacity: 0.065;
+
+    background-image:
+        repeating-radial-gradient(
+            ellipse at 12% 18%,
+            transparent 0,
+            transparent 27px,
+            rgba(69, 87, 51, 0.26) 28px,
+            transparent 29px
+        ),
+        repeating-radial-gradient(
+            ellipse at 92% 72%,
+            transparent 0,
+            transparent 34px,
+            rgba(69, 87, 51, 0.20) 35px,
+            transparent 36px
+        );
+
+    background-size:
+        720px 520px,
+        850px 650px;
+
+    background-position:
+        left top,
+        right bottom;
+
+    background-repeat: no-repeat;
+}
+
+
+/* ==========================================================
+   TRANSPARENT DOME ARTWORK
+========================================================== */
+
+/* ==========================================================
+   TRANSPARENT DOME ARTWORK — LARGER DESKTOP VERSION
+========================================================== */
+
+.dih-faq-dome-image {
+    position: absolute;
+
+    /* push slightly outside the screen so it feels cropped */
+    left: -5%;
+    bottom: -5%;
+
+    /* INCREASE IMAGE SIZE */
+    width: 62%;
+    max-width: 1050px;
+
+    z-index: 1;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.dih-faq-dome-image img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+    object-position: left bottom;
+}
+
+
+/* ==========================================================
+   CONTENT LAYER
+========================================================== */
+
+.dih-faq-section .container {
+    position: relative;
+    z-index: 3;
+}
+
+
+/* ==========================================================
+   LEFT SIDE
+========================================================== */
+
+.dih-faq-intro {
+    position: relative;
+
+    max-width: 470px;
+
+    padding-top: 3px;
+
+    z-index: 4;
+}
+
+
+/* Label */
+
+.dih-faq-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 18px;
+
+    margin-bottom: 22px;
+
+    border: 1px solid rgba(82, 105, 46, 0.28);
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.46);
+
+    color: #53682e;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.dih-faq-title {
+    margin-bottom: 22px;
+}
+
+.dih-faq-title h2 {
+    margin: 0;
+
+    color: #3d4b33;
+
+    font-size: clamp(42px, 4.2vw, 66px);
+    line-height: 0.98;
+    font-weight: 600;
+}
+
+.dih-faq-title h2 span {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #171717;
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+========================================================== */
+
+.dih-faq-description {
+    max-width: 420px;
+
+    margin: 0 0 5px;
+
+    color: #60655d;
+
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.dih-faq-help {
+    margin: 0 0 27px;
+
+    color: #777b73;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* ==========================================================
+   BOOK BUTTON
+========================================================== */
+
+.dih-faq-book-btn {
+    position: relative;
+    z-index: 4;
+}
+
+
+/* ==========================================================
+   FAQ LIST
+========================================================== */
+
+.dih-faq-list {
+    position: relative;
+
+    width: 100%;
+
+    z-index: 5;
+}
+
+
+/* ==========================================================
+   FAQ ITEM
+========================================================== */
+
+.dih-faq-item {
+    position: relative;
+
+    margin-bottom: 10px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(65, 82, 50, 0.17);
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.76);
+
+    box-shadow:
+        0 5px 25px rgba(42, 54, 34, 0.025);
+
+    transform: translateZ(0);
+
+    transition:
+        background 0.38s ease,
+        border-color 0.38s ease,
+        box-shadow 0.38s ease,
+        transform 0.30s ease;
+}
+
+
+/* Normal hover */
+
+.dih-faq-item:not(.active):hover {
+    border-color: rgba(92, 120, 43, 0.38);
+
+    background: rgba(255, 255, 255, 0.94);
+
+    box-shadow:
+        0 12px 32px rgba(48, 65, 34, 0.075);
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================
+   QUESTION
+========================================================== */
+
+.dih-faq-question {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        58px
+        minmax(0, 1fr)
+        44px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 13px 18px;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-family: inherit;
+}
+
+
+/* Remove browser focus outline but retain accessible focus */
+
+.dih-faq-question:focus {
+    outline: none;
+}
+
+.dih-faq-question:focus-visible {
+    box-shadow:
+        inset 0 0 0 2px rgba(96, 123, 41, 0.55);
+
+    border-radius: 17px;
+}
+
+
+/* ==========================================================
+   NUMBER
+========================================================== */
+
+.dih-faq-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 44px;
+
+    border-radius: 50px;
+
+    background: #f3f0e4;
+
+    color: #53682e;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    transition:
+        color 0.35s ease,
+        background 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+/* ==========================================================
+   QUESTION TEXT
+========================================================== */
+
+.dih-faq-question-text {
+    min-width: 0;
+
+    color: #273421;
+
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 700;
+
+    transition:
+        color 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+/* ==========================================================
+   PLUS / MINUS BUTTON
+========================================================== */
+
+.dih-faq-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    justify-self: end;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e9eddc;
+
+    color: #607b29;
+
+    font-size: 17px;
+
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+/* Hover animation */
+
+.dih-faq-item:not(.active):hover .dih-faq-toggle {
+    background: #dfe6ce;
+
+    transform: rotate(90deg);
+}
+
+.dih-faq-item:not(.active):hover .dih-faq-number {
+    background: #ecebdc;
+
+    transform: scale(1.03);
+}
+
+
+/* ==========================================================
+   ANSWER ANIMATION
+========================================================== */
+
+.dih-faq-answer {
+    display: grid;
+
+    grid-template-rows: 0fr;
+
+    visibility: hidden;
+
+    transition:
+        grid-template-rows 0.42s cubic-bezier(.4, 0, .2, 1),
+        visibility 0.42s;
+}
+
+.dih-faq-answer-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.dih-faq-answer-inner p {
+    margin: 0;
+
+    padding:
+        0
+        72px
+        0
+        91px;
+
+    opacity: 0;
+
+    transform: translateY(-10px);
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 15px;
+    line-height: 1.75;
+
+    transition:
+        opacity 0.30s ease,
+        transform 0.38s ease,
+        padding 0.38s ease;
+}
+
+.dih-faq-answer-inner strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   ACTIVE / EXPANDED FAQ
+========================================================== */
+
+.dih-faq-item.active {
+    border-color: transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            #658328 0%,
+            #536f29 48%,
+            #405827 100%
+        );
+
+    box-shadow:
+        0 17px 38px rgba(48, 68, 29, 0.16);
+
+    transform: translateY(0);
+}
+
+
+/* Question spacing when expanded */
+
+.dih-faq-item.active .dih-faq-question {
+    padding-top: 17px;
+    padding-bottom: 10px;
+}
+
+
+/* Number active */
+
+.dih-faq-item.active .dih-faq-number {
+    background: rgba(255, 255, 255, 0.13);
+
+    color: #fff;
+}
+
+
+/* Question active */
+
+.dih-faq-item.active .dih-faq-question-text {
+    color: #fff;
+}
+
+
+/* Toggle active */
+
+.dih-faq-item.active .dih-faq-toggle {
+    background: rgba(255, 255, 255, 0.94);
+
+    color: #536d2b;
+
+    transform: rotate(0);
+}
+
+
+/* Open answer */
+
+.dih-faq-item.active .dih-faq-answer {
+    grid-template-rows: 1fr;
+
+    visibility: visible;
+}
+
+.dih-faq-item.active .dih-faq-answer-inner p {
+    padding-top: 4px;
+    padding-bottom: 25px;
+
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* ==========================================================
+   DESKTOP HOVER FEEL
+========================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .dih-faq-item {
+        cursor: pointer;
+    }
+
+    .dih-faq-item.active:hover {
+        box-shadow:
+            0 20px 45px rgba(48, 68, 29, 0.21);
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1199px) {
+
+    .dih-faq-section {
+        padding: 85px 0;
+    }
+
+    .dih-faq-title h2 {
+        font-size: clamp(40px, 4.5vw, 56px);
+    }
+
+    .dih-faq-question-text {
+        font-size: 16px;
+    }
+
+    .dih-faq-answer-inner p {
+        padding-left: 88px;
+        padding-right: 60px;
+    }
+
+    .dih-faq-dome-image {
+        width: 54%;
+        left: -5%;
+        bottom: -1%;
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET / STACKED LAYOUT
+========================================================== */
+
+@media (max-width: 991px) {
+
+    .dih-faq-section {
+        padding: 75px 0;
+    }
+
+    .dih-faq-intro {
+        max-width: 650px;
+
+        margin-bottom: 45px;
+    }
+
+    .dih-faq-description {
+        max-width: 570px;
+    }
+
+    /*
+       Keep the dome very subtle on tablet because
+       the FAQ list now occupies the full width.
+    */
+
+    .dih-faq-dome-image {
+        width: 70%;
+
+        left: -20%;
+        bottom: 0;
+
+        opacity: 0.08;
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 767px) {
+
+    .dih-faq-section {
+        padding: 60px 0;
+    }
+
+    /*
+       Remove artwork on phones.
+       Keeps accordion clean and readable.
+    */
+
+    .dih-faq-dome-image {
+        display: none;
+    }
+
+    .dih-faq-pattern {
+        opacity: 0.04;
+    }
+
+    .dih-faq-intro {
+        margin-bottom: 35px;
+    }
+
+    .dih-faq-label {
+        padding: 7px 14px;
+
+        margin-bottom: 15px;
+
+        font-size: 11px;
+    }
+
+    .dih-faq-title {
+        margin-bottom: 17px;
+    }
+
+    .dih-faq-title h2 {
+        font-size: clamp(37px, 11vw, 50px);
+
+        line-height: 1.02;
+    }
+
+    .dih-faq-description {
+        font-size: 16px;
+        line-height: 1.65;
+    }
+
+    .dih-faq-help {
+        font-size: 14px;
+    }
+
+    .dih-faq-item {
+        margin-bottom: 9px;
+
+        border-radius: 14px;
+    }
+
+    .dih-faq-question {
+        grid-template-columns:
+            44px
+            minmax(0, 1fr)
+            36px;
+
+        gap: 10px;
+
+        padding: 13px 12px;
+    }
+
+    .dih-faq-number {
+        width: 44px;
+        height: 38px;
+
+        font-size: 14px;
+    }
+
+    .dih-faq-question-text {
+        font-size: 15px;
+        line-height: 1.45;
+    }
+
+    .dih-faq-toggle {
+        width: 34px;
+        height: 34px;
+
+        font-size: 14px;
+    }
+
+    .dih-faq-answer-inner p,
+    .dih-faq-item.active .dih-faq-answer-inner p {
+        padding-left: 66px;
+        padding-right: 18px;
+        padding-bottom: 20px;
+
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 480px) {
+
+    .dih-faq-section {
+        padding: 50px 0;
+    }
+
+    .dih-faq-title h2 {
+        font-size: 38px;
+    }
+
+    .dih-faq-question {
+        grid-template-columns:
+            38px
+            minmax(0, 1fr)
+            32px;
+
+        gap: 9px;
+
+        padding: 12px 10px;
+    }
+
+    .dih-faq-number {
+        width: 38px;
+        height: 34px;
+
+        font-size: 13px;
+    }
+
+    .dih-faq-toggle {
+        width: 32px;
+        height: 32px;
+
+        font-size: 13px;
+    }
+
+    .dih-faq-question-text {
+        font-size: 14px;
+    }
+
+    .dih-faq-answer-inner p,
+    .dih-faq-item.active .dih-faq-answer-inner p {
+        padding-left: 57px;
+        padding-right: 14px;
+    }
+
+}
+
+
+/* ==========================================================
+   ACCESSIBILITY - REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dih-faq-item,
+    .dih-faq-answer,
+    .dih-faq-answer-inner p,
+    .dih-faq-toggle,
+    .dih-faq-number {
+        transition: none !important;
+    }
+
+}
+{% comment %} Faq css end  {% endcomment %}
+
+
 </style>
 
 <!-- preloader start-->
@@ -1416,6 +2217,393 @@
 	 <!-- video-cta-section end -->
  
 	
+
+	 
+{% comment %} Faq section  {% endcomment %}
+<!-- =========================================================
+     DOMES INN HEAVEN - FAQ SECTION
+========================================================= -->
+<section class="dih-faq-section" id="faq">
+
+    <!-- Decorative contour pattern -->
+    <div class="dih-faq-pattern" aria-hidden="true"></div>
+
+    <!-- Transparent dome artwork -->
+    <div class="dih-faq-dome-image" aria-hidden="true">
+        <img
+            src="{% static 'assets/img/faq/faq-dome-cutout.png' %}"
+            alt=""
+        >
+    </div>
+
+    <div class="container">
+        <div class="row align-items-start">
+
+            <!-- =============================================
+                 LEFT SIDE
+            ============================================== -->
+            <div class="col-lg-5">
+
+                <div class="dih-faq-intro">
+
+                    <div class="dih-faq-label">
+                        STAY INFORMATION
+                    </div>
+
+                    <div class="dih-faq-title">
+                        <h2>
+                            Frequently
+                            <span>Asked Questions</span>
+                        </h2>
+                    </div>
+
+                    <p class="dih-faq-description">
+                        Everything you need to know before planning your
+                        stay at Domes Inn Heaven.
+                    </p>
+
+                    <p class="dih-faq-help">
+                        Can't find the answer? We're happy to help.
+                    </p>
+
+                    <a
+                        href="{% url 'booking' %}"
+                        class="e-primary-btn has-icon dih-faq-book-btn"
+                    >
+                        Book Your Stay
+
+                        <span class="icon-wrap">
+                            <span class="icon">
+                                <i class="fa-regular fa-arrow-right"></i>
+                                <i class="fa-regular fa-arrow-right"></i>
+                            </span>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 RIGHT SIDE - FAQ ACCORDION
+            ============================================== -->
+            <div class="col-lg-7">
+
+                <div class="dih-faq-list">
+
+
+                    <!-- FAQ 01 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">01</span>
+
+                            <span class="dih-faq-question-text">
+                                What is Domes Inn Heaven in Munnar?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Domes Inn Heaven is a luxury glamping resort
+                                        in Munnar, Kerala,
+                                    </strong>
+                                    offering dome stays, cottages and private pool
+                                    villas surrounded by hills and greenery. Guests
+                                    can choose from Luxury Glamps, Jacuzzi Glamps,
+                                    Eagle Eye Cottages and private pool villas
+                                    depending on the type of stay they are looking for.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 02 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">02</span>
+
+                            <span class="dih-faq-question-text">
+                                What can I expect from a luxury glamping stay at Domes Inn Heaven?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        You can expect a comfortable private stay
+                                        surrounded by the natural beauty of Munnar.
+                                    </strong>
+                                    The property combines dome-style accommodation
+                                    with modern comforts, scenic surroundings and
+                                    outdoor experiences, making it suitable for
+                                    travellers who want to experience nature without
+                                    giving up comfort.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 03 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">03</span>
+
+                            <span class="dih-faq-question-text">
+                                Is Domes Inn Heaven a good place for a unique stay in Munnar?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Yes, Domes Inn Heaven offers a different type
+                                        of accommodation from a traditional hotel or resort.
+                                    </strong>
+                                    Guests can stay in dome-style accommodation
+                                    surrounded by nature, enjoy scenic views and spend
+                                    time outdoors. Stargazing and the property's
+                                    natural surroundings add to the experience.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 04 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">04</span>
+
+                            <span class="dih-faq-question-text">
+                                What accommodation options are available at Domes Inn Heaven?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Domes Inn Heaven offers Luxury Glamps,
+                                        Luxury Jacuzzi Glamps, Eagle Eye Cottages
+                                        and Eagle Eye Private Pool Villas.
+                                    </strong>
+                                    Each option offers a different stay experience,
+                                    so guests can choose based on their preferred
+                                    space, privacy and amenities.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 05 -->
+                    <article class="dih-faq-item active">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="true"
+                        >
+                            <span class="dih-faq-number">05</span>
+
+                            <span class="dih-faq-question-text">
+                                Is Domes Inn Heaven suitable for couples and honeymoon trips?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-minus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Yes, Domes Inn Heaven is suitable for couples,
+                                        honeymooners and guests planning a romantic
+                                        getaway in Munnar.
+                                    </strong>
+                                    Private accommodation, Jacuzzi options, scenic
+                                    surroundings and peaceful outdoor spaces provide
+                                    options for couples looking for a more private stay.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 06 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">06</span>
+
+                            <span class="dih-faq-question-text">
+                                What can I do at Domes Inn Heaven besides staying in the dome?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Guests can enjoy bird watching, sunrise views
+                                        and cardamom plantation walks during their stay.
+                                    </strong>
+                                    These activities give visitors a chance to spend
+                                    time outdoors and experience the natural surroundings
+                                    of Munnar rather than staying indoors throughout
+                                    their visit.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 07 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">07</span>
+
+                            <span class="dih-faq-question-text">
+                                Can families stay at Domes Inn Heaven?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Yes, families can choose from spacious
+                                        accommodation options such as glamps and
+                                        cottages at Domes Inn Heaven.
+                                    </strong>
+                                    The property provides a nature-focused setting
+                                    where families can spend time together, enjoy
+                                    the surroundings and take part in outdoor experiences.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <!-- FAQ 08 -->
+                    <article class="dih-faq-item">
+
+                        <button
+                            class="dih-faq-question"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            <span class="dih-faq-number">08</span>
+
+                            <span class="dih-faq-question-text">
+                                Why should I consider Domes Inn Heaven for a glamping stay in Kerala?
+                            </span>
+
+                            <span class="dih-faq-toggle">
+                                <i class="fa-regular fa-plus"></i>
+                            </span>
+                        </button>
+
+                        <div class="dih-faq-answer">
+                            <div class="dih-faq-answer-inner">
+                                <p>
+                                    <strong>
+                                        Domes Inn Heaven combines dome accommodation,
+                                        nature and modern comforts in a scenic setting
+                                        in Munnar.
+                                    </strong>
+                                    With Luxury Glamps, Jacuzzi Glamps, cottages and
+                                    private pool villas, guests have several accommodation
+                                    choices for couples, families and travellers looking
+                                    for a luxury nature stay in Kerala.
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<!-- FAQ SECTION END -->
+
+{% comment %} faq section end  {% endcomment %}
+
+
+
 	<!-- latest-blog-section start -->
 	<section class="latest-blog-section p-t-100 p-t-xs-40 p-b-60 p-b-xs-20 p-b-md-20 p-b-lg-20 p-b-xl-20" style="background-color: #f8f7f0;">
 		<div class="container">
@@ -1484,6 +2672,7 @@
 		<div class="shape"><img alt="shape" src="{% static 'assets/img/shapes/shape-38.webp' %}"></div>
 	</section>
 	<!-- latest-blog-section end -->
+
 	
 	{% comment %} <!-- contact-us start -->
 	<section class="contact-us" style="background-image: url('{% static "assets/img/static_images_new/1.png" %}')">
@@ -1839,6 +3028,347 @@ document.addEventListener('DOMContentLoaded', () => {
         activate(0);
     });
 });
+
+
 </script>
+
+
+{% comment %} faq js start {% endcomment %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const faqList = document.querySelector(".dih-faq-list");
+
+    if (!faqList) {
+        return;
+    }
+
+    const faqItems = Array.from(
+        faqList.querySelectorAll(".dih-faq-item")
+    );
+
+    /*
+    ============================================================
+    SETTINGS
+    ============================================================
+    */
+
+    const HOVER_OPEN_DELAY = 180;
+
+    let hoverTimer = null;
+
+
+    /*
+    ============================================================
+    CHECK IF DEVICE REALLY SUPPORTS HOVER
+    ============================================================
+    */
+
+    const canHover = window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+    );
+
+
+    /*
+    ============================================================
+    OPEN FAQ
+    ============================================================
+    */
+
+    function openFaq(item) {
+
+        if (!item) {
+            return;
+        }
+
+        /*
+        Close all other FAQ items first.
+        This guarantees only one item is open.
+        */
+
+        faqItems.forEach(function (otherItem) {
+
+            if (otherItem !== item) {
+                closeFaq(otherItem);
+            }
+
+        });
+
+
+        item.classList.add("active");
+
+
+        const button = item.querySelector(".dih-faq-question");
+
+        const icon = item.querySelector(
+            ".dih-faq-toggle i"
+        );
+
+
+        if (button) {
+            button.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+        }
+
+
+        if (icon) {
+
+            icon.classList.remove(
+                "fa-plus"
+            );
+
+            icon.classList.add(
+                "fa-minus"
+            );
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    CLOSE FAQ
+    ============================================================
+    */
+
+    function closeFaq(item) {
+
+        if (!item) {
+            return;
+        }
+
+
+        item.classList.remove("active");
+
+
+        const button = item.querySelector(
+            ".dih-faq-question"
+        );
+
+        const icon = item.querySelector(
+            ".dih-faq-toggle i"
+        );
+
+
+        if (button) {
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+
+        if (icon) {
+
+            icon.classList.remove(
+                "fa-minus"
+            );
+
+            icon.classList.add(
+                "fa-plus"
+            );
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    TOGGLE FAQ
+    ============================================================
+    */
+
+    function toggleFaq(item) {
+
+        const isOpen =
+            item.classList.contains("active");
+
+
+        if (isOpen) {
+
+            closeFaq(item);
+
+        } else {
+
+            openFaq(item);
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    INITIALIZE EVERY FAQ
+    ============================================================
+    */
+
+    faqItems.forEach(function (item) {
+
+        const button = item.querySelector(
+            ".dih-faq-question"
+        );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        /*
+        --------------------------------------------------------
+        CLICK / TOUCH
+        --------------------------------------------------------
+        */
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                clearTimeout(hoverTimer);
+
+                toggleFaq(item);
+
+            }
+        );
+
+
+        /*
+        --------------------------------------------------------
+        DESKTOP HOVER
+        --------------------------------------------------------
+
+        On desktop:
+        when mouse enters a FAQ,
+        wait very slightly before opening.
+
+        This prevents accidental opening when
+        user simply moves the mouse across list.
+        --------------------------------------------------------
+        */
+
+        item.addEventListener(
+            "mouseenter",
+            function () {
+
+                if (!canHover.matches) {
+                    return;
+                }
+
+
+                clearTimeout(hoverTimer);
+
+
+                hoverTimer = setTimeout(
+                    function () {
+
+                        openFaq(item);
+
+                    },
+                    HOVER_OPEN_DELAY
+                );
+
+            }
+        );
+
+
+        /*
+        If pointer leaves before delay completes,
+        cancel pending hover.
+        */
+
+        item.addEventListener(
+            "mouseleave",
+            function () {
+
+                if (!canHover.matches) {
+                    return;
+                }
+
+                clearTimeout(hoverTimer);
+
+            }
+        );
+
+    });
+
+
+    /*
+    ============================================================
+    INITIAL STATE
+    ============================================================
+
+    Synchronize icons/ARIA with whichever FAQ
+    has class="active" in HTML.
+    ============================================================
+    */
+
+    faqItems.forEach(function (item) {
+
+        if (item.classList.contains("active")) {
+
+            const button =
+                item.querySelector(".dih-faq-question");
+
+            const icon =
+                item.querySelector(".dih-faq-toggle i");
+
+
+            if (button) {
+
+                button.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+            }
+
+
+            if (icon) {
+
+                icon.classList.remove("fa-plus");
+                icon.classList.add("fa-minus");
+
+            }
+
+        } else {
+
+            const button =
+                item.querySelector(".dih-faq-question");
+
+            const icon =
+                item.querySelector(".dih-faq-toggle i");
+
+
+            if (button) {
+
+                button.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+
+            if (icon) {
+
+                icon.classList.remove("fa-minus");
+                icon.classList.add("fa-plus");
+
+            }
+
+        }
+
+    });
+
+});
+</script>
+{% comment %} FAQ js end  {% endcomment %}
 
 {% endblock %}
