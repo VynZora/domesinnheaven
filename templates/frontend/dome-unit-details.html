@@ -196,29 +196,80 @@
 								{{ dome.description|safe }}
 							</div>
 
-                            <div class="payment-method-form m-b-50">
-                                <div class="payment-title m-b-20">
-                                    <h3 style="font-size: 24px; font-weight: 700;">Stay Inclusions</h3>
-                                </div>
-                                <div class="inclusions-list m-b-30">
-                                    <ul style="list-style-type: disc; padding-left: 20px;">
-                                        {% for item in dome.get_package_items_list %}
-                                        <li style="margin-bottom: 8px; font-weight: 500; color: #444;">{{ item }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                
-                                <div class="payment-title m-t-40 m-b-20">
-                                    <h3 style="font-size: 24px; font-weight: 700;">Facilities</h3>
-                                </div>
-                                <div class="facilities-list">
-                                    <ul style="list-style-type: disc; padding-left: 20px;">
-                                        {% for facility in dome.get_facilities_list %}
-                                        <li style="margin-bottom: 8px; font-weight: 500; color: #444;">{{ facility }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
+{% if dome.package_items or dome.facilities %}
+
+<div class="payment-method-form m-b-50">
+
+    {# =============================== #}
+    {# STAY INCLUSIONS                 #}
+    {# Only show when content exists   #}
+    {# =============================== #}
+
+    {% if dome.package_items %}
+
+    <div class="payment-title m-b-20">
+        <h3 style="font-size: 24px; font-weight: 700;">
+            Stay Inclusions
+        </h3>
+    </div>
+
+    <div class="inclusions-list m-b-30">
+        <ul style="list-style-type: disc; padding-left: 20px;">
+
+            {% for item in dome.get_package_items_list %}
+
+            <li style="
+                margin-bottom: 8px;
+                font-weight: 500;
+                color: #444;
+            ">
+                {{ item }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+    </div>
+
+    {% endif %}
+
+
+    {# =============================== #}
+    {# FACILITIES                      #}
+    {# Only show when content exists   #}
+    {# =============================== #}
+
+    {% if dome.facilities %}
+
+    <div class="payment-title {% if dome.package_items %}m-t-40{% endif %} m-b-20">
+        <h3 style="font-size: 24px; font-weight: 700;">
+            Facilities
+        </h3>
+    </div>
+
+    <div class="facilities-list">
+        <ul style="list-style-type: disc; padding-left: 20px;">
+
+            {% for facility in dome.get_facilities_list %}
+
+            <li style="
+                margin-bottom: 8px;
+                font-weight: 500;
+                color: #444;
+            ">
+                {{ facility }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
 						</div>
 
 						<div class="detail-sidebar">
