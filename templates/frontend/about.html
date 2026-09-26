@@ -1,5 +1,20 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+
+{% block meta_title %}Luxury Glamping Retreat in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Discover a luxury glamping retreat in Munnar at Domes Inn Heaven. Enjoy unique dome stays, nature, scenic views and peaceful hill escapes. Book now.{% endblock %}
+
+
+{% block og_title %}Luxury Glamping Retreat in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Experience a different side of Munnar at Domes Inn Heaven with luxury dome stays, peaceful nature, scenic hill views and comfortable escapes.{% endblock %}
+
+
+
+
 {% block content %}
 	<style>
 		.dome-events-area {
@@ -1091,83 +1106,215 @@
 
 	<!-- our-events-section-2 start -->
 	<section class="our-events-section-2 dome-events-area p-t-120 p-b-120 p-t-xs-40 p-b-xs-40"
-		style="position: relative; overflow: hidden; background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}'); background-size: cover; background-repeat: no-repeat; background-position: center center; z-index: 1;">
-		<div class="container">
-			<div class="row align-items-end m-b-60 m-b-xs-40">
-				<div class="col-xl-6 col-md-8 m-b-xs-20">
-					<div class="common-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-						<!-- <img src="{% static 'assets/img/icons/icon-2.svg' %}" alt="icon-1"/> -->
-						<span>Our Collection</span>
-					</div>
-					<div class="common-title m-b-0 style-color-3 text-start" data-aos="fade-up" data-aos-duration="1000"
-						data-aos-delay="400">
-						<h2 class="dome_text_invert">Explore Our Dome Categories</h2>
-					</div>
-				</div>
-				<div class="col-xl-6 col-md-4 text-md-end">
-					<a href="{% url 'services' %}" class="e-primary-btn has-icon" data-aos="fade-up"
-						data-aos-duration="1000" data-aos-delay="600">
-						View All Categories
-						<span class="icon-wrap">
-							<span class="icon"><i class="fa-regular fa-arrow-right"></i><i
-									class="fa-regular fa-arrow-right"></i></span>
-						</span>
-					</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xl-12">
-					<div class="dome-events-stack-wrap">
-						{% for category in dome_categories %}
-						<div class="dome-event-panel mb-4">
-							<div class="event-card-2">
-								<div class="event-thumb">
-									<a href="{% url 'service_single' category.slug %}">
-										<img src="{{ category.image.url }}" alt="{{ category.name }}" style="height: 350px; width: 100%; object-fit: cover;" />
-									</a>
-									<div class="event-date">
-										<h5>Luxury Stay</h5>
-									</div>
-								</div>
-								<div class="card-content">
-									<div class="event-card-title">
-										<h2>
-											<a href="{% url 'service_single' category.slug %}" class="dome_text_invert">
-												{{ category.name }}
-											</a>
-										</h2>
-									</div>
+    style="position: relative;
+           overflow: hidden;
+           background-image: url('{% static "assets/img/bg/latest-blog-bg.webp" %}');
+           background-size: cover;
+           background-repeat: no-repeat;
+           background-position: center center;
+           z-index: 1;">
 
-									<div class="join-event">
-										<div class="blog-btn">
-											<a href="{% url 'service_single' category.slug %}"
-												class="e-primary-btn has-icon">
-												View Domes
-												<span class="icon-wrap">
-													<span class="icon"><i
-															class="fa-regular fa-arrow-right"></i><i
-															class="fa-regular fa-arrow-right"></i></span>
-												</span>
-											</a>
-										</div>
-										<div class="top-right">
-											<div class="people-joined">
-												<h5>₹{{ category.domes.first.normal_price|default:"0" }}</h5>
-												<span>Starting From</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{% empty %}
-						<p class="text-center">No categories available at the moment.</p>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+    <div class="container">
+
+        <!-- =====================================================
+             SECTION HEADER
+        ====================================================== -->
+        <div class="row align-items-end m-b-60 m-b-xs-40">
+
+            <div class="col-xl-6 col-md-8 m-b-xs-20">
+
+                <div class="common-subtitle"
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                    data-aos-delay="200">
+
+                    <span>Our Collection</span>
+
+                </div>
+
+                <div class="common-title m-b-0 style-color-3 text-start"
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                    data-aos-delay="400">
+
+                    <h2 class="dome_text_invert">
+                        Explore Our Dome Stays
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-6 col-md-4 text-md-end">
+
+                <a href="{% url 'services' %}"
+                   class="e-primary-btn has-icon"
+                   data-aos="fade-up"
+                   data-aos-duration="1000"
+                   data-aos-delay="600">
+
+                    View All Domes
+
+                    <span class="icon-wrap">
+                        <span class="icon">
+
+                            <i class="fa-regular fa-arrow-right"></i>
+                            <i class="fa-regular fa-arrow-right"></i>
+
+                        </span>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             DOME TYPES
+        ====================================================== -->
+        <div class="row">
+
+            <div class="col-xl-12">
+
+                <div class="dome-events-stack-wrap">
+
+                    {% for dome in dome_types %}
+
+                    <div class="dome-event-panel mb-4">
+
+                        <div class="event-card-2">
+
+                            <!-- IMAGE -->
+                            <div class="event-thumb">
+
+                                <a href="{% url 'dome_details' dome.slug %}">
+
+                                    {% if dome.main_image %}
+                                    <img
+                                        src="{{ dome.main_image.url }}"
+                                        alt="{{ dome.name }}"
+                                        style="
+                                            height: 350px;
+                                            width: 100%;
+                                            object-fit: cover;
+                                        "
+                                    >
+                                    {% endif %}
+
+                                </a>
+
+
+                                <div class="event-date">
+                                    <h5>Luxury Stay</h5>
+                                </div>
+
+                            </div>
+
+
+                            <!-- CONTENT -->
+                            <div class="card-content">
+
+                                <div class="event-card-title">
+
+                                    <h2>
+
+<a
+    href="{% url 'dome_details' dome.slug %}"
+    class="dome_text_invert">
+
+    {{ dome.name }}
+
+</a>
+
+                                    </h2>
+
+                                </div>
+
+
+                                <div class="join-event">
+
+                                    <!-- VIEW BUTTON -->
+                                    <div class="blog-btn">
+
+<a
+    href="{% url 'dome_details' dome.slug %}"
+    class="e-primary-btn has-icon">
+
+    View Dome
+
+    <span class="icon-wrap">
+        <span class="icon">
+
+            <i class="fa-regular fa-arrow-right"></i>
+            <i class="fa-regular fa-arrow-right"></i>
+
+        </span>
+    </span>
+
+</a>
+
+                                    </div>
+
+
+                                    <!-- PRICE -->
+                                    <div class="top-right">
+
+                                        <div class="people-joined">
+
+                                            {% if dome.normal_price %}
+
+                                                <h5>
+                                                    ₹{{ dome.normal_price }}
+                                                </h5>
+
+                                                <span>
+                                                    Starting From
+                                                </span>
+
+                                            {% else %}
+
+                                                <h5>
+                                                    Contact Us
+                                                </h5>
+
+                                                <span>
+                                                    For Pricing
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p class="text-center">
+                        No domes available at the moment.
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 	<!-- our-events-section-2 end -->
 	<!-- why-us-section end -->
 	</div>

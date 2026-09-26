@@ -211,7 +211,7 @@
 				<div class="col-xl-4 m-b-30">
 					<div class="camping-card">
 						<div class="thumb">
-							<a href="{% url 'services_details_with_slug' dome.slug %}"><img alt="{{ dome.name }}" src="{{ dome.main_image.url }}"></a>
+							<a href="{% url 'dome_details' dome.slug %}"><img alt="{{ dome.name }}" src="{{ dome.main_image.url }}"></a>
 							<div class="category">
 								<a href="#">{{ category.name }}</a>
 							</div>
@@ -222,7 +222,7 @@
 									<img alt="calendar-icon" src="{% static 'assets/img/icons/calendar.svg' %}"> <span>Stay</span>
 								</div>
 								<div class="title">
-									<h3><a href="{% url 'services_details_with_slug' dome.slug %}">{{ dome.name }}</a></h3>
+									<h3><a href="{% url 'dome_details' dome.slug %}">{{ dome.name }}</a></h3>
 								</div>
 								<div class="text" style="margin-bottom: 0px !important;">
 									{{ dome.description|truncatewords_html:15|safe }}

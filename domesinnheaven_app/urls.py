@@ -9,11 +9,30 @@ urlpatterns = [
 
     path('about/', views.about, name='about'),
 
-    path('dome/', views.services, name='services'),
-    path('dome/<slug:slug>/', views.service_single, name='service_single'),
-    path('dome-details/', views.services_details, name='services_details'),
-    path('dome-details/<slug:slug>/', views.services_details, name='services_details_with_slug'),
-    path('ajax/load-dome-types/', views.load_dome_types, name='ajax_load_dome_types'),
+    # path('dome/', views.services, name='services'),
+    # path('dome-details/', views.services_details, name='services_details'),
+    # path('dome-details/<slug:slug>/', views.services_details, name='services_details_with_slug'),
+    
+
+    # ============================================================
+# DOMES
+# ============================================================
+
+# All Dome Types
+path(
+    "dome/",
+    views.services,
+    name="services",
+),
+
+# Single Dome Type
+path(
+    "dome/<slug:slug>/",
+    views.services_details,
+    name="dome_details",
+),
+
+
 
     path('activities/', views.activities, name='activities'),
     path('activities/<slug:slug>/', views.activity_details, name='activity_details'),
@@ -81,10 +100,10 @@ urlpatterns = [
     path("dashboard/bookings/", views.admin_view_bookings, name="admin_view_bookings"),
     path("dashboard/bookings/<int:pk>/delete/", views.admin_delete_booking, name="admin_delete_booking"),
 
-    path("dashboard/dome-categories/", views.admin_dome_category_list, name="admin_dome_category_list"),
-    path("dashboard/dome-categories/add/", views.dome_category_create, name="dome_category_create"),
-    path("dashboard/dome-categories/<int:pk>/edit/", views.dome_category_update, name="dome_category_update"),
-    path("dashboard/dome-categories/<int:pk>/delete/", views.dome_category_delete, name="dome_category_delete"),
+    # path("dashboard/dome-categories/", views.admin_dome_category_list, name="admin_dome_category_list"),
+    # path("dashboard/dome-categories/add/", views.dome_category_create, name="dome_category_create"),
+    # path("dashboard/dome-categories/<int:pk>/edit/", views.dome_category_update, name="dome_category_update"),
+    # path("dashboard/dome-categories/<int:pk>/delete/", views.dome_category_delete, name="dome_category_delete"),
 
     path("dashboard/dome-types/", views.admin_dome_type_list, name="admin_dome_type_list"),
     path("dashboard/dome-types/add/", views.dome_type_create, name="dome_type_create"),

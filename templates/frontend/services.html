@@ -343,31 +343,78 @@
 					background-color: #f8f7f0;
 				}
 			</style>
-			<div class="row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				{% for category in categories %}
-				<div class="col-xl-4 m-b-30">
-					<div class="project-card style-service">
-						<div class="thumb">
-							<a href="{% url 'service_single' category.slug %}"><img alt="{{ category.name }}" src="{{ category.image.url }}"></a>
-							<div class="tag">
-								<p>No - {{ forloop.counter|stringformat:"02d" }}</p>
-							</div>
-							<div class="content">
-								<h5>{{ category.name }}</h5>
+			<div class="row"
+     data-aos="fade-up"
+     data-aos-delay="200"
+     data-aos-duration="1000">
 
-								<div class="join-us">
-									<a class="e-primary-btn has-icon is-hover-white full-clickable-link" href="{% url 'service_single' category.slug %}">View Domes <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				{% empty %}
-				<div class="col-12">
-					<p class="text-center">No Dome Categories available yet.</p>
-				</div>
-				{% endfor %}
-			</div>
+    {% for dome in dome_types %}
+
+    <div class="col-xl-4 col-lg-4 col-md-6 m-b-30">
+
+        <div class="project-card style-service">
+
+            <div class="thumb">
+
+                <a href="{% url 'dome_details' dome.slug %}">
+                    {% if dome.main_image %}
+                        <img
+                            alt="{{ dome.name }}"
+                            src="{{ dome.main_image.url }}"
+                        >
+                    {% endif %}
+                </a>
+
+                <div class="tag">
+                    <p>
+                        No - {{ forloop.counter|stringformat:"02d" }}
+                    </p>
+                </div>
+
+                <div class="content">
+
+                    <h5>
+                        {{ dome.name }}
+                    </h5>
+
+                    <div class="join-us">
+
+                        <a
+                            class="e-primary-btn has-icon is-hover-white full-clickable-link"
+                            href="{% url 'dome_details' dome.slug %}"
+                        >
+                            View Dome
+
+                            <span class="icon-wrap">
+                                <span class="icon">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                </span>
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+        <p class="text-center">
+            No Domes available yet.
+        </p>
+    </div>
+
+    {% endfor %}
+
+</div>
 		</div>
 		<div class="c-shape-1"><img alt="shape-30" src="{% static 'assets/img/shapes/shape-30.webp' %}"></div>
 		<div class="c-shape-2"><img alt="shape-31" src="{% static 'assets/img/shapes/shape-31.webp' %}"></div>

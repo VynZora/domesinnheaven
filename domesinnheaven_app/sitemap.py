@@ -1,8 +1,17 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from .models import Blog, Activity, CampingPackage, DomeCategory, DomeType
+from .models import (
+    Blog,
+    Activity,
+    CampingPackage,
+    DomeType,
+)
 
+
+# ============================================================
+# STATIC PAGES
+# ============================================================
 
 class StaticViewSitemap(Sitemap):
     protocol = "https"
@@ -27,7 +36,12 @@ class StaticViewSitemap(Sitemap):
         return reverse(item)
 
 
+# ============================================================
+# BLOGS
+# ============================================================
+
 class BlogSitemap(Sitemap):
+    protocol = "https"
     priority = 0.8
     changefreq = "weekly"
 
@@ -35,10 +49,20 @@ class BlogSitemap(Sitemap):
         return Blog.objects.all()
 
     def location(self, obj):
-        return reverse("blog_detail_slug", kwargs={"slug": obj.slug})
+        return reverse(
+            "blog_detail_slug",
+            kwargs={
+                "slug": obj.slug,
+            },
+        )
 
+
+# ============================================================
+# CAMPING PACKAGES
+# ============================================================
 
 class CampingPackageSitemap(Sitemap):
+    protocol = "https"
     priority = 0.9
     changefreq = "monthly"
 
@@ -46,10 +70,20 @@ class CampingPackageSitemap(Sitemap):
         return CampingPackage.objects.all()
 
     def location(self, obj):
-        return reverse("package_details", kwargs={"slug": obj.slug})
+        return reverse(
+            "package_details",
+            kwargs={
+                "slug": obj.slug,
+            },
+        )
 
+
+# ============================================================
+# ACTIVITIES
+# ============================================================
 
 class ActivitySitemap(Sitemap):
+    protocol = "https"
     priority = 0.7
     changefreq = "monthly"
 
@@ -57,26 +91,30 @@ class ActivitySitemap(Sitemap):
         return Activity.objects.all()
 
     def location(self, obj):
-        return reverse("activity_details", kwargs={"slug": obj.slug})
+        return reverse(
+            "activity_details",
+            kwargs={
+                "slug": obj.slug,
+            },
+        )
 
 
-class DomeCategorySitemap(Sitemap):
-    priority = 0.9
-    changefreq = "monthly"
-
-    def items(self):
-        return DomeCategory.objects.all()
-
-    def location(self, obj):
-        return reverse("service_single", kwargs={"slug": obj.slug})
-
+# ============================================================
+# DOME TYPES
+# ============================================================
 
 class DomeTypeSitemap(Sitemap):
-    priority = 0.8
+    protocol = "https"
+    priority = 0.9
     changefreq = "monthly"
 
     def items(self):
         return DomeType.objects.all()
 
     def location(self, obj):
-        return reverse("services_details_with_slug", kwargs={"slug": obj.slug})
+        return reverse(
+            "dome_details",
+            kwargs={
+                "slug": obj.slug,
+            },
+        )

@@ -1,140 +1,699 @@
 {% extends "admin_pages/base.html" %}
 {% load static %}
 
-{% block title %}{% if dome_type %}Update{% else %}Create{% endif %} Dome Type | Admin Dashboard{% endblock %}
-
-{% block content %}
-<div class="dashboard sp_bottom_100">
-    <div class="container-fluid full__width__padding">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="dashboard__section__title">
-                    <h4 class="mb-0">{% if dome_type %}Update{% else %}Add{% endif %} Dome Type</h4>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <form method="post" enctype="multipart/form-data" class="needs-validation form-wrapper" novalidate style="max-width: 1000px;">
-                            {% csrf_token %}
-                            <div class="row">
-                                <!-- Category -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
-                                    <select name="category" id="category" class="form-select modern-input" required>
-                                        <option value="">Select a Category</option>
-                                        {% for cat in form.fields.category.queryset %}
-                                        <option value="{{ cat.id }}" {% if dome_type.category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="invalid-feedback">Please select a category.</div>
-                                </div>
-
-                                <!-- Name -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="name" class="form-label">Dome Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name" id="name" class="form-control modern-input" placeholder="Enter dome name" value="{{ dome_type.name|default:'' }}" required>
-                                    <div class="invalid-feedback">Please provide a dome name.</div>
-                                </div>
-
-                                <!-- Description -->
-                                <div class="col-12 mb-4">
-                                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
-                                    <textarea name="description" id="description" class="form-control modern-input rich-editor" rows="5" placeholder="Describe the dome..." required>{{ dome_type.description|default:'' }}</textarea>
-                                    <div class="invalid-feedback">Please provide a description.</div>
-                                </div>
-
-                                <!-- Image -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="main_image" class="form-label">Main Image <span class="text-danger">*</span></label>
-                                    <input type="file" name="main_image" id="main_image" class="form-control modern-input" accept="image/*" {% if not dome_type %}required{% endif %}>
-                                    {% if dome_type.main_image %}
-                                    <div class="mt-2">
-                                        <img src="{{ dome_type.main_image.url }}" alt="Preview" style="max-width: 200px; border-radius: 8px;">
-                                    </div>
-                                    {% endif %}
-                                    <div id="imagePreview" class="mt-2" style="display: none; border: 2px dashed #d1d5db; border-radius: 8px; width: 200px; height: 150px; align-items: center; justify-content: center; overflow: hidden;"></div>
-                                </div>
-
-                                <!-- Prices -->
-                                <div class="col-md-3 mb-4">
-                                    <label for="normal_price" class="form-label">Normal Price</label>
-                                    <input type="number" step="0.01" name="normal_price" id="normal_price" class="form-control modern-input" placeholder="0.00" value="{{ dome_type.normal_price|default:'' }}">
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <label for="special_price" class="form-label">Special Price</label>
-                                    <input type="number" step="0.01" name="special_price" id="special_price" class="form-control modern-input" placeholder="0.00" value="{{ dome_type.special_price|default:'' }}">
-                                </div>
-
-                                <!-- Check-in/out -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="check_in" class="form-label">Check-in Time</label>
-                                    <input type="text" name="check_in" id="check_in" class="form-control modern-input" placeholder="e.g. 12:00 PM" value="{{ dome_type.check_in|default:'12:00 PM' }}">
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <label for="check_out" class="form-label">Check-out Time</label>
-                                    <input type="text" name="check_out" id="check_out" class="form-control modern-input" placeholder="e.g. 11:00 AM" value="{{ dome_type.check_out|default:'11:00 AM' }}">
-                                </div>
-
-                                <!-- Package Items -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="package_items" class="form-label">Package Items</label>
-                                    <textarea name="package_items" id="package_items" class="form-control modern-input" rows="4" placeholder="Enter items separated by new lines">{{ dome_type.package_items|default:'' }}</textarea>
-                                    <div class="form-text">One item per line.</div>
-                                </div>
-
-                                <!-- Facilities -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="facilities" class="form-label">Facilities</label>
-                                    <textarea name="facilities" id="facilities" class="form-control modern-input" rows="4" placeholder="Enter facilities separated by new lines">{{ dome_type.facilities|default:'' }}</textarea>
-                                    <div class="form-text">One facility per line.</div>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <div class="col-12 mt-4">
-                                    <div class="dashboard__form__button">
-                                        <button type="submit" class="btn btn-primary">{% if dome_type %}Update{% else %}Save{% endif %} Dome Type</button>
-                                        <a href="{% url 'admin_dome_type_list' %}" class="btn btn-secondary">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div> <!-- end row -->
-            </div>
-        </div>
-    </div>
-</div>
+{% block title %}
+    {% if dome_type %}
+        Update Dome Type
+    {% else %}
+        Create Dome Type
+    {% endif %}
+    | Admin Dashboard
 {% endblock %}
 
+
+{% block content %}
+
+<div class="dashboard sp_bottom_100">
+
+    <div class="container-fluid full__width__padding">
+
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                <!-- PAGE TITLE -->
+                <div class="dashboard__section__title">
+
+                    <h4 class="mb-0">
+                        {% if dome_type %}
+                            Update Dome Type
+                        {% else %}
+                            Add Dome Type
+                        {% endif %}
+                    </h4>
+
+                </div>
+
+
+                <div class="row mt-4">
+
+                    <div class="col-12">
+
+                        <!-- Django messages -->
+                        {% if messages %}
+
+                            {% for message in messages %}
+
+                                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show">
+
+                                    {{ message }}
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close">
+                                    </button>
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+
+                        <form
+                            method="post"
+                            enctype="multipart/form-data"
+                            class="needs-validation form-wrapper"
+                            novalidate
+                            style="max-width: 1000px;"
+                        >
+
+                            {% csrf_token %}
+
+
+                            <!-- NON FIELD ERRORS -->
+
+                            {% if form.non_field_errors %}
+
+                                <div class="alert alert-danger">
+
+                                    {% for error in form.non_field_errors %}
+
+                                        <div>{{ error }}</div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <div class="row">
+
+
+                                <!-- ===================================== -->
+                                <!-- DOME NAME -->
+                                <!-- ===================================== -->
+
+                                <div class="col-12 mb-4">
+
+                                    <label
+                                        for="id_name"
+                                        class="form-label"
+                                    >
+                                        Dome Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="id_name"
+                                        class="form-control modern-input {% if form.name.errors %}is-invalid{% endif %}"
+                                        placeholder="Enter dome name"
+                                        value="{{ form.name.value|default_if_none:'' }}"
+                                        required
+                                    >
+
+                                    {% if form.name.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- DESCRIPTION -->
+                                <!-- ===================================== -->
+
+                                <div class="col-12 mb-4">
+
+                                    <label
+                                        for="id_description"
+                                        class="form-label"
+                                    >
+                                        Description
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    <textarea
+                                        name="description"
+                                        id="id_description"
+                                        class="form-control modern-input rich-editor {% if form.description.errors %}is-invalid{% endif %}"
+                                        rows="7"
+                                        placeholder="Describe the dome..."
+                                        required
+                                    >{{ form.description.value|default_if_none:'' }}</textarea>
+
+                                    {% if form.description.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.description.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- MAIN IMAGE -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label
+                                        for="id_main_image"
+                                        class="form-label"
+                                    >
+                                        Main Image
+
+                                        {% if not dome_type %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+
+                                    </label>
+
+
+                                    <input
+                                        type="file"
+                                        name="main_image"
+                                        id="id_main_image"
+                                        class="form-control modern-input {% if form.main_image.errors %}is-invalid{% endif %}"
+                                        accept="image/*"
+                                        {% if not dome_type %}required{% endif %}
+                                    >
+
+
+                                    {% if form.main_image.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.main_image.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- CURRENT IMAGE -->
+
+                                    {% if dome_type and dome_type.main_image %}
+
+                                        <div class="mt-3">
+
+                                            <p class="mb-2">
+                                                <strong>Current Image</strong>
+                                            </p>
+
+                                            <img
+                                                src="{{ dome_type.main_image.url }}"
+                                                alt="{{ dome_type.name }}"
+                                                style="
+                                                    width: 200px;
+                                                    height: 150px;
+                                                    object-fit: cover;
+                                                    border-radius: 8px;
+                                                "
+                                            >
+
+                                            <p class="form-text mt-2">
+                                                Leave the image field empty to keep this image.
+                                            </p>
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- NEW IMAGE PREVIEW -->
+
+                                    <div
+                                        id="imagePreview"
+                                        class="mt-3"
+                                        style="
+                                            display:none;
+                                            width:200px;
+                                            height:150px;
+                                            border:2px dashed #d1d5db;
+                                            border-radius:8px;
+                                            align-items:center;
+                                            justify-content:center;
+                                            overflow:hidden;
+                                        "
+                                    ></div>
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- PRICES -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-3 mb-4">
+
+                                    <label
+                                        for="id_normal_price"
+                                        class="form-label"
+                                    >
+                                        Normal Price
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        name="normal_price"
+                                        id="id_normal_price"
+                                        class="form-control modern-input {% if form.normal_price.errors %}is-invalid{% endif %}"
+                                        placeholder="0.00"
+                                        value="{{ form.normal_price.value|default_if_none:'' }}"
+                                    >
+
+                                    {% if form.normal_price.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.normal_price.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <div class="col-md-3 mb-4">
+
+                                    <label
+                                        for="id_special_price"
+                                        class="form-label"
+                                    >
+                                        Special Price
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        name="special_price"
+                                        id="id_special_price"
+                                        class="form-control modern-input {% if form.special_price.errors %}is-invalid{% endif %}"
+                                        placeholder="0.00"
+                                        value="{{ form.special_price.value|default_if_none:'' }}"
+                                    >
+
+                                    {% if form.special_price.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.special_price.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- CHECK IN -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label
+                                        for="id_check_in"
+                                        class="form-label"
+                                    >
+                                        Check-in Time
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="check_in"
+                                        id="id_check_in"
+                                        class="form-control modern-input"
+                                        placeholder="e.g. 12:00 PM"
+                                        value="{{ form.check_in.value|default_if_none:'12:00 PM' }}"
+                                    >
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- CHECK OUT -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label
+                                        for="id_check_out"
+                                        class="form-label"
+                                    >
+                                        Check-out Time
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="check_out"
+                                        id="id_check_out"
+                                        class="form-control modern-input"
+                                        placeholder="e.g. 11:00 AM"
+                                        value="{{ form.check_out.value|default_if_none:'11:00 AM' }}"
+                                    >
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- PACKAGE ITEMS -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label
+                                     for="id_package_items"
+                                     class="form-label"
+                                       >
+                                   Package Items
+                                     <span class="text-muted">(Optional)</span>
+                                      </label>
+
+                                    <textarea
+                                        name="package_items"
+                                        id="id_package_items"
+                                        class="form-control modern-input {% if form.package_items.errors %}is-invalid{% endif %}"
+                                        rows="6"
+                                        placeholder="Enter one package item per line"
+                                    >{{ form.package_items.value|default_if_none:'' }}</textarea>
+
+                                    <div class="form-text">
+                                        Enter one package item per line.
+                                    </div>
+
+
+                                    {% if form.package_items.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.package_items.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- FACILITIES -->
+                                <!-- ===================================== -->
+
+                                <div class="col-md-6 mb-4">
+
+<label
+    for="id_facilities"
+    class="form-label"
+>
+    Facilities
+    <span class="text-muted">(Optional)</span>
+</label>
+
+                                    <textarea
+                                        name="facilities"
+                                        id="id_facilities"
+                                        class="form-control modern-input {% if form.facilities.errors %}is-invalid{% endif %}"
+                                        rows="6"
+                                        placeholder="Enter one facility per line"
+                                    >{{ form.facilities.value|default_if_none:'' }}</textarea>
+
+                                    <div class="form-text">
+                                        Enter one facility per line.
+                                    </div>
+
+
+                                    {% if form.facilities.errors %}
+
+                                        <div class="invalid-feedback d-block">
+
+                                            {% for error in form.facilities.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- BUTTONS -->
+                                <!-- ===================================== -->
+
+                                <div class="col-12 mt-4">
+
+                                    <div class="dashboard__form__button">
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary"
+                                        >
+
+                                            {% if dome_type %}
+                                                Update Dome Type
+                                            {% else %}
+                                                Save Dome Type
+                                            {% endif %}
+
+                                        </button>
+
+
+                                        <a
+                                            href="{% url 'admin_dome_type_list' %}"
+                                            class="btn btn-secondary"
+                                        >
+                                            Cancel
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
 {% block extra_js %}
+
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+    ============================================
+    CKEDITOR
+    ============================================
+    */
+
+    const descriptionElement =
+        document.querySelector("#id_description");
+
+    if (descriptionElement) {
+
         ClassicEditor
-            .create(document.querySelector('#description'), {
+            .create(descriptionElement, {
+
                 toolbar: [
-                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
-                    '|', 'blockQuote', 'undo', 'redo'
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "link",
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "blockQuote",
+                    "undo",
+                    "redo"
                 ]
+
             })
             .catch(error => {
-                console.error(error);
+
+                console.error(
+                    "CKEditor error:",
+                    error
+                );
+
             });
 
-        document.getElementById('main_image').addEventListener('change', function() {
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.innerHTML = '';
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.style.display = 'flex';
-                    imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: cover;">`;
-                };
-                reader.readAsDataURL(this.files[0]);
-            } else {
-                imagePreview.style.display = 'none';
+    }
+
+
+    /*
+    ============================================
+    IMAGE PREVIEW
+    ============================================
+    */
+
+    const imageInput =
+        document.getElementById("id_main_image");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+
+    if (imageInput && imagePreview) {
+
+        imageInput.addEventListener(
+            "change",
+            function () {
+
+                imagePreview.innerHTML = "";
+
+                if (
+                    this.files &&
+                    this.files[0]
+                ) {
+
+                    const reader =
+                        new FileReader();
+
+                    reader.onload =
+                        function (event) {
+
+                            imagePreview.style.display =
+                                "flex";
+
+                            const img =
+                                document.createElement("img");
+
+                            img.src =
+                                event.target.result;
+
+                            img.alt =
+                                "New image preview";
+
+                            img.style.width =
+                                "100%";
+
+                            img.style.height =
+                                "100%";
+
+                            img.style.objectFit =
+                                "cover";
+
+                            imagePreview.appendChild(img);
+
+                        };
+
+                    reader.readAsDataURL(
+                        this.files[0]
+                    );
+
+                } else {
+
+                    imagePreview.style.display =
+                        "none";
+
+                }
+
             }
-        });
-    });
+        );
+
+    }
+
+
+    /*
+    ============================================
+    BOOTSTRAP VALIDATION
+    ============================================
+    */
+
+    const forms =
+        document.querySelectorAll(
+            ".needs-validation"
+        );
+
+    Array.from(forms).forEach(
+        function (form) {
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    if (!form.checkValidity()) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                    }
+
+                    form.classList.add(
+                        "was-validated"
+                    );
+
+                },
+                false
+            );
+
+        }
+    );
+
+});
+
 </script>
+
 {% endblock %}

@@ -1,5 +1,16 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+{% block meta_title %} Domes Inn Heaven | Glamping In Munnar{% endblock %}
+
+{% block meta_description %}Glamping in Munnar at Domes Inn Heaven offers private luxury domes, panoramic valley views, stargazing, nature experiences and a peaceful stay in Kerala. {% endblock %}
+
+
+{% block og_title %}Luxury Glamping in Munnar| Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Discover luxury glamping in Munnar with private dome stays, scenic hill views, stargazing and nature experiences at Domes Inn Heaven..{% endblock %}
+
+
 {% block content %}
 <style>
     .blog-card .thumb {
@@ -1680,22 +1691,25 @@
                     <div class="wwd-card">
                         <div class="project-card">
                             <div class="thumb">
-                                <a href="{% url 'services_details_with_slug' dome.slug %}">
+                                <a href="{% url 'dome_details' dome.slug %}">
                                     <img src="{{ dome.main_image.url }}" alt="{{ dome.name }}"/>
                                 </a>
                                 <div class="number">
-                                    <a href="{% url 'services_details_with_slug' dome.slug %}">0{{ forloop.counter }}</a>
+                                    <a href="{% url 'dome_details' dome.slug %}">0{{ forloop.counter }}</a>
                                 </div>
                                 <div class="content">
                                     <h5>{{ dome.name }}</h5>
                                     <p>Experience luxury in our handcrafted {{ dome.name }}.</p>
                                     <div class="details-btn">
-                                        <a href="{% url 'services_details_with_slug' dome.slug %}" class="e-primary-btn has-icon is-hover-white">
-                                            Read More
-                                            <span class="icon-wrap">
-                                                <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
-                                            </span>
-                                        </a>
+<a href="{% url 'dome_details' dome.slug %}" class="e-primary-btn has-icon is-hover-white">
+    Read More
+    <span class="icon-wrap">
+        <span class="icon">
+            <i class="fa-regular fa-arrow-right"></i>
+            <i class="fa-regular fa-arrow-right"></i>
+        </span>
+    </span>
+</a>
                                     </div>
                                 </div>
                             </div>
@@ -1877,7 +1891,7 @@
 	</section>
 	<!-- our-camping end -->
 <!-- dome-types-section start -->
-<section class="dome-showcase-section">
+{% comment %} <section class="dome-showcase-section">
 
     <div class="dome-showcase-inner">
 
@@ -1928,7 +1942,7 @@
 
 
 
-</section>
+</section> {% endcomment %}
 <!-- dome-types-section end -->
 
 	

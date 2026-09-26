@@ -12,23 +12,45 @@ from django.db.models import Q
 import requests
 from urllib.parse import quote
 
-from .forms import BlogForm, ContactForm, TestimonialForm, ActivityForm, CampingPackageForm, BookingForm, DomeCategoryForm, DomeTypeForm
-from .models import Blog, Category, ContactMessage, GalleryImage, Testimonial, Activity, CampingPackage, Booking, DomeCategory, DomeType
+from .forms import (
+    BlogForm,
+    ContactForm,
+    TestimonialForm,
+    ActivityForm,
+    CampingPackageForm,
+    BookingForm,
+    DomeTypeForm,
+)
+
+
+from .models import (
+    Blog,
+    Category,
+    ContactMessage,
+    GalleryImage,
+    Testimonial,
+    Activity,
+    CampingPackage,
+    Booking,
+    DomeType,
+)
+
 
 def home(request):
     testimonials = Testimonial.objects.all().order_by("-created_at")[:5]
     camping_packages = CampingPackage.objects.all().order_by("-created_at")[:6]
     activities = Activity.objects.all().order_by("-created_at")[:6]
     blogs = Blog.objects.all().order_by("-created_at")[:3]
+
+    # Show every Dome Type
     dome_types = DomeType.objects.all().order_by("-created_at")
-    dome_categories = DomeCategory.objects.all()
-    return render(request, 'frontend/index.html', {
-        'testimonials': testimonials,
-        'camping_packages': camping_packages,
-        'activities': activities,
-        'blogs': blogs,
-        'dome_types': dome_types,
-        'dome_categories': dome_categories
+
+    return render(request, "frontend/index.html", {
+        "testimonials": testimonials,
+        "camping_packages": camping_packages,
+        "activities": activities,
+        "blogs": blogs,
+        "dome_types": dome_types,
     })
 
 # def home_v2(request):
@@ -48,32 +70,47 @@ def home(request):
 def about(request):
     testimonials = Testimonial.objects.all().order_by("-created_at")[:5]
     camping_packages = CampingPackage.objects.all().order_by("-created_at")[:6]
-    dome_categories = DomeCategory.objects.all()
-    return render(request, 'frontend/about.html', {
-        'testimonials': testimonials,
-        'camping_packages': camping_packages,
-        'dome_categories': dome_categories
+    dome_types = DomeType.objects.all().order_by("-created_at")
+
+    return render(request, "frontend/about.html", {
+        "testimonials": testimonials,
+        "camping_packages": camping_packages,
+        "dome_types": dome_types,
     })
+
+
 
 def services(request):
-    categories = DomeCategory.objects.all().order_by("name")
-    return render(request, 'frontend/services.html', {'categories': categories})
+    dome_types = DomeType.objects.all().order_by("-created_at")
 
-def services_details(request, slug=None):
-    if not slug:
-        slug = request.GET.get('slug')
-    if slug:
-        dome = get_object_or_404(DomeType, slug=slug)
-    else:
-        dome = DomeType.objects.first()
-        if not dome:
-            return redirect('services')
-            
-    recent_domes = DomeType.objects.exclude(id=dome.id).order_by("-created_at")[:5]
-    return render(request, 'frontend/dome-unit-details.html', {
-        'dome': dome,
-        'recent_domes': recent_domes
+    return render(request, "frontend/services.html", {
+        "dome_types": dome_types,
     })
+
+
+
+def services_details(request, slug):
+    dome = get_object_or_404(
+        DomeType,
+        slug=slug
+    )
+
+    recent_domes = (
+        DomeType.objects
+        .exclude(pk=dome.pk)
+        .order_by("-created_at")[:5]
+    )
+
+    return render(
+        request,
+        "frontend/dome-unit-details.html",
+        {
+            "dome": dome,
+            "recent_domes": recent_domes,
+        }
+    )
+
+
 
 def activities(request):
     activities_qs = Activity.objects.all().order_by('-created_at')
@@ -123,8 +160,12 @@ def blog_details(request, slug=None):
     )
 
 def camping(request):
-    categories = DomeCategory.objects.all().order_by("-created_at")
-    return render(request, 'frontend/camping.html', {'categories': categories})
+    camping_packages = CampingPackage.objects.all().order_by("-created_at")
+
+    return render(request, "frontend/camping.html", {
+        "camping_packages": camping_packages,
+    })
+
 
 def camping_details(request, slug=None):
     if slug:
@@ -258,8 +299,7 @@ def admin_dashboard(request):
         'total_contacts': ContactMessage.objects.count(),
         'total_packages': CampingPackage.objects.count(),
         'total_activities': Activity.objects.count(),
-        'total_dome_categories': DomeCategory.objects.count(),
-        'total_dome_types': DomeType.objects.count()
+        'total_dome_types': DomeType.objects.count(),
     }
 
     # 2. Recent Lists
@@ -535,24 +575,45 @@ def delete_contact(request, pk):
 # 9.5 BOOKINGS (FRONTEND AND ADMIN)
 # ==========================================
 
-def load_dome_types(request):
-    category_id = request.GET.get('category_id')
-    dome_types = DomeType.objects.filter(category_id=category_id).order_by('name')
-    return JsonResponse(list(dome_types.values('id', 'name')), safe=False)
+
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+from .forms import BookingForm
+
 
 def booking(request):
-    categories = DomeCategory.objects.all()
-    form = BookingForm(request.POST or None)
+
     if request.method == "POST":
+        form = BookingForm(request.POST)
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Booking request sent successfully. We will contact you soon.")
+            booking_obj = form.save()
+
+            messages.success(
+                request,
+                "Booking request sent successfully. We will contact you soon."
+            )
+
             return redirect("booking")
-        messages.error(request, "Please check the form and try again.")
-    return render(request, "frontend/booking.html", {
-        "form": form,
-        "categories": categories,
-    })
+
+        messages.error(
+            request,
+            "Please check the form and correct the errors below."
+        )
+
+    else:
+        form = BookingForm()
+
+    return render(
+        request,
+        "frontend/booking.html",
+        {
+            "form": form,
+        }
+    )
+
+
 
 @login_required(login_url="admin_login")
 def admin_view_bookings(request):
@@ -654,20 +715,20 @@ def activity_delete(request, pk):
 
 
 
-def service_single(request, slug):
-    category = get_object_or_404(DomeCategory, slug=slug)
-    domes_qs = category.domes.all().order_by("-created_at")
+# def service_single(request, slug):
+#     category = get_object_or_404(DomeCategory, slug=slug)
+#     domes_qs = category.domes.all().order_by("-created_at")
     
-    paginator = Paginator(domes_qs, 9)
-    page_number = request.GET.get("page")
-    domes = paginator.get_page(page_number)
+#     paginator = Paginator(domes_qs, 9)
+#     page_number = request.GET.get("page")
+#     domes = paginator.get_page(page_number)
     
-    recent_categories = DomeCategory.objects.exclude(slug=slug).order_by("name")[:5]
-    return render(request, "frontend/dome-category-details.html", {
-        "category": category, 
-        "domes": domes,
-        "recent_categories": recent_categories
-    })
+#     recent_categories = DomeCategory.objects.exclude(slug=slug).order_by("name")[:5]
+#     return render(request, "frontend/dome-category-details.html", {
+#         "category": category, 
+#         "domes": domes,
+#         "recent_categories": recent_categories
+#     })
 
 
 # ==========================================
@@ -722,92 +783,175 @@ def camping_package_delete(request, pk):
 # 15. DOME CATEGORIES (ADMIN DASHBOARD)
 # ==========================================
 
-@login_required(login_url="admin_login")
-def admin_dome_category_list(request):
-    categories_qs = DomeCategory.objects.all().order_by("-created_at")
-    paginator = Paginator(categories_qs, 10)
-    page_number = request.GET.get("page")
-    categories = paginator.get_page(page_number)
-    return render(request, "admin_pages/dome_category_list.html", {"categories": categories})
+# @login_required(login_url="admin_login")
+# def admin_dome_category_list(request):
+#     categories_qs = DomeCategory.objects.all().order_by("-created_at")
+#     paginator = Paginator(categories_qs, 10)
+#     page_number = request.GET.get("page")
+#     categories = paginator.get_page(page_number)
+#     return render(request, "admin_pages/dome_category_list.html", {"categories": categories})
 
-@login_required(login_url="admin_login")
-def dome_category_create(request):
-    if request.method == "POST":
-        form = DomeCategoryForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Dome category created successfully!")
-            return redirect("admin_dome_category_list")
-    else:
-        form = DomeCategoryForm()
-    return render(request, "admin_pages/create_dome_category.html", {"form": form})
+# @login_required(login_url="admin_login")
+# def dome_category_create(request):
+#     if request.method == "POST":
+#         form = DomeCategoryForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Dome category created successfully!")
+#             return redirect("admin_dome_category_list")
+#     else:
+#         form = DomeCategoryForm()
+#     return render(request, "admin_pages/create_dome_category.html", {"form": form})
 
-@login_required(login_url="admin_login")
-def dome_category_update(request, pk):
-    category = get_object_or_404(DomeCategory, pk=pk)
-    if request.method == "POST":
-        form = DomeCategoryForm(request.POST, request.FILES, instance=category)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Dome category updated successfully!")
-            return redirect("admin_dome_category_list")
-    else:
-        form = DomeCategoryForm(instance=category)
-    return render(request, "admin_pages/create_dome_category.html", {"form": form, "category": category})
+# @login_required(login_url="admin_login")
+# def dome_category_update(request, pk):
+#     category = get_object_or_404(DomeCategory, pk=pk)
+#     if request.method == "POST":
+#         form = DomeCategoryForm(request.POST, request.FILES, instance=category)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Dome category updated successfully!")
+#             return redirect("admin_dome_category_list")
+#     else:
+#         form = DomeCategoryForm(instance=category)
+#     return render(request, "admin_pages/create_dome_category.html", {"form": form, "category": category})
 
-@login_required(login_url="admin_login")
-def dome_category_delete(request, pk):
-    category = get_object_or_404(DomeCategory, pk=pk)
-    if request.method == "POST":
-        category.delete()
-        messages.success(request, "Dome category deleted successfully!")
-    return redirect("admin_dome_category_list")
+# @login_required(login_url="admin_login")
+# def dome_category_delete(request, pk):
+#     category = get_object_or_404(DomeCategory, pk=pk)
+#     if request.method == "POST":
+#         category.delete()
+#         messages.success(request, "Dome category deleted successfully!")
+#     return redirect("admin_dome_category_list")
 
 # ==========================================
 # 16. DOME TYPES (ADMIN DASHBOARD)
 # ==========================================
 
+# ==========================================
+# DOME TYPES (ADMIN DASHBOARD)
+# ==========================================
+
+# ==========================================
+# DOME TYPES (ADMIN DASHBOARD)
+# ==========================================
+
+
 @login_required(login_url="admin_login")
 def admin_dome_type_list(request):
     dome_types_qs = DomeType.objects.all().order_by("-created_at")
+
     paginator = Paginator(dome_types_qs, 10)
     page_number = request.GET.get("page")
     dome_types = paginator.get_page(page_number)
-    all_categories = DomeCategory.objects.all()
-    return render(request, "admin_pages/dome_type_list.html", {
-        "dome_types": dome_types,
-        "all_categories": all_categories
-    })
+
+    return render(
+        request,
+        "admin_pages/dome_type_list.html",
+        {
+            "dome_types": dome_types,
+        }
+    )
+
 
 @login_required(login_url="admin_login")
 def dome_type_create(request):
     if request.method == "POST":
         form = DomeTypeForm(request.POST, request.FILES)
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Dome type created successfully!")
+            dome_type = form.save()
+
+            messages.success(
+                request,
+                f'"{dome_type.name}" created successfully!'
+            )
+
             return redirect("admin_dome_type_list")
+
+        print("DOME TYPE CREATE ERRORS:")
+        print(form.errors)
+        print(form.errors.as_data())
+
+        messages.error(
+            request,
+            "Dome type could not be created. Please correct the errors below."
+        )
+
     else:
         form = DomeTypeForm()
-    return render(request, "admin_pages/create_dome_type.html", {"form": form})
+
+    return render(
+        request,
+        "admin_pages/create_dome_type.html",
+        {
+            "form": form,
+            "dome_type": None,
+        }
+    )
+
 
 @login_required(login_url="admin_login")
 def dome_type_update(request, pk):
-    dome_type = get_object_or_404(DomeType, pk=pk)
+    dome_type = get_object_or_404(
+        DomeType,
+        pk=pk
+    )
+
     if request.method == "POST":
-        form = DomeTypeForm(request.POST, request.FILES, instance=dome_type)
+        form = DomeTypeForm(
+            request.POST,
+            request.FILES,
+            instance=dome_type
+        )
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Dome type updated successfully!")
+            updated_dome = form.save()
+
+            messages.success(
+                request,
+                f'"{updated_dome.name}" updated successfully!'
+            )
+
             return redirect("admin_dome_type_list")
+
+        print("DOME TYPE UPDATE ERRORS:")
+        print(form.errors)
+        print(form.errors.as_data())
+
+        messages.error(
+            request,
+            "Dome type could not be updated. Please correct the errors below."
+        )
+
     else:
         form = DomeTypeForm(instance=dome_type)
-    return render(request, "admin_pages/create_dome_type.html", {"form": form, "dome_type": dome_type})
+
+    return render(
+        request,
+        "admin_pages/create_dome_type.html",
+        {
+            "form": form,
+            "dome_type": dome_type,
+        }
+    )
+
 
 @login_required(login_url="admin_login")
 def dome_type_delete(request, pk):
-    dome_type = get_object_or_404(DomeType, pk=pk)
+    dome_type = get_object_or_404(
+        DomeType,
+        pk=pk
+    )
+
     if request.method == "POST":
+        dome_name = dome_type.name
+
         dome_type.delete()
-        messages.success(request, "Dome type deleted successfully!")
+
+        messages.success(
+            request,
+            f'"{dome_name}" deleted successfully!'
+        )
+
     return redirect("admin_dome_type_list")
