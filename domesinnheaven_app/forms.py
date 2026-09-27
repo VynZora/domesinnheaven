@@ -277,12 +277,13 @@ class BookingForm(forms.ModelForm):
 
         fields = [
             "name",
-            "email",
             "phone",
+            "email",
+            "guests",
             "check_in",
             "check_out",
             "dome_type",
-            "guests",
+            "jacuzzi_bathtub",
             "message",
         ]
 

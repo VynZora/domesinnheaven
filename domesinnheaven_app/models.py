@@ -397,6 +397,11 @@ class Booking(models.Model):
         null=True,
         blank=True
     )
+    
+    jacuzzi_bathtub = models.BooleanField(
+               default=False,
+               help_text="Guest requested Jacuzzi bathtub"
+            )
 
     dome_type = models.ForeignKey(
         DomeType,
