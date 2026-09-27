@@ -1,0 +1,468 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="robots" content="noindex, follow">
+
+    <title>Page Not Found | Domes Inn Heaven</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(113, 139, 72, 0.10),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(208, 185, 125, 0.14),
+                    transparent 35%
+                ),
+                #f8f7f0;
+
+            color: #273421;
+        }
+
+        .error-page {
+            position: relative;
+
+            min-height: 100vh;
+            min-height: 100svh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 20px;
+
+            overflow: hidden;
+        }
+
+        /* Decorative circles */
+
+        .error-page::before {
+            content: "";
+
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            border: 1px solid rgba(83, 104, 46, 0.10);
+            border-radius: 50%;
+
+            top: -210px;
+            right: -100px;
+        }
+
+        .error-page::after {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            border: 1px solid rgba(83, 104, 46, 0.08);
+            border-radius: 50%;
+
+            bottom: -300px;
+            left: -180px;
+        }
+
+        .error-container {
+            position: relative;
+            z-index: 2;
+
+            width: 100%;
+            max-width: 850px;
+
+            text-align: center;
+        }
+
+        /* Brand */
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 45px;
+
+            text-decoration: none;
+        }
+
+        .brand img {
+            display: block;
+
+            max-width: 150px;
+            max-height: 90px;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
+        }
+
+        /* Small label */
+
+        .error-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 8px 18px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid rgba(83, 104, 46, 0.22);
+            border-radius: 50px;
+
+            background: rgba(255, 255, 255, 0.55);
+
+            color: #53682e;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Large 404 */
+
+        .error-code {
+            position: relative;
+
+            margin: 0;
+
+            color: #3d4b33;
+
+            font-size: clamp(120px, 22vw, 230px);
+            font-weight: 700;
+
+            line-height: 0.82;
+
+            letter-spacing: -10px;
+        }
+
+        .error-code span {
+            color: #718c3f;
+        }
+
+        /* Divider */
+
+        .divider {
+            width: 55px;
+            height: 2px;
+
+            margin: 35px auto 25px;
+
+            background: #718c3f;
+
+            border-radius: 10px;
+        }
+
+        /* Heading */
+
+        .error-title {
+            margin-bottom: 16px;
+
+            color: #273421;
+
+            font-size: clamp(30px, 5vw, 48px);
+            font-weight: 600;
+
+            line-height: 1.15;
+        }
+
+        /* Text */
+
+        .error-description {
+            max-width: 570px;
+
+            margin: 0 auto 32px;
+
+            color: #6d7169;
+
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        /* Button */
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 12px;
+
+            min-height: 54px;
+
+            padding: 0 27px;
+
+            border-radius: 50px;
+
+            background: #53682e;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            box-shadow:
+                0 12px 30px rgba(65, 84, 42, 0.17);
+
+            transition:
+                transform 0.3s ease,
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background: #3d4b33;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 17px 35px rgba(65, 84, 42, 0.23);
+        }
+
+        .home-btn .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.14);
+
+            font-size: 18px;
+
+            transition: transform 0.3s ease;
+        }
+
+        .home-btn:hover .arrow {
+            transform: translateX(3px);
+        }
+
+        /* Bottom text */
+
+        .bottom-text {
+            margin-top: 38px;
+
+            color: #969990;
+
+            font-size: 13px;
+        }
+
+        .bottom-text strong {
+            color: #53682e;
+        }
+
+        /* ==============================
+           TABLET
+        ============================== */
+
+        @media (max-width: 768px) {
+
+            .error-page {
+                padding: 30px 20px;
+            }
+
+            .brand {
+                margin-bottom: 35px;
+            }
+
+            .brand img {
+                max-width: 125px;
+            }
+
+            .error-code {
+                letter-spacing: -6px;
+            }
+
+            .divider {
+                margin-top: 28px;
+            }
+
+            .error-description {
+                max-width: 480px;
+            }
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 480px) {
+
+            .error-page {
+                padding: 25px 18px;
+            }
+
+            .brand {
+                margin-bottom: 30px;
+            }
+
+            .brand img {
+                max-width: 110px;
+                max-height: 70px;
+            }
+
+            .error-label {
+                padding: 7px 14px;
+
+                font-size: 10px;
+
+                letter-spacing: 1.2px;
+            }
+
+            .error-code {
+                font-size: 115px;
+
+                letter-spacing: -5px;
+            }
+
+            .divider {
+                margin:
+                    27px auto
+                    22px;
+            }
+
+            .error-title {
+                font-size: 30px;
+            }
+
+            .error-description {
+                margin-bottom: 27px;
+
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            .home-btn {
+                min-height: 52px;
+
+                padding: 0 22px;
+
+                font-size: 13px;
+            }
+
+            .bottom-text {
+                margin-top: 30px;
+
+                font-size: 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .home-btn,
+            .home-btn .arrow {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="error-page">
+
+        <div class="error-container">
+
+            <!--
+                IMPORTANT:
+                Change green.png below only if your actual logo
+                uses another static file.
+            -->
+            <a href="/" class="brand" aria-label="Domes Inn Heaven home">
+                <img
+                    src="{% static 'green.png' %}"
+                    alt="Domes Inn Heaven"
+                >
+            </a>
+
+
+            <div>
+                <span class="error-label">
+                    Lost in the hills?
+                </span>
+            </div>
+
+
+            <h1 class="error-code">
+                4<span>0</span>4
+            </h1>
+
+
+            <div class="divider"></div>
+
+
+            <h2 class="error-title">
+                This path leads nowhere.
+            </h2>
+
+
+            <p class="error-description">
+                The page you're looking for may have moved, changed,
+                or no longer exists. Let's take you back to
+                Domes Inn Heaven.
+            </p>
+
+
+            <!--
+                Using "/" intentionally instead of {% url 'home' %}.
+
+                This makes the 404 page safer if there is ever
+                a problem with Django URL names.
+            -->
+            <a href="/" class="home-btn">
+
+                Back to Home
+
+                <span class="arrow" aria-hidden="true">
+                    &rarr;
+                </span>
+
+            </a>
+
+
+            <p class="bottom-text">
+                <strong>Domes Inn Heaven</strong>
+                &nbsp;•&nbsp;
+                Munnar, Kerala
+            </p>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
