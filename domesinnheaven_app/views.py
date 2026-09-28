@@ -909,65 +909,84 @@ def dome_type_create(request):
 
         form = DomeTypeForm(
             request.POST,
-            request.FILES
+            request.FILES,
         )
 
         if form.is_valid():
 
-            images = form.cleaned_data.get(
-                "images",
-                []
-            )
+            # Get directly from request.FILES.
+            images = request.FILES.getlist("images")
 
             if not images:
 
                 form.add_error(
                     "images",
-                    "Please select at least one dome image."
+                    "Please select at least one dome image.",
                 )
 
             else:
 
-                # ---------------------------------------
-                # CREATE DOME
-                # ---------------------------------------
+                # -----------------------------------------
+                # CREATE DOME WITHOUT SAVING UPLOAD
+                # INTO main_image
+                # -----------------------------------------
 
-                dome_type = form.save(
-                    commit=False
-                )
+                dome_type = form.save(commit=False)
 
-                # First selected image becomes
-                # the main image.
-                dome_type.main_image = images[0]
+                dome_type.main_image = None
 
                 dome_type.save()
 
 
-                # ---------------------------------------
-                # SAVE ALL SELECTED IMAGES
-                # ---------------------------------------
+                # -----------------------------------------
+                # SAVE EACH UPLOADED IMAGE EXACTLY ONCE
+                # -----------------------------------------
 
-                for image in images:
+                first_gallery_image = None
 
-                    DomeTypeImage.objects.create(
-                        dome_type=dome_type,
-                        image=image
+                for uploaded_image in images:
+
+                    gallery_image = (
+                        DomeTypeImage.objects.create(
+                            dome_type=dome_type,
+                            image=uploaded_image,
+                        )
+                    )
+
+                    if first_gallery_image is None:
+                        first_gallery_image = gallery_image
+
+
+                # -----------------------------------------
+                # POINT main_image TO THE ALREADY
+                # STORED FIRST GALLERY IMAGE
+                #
+                # NO FILE IS UPLOADED AGAIN HERE.
+                # -----------------------------------------
+
+                if first_gallery_image:
+
+                    DomeType.objects.filter(
+                        pk=dome_type.pk
+                    ).update(
+                        main_image=first_gallery_image.image.name
                     )
 
 
                 messages.success(
                     request,
-                    f'"{dome_type.name}" created successfully!'
+                    f'"{dome_type.name}" created successfully!',
                 )
 
                 return redirect(
                     "admin_dome_type_list"
                 )
 
+
         messages.error(
             request,
             "Dome type could not be created. "
-            "Please correct the errors below."
+            "Please correct the errors below.",
         )
 
     else:
@@ -981,13 +1000,11 @@ def dome_type_create(request):
         {
             "form": form,
             "dome_type": None,
-        }
+        },
     )
 
 
-
-
-@login_required
+@login_required(login_url="admin_login")
 def dome_type_update(request, pk):
 
     dome = get_object_or_404(
@@ -999,169 +1016,195 @@ def dome_type_update(request, pk):
         return redirect("admin_dome_type_list")
 
 
+    # =====================================================
+    # IMPORTANT
+    #
+    # Do NOT give request.FILES to DomeTypeForm.
+    #
+    # "images" is handled manually below.
+    # This prevents the uploaded temporary files from
+    # being consumed/moved unexpectedly.
+    # =====================================================
+
     form = DomeTypeForm(
         request.POST,
-        request.FILES,
         instance=dome,
     )
 
 
-    if form.is_valid():
+    if not form.is_valid():
 
-        # -----------------------------------------
-        # NEW IMAGES
-        # -----------------------------------------
+        print("DOME UPDATE ERRORS:")
+        print(form.errors)
+        print(form.errors.as_data())
 
-        new_images = request.FILES.getlist(
-            "images"
-        )
-
-
-        # -----------------------------------------
-        # EXISTING IMAGES TO DELETE
-        # -----------------------------------------
-
-        delete_image_ids = request.POST.getlist(
-            "delete_images"
-        )
-
-
-        dome = form.save(
-            commit=False
-        )
-
-
-        # -----------------------------------------
-        # DELETE SELECTED GALLERY IMAGES
-        # -----------------------------------------
-
-        if delete_image_ids:
-
-            images_to_delete = (
-                DomeTypeImage.objects
-                .filter(
-                    dome_type=dome,
-                    id__in=delete_image_ids,
-                )
-            )
-
-
-            # Check whether current main image
-            # is among images being deleted
-
-            current_main_name = (
-                dome.main_image.name
-                if dome.main_image
-                else None
-            )
-
-
-            deleting_main_image = False
-
-
-            for image_object in images_to_delete:
-
-                if (
-                    current_main_name
-                    and
-                    image_object.image.name
-                    ==
-                    current_main_name
-                ):
-
-                    deleting_main_image = True
-                    break
-
-
-            images_to_delete.delete()
-
-
-            # If current main image was deleted,
-            # temporarily clear it.
-
-            if deleting_main_image:
-
-                dome.main_image = None
-
-
-        # -----------------------------------------
-        # NEW IMAGE SELECTED
-        #
-        # First selected image becomes main image
-        # -----------------------------------------
-
-        if new_images:
-
-            dome.main_image = new_images[0]
-
-
-        dome.save()
-
-
-        # -----------------------------------------
-        # SAVE NEW GALLERY IMAGES
-        # -----------------------------------------
-
-        for image in new_images:
-
-            DomeTypeImage.objects.create(
-                dome_type=dome,
-                image=image,
-            )
-
-
-        # -----------------------------------------
-        # IF MAIN IMAGE IS EMPTY
-        # PROMOTE FIRST REMAINING GALLERY IMAGE
-        # -----------------------------------------
-
-        if not dome.main_image:
-
-            remaining_image = (
-                DomeTypeImage.objects
-                .filter(dome_type=dome)
-                .first()
-            )
-
-
-            if remaining_image:
-
-                dome.main_image = (
-                    remaining_image.image
-                )
-
-                dome.save(
-                    update_fields=[
-                        "main_image"
-                    ]
-                )
-
-
-        messages.success(
+        messages.error(
             request,
-            f'"{dome.name}" updated successfully.'
+            "Please correct the errors and try again.",
         )
-
 
         return redirect(
             "admin_dome_type_list"
         )
 
 
-    # ---------------------------------------------
-    # FORM ERROR
-    # ---------------------------------------------
+    # =====================================================
+    # NEW FILES
+    # =====================================================
 
-    messages.error(
-        request,
-        "Please correct the errors and try again."
+    new_images = request.FILES.getlist("images")
+
+
+    # =====================================================
+    # IMAGES USER CLICKED × TO DELETE
+    # =====================================================
+
+    delete_image_ids = request.POST.getlist(
+        "delete_images"
     )
 
+
+    # =====================================================
+    # UPDATE NORMAL DOME FIELDS
+    # =====================================================
+
+    dome = form.save(commit=False)
+
+    # Keep current main image.
+    #
+    # We do NOT assign a TemporaryUploadedFile here.
+
+    dome.save()
+
+
+    # =====================================================
+    # DELETE SELECTED EXISTING GALLERY RECORDS
+    # =====================================================
+
+    current_main_name = (
+        dome.main_image.name
+        if dome.main_image
+        else None
+    )
+
+    main_was_deleted = False
+
+
+    if delete_image_ids:
+
+        images_to_delete = list(
+            DomeTypeImage.objects.filter(
+                dome_type=dome,
+                pk__in=delete_image_ids,
+            )
+        )
+
+
+        for gallery_image in images_to_delete:
+
+            if (
+                current_main_name
+                and
+                gallery_image.image.name == current_main_name
+            ):
+                main_was_deleted = True
+
+            gallery_image.delete()
+
+
+    # =====================================================
+    # SAVE NEW IMAGES
+    #
+    # Every TemporaryUploadedFile is used ONE TIME.
+    # =====================================================
+
+    first_new_gallery_image = None
+
+
+    for uploaded_image in new_images:
+
+        gallery_image = (
+            DomeTypeImage.objects.create(
+                dome_type=dome,
+                image=uploaded_image,
+            )
+        )
+
+        if first_new_gallery_image is None:
+            first_new_gallery_image = gallery_image
+
+
+    # =====================================================
+    # DETERMINE NEW MAIN IMAGE
+    # =====================================================
+
+    new_main_image_name = None
+
+
+    # If new images were uploaded:
+    # first new image becomes main image.
+
+    if first_new_gallery_image:
+
+        new_main_image_name = (
+            first_new_gallery_image.image.name
+        )
+
+
+    # If old main image was deleted and no new image
+    # was uploaded, use first remaining gallery image.
+
+    elif main_was_deleted:
+
+        remaining_image = (
+            DomeTypeImage.objects
+            .filter(dome_type=dome)
+            .order_by("id")
+            .first()
+        )
+
+        if remaining_image:
+
+            new_main_image_name = (
+                remaining_image.image.name
+            )
+
+
+    # =====================================================
+    # UPDATE main_image WITHOUT TRIGGERING save()
+    #
+    # This is deliberate.
+    #
+    # main_image is only pointing to an already stored
+    # gallery image. We do NOT want OptimizedImageModel
+    # to optimize that same file again.
+    # =====================================================
+
+    if new_main_image_name:
+
+        DomeType.objects.filter(
+            pk=dome.pk
+        ).update(
+            main_image=new_main_image_name
+        )
+
+    elif main_was_deleted:
+
+        DomeType.objects.filter(
+            pk=dome.pk
+        ).update(
+            main_image=None
+        )
+
+
+    messages.success(
+        request,
+        f'"{dome.name}" updated successfully.',
+    )
 
     return redirect(
         "admin_dome_type_list"
     )
-
 
 
 

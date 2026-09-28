@@ -63,7 +63,9 @@ class DomeType(OptimizedImageModel):
     description = models.TextField()
 
     main_image = models.ImageField(
-        upload_to="domes/"
+        upload_to="domes/gallery/",
+        blank=True,
+        null=True,
     )
 
     check_in = models.CharField(
