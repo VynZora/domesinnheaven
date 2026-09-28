@@ -20,7 +20,7 @@ __MACOSX/
 ._*
 
 # User uploads
-# media/
+media/
 
 # Static files (collected)
 staticfiles/

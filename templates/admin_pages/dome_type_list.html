@@ -14,9 +14,11 @@ Dome Type List | Admin Dashboard
     <!-- HEADER -->
     <!-- ========================================= -->
 
-    <div class="create__course__title mb-4">
+    <div class="create__course__title mb-4 d-flex justify-content-between align-items-center">
 
-        <h4>Dome Type List</h4>
+        <h4 class="mb-0">
+            Dome Type List
+        </h4>
 
         <a
             href="{% url 'dome_type_create' %}"
@@ -37,15 +39,17 @@ Dome Type List | Admin Dashboard
 
         {% for message in messages %}
 
-            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show">
+            <div
+                class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+            >
 
                 {{ message }}
 
                 <button
                     type="button"
                     class="btn-close"
-                    data-bs-dismiss="alert">
-                </button>
+                    data-bs-dismiss="alert"
+                ></button>
 
             </div>
 
@@ -67,30 +71,27 @@ Dome Type List | Admin Dashboard
 
                 <tr>
 
-                    <th scope="col">
+                    <th>
                         Image
                     </th>
 
-                    <th scope="col">
+                    <th>
                         Name
                     </th>
 
-                    <th scope="col">
+                    <th>
                         Price (Normal / Special)
                     </th>
 
-                    <th scope="col">
+                    <th>
                         Check-in
                     </th>
 
-                    <th scope="col">
+                    <th>
                         Check-out
                     </th>
 
-                    <th
-                        scope="col"
-                        class="text-center"
-                    >
+                    <th class="text-center">
                         Actions
                     </th>
 
@@ -103,567 +104,806 @@ Dome Type List | Admin Dashboard
 
                 {% for dome in dome_types %}
 
-                    <tr>
+                <tr>
 
-                        <!-- IMAGE -->
+                    <!-- IMAGE -->
 
-                        <td>
+                    <td>
 
-                            {% if dome.main_image %}
+                        {% if dome.main_image %}
 
-                                <img
-                                    src="{{ dome.main_image.url }}"
-                                    alt="{{ dome.name }}"
-                                    style="
-                                        width:60px;
-                                        height:60px;
-                                        object-fit:cover;
-                                        border-radius:6px;
-                                    "
-                                >
+                            <img
+                                src="{{ dome.main_image.url }}"
+                                alt="{{ dome.name }}"
+                                style="
+                                    width:60px;
+                                    height:60px;
+                                    object-fit:cover;
+                                    border-radius:6px;
+                                "
+                            >
 
-                            {% else %}
+                        {% else %}
 
-                                <div
-                                    style="
-                                        width:60px;
-                                        height:60px;
-                                        background:#eee;
-                                        display:flex;
-                                        align-items:center;
-                                        justify-content:center;
-                                        border-radius:6px;
-                                    "
-                                >
+                            <div
+                                style="
+                                    width:60px;
+                                    height:60px;
+                                    background:#eee;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    border-radius:6px;
+                                "
+                            >
 
-                                    <i class="fas fa-image text-muted"></i>
+                                <i class="fas fa-image text-muted"></i>
+
+                            </div>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- NAME -->
+
+                    <td>
+
+                        <strong>
+                            {{ dome.name }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- PRICE -->
+
+                    <td>
+
+                        {% if dome.normal_price %}
+
+                            ₹{{ dome.normal_price }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+
+                        {% if dome.special_price %}
+
+                            <br>
+
+                            <span class="text-success">
+                                ₹{{ dome.special_price }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- CHECK IN -->
+
+                    <td>
+
+                        {{ dome.check_in|default:"—" }}
+
+                    </td>
+
+
+                    <!-- CHECK OUT -->
+
+                    <td>
+
+                        {{ dome.check_out|default:"—" }}
+
+                    </td>
+
+
+                    <!-- ACTIONS -->
+
+                    <td class="text-center">
+
+                        <div
+                            class="btn-group"
+                            role="group"
+                        >
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-warning me-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#updateDomeModal{{ dome.id }}"
+                            >
+                                Update
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteDomeModal{{ dome.id }}"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- ========================================= -->
+                <!-- UPDATE MODAL -->
+                <!-- ========================================= -->
+
+                <div
+                    class="modal fade"
+                    id="updateDomeModal{{ dome.id }}"
+                    tabindex="-1"
+                    aria-hidden="true"
+                >
+
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                        <div class="modal-content">
+
+                            <form
+                                method="post"
+                                action="{% url 'dome_type_update' dome.id %}"
+                                enctype="multipart/form-data"
+                            >
+
+                                {% csrf_token %}
+
+
+                                <!-- HEADER -->
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">
+
+                                        Update {{ dome.name }}
+
+                                    </h5>
+
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
 
                                 </div>
 
-                            {% endif %}
 
-                        </td>
 
+                                <!-- BODY -->
 
-                        <!-- NAME -->
+                                <div class="modal-body">
 
-                        <td>
+                                    <div class="row">
 
-                            <strong>
-                                {{ dome.name }}
-                            </strong>
 
-                        </td>
+                                        <!-- ================================= -->
+                                        <!-- NAME -->
+                                        <!-- ================================= -->
 
+                                        <div class="col-12 mb-3">
 
-                        <!-- PRICE -->
+                                            <label class="form-label">
 
-                        <td>
+                                                Dome Name
 
-                            {% if dome.normal_price %}
+                                                <span class="text-danger">*</span>
 
-                                ₹{{ dome.normal_price }}
+                                            </label>
 
-                            {% else %}
 
-                                —
-
-                            {% endif %}
-
-
-                            {% if dome.special_price %}
-
-                                <br>
-
-                                <span class="text-success">
-
-                                    ₹{{ dome.special_price }}
-
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-
-                        <!-- CHECK IN -->
-
-                        <td>
-
-                            {{ dome.check_in|default:"—" }}
-
-                        </td>
-
-
-                        <!-- CHECK OUT -->
-
-                        <td>
-
-                            {{ dome.check_out|default:"—" }}
-
-                        </td>
-
-
-                        <!-- ACTIONS -->
-
-                        <td class="text-center">
-
-                            <div
-                                class="btn-group"
-                                role="group"
-                            >
-
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-warning me-1"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#updateDomeModal{{ dome.id }}"
-                                >
-                                    Update
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteDomeModal{{ dome.id }}"
-                                >
-                                    Delete
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-
-
-                    <!-- ========================================= -->
-                    <!-- UPDATE MODAL -->
-                    <!-- ========================================= -->
-
-                    <div
-                        class="modal fade"
-                        id="updateDomeModal{{ dome.id }}"
-                        tabindex="-1"
-                        aria-hidden="true"
-                    >
-
-                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                            <div class="modal-content">
-
-                                <form
-                                    method="post"
-                                    action="{% url 'dome_type_update' dome.id %}"
-                                    enctype="multipart/form-data"
-                                >
-
-                                    {% csrf_token %}
-
-
-                                    <div class="modal-header">
-
-                                        <h5 class="modal-title">
-
-                                            Update {{ dome.name }}
-
-                                        </h5>
-
-
-                                        <button
-                                            type="button"
-                                            class="btn-close"
-                                            data-bs-dismiss="modal"
-                                            aria-label="Close"
-                                        ></button>
-
-                                    </div>
-
-
-
-                                    <div class="modal-body">
-
-                                        <div class="row">
-
-
-                                            <!-- NAME -->
-
-                                            <div class="col-12 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Dome Name
-                                                    <span class="text-danger">*</span>
-
-                                                </label>
-
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    class="form-control"
-                                                    value="{{ dome.name }}"
-                                                    required
-                                                >
-
-                                            </div>
-
-
-
-                                            <!-- DESCRIPTION -->
-
-                                            <div class="col-12 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Description
-                                                    <span class="text-danger">*</span>
-
-                                                </label>
-
-                                                <textarea
-                                                    name="description"
-                                                    id="updateDescription{{ dome.id }}"
-                                                    class="form-control rich-editor"
-                                                    rows="5"
-                                                    required
-                                                >{{ dome.description }}</textarea>
-
-                                            </div>
-
-
-
-                                            <!-- IMAGE -->
-
-                                            <div class="col-md-6 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Main Image
-
-                                                </label>
-
-                                                <input
-                                                    type="file"
-                                                    name="main_image"
-                                                    class="form-control"
-                                                    accept="image/*"
-                                                >
-
-
-                                                {% if dome.main_image %}
-
-                                                    <div class="mt-2">
-
-                                                        <img
-                                                            src="{{ dome.main_image.url }}"
-                                                            alt="{{ dome.name }}"
-                                                            style="
-                                                                width:120px;
-                                                                height:90px;
-                                                                object-fit:cover;
-                                                                border-radius:6px;
-                                                            "
-                                                        >
-
-                                                    </div>
-
-                                                {% endif %}
-
-                                            </div>
-
-
-
-                                            <!-- NORMAL PRICE -->
-
-                                            <div class="col-md-3 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Normal Price
-
-                                                </label>
-
-                                                <input
-                                                    type="number"
-                                                    step="0.01"
-                                                    min="0"
-                                                    name="normal_price"
-                                                    class="form-control"
-                                                    value="{{ dome.normal_price|default:'' }}"
-                                                >
-
-                                            </div>
-
-
-
-                                            <!-- SPECIAL PRICE -->
-
-                                            <div class="col-md-3 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Special Price
-
-                                                </label>
-
-                                                <input
-                                                    type="number"
-                                                    step="0.01"
-                                                    min="0"
-                                                    name="special_price"
-                                                    class="form-control"
-                                                    value="{{ dome.special_price|default:'' }}"
-                                                >
-
-                                            </div>
-
-
-
-                                            <!-- CHECK IN -->
-
-                                            <div class="col-md-6 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Check-in Time
-
-                                                </label>
-
-                                                <input
-                                                    type="text"
-                                                    name="check_in"
-                                                    class="form-control"
-                                                    value="{{ dome.check_in }}"
-                                                    placeholder="12:00 PM"
-                                                >
-
-                                            </div>
-
-
-
-                                            <!-- CHECK OUT -->
-
-                                            <div class="col-md-6 mb-3">
-
-                                                <label class="form-label">
-
-                                                    Check-out Time
-
-                                                </label>
-
-                                                <input
-                                                    type="text"
-                                                    name="check_out"
-                                                    class="form-control"
-                                                    value="{{ dome.check_out }}"
-                                                    placeholder="11:00 AM"
-                                                >
-
-                                            </div>
-
-
-
-                                            <!-- PACKAGE ITEMS -->
-
-<div class="col-md-6 mb-3">
-
-    <label class="form-label">
-        Package Items
-        <span class="text-muted">(Optional)</span>
-    </label>
-
-    <textarea
-        name="package_items"
-        class="form-control"
-        rows="5"
-        placeholder="Enter one package item per line"
-    >{{ dome.package_items|default_if_none:'' }}</textarea>
-
-    <div class="form-text">
-        Optional — enter one package item per line.
-    </div>
-
-</div>
-
-
-
-<!-- FACILITIES -->
-
-<div class="col-md-6 mb-3">
-
-    <label class="form-label">
-        Facilities
-        <span class="text-muted">(Optional)</span>
-    </label>
-
-    <textarea
-        name="facilities"
-        class="form-control"
-        rows="5"
-        placeholder="Enter one facility per line"
-    >{{ dome.facilities|default_if_none:'' }}</textarea>
-
-    <div class="form-text">
-        Optional — enter one facility per line.
-    </div>
-
-</div>
-
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                class="form-control"
+                                                value="{{ dome.name }}"
+                                                required
+                                            >
 
                                         </div>
 
+
+
+                                        <!-- ================================= -->
+                                        <!-- DESCRIPTION -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-12 mb-3">
+
+                                            <label class="form-label">
+
+                                                Description
+
+                                                <span class="text-danger">*</span>
+
+                                            </label>
+
+
+                                            <textarea
+                                                name="description"
+                                                id="updateDescription{{ dome.id }}"
+                                                class="form-control rich-editor"
+                                                rows="5"
+                                                required
+                                            >{{ dome.description }}</textarea>
+
+                                        </div>
+
+
+
+                                        <!-- ========================================= -->
+                                        <!-- DOME IMAGES -->
+                                        <!-- ========================================= -->
+
+                                        <div class="col-12 mb-4">
+
+                                            <label class="form-label">
+
+                                                Dome Images
+
+                                                <span class="text-muted">
+                                                    (Optional)
+                                                </span>
+
+                                            </label>
+
+
+                                            <!--
+                                                SINGLE INPUT
+                                                MULTIPLE FILE SELECTION
+                                            -->
+
+                                            <input
+                                                type="file"
+                                                name="images"
+                                                class="form-control dome-images-input"
+                                                accept="image/*"
+                                                multiple
+                                                data-preview="updateImagePreview{{ dome.id }}"
+                                            >
+
+
+                                            <div class="form-text mt-2">
+
+                                                Select one or multiple new images.
+
+                                                New images will be added to the existing gallery.
+
+                                                The first newly selected image becomes the main image.
+
+                                                You can remove a selected image using the × button before saving.
+
+                                            </div>
+
+
+
+                                            <!-- ================================= -->
+                                            <!-- NEW SELECTED IMAGES -->
+                                            <!-- ================================= -->
+
+                                            <div
+                                                id="updateImagePreview{{ dome.id }}"
+                                                class="row g-2 mt-2"
+                                            ></div>
+
+
+
+                                            <!-- ================================= -->
+                                            <!-- CURRENT SAVED IMAGES -->
+                                            <!-- ================================= -->
+
+                                            <div class="mt-4">
+
+                                                <p class="mb-2">
+
+                                                    <strong>
+                                                        Current Images
+                                                    </strong>
+
+                                                </p>
+
+
+                                                <div class="row g-2 existing-images-container">
+
+
+                                                    {% for dome_image in dome.images.all %}
+
+                                                    <div
+                                                        class="col-lg-3 col-md-4 col-6 existing-image-column"
+                                                    >
+
+                                                        <div
+                                                            class="border rounded p-1 position-relative"
+                                                        >
+
+                                                            <img
+                                                                src="{{ dome_image.image.url }}"
+                                                                alt="{{ dome.name }}"
+                                                                class="img-fluid rounded"
+                                                                style="
+                                                                    width:100%;
+                                                                    height:100px;
+                                                                    object-fit:cover;
+                                                                "
+                                                            >
+
+
+                                                            <!-- REMOVE EXISTING IMAGE -->
+
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 existing-image-remove"
+                                                                title="Remove image"
+                                                                style="
+                                                                    width:28px;
+                                                                    height:28px;
+                                                                    padding:0;
+                                                                    border-radius:50%;
+                                                                    font-size:19px;
+                                                                    line-height:23px;
+                                                                    z-index:20;
+                                                                "
+                                                            >
+                                                                &times;
+                                                            </button>
+
+
+                                                            <!--
+                                                                HIDDEN CHECKBOX
+
+                                                                When × is clicked,
+                                                                JS checks this input.
+
+                                                                Django then receives:
+
+                                                                delete_images = [id, id...]
+                                                            -->
+
+                                                            <input
+                                                                type="checkbox"
+                                                                name="delete_images"
+                                                                value="{{ dome_image.id }}"
+                                                                class="delete-image-checkbox d-none"
+                                                            >
+
+
+                                                            {% if dome.main_image and dome.main_image.name == dome_image.image.name %}
+
+                                                                <span
+                                                                    class="badge bg-primary position-absolute bottom-0 start-0 m-2"
+                                                                >
+                                                                    Main
+                                                                </span>
+
+                                                            {% endif %}
+
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    {% empty %}
+
+
+                                                        {% if dome.main_image %}
+
+                                                        <!--
+                                                            FALLBACK FOR OLD RECORDS
+                                                            THAT HAVE main_image BUT
+                                                            NO DomeTypeImage ROWS
+                                                        -->
+
+                                                        <div class="col-lg-3 col-md-4 col-6">
+
+                                                            <div
+                                                                class="border rounded p-1 position-relative"
+                                                            >
+
+                                                                <img
+                                                                    src="{{ dome.main_image.url }}"
+                                                                    alt="{{ dome.name }}"
+                                                                    class="img-fluid rounded"
+                                                                    style="
+                                                                        width:100%;
+                                                                        height:100px;
+                                                                        object-fit:cover;
+                                                                    "
+                                                                >
+
+                                                                <span
+                                                                    class="badge bg-primary position-absolute bottom-0 start-0 m-2"
+                                                                >
+                                                                    Main
+                                                                </span>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        {% else %}
+
+                                                        <div class="col-12">
+
+                                                            <p class="text-muted mb-0">
+
+                                                                No images available.
+
+                                                            </p>
+
+                                                        </div>
+
+                                                        {% endif %}
+
+
+                                                    {% endfor %}
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- NORMAL PRICE -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-3 mb-3">
+
+                                            <label class="form-label">
+
+                                                Normal Price
+
+                                            </label>
+
+
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                name="normal_price"
+                                                class="form-control"
+                                                value="{{ dome.normal_price|default:'' }}"
+                                            >
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- SPECIAL PRICE -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-3 mb-3">
+
+                                            <label class="form-label">
+
+                                                Special Price
+
+                                            </label>
+
+
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                name="special_price"
+                                                class="form-control"
+                                                value="{{ dome.special_price|default:'' }}"
+                                            >
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- CHECK IN -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label">
+
+                                                Check-in Time
+
+                                            </label>
+
+
+                                            <input
+                                                type="text"
+                                                name="check_in"
+                                                class="form-control"
+                                                value="{{ dome.check_in }}"
+                                                placeholder="12:00 PM"
+                                            >
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- CHECK OUT -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label">
+
+                                                Check-out Time
+
+                                            </label>
+
+
+                                            <input
+                                                type="text"
+                                                name="check_out"
+                                                class="form-control"
+                                                value="{{ dome.check_out }}"
+                                                placeholder="11:00 AM"
+                                            >
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- PACKAGE ITEMS -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label">
+
+                                                Package Items
+
+                                                <span class="text-muted">
+                                                    (Optional)
+                                                </span>
+
+                                            </label>
+
+
+                                            <textarea
+                                                name="package_items"
+                                                class="form-control"
+                                                rows="5"
+                                                placeholder="Enter one package item per line"
+                                            >{{ dome.package_items|default_if_none:'' }}</textarea>
+
+
+                                            <div class="form-text">
+
+                                                Optional — enter one package item per line.
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- FACILITIES -->
+                                        <!-- ================================= -->
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label">
+
+                                                Facilities
+
+                                                <span class="text-muted">
+                                                    (Optional)
+                                                </span>
+
+                                            </label>
+
+
+                                            <textarea
+                                                name="facilities"
+                                                class="form-control"
+                                                rows="5"
+                                                placeholder="Enter one facility per line"
+                                            >{{ dome.facilities|default_if_none:'' }}</textarea>
+
+
+                                            <div class="form-text">
+
+                                                Optional — enter one facility per line.
+
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
 
+                                </div>
 
 
-                                    <div class="modal-footer">
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success"
-                                        >
-                                            Save Changes
-                                        </button>
+                                <!-- ================================= -->
+                                <!-- FOOTER -->
+                                <!-- ================================= -->
 
-                                        <button
-                                            type="button"
-                                            class="btn btn-secondary"
-                                            data-bs-dismiss="modal"
-                                        >
-                                            Cancel
-                                        </button>
-
-                                    </div>
+                                <div class="modal-footer">
 
 
-                                </form>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-success"
+                                    >
+                                        Save Changes
+                                    </button>
 
-                            </div>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Cancel
+                                    </button>
+
+
+                                </div>
+
+
+                            </form>
 
                         </div>
 
                     </div>
 
+                </div>
 
 
-                    <!-- ========================================= -->
-                    <!-- DELETE MODAL -->
-                    <!-- ========================================= -->
 
-                    <div
-                        class="modal fade"
-                        id="deleteDomeModal{{ dome.id }}"
-                        tabindex="-1"
-                        aria-hidden="true"
-                    >
+                <!-- ========================================= -->
+                <!-- DELETE DOME MODAL -->
+                <!-- ========================================= -->
 
-                        <div class="modal-dialog">
+                <div
+                    class="modal fade"
+                    id="deleteDomeModal{{ dome.id }}"
+                    tabindex="-1"
+                    aria-hidden="true"
+                >
 
-                            <div class="modal-content">
+                    <div class="modal-dialog">
 
-                                <form
-                                    method="post"
-                                    action="{% url 'dome_type_delete' dome.id %}"
-                                >
-
-                                    {% csrf_token %}
+                        <div class="modal-content">
 
 
-                                    <div class="modal-header">
+                            <form
+                                method="post"
+                                action="{% url 'dome_type_delete' dome.id %}"
+                            >
 
-                                        <h5 class="modal-title">
-                                            Delete Dome Type
-                                        </h5>
-
-                                        <button
-                                            type="button"
-                                            class="btn-close"
-                                            data-bs-dismiss="modal"
-                                        ></button>
-
-                                    </div>
+                                {% csrf_token %}
 
 
-                                    <div class="modal-body">
+                                <div class="modal-header">
 
-                                        Are you sure you want to delete
+                                    <h5 class="modal-title">
 
-                                        <strong>
-                                            {{ dome.name }}
-                                        </strong>?
+                                        Delete Dome Type
 
-                                        <p class="text-danger mt-2 mb-0">
-                                            This action cannot be undone.
-                                        </p>
-
-                                    </div>
+                                    </h5>
 
 
-                                    <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                    ></button>
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-danger"
-                                        >
-                                            Yes, Delete
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-secondary"
-                                            data-bs-dismiss="modal"
-                                        >
-                                            Cancel
-                                        </button>
-
-                                    </div>
+                                </div>
 
 
-                                </form>
+                                <div class="modal-body">
 
-                            </div>
+                                    Are you sure you want to delete
+
+                                    <strong>
+                                        {{ dome.name }}
+                                    </strong>?
+
+
+                                    <p class="text-danger mt-2 mb-0">
+
+                                        This action cannot be undone.
+
+                                    </p>
+
+                                </div>
+
+
+                                <div class="modal-footer">
+
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Yes, Delete
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Cancel
+                                    </button>
+
+
+                                </div>
+
+
+                            </form>
+
 
                         </div>
 
                     </div>
+
+                </div>
 
 
                 {% empty %}
 
 
-                    <tr>
+                <tr>
 
-                        <td
-                            colspan="6"
-                            class="text-center py-5"
+                    <td
+                        colspan="6"
+                        class="text-center py-5"
+                    >
+
+                        <p class="text-muted mb-3">
+
+                            No dome types found.
+
+                        </p>
+
+
+                        <a
+                            href="{% url 'dome_type_create' %}"
+                            class="btn btn-primary btn-sm"
                         >
 
-                            <p class="text-muted mb-3">
+                            <i class="fas fa-plus"></i>
 
-                                No dome types found.
+                            Add Your First Dome Type
 
-                            </p>
+                        </a>
 
-                            <a
-                                href="{% url 'dome_type_create' %}"
-                                class="btn btn-primary btn-sm"
-                            >
+                    </td>
 
-                                <i class="fas fa-plus"></i>
-
-                                Add Your First Dome Type
-
-                            </a>
-
-                        </td>
-
-                    </tr>
+                </tr>
 
 
                 {% endfor %}
+
 
             </tbody>
 
@@ -679,78 +919,78 @@ Dome Type List | Admin Dashboard
 
     {% if dome_types.has_other_pages %}
 
-        <nav aria-label="Dome pagination">
+    <nav aria-label="Dome pagination">
 
-            <ul class="pagination justify-content-center mt-4">
-
-
-                {% if dome_types.has_previous %}
-
-                    <li class="page-item">
-
-                        <a
-                            class="page-link"
-                            href="?page={{ dome_types.previous_page_number }}"
-                        >
-                            &laquo;
-                        </a>
-
-                    </li>
-
-                {% endif %}
+        <ul class="pagination justify-content-center mt-4">
 
 
+            {% if dome_types.has_previous %}
 
-                {% for i in dome_types.paginator.page_range %}
+            <li class="page-item">
 
-                    {% if dome_types.number == i %}
+                <a
+                    class="page-link"
+                    href="?page={{ dome_types.previous_page_number }}"
+                >
+                    &laquo;
+                </a>
 
-                        <li class="page-item active">
+            </li>
 
-                            <span class="page-link">
-                                {{ i }}
-                            </span>
-
-                        </li>
-
-                    {% else %}
-
-                        <li class="page-item">
-
-                            <a
-                                class="page-link"
-                                href="?page={{ i }}"
-                            >
-                                {{ i }}
-                            </a>
-
-                        </li>
-
-                    {% endif %}
-
-                {% endfor %}
+            {% endif %}
 
 
 
-                {% if dome_types.has_next %}
+            {% for i in dome_types.paginator.page_range %}
 
-                    <li class="page-item">
+                {% if dome_types.number == i %}
 
-                        <a
-                            class="page-link"
-                            href="?page={{ dome_types.next_page_number }}"
-                        >
-                            &raquo;
-                        </a>
+                <li class="page-item active">
 
-                    </li>
+                    <span class="page-link">
+                        {{ i }}
+                    </span>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ i }}"
+                    >
+                        {{ i }}
+                    </a>
+
+                </li>
 
                 {% endif %}
 
+            {% endfor %}
 
-            </ul>
 
-        </nav>
+
+            {% if dome_types.has_next %}
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+                    href="?page={{ dome_types.next_page_number }}"
+                >
+                    &raquo;
+                </a>
+
+            </li>
+
+            {% endif %}
+
+
+        </ul>
+
+    </nav>
 
     {% endif %}
 
@@ -765,11 +1005,17 @@ Dome Type List | Admin Dashboard
 
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
+
 <script>
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+
+        // =====================================================
+        // CKEDITOR
+        // =====================================================
 
         document
             .querySelectorAll(".rich-editor")
@@ -804,6 +1050,479 @@ document.addEventListener(
                     });
 
             });
+
+
+
+        // =====================================================
+        // NEW IMAGE SELECTION
+        // PREVIEW + REMOVE FROM ACTUAL FILE INPUT
+        // =====================================================
+
+        document
+            .querySelectorAll(".dome-images-input")
+            .forEach(function (input) {
+
+
+                let selectedFiles = [];
+
+
+                input.addEventListener(
+                    "change",
+                    function () {
+
+                        selectedFiles =
+                            Array.from(this.files);
+
+                        renderNewImages();
+
+                    }
+                );
+
+
+                // ---------------------------------------------
+                // REBUILD INPUT FILELIST
+                // ---------------------------------------------
+
+                function rebuildFileInput() {
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+
+                    selectedFiles.forEach(
+                        function (file) {
+
+                            dataTransfer.items.add(
+                                file
+                            );
+
+                        }
+                    );
+
+
+                    input.files =
+                        dataTransfer.files;
+
+                }
+
+
+
+                // ---------------------------------------------
+                // RENDER PREVIEW
+                // ---------------------------------------------
+
+                function renderNewImages() {
+
+
+                    const previewId =
+                        input.dataset.preview;
+
+
+                    const preview =
+                        document.getElementById(
+                            previewId
+                        );
+
+
+                    if (!preview) {
+
+                        return;
+
+                    }
+
+
+                    preview.innerHTML = "";
+
+
+                    if (selectedFiles.length === 0) {
+
+                        return;
+
+                    }
+
+
+
+                    selectedFiles.forEach(
+                        function (file, index) {
+
+
+                            if (
+                                !file.type.startsWith(
+                                    "image/"
+                                )
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            const reader =
+                                new FileReader();
+
+
+                            reader.onload =
+                                function (event) {
+
+
+                                    const column =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+
+                                    column.className =
+                                        "col-lg-3 col-md-4 col-6";
+
+
+
+                                    const wrapper =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+
+                                    wrapper.className =
+                                        "border rounded p-1 position-relative";
+
+
+
+                                    // IMAGE
+
+                                    const image =
+                                        document.createElement(
+                                            "img"
+                                        );
+
+
+                                    image.src =
+                                        event.target.result;
+
+
+                                    image.alt =
+                                        file.name;
+
+
+                                    image.style.width =
+                                        "100%";
+
+
+                                    image.style.height =
+                                        "100px";
+
+
+                                    image.style.objectFit =
+                                        "cover";
+
+
+                                    image.style.borderRadius =
+                                        "6px";
+
+
+                                    wrapper.appendChild(
+                                        image
+                                    );
+
+
+
+                                    // =================================
+                                    // REMOVE BUTTON
+                                    // =================================
+
+                                    const removeButton =
+                                        document.createElement(
+                                            "button"
+                                        );
+
+
+                                    removeButton.type =
+                                        "button";
+
+
+                                    removeButton.innerHTML =
+                                        "&times;";
+
+
+                                    removeButton.className =
+                                        "btn btn-danger btn-sm position-absolute top-0 end-0 m-1";
+
+
+                                    removeButton.title =
+                                        "Remove image";
+
+
+                                    removeButton.style.width =
+                                        "28px";
+
+
+                                    removeButton.style.height =
+                                        "28px";
+
+
+                                    removeButton.style.padding =
+                                        "0";
+
+
+                                    removeButton.style.borderRadius =
+                                        "50%";
+
+
+                                    removeButton.style.fontSize =
+                                        "19px";
+
+
+                                    removeButton.style.lineHeight =
+                                        "23px";
+
+
+                                    removeButton.style.zIndex =
+                                        "20";
+
+
+
+                                    removeButton.addEventListener(
+                                        "click",
+                                        function () {
+
+
+                                            selectedFiles.splice(
+                                                index,
+                                                1
+                                            );
+
+
+                                            rebuildFileInput();
+
+
+                                            renderNewImages();
+
+                                        }
+                                    );
+
+
+                                    wrapper.appendChild(
+                                        removeButton
+                                    );
+
+
+
+                                    // =================================
+                                    // MAIN IMAGE BADGE
+                                    // =================================
+
+                                    if (index === 0) {
+
+
+                                        const badge =
+                                            document.createElement(
+                                                "span"
+                                            );
+
+
+                                        badge.className =
+                                            "badge bg-primary position-absolute top-0 start-0 m-1";
+
+
+                                        badge.textContent =
+                                            "Main Image";
+
+
+                                        wrapper.appendChild(
+                                            badge
+                                        );
+
+                                    }
+
+
+
+                                    // =================================
+                                    // FILE NAME
+                                    // =================================
+
+                                    const fileName =
+                                        document.createElement(
+                                            "small"
+                                        );
+
+
+                                    fileName.className =
+                                        "d-block text-muted mt-1 text-truncate";
+
+
+                                    fileName.textContent =
+                                        file.name;
+
+
+                                    wrapper.appendChild(
+                                        fileName
+                                    );
+
+
+                                    column.appendChild(
+                                        wrapper
+                                    );
+
+
+                                    preview.appendChild(
+                                        column
+                                    );
+
+                                };
+
+
+                            reader.readAsDataURL(
+                                file
+                            );
+
+                        }
+                    );
+
+                }
+
+
+            });
+
+
+
+        // =====================================================
+        // EXISTING SAVED IMAGE REMOVE
+        // =====================================================
+
+        document
+            .querySelectorAll(
+                ".existing-image-remove"
+            )
+            .forEach(function (button) {
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+
+                        const wrapper =
+                            this.closest(
+                                ".position-relative"
+                            );
+
+
+                        if (!wrapper) {
+
+                            return;
+
+                        }
+
+
+                        const checkbox =
+                            wrapper.querySelector(
+                                ".delete-image-checkbox"
+                            );
+
+
+                        if (checkbox) {
+
+                            checkbox.checked = true;
+
+                        }
+
+
+                        const column =
+                            wrapper.closest(
+                                ".existing-image-column"
+                            );
+
+
+                        if (column) {
+
+                            column.style.display =
+                                "none";
+
+                        }
+
+                    }
+                );
+
+
+            });
+
+
+
+        // =====================================================
+        // RESET MODAL IF USER PRESSES CANCEL/CLOSE
+        //
+        // Existing images hidden by × should become visible
+        // again if modal is closed without submitting.
+        // =====================================================
+
+        document
+            .querySelectorAll(".modal")
+            .forEach(function (modal) {
+
+
+                modal.addEventListener(
+                    "hidden.bs.modal",
+                    function () {
+
+
+                        this
+                            .querySelectorAll(
+                                ".delete-image-checkbox"
+                            )
+                            .forEach(
+                                function (checkbox) {
+
+                                    checkbox.checked =
+                                        false;
+
+                                }
+                            );
+
+
+                        this
+                            .querySelectorAll(
+                                ".existing-image-column"
+                            )
+                            .forEach(
+                                function (column) {
+
+                                    column.style.display =
+                                        "";
+
+                                }
+                            );
+
+
+                        const fileInput =
+                            this.querySelector(
+                                ".dome-images-input"
+                            );
+
+
+                        const preview =
+                            this.querySelector(
+                                '[id^="updateImagePreview"]'
+                            );
+
+
+                        if (fileInput) {
+
+                            fileInput.value = "";
+
+                        }
+
+
+                        if (preview) {
+
+                            preview.innerHTML = "";
+
+                        }
+
+                    }
+                );
+
+
+            });
+
 
     }
 );

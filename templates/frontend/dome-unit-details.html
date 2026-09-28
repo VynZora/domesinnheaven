@@ -121,7 +121,444 @@
 				.contact-info-section {
 					background-color: #f8f7f0;
 				}
-			</style>
+
+
+
+
+
+{% comment %} add gallery image css start {% endcomment %}
+
+/* =========================================================
+   DOME IMAGE GALLERY
+========================================================= */
+
+.dome-gallery {
+    width: 100%;
+}
+
+.dome-gallery-main {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 10;
+
+    max-height: 560px;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+    background: #f5f5f5;
+}
+
+.dome-gallery-main img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: opacity 0.25s ease;
+}
+
+
+/* ---------------------------------------------------------
+   PREVIOUS / NEXT BUTTONS
+--------------------------------------------------------- */
+
+.dome-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.92);
+    color: #3D4B33;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+    z-index: 5;
+}
+
+.dome-gallery-arrow:hover {
+    background: #3D4B33;
+    color: #fff;
+}
+
+.dome-gallery-prev {
+    left: 20px;
+}
+
+.dome-gallery-next {
+    right: 20px;
+}
+
+
+/* ---------------------------------------------------------
+   THUMBNAILS
+--------------------------------------------------------- */
+
+.dome-gallery-thumbnails {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 5px;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Internet Explorer / old Edge */
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Edge, Safari */
+.dome-gallery-thumbnails::-webkit-scrollbar {
+    display: none;
+}
+
+.dome-gallery-thumbnail {
+    width: 105px;
+    height: 75px;
+
+    flex: 0 0 105px;
+
+    padding: 3px;
+
+    border: 2px solid transparent;
+    border-radius: 10px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.dome-gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+
+    display: block;
+}
+
+.dome-gallery-thumbnail:hover {
+    opacity: 0.85;
+}
+
+.dome-gallery-thumbnail.active {
+    border-color: #3D4B33;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 767px) {
+
+    .dome-gallery-main {
+        height: 330px;
+        border-radius: 10px;
+    }
+
+    .dome-gallery-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .dome-gallery-prev {
+        left: 10px;
+    }
+
+    .dome-gallery-next {
+        right: 10px;
+    }
+
+    .dome-gallery-thumbnail {
+        width: 82px;
+        height: 62px;
+        flex-basis: 82px;
+    }
+}
+{% comment %} add gallery image css end {% endcomment %}
+
+
+{% comment %} make it responsive css start {% endcomment %}
+/* =========================================================
+   RESPONSIVE DOME DETAILS PAGE
+========================================================= */
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.dome-breadcrumb {
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/* Prevent Bootstrap columns from producing strange heights */
+.dome-breadcrumb > .container-fluid > .row {
+    align-items: stretch;
+}
+
+
+/* Left breadcrumb */
+.dome-breadcrumb .breadcrumb-content {
+    height: 100%;
+    min-height: 100%;
+}
+
+
+/* Right image wrapper */
+.dome-breadcrumb .breadcrumb-thumb {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+/* Right image */
+.dome-breadcrumb .breadcrumb-thumb img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+
+
+/* =========================================================
+   DETAILS SECTION
+========================================================= */
+
+.dome-details-section {
+    padding-top: 70px !important;
+    padding-bottom: 100px !important;
+}
+
+
+/* Never vertically center content */
+.dome-details-section .details-layout-wrap {
+    align-items: flex-start !important;
+}
+
+
+/* Remove inherited unwanted top spacing */
+.dome-details-section .details-content,
+.dome-details-section .detail-sidebar {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+/* Gallery should begin at top of content */
+.dome-details-section .dome-gallery {
+    margin-top: 0 !important;
+}
+
+
+
+/* =========================================================
+   LARGE DESKTOP
+   1200px+
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    /*
+     Both breadcrumb columns are displayed.
+     Let the existing theme control normal breadcrumb height.
+    */
+
+    .dome-breadcrumb-content-col,
+    .dome-breadcrumb-image-col {
+        display: flex;
+    }
+
+
+    .dome-breadcrumb .breadcrumb-content,
+    .dome-breadcrumb .breadcrumb-thumb {
+        width: 100%;
+    }
+
+}
+
+
+
+/* =========================================================
+   LAPTOP / SMALL DESKTOP
+   992px - 1199px
+
+   IMPORTANT:
+   Hide right breadcrumb image completely.
+========================================================= */
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .dome-breadcrumb-image-col {
+        display: none !important;
+    }
+
+
+    .dome-breadcrumb-content-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+
+    .dome-breadcrumb .breadcrumb-content {
+        width: 100%;
+        min-height: 165px !important;
+        height: auto !important;
+    }
+
+
+    .dome-details-section {
+        padding-top: 50px !important;
+        padding-bottom: 80px !important;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET
+   768px - 991px
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    .dome-breadcrumb-image-col {
+        display: none !important;
+    }
+
+
+    .dome-breadcrumb-content-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+
+    .dome-breadcrumb .breadcrumb-content {
+        width: 100%;
+        min-height: 160px !important;
+        height: auto !important;
+    }
+
+
+    .dome-details-section {
+        padding-top: 45px !important;
+        padding-bottom: 70px !important;
+    }
+
+
+    .dome-gallery-main {
+        height: 440px;
+    }
+
+}
+
+
+
+/* =========================================================
+   MOBILE
+   BELOW 768px
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .dome-breadcrumb-image-col {
+        display: none !important;
+    }
+
+
+    .dome-breadcrumb-content-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+
+    .dome-breadcrumb .breadcrumb-content {
+        width: 100%;
+        min-height: 150px !important;
+        height: auto !important;
+    }
+
+
+    .dome-details-section {
+        padding-top: 35px !important;
+        padding-bottom: 55px !important;
+    }
+
+
+    .dome-gallery-main {
+        height: 330px;
+        border-radius: 10px;
+    }
+
+}
+
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .dome-breadcrumb .breadcrumb-content {
+        min-height: 140px !important;
+    }
+
+
+    .dome-details-section {
+        padding-top: 30px !important;
+    }
+
+
+    .dome-gallery-main {
+        height: 280px;
+    }
+
+}
+{% comment %} make it responsive css end  {% endcomment %}
+
+</style>
 
 <!-- preloader start-->
 <div id="preloader">
@@ -132,55 +569,181 @@
 <!-- preloader end  -->
 
 <main>
-	<!-- breadcrumb-section start -->
-	<section class="breadcrumb-section">
-		<div class="container-fluid">
-			<div class="row g-0">
-				<div class="col-xl-6 col-lg-6">
-					<div class="breadcrumb-content" style="background-image: url('{% static "assets/img/static_images_new/1.png" %}')">
-						<div class="breadcrumb-nav" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-							<ul>
-								<li>
-                                   <a href="{% url 'home' %}">Home</a>
-                                </li>
+	<!-- =========================================================
+     BREADCRUMB SECTION
+========================================================= -->
+<section class="breadcrumb-section dome-breadcrumb">
 
-                                <li>
-                                   <a href="{% url 'services' %}">Domes</a>
-                                </li>
+    <div class="container-fluid">
 
-                                <li>
-                                  <a href="#">{{ dome.name }}</a>
-                                </li>
-							</ul>
-						</div>
-						<div class="breadcrumb-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-							<h2>{{ dome.name }}</h2>
-						</div>
-						<div class="shape-1">
-							<img src="{% static 'assets/img/shapes/shape-1.webp' %}" alt="shape"/>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-6 col-lg-6 d-none d-lg-block">
-					<div class="breadcrumb-thumb">
-						<img src="{{ dome.main_image.url }}" alt="{{ dome.name }}"/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- breadcrumb-section end -->
+        <div class="row g-0">
+
+            <!-- =============================================
+                 LEFT SIDE
+            ============================================== -->
+            <div class="col-xl-6 col-12 dome-breadcrumb-content-col">
+
+                <div
+                    class="breadcrumb-content"
+                    style="background-image: url('{% static 'assets/img/static_images_new/1.png' %}');"
+                >
+
+                    <div
+                        class="breadcrumb-nav"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                        data-aos-delay="200"
+                    >
+                        <ul>
+
+                            <li>
+                                <a href="{% url 'home' %}">
+                                    Home
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'services' %}">
+                                    Domes
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    {{ dome.name }}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                    <div
+                        class="breadcrumb-title"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                        data-aos-delay="400"
+                    >
+                        <h2>{{ dome.name }}</h2>
+                    </div>
+
+
+                    <div class="shape-1">
+                        <img
+                            src="{% static 'assets/img/shapes/shape-1.webp' %}"
+                            alt="shape"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 RIGHT SIDE IMAGE
+                 Only visible on XL desktop >= 1200px
+            ============================================== -->
+            <div class="col-xl-6 d-none d-xl-block dome-breadcrumb-image-col">
+
+                <div class="breadcrumb-thumb">
+
+                    <img
+                        src="{{ dome.main_image.url }}"
+                        alt="{{ dome.name }}"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- breadcrumb-section end -->
 
 	<!-- services-details-section start -->
-	<section class="services-details-section p-t-120 p-b-250 p-t-lg-80 p-t-md-80 p-t-xs-40 p-b-md-100 p-b-xs-40">
+	<section class="services-details-section dome-details-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="details-layout-wrap">
 						<div class="details-content">
-							<div class="thumb-wrap m-b-50" style="height: clamp(300px, 50vh, 500px); overflow: hidden; border-radius: 15px;">
-								<img src="{{ dome.main_image.url }}" alt="{{ dome.name }}" style="width: 100%; height: 100%; object-fit: cover;"/>
-							</div>
+							<!-- =========================================================
+     DOME IMAGE GALLERY
+========================================================= -->
+
+<div class="dome-gallery m-b-50">
+
+    <!-- Main Image -->
+    <div class="dome-gallery-main">
+
+        <img
+            id="domeGalleryMainImage"
+            src="{{ dome.main_image.url }}"
+            alt="{{ dome.name }}"
+        >
+
+        <!-- Previous -->
+        <button
+            type="button"
+            class="dome-gallery-arrow dome-gallery-prev"
+            id="domeGalleryPrev"
+            aria-label="Previous image"
+        >
+            <i class="fa-regular fa-arrow-left"></i>
+        </button>
+
+        <!-- Next -->
+        <button
+            type="button"
+            class="dome-gallery-arrow dome-gallery-next"
+            id="domeGalleryNext"
+            aria-label="Next image"
+        >
+            <i class="fa-regular fa-arrow-right"></i>
+        </button>
+
+    </div>
+
+
+    <!-- Thumbnail Images -->
+    <div class="dome-gallery-thumbnails">
+
+        <!-- Main Image Thumbnail -->
+        <button
+            type="button"
+            class="dome-gallery-thumbnail active"
+            data-image="{{ dome.main_image.url }}"
+        >
+            <img
+                src="{{ dome.main_image.url }}"
+                alt="{{ dome.name }}"
+            >
+        </button>
+
+
+        <!-- Additional Dome Images -->
+        {% for image in dome.images.all %}
+
+            <button
+                type="button"
+                class="dome-gallery-thumbnail"
+                data-image="{{ image.image.url }}"
+            >
+                <img
+                    src="{{ image.image.url }}"
+                    alt="{{ dome.name }} image {{ forloop.counter }}"
+                >
+            </button>
+
+        {% endfor %}
+
+    </div>
+
+</div>
 							
                             <div class="details-title m-b-15">
 								<h2>{{ dome.name }}</h2>
@@ -561,4 +1124,152 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const mainImage = document.getElementById("domeGalleryMainImage");
+
+    const thumbnails = Array.from(
+        document.querySelectorAll(".dome-gallery-thumbnail")
+    );
+
+    const prevButton = document.getElementById("domeGalleryPrev");
+    const nextButton = document.getElementById("domeGalleryNext");
+
+
+    if (!mainImage || thumbnails.length === 0) {
+        return;
+    }
+
+
+    let currentIndex = 0;
+
+
+    // =====================================================
+    // SHOW IMAGE
+    // =====================================================
+
+    function showImage(index) {
+
+        if (index < 0) {
+            index = thumbnails.length - 1;
+        }
+
+        if (index >= thumbnails.length) {
+            index = 0;
+        }
+
+        currentIndex = index;
+
+        const selectedThumbnail = thumbnails[currentIndex];
+
+        const imageUrl = selectedThumbnail.dataset.image;
+
+
+        // Small fade effect
+        mainImage.style.opacity = "0";
+
+
+        setTimeout(function () {
+
+            mainImage.src = imageUrl;
+
+            mainImage.style.opacity = "1";
+
+        }, 150);
+
+
+        // Remove active state
+        thumbnails.forEach(function (thumbnail) {
+
+            thumbnail.classList.remove("active");
+
+        });
+
+
+        // Set current thumbnail active
+        selectedThumbnail.classList.add("active");
+
+
+        // Automatically scroll thumbnail into view
+        selectedThumbnail.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+        });
+
+    }
+
+
+    // =====================================================
+    // THUMBNAIL CLICK
+    // =====================================================
+
+    thumbnails.forEach(function (thumbnail, index) {
+
+        thumbnail.addEventListener("click", function () {
+
+            showImage(index);
+
+        });
+
+    });
+
+
+    // =====================================================
+    // PREVIOUS
+    // =====================================================
+
+    if (prevButton) {
+
+        prevButton.addEventListener("click", function () {
+
+            showImage(currentIndex - 1);
+
+        });
+
+    }
+
+
+    // =====================================================
+    // NEXT
+    // =====================================================
+
+    if (nextButton) {
+
+        nextButton.addEventListener("click", function () {
+
+            showImage(currentIndex + 1);
+
+        });
+
+    }
+
+
+    // =====================================================
+    // KEYBOARD NAVIGATION
+    // =====================================================
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "ArrowLeft") {
+
+            showImage(currentIndex - 1);
+
+        }
+
+        if (event.key === "ArrowRight") {
+
+            showImage(currentIndex + 1);
+
+        }
+
+    });
+
+});
+</script>
+
 {% endblock %}

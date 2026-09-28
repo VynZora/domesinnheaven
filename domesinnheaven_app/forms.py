@@ -14,19 +14,60 @@ from .models import (
 )
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleImageField(forms.ImageField):
+
+    widget = MultipleFileInput
+
+    def clean(self, data, initial=None):
+
+        single_image_clean = super().clean
+
+        if isinstance(data, (list, tuple)):
+
+            return [
+                single_image_clean(image, initial)
+                for image in data
+            ]
+
+        if data:
+
+            return [
+                single_image_clean(data, initial)
+            ]
+
+        return []
+
+
+
+
 # ============================================================
 # DOME TYPE
 # ============================================================
 
 class DomeTypeForm(forms.ModelForm):
 
+    images = MultipleImageField(
+        required=False,
+        label="Dome Images",
+        widget=MultipleFileInput(
+            attrs={
+                "class": "form-control",
+                "accept": "image/*",
+            }
+        )
+    )
+
     class Meta:
+
         model = DomeType
 
         fields = [
             "name",
             "description",
-            "main_image",
             "check_in",
             "check_out",
             "normal_price",
@@ -49,13 +90,6 @@ class DomeTypeForm(forms.ModelForm):
                     "class": "form-control rich-editor",
                     "rows": 5,
                     "placeholder": "Enter dome description",
-                }
-            ),
-
-            "main_image": forms.ClearableFileInput(
-                attrs={
-                    "class": "form-control",
-                    "accept": "image/*",
                 }
             ),
 
@@ -94,27 +128,31 @@ class DomeTypeForm(forms.ModelForm):
             "package_items": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "rows": 4,
-                    "placeholder": "Enter one package item per line (optional)",
+                    "rows": 6,
+                    "placeholder": "Enter one package item per line",
                 }
             ),
 
             "facilities": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "rows": 4,
-                    "placeholder": "Enter one facility per line (optional)",
+                    "rows": 6,
+                    "placeholder": "Enter one facility per line",
                 }
             ),
         }
 
     def __init__(self, *args, **kwargs):
+
         super().__init__(*args, **kwargs)
 
-        # Explicitly optional
         self.fields["package_items"].required = False
         self.fields["facilities"].required = False
 
+        # Images required when creating,
+        # optional when updating.
+        if not self.instance or not self.instance.pk:
+            self.fields["images"].required = True
 
 # ============================================================
 # BLOG

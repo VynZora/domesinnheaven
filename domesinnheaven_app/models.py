@@ -46,6 +46,9 @@ class DomeCategory(OptimizedImageModel):
 
 
 
+
+
+
 class DomeType(OptimizedImageModel):
     image_fields = ["main_image"]
 
@@ -143,6 +146,33 @@ class DomeType(OptimizedImageModel):
             if item.strip()
         ]
 
+
+
+class DomeTypeImage(OptimizedImageModel):
+
+    image_fields = ["image"]
+
+    dome_type = models.ForeignKey(
+        DomeType,
+        on_delete=models.CASCADE,
+        related_name="images"
+    )
+
+    image = models.ImageField(
+        upload_to="domes/gallery/"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ["id"]
+        verbose_name = "Dome Type Image"
+        verbose_name_plural = "Dome Type Images"
+
+    def __str__(self):
+        return f"{self.dome_type.name} - Image {self.pk}"
 
 
 class CampingPackage(OptimizedImageModel):
@@ -397,7 +427,7 @@ class Booking(models.Model):
         null=True,
         blank=True
     )
-    
+
     jacuzzi_bathtub = models.BooleanField(
                default=False,
                help_text="Guest requested Jacuzzi bathtub"

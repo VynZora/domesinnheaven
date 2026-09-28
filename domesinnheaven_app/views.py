@@ -33,6 +33,9 @@ from .models import (
     CampingPackage,
     Booking,
     DomeType,
+    DomeTypeImage,
+    
+
 )
 
 
@@ -91,8 +94,8 @@ def services(request):
 
 def services_details(request, slug):
     dome = get_object_or_404(
-        DomeType,
-        slug=slug
+    DomeType.objects.prefetch_related("images"),
+    slug=slug
     )
 
     recent_domes = (
@@ -832,18 +835,25 @@ def camping_package_delete(request, pk):
 # DOME TYPES (ADMIN DASHBOARD)
 # ==========================================
 
-# ==========================================
-# DOME TYPES (ADMIN DASHBOARD)
-# ==========================================
-
-
 @login_required(login_url="admin_login")
 def admin_dome_type_list(request):
-    dome_types_qs = DomeType.objects.all().order_by("-created_at")
 
-    paginator = Paginator(dome_types_qs, 10)
+    dome_types_qs = (
+        DomeType.objects
+        .prefetch_related("images")
+        .order_by("-created_at")
+    )
+
+    paginator = Paginator(
+        dome_types_qs,
+        10
+    )
+
     page_number = request.GET.get("page")
-    dome_types = paginator.get_page(page_number)
+
+    dome_types = paginator.get_page(
+        page_number
+    )
 
     return render(
         request,
@@ -854,32 +864,116 @@ def admin_dome_type_list(request):
     )
 
 
+
+# @login_required(login_url="admin_login")
+# def dome_type_create(request):
+#     if request.method == "POST":
+#         form = DomeTypeForm(request.POST, request.FILES)
+
+#         if form.is_valid():
+#             dome_type = form.save()
+
+#             messages.success(
+#                 request,
+#                 f'"{dome_type.name}" created successfully!'
+#             )
+
+#             return redirect("admin_dome_type_list")
+
+#         print("DOME TYPE CREATE ERRORS:")
+#         print(form.errors)
+#         print(form.errors.as_data())
+
+#         messages.error(
+#             request,
+#             "Dome type could not be created. Please correct the errors below."
+#         )
+
+#     else:
+#         form = DomeTypeForm()
+
+#     return render(
+#         request,
+#         "admin_pages/create_dome_type.html",
+#         {
+#             "form": form,
+#             "dome_type": None,
+#         }
+#     )
+
+
 @login_required(login_url="admin_login")
 def dome_type_create(request):
+
     if request.method == "POST":
-        form = DomeTypeForm(request.POST, request.FILES)
+
+        form = DomeTypeForm(
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
-            dome_type = form.save()
 
-            messages.success(
-                request,
-                f'"{dome_type.name}" created successfully!'
+            images = form.cleaned_data.get(
+                "images",
+                []
             )
 
-            return redirect("admin_dome_type_list")
+            if not images:
 
-        print("DOME TYPE CREATE ERRORS:")
-        print(form.errors)
-        print(form.errors.as_data())
+                form.add_error(
+                    "images",
+                    "Please select at least one dome image."
+                )
+
+            else:
+
+                # ---------------------------------------
+                # CREATE DOME
+                # ---------------------------------------
+
+                dome_type = form.save(
+                    commit=False
+                )
+
+                # First selected image becomes
+                # the main image.
+                dome_type.main_image = images[0]
+
+                dome_type.save()
+
+
+                # ---------------------------------------
+                # SAVE ALL SELECTED IMAGES
+                # ---------------------------------------
+
+                for image in images:
+
+                    DomeTypeImage.objects.create(
+                        dome_type=dome_type,
+                        image=image
+                    )
+
+
+                messages.success(
+                    request,
+                    f'"{dome_type.name}" created successfully!'
+                )
+
+                return redirect(
+                    "admin_dome_type_list"
+                )
 
         messages.error(
             request,
-            "Dome type could not be created. Please correct the errors below."
+            "Dome type could not be created. "
+            "Please correct the errors below."
         )
 
     else:
+
         form = DomeTypeForm()
+
 
     return render(
         request,
@@ -891,50 +985,184 @@ def dome_type_create(request):
     )
 
 
-@login_required(login_url="admin_login")
+
+
+@login_required
 def dome_type_update(request, pk):
-    dome_type = get_object_or_404(
-        DomeType,
-        pk=pk
+
+    dome = get_object_or_404(
+        DomeType.objects.prefetch_related("images"),
+        pk=pk,
     )
 
-    if request.method == "POST":
-        form = DomeTypeForm(
-            request.POST,
-            request.FILES,
-            instance=dome_type
+    if request.method != "POST":
+        return redirect("admin_dome_type_list")
+
+
+    form = DomeTypeForm(
+        request.POST,
+        request.FILES,
+        instance=dome,
+    )
+
+
+    if form.is_valid():
+
+        # -----------------------------------------
+        # NEW IMAGES
+        # -----------------------------------------
+
+        new_images = request.FILES.getlist(
+            "images"
         )
 
-        if form.is_valid():
-            updated_dome = form.save()
 
-            messages.success(
-                request,
-                f'"{updated_dome.name}" updated successfully!'
+        # -----------------------------------------
+        # EXISTING IMAGES TO DELETE
+        # -----------------------------------------
+
+        delete_image_ids = request.POST.getlist(
+            "delete_images"
+        )
+
+
+        dome = form.save(
+            commit=False
+        )
+
+
+        # -----------------------------------------
+        # DELETE SELECTED GALLERY IMAGES
+        # -----------------------------------------
+
+        if delete_image_ids:
+
+            images_to_delete = (
+                DomeTypeImage.objects
+                .filter(
+                    dome_type=dome,
+                    id__in=delete_image_ids,
+                )
             )
 
-            return redirect("admin_dome_type_list")
 
-        print("DOME TYPE UPDATE ERRORS:")
-        print(form.errors)
-        print(form.errors.as_data())
+            # Check whether current main image
+            # is among images being deleted
 
-        messages.error(
+            current_main_name = (
+                dome.main_image.name
+                if dome.main_image
+                else None
+            )
+
+
+            deleting_main_image = False
+
+
+            for image_object in images_to_delete:
+
+                if (
+                    current_main_name
+                    and
+                    image_object.image.name
+                    ==
+                    current_main_name
+                ):
+
+                    deleting_main_image = True
+                    break
+
+
+            images_to_delete.delete()
+
+
+            # If current main image was deleted,
+            # temporarily clear it.
+
+            if deleting_main_image:
+
+                dome.main_image = None
+
+
+        # -----------------------------------------
+        # NEW IMAGE SELECTED
+        #
+        # First selected image becomes main image
+        # -----------------------------------------
+
+        if new_images:
+
+            dome.main_image = new_images[0]
+
+
+        dome.save()
+
+
+        # -----------------------------------------
+        # SAVE NEW GALLERY IMAGES
+        # -----------------------------------------
+
+        for image in new_images:
+
+            DomeTypeImage.objects.create(
+                dome_type=dome,
+                image=image,
+            )
+
+
+        # -----------------------------------------
+        # IF MAIN IMAGE IS EMPTY
+        # PROMOTE FIRST REMAINING GALLERY IMAGE
+        # -----------------------------------------
+
+        if not dome.main_image:
+
+            remaining_image = (
+                DomeTypeImage.objects
+                .filter(dome_type=dome)
+                .first()
+            )
+
+
+            if remaining_image:
+
+                dome.main_image = (
+                    remaining_image.image
+                )
+
+                dome.save(
+                    update_fields=[
+                        "main_image"
+                    ]
+                )
+
+
+        messages.success(
             request,
-            "Dome type could not be updated. Please correct the errors below."
+            f'"{dome.name}" updated successfully.'
         )
 
-    else:
-        form = DomeTypeForm(instance=dome_type)
 
-    return render(
+        return redirect(
+            "admin_dome_type_list"
+        )
+
+
+    # ---------------------------------------------
+    # FORM ERROR
+    # ---------------------------------------------
+
+    messages.error(
         request,
-        "admin_pages/create_dome_type.html",
-        {
-            "form": form,
-            "dome_type": dome_type,
-        }
+        "Please correct the errors and try again."
     )
+
+
+    return redirect(
+        "admin_dome_type_list"
+    )
+
+
 
 
 @login_required(login_url="admin_login")

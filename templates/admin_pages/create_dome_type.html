@@ -21,30 +21,47 @@
 
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 
+
+                <!-- ===================================================== -->
                 <!-- PAGE TITLE -->
+                <!-- ===================================================== -->
+
                 <div class="dashboard__section__title">
 
                     <h4 class="mb-0">
+
                         {% if dome_type %}
+
                             Update Dome Type
+
                         {% else %}
+
                             Add Dome Type
+
                         {% endif %}
+
                     </h4>
 
                 </div>
+
 
 
                 <div class="row mt-4">
 
                     <div class="col-12">
 
-                        <!-- Django messages -->
+
+                        <!-- ===================================================== -->
+                        <!-- DJANGO MESSAGES -->
+                        <!-- ===================================================== -->
+
                         {% if messages %}
 
                             {% for message in messages %}
 
-                                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show">
+                                <div
+                                    class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+                                >
 
                                     {{ message }}
 
@@ -52,8 +69,8 @@
                                         type="button"
                                         class="btn-close"
                                         data-bs-dismiss="alert"
-                                        aria-label="Close">
-                                    </button>
+                                        aria-label="Close"
+                                    ></button>
 
                                 </div>
 
@@ -62,18 +79,26 @@
                         {% endif %}
 
 
+
+                        <!-- ===================================================== -->
+                        <!-- FORM -->
+                        <!-- ===================================================== -->
+
                         <form
                             method="post"
                             enctype="multipart/form-data"
                             class="needs-validation form-wrapper"
                             novalidate
-                            style="max-width: 1000px;"
+                            style="max-width:1000px;"
                         >
 
                             {% csrf_token %}
 
 
+
+                            <!-- ================================================= -->
                             <!-- NON FIELD ERRORS -->
+                            <!-- ================================================= -->
 
                             {% if form.non_field_errors %}
 
@@ -81,7 +106,9 @@
 
                                     {% for error in form.non_field_errors %}
 
-                                        <div>{{ error }}</div>
+                                        <div>
+                                            {{ error }}
+                                        </div>
 
                                     {% endfor %}
 
@@ -90,12 +117,13 @@
                             {% endif %}
 
 
+
                             <div class="row">
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- DOME NAME -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-12 mb-4">
 
@@ -103,9 +131,13 @@
                                         for="id_name"
                                         class="form-label"
                                     >
+
                                         Dome Name
+
                                         <span class="text-danger">*</span>
+
                                     </label>
+
 
                                     <input
                                         type="text"
@@ -117,12 +149,15 @@
                                         required
                                     >
 
+
                                     {% if form.name.errors %}
 
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.name.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -133,9 +168,9 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- DESCRIPTION -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-12 mb-4">
 
@@ -143,9 +178,13 @@
                                         for="id_description"
                                         class="form-label"
                                     >
+
                                         Description
+
                                         <span class="text-danger">*</span>
+
                                     </label>
+
 
                                     <textarea
                                         name="description"
@@ -156,12 +195,15 @@
                                         required
                                     >{{ form.description.value|default_if_none:'' }}</textarea>
 
+
                                     {% if form.description.errors %}
 
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.description.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -172,41 +214,92 @@
 
 
 
-                                <!-- ===================================== -->
-                                <!-- MAIN IMAGE -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
+                                <!-- DOME IMAGES -->
+                                <!-- ================================================= -->
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-12 mb-4">
 
                                     <label
-                                        for="id_main_image"
+                                        for="id_images"
                                         class="form-label"
                                     >
-                                        Main Image
+
+                                        Dome Images
 
                                         {% if not dome_type %}
+
                                             <span class="text-danger">*</span>
+
+                                        {% else %}
+
+                                            <span class="text-muted">
+                                                (Optional)
+                                            </span>
+
                                         {% endif %}
 
                                     </label>
 
 
+
+                                    <!--
+                                        IMPORTANT:
+
+                                        This is ONE file input.
+
+                                        "multiple" allows selecting many
+                                        images from the same file picker.
+                                    -->
+
                                     <input
                                         type="file"
-                                        name="main_image"
-                                        id="id_main_image"
-                                        class="form-control modern-input {% if form.main_image.errors %}is-invalid{% endif %}"
+                                        name="images"
+                                        id="id_images"
+                                        class="form-control modern-input {% if form.images.errors %}is-invalid{% endif %}"
                                         accept="image/*"
+                                        multiple
                                         {% if not dome_type %}required{% endif %}
                                     >
 
 
-                                    {% if form.main_image.errors %}
+
+                                    <div class="form-text mt-2">
+
+                                        {% if not dome_type %}
+
+                                            Select one or multiple images.
+
+                                            The first selected image will be
+                                            used as the main image.
+
+                                            You can remove any selected image
+                                            using the red × button before saving.
+
+                                        {% else %}
+
+                                            Select one or multiple new images.
+
+                                            New images will be added to the
+                                            existing gallery.
+
+                                            The first newly selected image will
+                                            become the main image.
+
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                    {% if form.images.errors %}
 
                                         <div class="invalid-feedback d-block">
 
-                                            {% for error in form.main_image.errors %}
+                                            {% for error in form.images.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -214,60 +307,188 @@
                                     {% endif %}
 
 
-                                    <!-- CURRENT IMAGE -->
 
-                                    {% if dome_type and dome_type.main_image %}
+                                    <!-- ================================================= -->
+                                    <!-- NEW SELECTED IMAGE PREVIEW -->
+                                    <!-- ================================================= -->
 
-                                        <div class="mt-3">
+                                    <div
+                                        id="imagePreview"
+                                        class="row g-3 mt-2"
+                                    ></div>
+
+
+
+                                    <!-- ================================================= -->
+                                    <!-- EXISTING IMAGES - UPDATE MODE ONLY -->
+                                    <!-- ================================================= -->
+
+                                    {% if dome_type %}
+
+                                        <div class="mt-4">
 
                                             <p class="mb-2">
-                                                <strong>Current Image</strong>
+
+                                                <strong>
+                                                    Current Images
+                                                </strong>
+
                                             </p>
 
-                                            <img
-                                                src="{{ dome_type.main_image.url }}"
-                                                alt="{{ dome_type.name }}"
-                                                style="
-                                                    width: 200px;
-                                                    height: 150px;
-                                                    object-fit: cover;
-                                                    border-radius: 8px;
-                                                "
-                                            >
 
-                                            <p class="form-text mt-2">
-                                                Leave the image field empty to keep this image.
-                                            </p>
+                                            <div class="row g-3">
+
+
+                                                {% for dome_image in dome_type.images.all %}
+
+                                                    <div
+                                                        class="col-xl-3 col-lg-3 col-md-4 col-6 existing-image-column"
+                                                    >
+
+                                                        <div
+                                                            class="border rounded p-2 position-relative"
+                                                        >
+
+
+                                                            <img
+                                                                src="{{ dome_image.image.url }}"
+                                                                alt="{{ dome_type.name }}"
+                                                                class="img-fluid rounded"
+                                                                style="
+                                                                    width:100%;
+                                                                    height:150px;
+                                                                    object-fit:cover;
+                                                                "
+                                                            >
+
+
+
+                                                            <!-- DELETE EXISTING IMAGE -->
+
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 existing-image-remove"
+                                                                style="
+                                                                    width:30px;
+                                                                    height:30px;
+                                                                    padding:0;
+                                                                    border-radius:50%;
+                                                                    font-size:20px;
+                                                                    line-height:25px;
+                                                                    z-index:20;
+                                                                "
+                                                                title="Remove image"
+                                                            >
+                                                                &times;
+                                                            </button>
+
+
+
+                                                            <!--
+                                                                Hidden checkbox.
+
+                                                                JavaScript checks this
+                                                                when × is clicked.
+
+                                                                Backend receives:
+
+                                                                request.POST.getlist(
+                                                                    "delete_images"
+                                                                )
+                                                            -->
+
+                                                            <input
+                                                                type="checkbox"
+                                                                name="delete_images"
+                                                                value="{{ dome_image.id }}"
+                                                                class="delete-image-checkbox d-none"
+                                                            >
+
+
+                                                            {% if dome_type.main_image and dome_type.main_image.name == dome_image.image.name %}
+
+                                                                <span
+                                                                    class="badge bg-primary position-absolute bottom-0 start-0 m-2"
+                                                                >
+                                                                    Main Image
+                                                                </span>
+
+                                                            {% endif %}
+
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                {% empty %}
+
+
+                                                    {% if dome_type.main_image %}
+
+                                                        <div
+                                                            class="col-xl-3 col-lg-3 col-md-4 col-6"
+                                                        >
+
+                                                            <div
+                                                                class="border rounded p-2 position-relative"
+                                                            >
+
+                                                                <img
+                                                                    src="{{ dome_type.main_image.url }}"
+                                                                    alt="{{ dome_type.name }}"
+                                                                    class="img-fluid rounded"
+                                                                    style="
+                                                                        width:100%;
+                                                                        height:150px;
+                                                                        object-fit:cover;
+                                                                    "
+                                                                >
+
+
+                                                                <span
+                                                                    class="badge bg-primary position-absolute bottom-0 start-0 m-2"
+                                                                >
+                                                                    Main Image
+                                                                </span>
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    {% else %}
+
+                                                        <div class="col-12">
+
+                                                            <p class="text-muted mb-0">
+
+                                                                No current images.
+
+                                                            </p>
+
+                                                        </div>
+
+                                                    {% endif %}
+
+
+                                                {% endfor %}
+
+
+                                            </div>
 
                                         </div>
 
                                     {% endif %}
 
 
-                                    <!-- NEW IMAGE PREVIEW -->
-
-                                    <div
-                                        id="imagePreview"
-                                        class="mt-3"
-                                        style="
-                                            display:none;
-                                            width:200px;
-                                            height:150px;
-                                            border:2px dashed #d1d5db;
-                                            border-radius:8px;
-                                            align-items:center;
-                                            justify-content:center;
-                                            overflow:hidden;
-                                        "
-                                    ></div>
-
                                 </div>
 
 
 
-                                <!-- ===================================== -->
-                                <!-- PRICES -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
+                                <!-- NORMAL PRICE -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-3 mb-4">
 
@@ -275,8 +496,11 @@
                                         for="id_normal_price"
                                         class="form-label"
                                     >
+
                                         Normal Price
+
                                     </label>
+
 
                                     <input
                                         type="number"
@@ -289,12 +513,15 @@
                                         value="{{ form.normal_price.value|default_if_none:'' }}"
                                     >
 
+
                                     {% if form.normal_price.errors %}
 
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.normal_price.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -305,14 +532,21 @@
 
 
 
+                                <!-- ================================================= -->
+                                <!-- SPECIAL PRICE -->
+                                <!-- ================================================= -->
+
                                 <div class="col-md-3 mb-4">
 
                                     <label
                                         for="id_special_price"
                                         class="form-label"
                                     >
+
                                         Special Price
+
                                     </label>
+
 
                                     <input
                                         type="number"
@@ -325,12 +559,15 @@
                                         value="{{ form.special_price.value|default_if_none:'' }}"
                                     >
 
+
                                     {% if form.special_price.errors %}
 
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.special_price.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -341,9 +578,9 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- CHECK IN -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-6 mb-4">
 
@@ -351,8 +588,11 @@
                                         for="id_check_in"
                                         class="form-label"
                                     >
+
                                         Check-in Time
+
                                     </label>
+
 
                                     <input
                                         type="text"
@@ -367,9 +607,9 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- CHECK OUT -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-6 mb-4">
 
@@ -377,8 +617,11 @@
                                         for="id_check_out"
                                         class="form-label"
                                     >
+
                                         Check-out Time
+
                                     </label>
+
 
                                     <input
                                         type="text"
@@ -393,19 +636,25 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- PACKAGE ITEMS -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-6 mb-4">
 
                                     <label
-                                     for="id_package_items"
-                                     class="form-label"
-                                       >
-                                   Package Items
-                                     <span class="text-muted">(Optional)</span>
-                                      </label>
+                                        for="id_package_items"
+                                        class="form-label"
+                                    >
+
+                                        Package Items
+
+                                        <span class="text-muted">
+                                            (Optional)
+                                        </span>
+
+                                    </label>
+
 
                                     <textarea
                                         name="package_items"
@@ -415,8 +664,11 @@
                                         placeholder="Enter one package item per line"
                                     >{{ form.package_items.value|default_if_none:'' }}</textarea>
 
+
                                     <div class="form-text">
+
                                         Enter one package item per line.
+
                                     </div>
 
 
@@ -425,7 +677,9 @@
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.package_items.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -436,19 +690,25 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- FACILITIES -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-md-6 mb-4">
 
-<label
-    for="id_facilities"
-    class="form-label"
->
-    Facilities
-    <span class="text-muted">(Optional)</span>
-</label>
+                                    <label
+                                        for="id_facilities"
+                                        class="form-label"
+                                    >
+
+                                        Facilities
+
+                                        <span class="text-muted">
+                                            (Optional)
+                                        </span>
+
+                                    </label>
+
 
                                     <textarea
                                         name="facilities"
@@ -458,8 +718,11 @@
                                         placeholder="Enter one facility per line"
                                     >{{ form.facilities.value|default_if_none:'' }}</textarea>
 
+
                                     <div class="form-text">
+
                                         Enter one facility per line.
+
                                     </div>
 
 
@@ -468,7 +731,9 @@
                                         <div class="invalid-feedback d-block">
 
                                             {% for error in form.facilities.errors %}
+
                                                 {{ error }}
+
                                             {% endfor %}
 
                                         </div>
@@ -479,13 +744,14 @@
 
 
 
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
                                 <!-- BUTTONS -->
-                                <!-- ===================================== -->
+                                <!-- ================================================= -->
 
                                 <div class="col-12 mt-4">
 
                                     <div class="dashboard__form__button">
+
 
                                         <button
                                             type="submit"
@@ -493,20 +759,28 @@
                                         >
 
                                             {% if dome_type %}
+
                                                 Update Dome Type
+
                                             {% else %}
+
                                                 Save Dome Type
+
                                             {% endif %}
 
                                         </button>
+
 
 
                                         <a
                                             href="{% url 'admin_dome_type_list' %}"
                                             class="btn btn-secondary"
                                         >
+
                                             Cancel
+
                                         </a>
+
 
                                     </div>
 
@@ -517,9 +791,11 @@
 
                         </form>
 
+
                     </div>
 
                 </div>
+
 
             </div>
 
@@ -535,164 +811,676 @@
 
 {% block extra_js %}
 
+
+<!-- ========================================================= -->
+<!-- CKEDITOR -->
+<!-- ========================================================= -->
+
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    /*
-    ============================================
-    CKEDITOR
-    ============================================
-    */
 
-    const descriptionElement =
-        document.querySelector("#id_description");
+        // =====================================================
+        // CKEDITOR
+        // =====================================================
 
-    if (descriptionElement) {
+        const descriptionElement =
+            document.getElementById(
+                "id_description"
+            );
 
-        ClassicEditor
-            .create(descriptionElement, {
 
-                toolbar: [
-                    "heading",
-                    "|",
-                    "bold",
-                    "italic",
-                    "link",
-                    "bulletedList",
-                    "numberedList",
-                    "|",
-                    "blockQuote",
-                    "undo",
-                    "redo"
-                ]
+        if (descriptionElement) {
 
-            })
-            .catch(error => {
+            ClassicEditor
+                .create(
+                    descriptionElement,
+                    {
 
-                console.error(
-                    "CKEditor error:",
-                    error
+                        toolbar: [
+
+                            "heading",
+                            "|",
+
+                            "bold",
+                            "italic",
+                            "link",
+
+                            "bulletedList",
+                            "numberedList",
+
+                            "|",
+
+                            "blockQuote",
+
+                            "undo",
+                            "redo"
+
+                        ]
+
+                    }
+                )
+                .catch(
+                    function (error) {
+
+                        console.error(
+                            "CKEditor error:",
+                            error
+                        );
+
+                    }
                 );
 
-            });
-
-    }
+        }
 
 
-    /*
-    ============================================
-    IMAGE PREVIEW
-    ============================================
-    */
 
-    const imageInput =
-        document.getElementById("id_main_image");
+        // =====================================================
+        // MULTIPLE IMAGE SELECTION
+        // =====================================================
 
-    const imagePreview =
-        document.getElementById("imagePreview");
+        const imageInput =
+            document.getElementById(
+                "id_images"
+            );
 
 
-    if (imageInput && imagePreview) {
+        const imagePreview =
+            document.getElementById(
+                "imagePreview"
+            );
 
-        imageInput.addEventListener(
-            "change",
-            function () {
 
-                imagePreview.innerHTML = "";
+        /*
+            This array is the real list of
+            files that we want Django to receive.
+        */
 
-                if (
-                    this.files &&
-                    this.files[0]
-                ) {
+        let selectedFiles = [];
 
-                    const reader =
-                        new FileReader();
 
-                    reader.onload =
-                        function (event) {
 
-                            imagePreview.style.display =
-                                "flex";
+        if (
+            imageInput &&
+            imagePreview
+        ) {
 
-                            const img =
-                                document.createElement("img");
 
-                            img.src =
-                                event.target.result;
+            // =================================================
+            // USER SELECTS FILES
+            // =================================================
 
-                            img.alt =
-                                "New image preview";
+            imageInput.addEventListener(
+                "change",
+                function () {
 
-                            img.style.width =
-                                "100%";
 
-                            img.style.height =
-                                "100%";
+                    /*
+                        IMPORTANT:
 
-                            img.style.objectFit =
-                                "cover";
+                        Add newly selected files to the
+                        existing selectedFiles array.
 
-                            imagePreview.appendChild(img);
+                        This means the user can:
 
-                        };
+                        Choose 3 files
+                        then open picker again
+                        and choose 2 more.
 
-                    reader.readAsDataURL(
-                        this.files[0]
+                        All 5 remain selected.
+                    */
+
+                    const newFiles =
+                        Array.from(
+                            this.files
+                        );
+
+
+                    newFiles.forEach(
+                        function (file) {
+
+
+                            // Only images
+
+                            if (
+                                !file.type.startsWith(
+                                    "image/"
+                                )
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            /*
+                                Prevent accidental duplicate
+                                selection.
+                            */
+
+                            const alreadyExists =
+                                selectedFiles.some(
+                                    function (existingFile) {
+
+                                        return (
+
+                                            existingFile.name
+                                                === file.name
+
+                                            &&
+
+                                            existingFile.size
+                                                === file.size
+
+                                            &&
+
+                                            existingFile.lastModified
+                                                === file.lastModified
+
+                                        );
+
+                                    }
+                                );
+
+
+                            if (!alreadyExists) {
+
+                                selectedFiles.push(
+                                    file
+                                );
+
+                            }
+
+
+                        }
                     );
 
-                } else {
 
-                    imagePreview.style.display =
-                        "none";
+                    rebuildFileInput();
+
+                    renderSelectedImages();
+
+
+                }
+            );
+
+
+
+            // =================================================
+            // REBUILD ACTUAL HTML FILE INPUT
+            // =================================================
+
+            function rebuildFileInput() {
+
+
+                const dataTransfer =
+                    new DataTransfer();
+
+
+                selectedFiles.forEach(
+                    function (file) {
+
+                        dataTransfer.items.add(
+                            file
+                        );
+
+                    }
+                );
+
+
+                /*
+                    THIS IS VERY IMPORTANT.
+
+                    Django only receives files contained
+                    in imageInput.files.
+
+                    Therefore after removing an image from
+                    selectedFiles we must rebuild this list.
+                */
+
+                imageInput.files =
+                    dataTransfer.files;
+
+
+            }
+
+
+
+            // =================================================
+            // RENDER IMAGE PREVIEWS
+            // =================================================
+
+            function renderSelectedImages() {
+
+
+                imagePreview.innerHTML =
+                    "";
+
+
+                if (
+                    selectedFiles.length === 0
+                ) {
+
+                    return;
 
                 }
 
-            }
-        );
-
-    }
 
 
-    /*
-    ============================================
-    BOOTSTRAP VALIDATION
-    ============================================
-    */
+                selectedFiles.forEach(
+                    function (file, index) {
 
-    const forms =
-        document.querySelectorAll(
-            ".needs-validation"
-        );
 
-    Array.from(forms).forEach(
-        function (form) {
+                        const reader =
+                            new FileReader();
 
-            form.addEventListener(
-                "submit",
-                function (event) {
 
-                    if (!form.checkValidity()) {
+                        reader.onload =
+                            function (event) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+
+                                // ---------------------------------
+                                // COLUMN
+                                // ---------------------------------
+
+                                const column =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                column.className =
+                                    "col-xl-3 col-lg-3 col-md-4 col-6";
+
+
+
+                                // ---------------------------------
+                                // CARD
+                                // ---------------------------------
+
+                                const wrapper =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                wrapper.className =
+                                    "border rounded p-2 position-relative bg-white";
+
+
+
+                                // ---------------------------------
+                                // IMAGE
+                                // ---------------------------------
+
+                                const image =
+                                    document.createElement(
+                                        "img"
+                                    );
+
+
+                                image.src =
+                                    event.target.result;
+
+
+                                image.alt =
+                                    file.name;
+
+
+                                image.style.width =
+                                    "100%";
+
+
+                                image.style.height =
+                                    "150px";
+
+
+                                image.style.objectFit =
+                                    "cover";
+
+
+                                image.style.borderRadius =
+                                    "6px";
+
+
+                                wrapper.appendChild(
+                                    image
+                                );
+
+
+
+                                // =================================================
+                                // RED × DELETE BUTTON
+                                // =================================================
+
+                                const removeButton =
+                                    document.createElement(
+                                        "button"
+                                    );
+
+
+                                removeButton.type =
+                                    "button";
+
+
+                                removeButton.innerHTML =
+                                    "&times;";
+
+
+                                removeButton.className =
+                                    "btn btn-danger btn-sm position-absolute top-0 end-0 m-2";
+
+
+                                removeButton.title =
+                                    "Remove selected image";
+
+
+                                removeButton.setAttribute(
+                                    "aria-label",
+                                    "Remove selected image"
+                                );
+
+
+                                removeButton.style.width =
+                                    "32px";
+
+
+                                removeButton.style.height =
+                                    "32px";
+
+
+                                removeButton.style.padding =
+                                    "0";
+
+
+                                removeButton.style.borderRadius =
+                                    "50%";
+
+
+                                removeButton.style.fontSize =
+                                    "21px";
+
+
+                                removeButton.style.lineHeight =
+                                    "25px";
+
+
+                                removeButton.style.fontWeight =
+                                    "bold";
+
+
+                                removeButton.style.zIndex =
+                                    "20";
+
+
+
+                                // =================================================
+                                // DELETE SELECTED IMAGE
+                                // =================================================
+
+                                removeButton.addEventListener(
+                                    "click",
+                                    function () {
+
+
+                                        /*
+                                            Remove exactly this file
+                                            from our array.
+                                        */
+
+                                        selectedFiles.splice(
+                                            index,
+                                            1
+                                        );
+
+
+                                        /*
+                                            Rebuild the actual file
+                                            input so Django DOES NOT
+                                            receive removed image.
+                                        */
+
+                                        rebuildFileInput();
+
+
+                                        /*
+                                            Redraw previews.
+
+                                            This also automatically
+                                            makes the next first image
+                                            the Main Image.
+                                        */
+
+                                        renderSelectedImages();
+
+
+                                    }
+                                );
+
+
+                                wrapper.appendChild(
+                                    removeButton
+                                );
+
+
+
+                                // =================================================
+                                // MAIN IMAGE BADGE
+                                // =================================================
+
+                                if (index === 0) {
+
+
+                                    const mainBadge =
+                                        document.createElement(
+                                            "span"
+                                        );
+
+
+                                    mainBadge.className =
+                                        "badge bg-primary position-absolute top-0 start-0 m-2";
+
+
+                                    mainBadge.textContent =
+                                        "Main Image";
+
+
+                                    mainBadge.style.zIndex =
+                                        "20";
+
+
+                                    wrapper.appendChild(
+                                        mainBadge
+                                    );
+
+
+                                }
+
+
+
+                                // =================================================
+                                // FILE NAME
+                                // =================================================
+
+                                const fileName =
+                                    document.createElement(
+                                        "small"
+                                    );
+
+
+                                fileName.className =
+                                    "d-block text-muted mt-2 text-truncate";
+
+
+                                fileName.textContent =
+                                    file.name;
+
+
+                                fileName.title =
+                                    file.name;
+
+
+                                wrapper.appendChild(
+                                    fileName
+                                );
+
+
+
+                                // ---------------------------------
+                                // ADD CARD
+                                // ---------------------------------
+
+                                column.appendChild(
+                                    wrapper
+                                );
+
+
+                                imagePreview.appendChild(
+                                    column
+                                );
+
+
+                            };
+
+
+                        reader.readAsDataURL(
+                            file
+                        );
+
 
                     }
+                );
 
-                    form.classList.add(
-                        "was-validated"
-                    );
 
-                },
-                false
-            );
+            }
+
 
         }
-    );
 
-});
+
+
+        // =====================================================
+        // DELETE EXISTING IMAGES
+        // UPDATE MODE
+        // =====================================================
+
+        document
+            .querySelectorAll(
+                ".existing-image-remove"
+            )
+            .forEach(
+                function (button) {
+
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+
+                            const wrapper =
+                                this.closest(
+                                    ".position-relative"
+                                );
+
+
+                            if (!wrapper) {
+
+                                return;
+
+                            }
+
+
+                            const checkbox =
+                                wrapper.querySelector(
+                                    ".delete-image-checkbox"
+                                );
+
+
+                            if (checkbox) {
+
+                                checkbox.checked =
+                                    true;
+
+                            }
+
+
+                            const column =
+                                wrapper.closest(
+                                    ".existing-image-column"
+                                );
+
+
+                            if (column) {
+
+                                column.style.display =
+                                    "none";
+
+                            }
+
+
+                        }
+                    );
+
+
+                }
+            );
+
+
+
+        // =====================================================
+        // BOOTSTRAP VALIDATION
+        // =====================================================
+
+        const forms =
+            document.querySelectorAll(
+                ".needs-validation"
+            );
+
+
+        Array
+            .from(forms)
+            .forEach(
+                function (form) {
+
+
+                    form.addEventListener(
+                        "submit",
+                        function (event) {
+
+
+                            if (
+                                !form.checkValidity()
+                            ) {
+
+                                event.preventDefault();
+
+                                event.stopPropagation();
+
+                            }
+
+
+                            form.classList.add(
+                                "was-validated"
+                            );
+
+
+                        },
+                        false
+                    );
+
+
+                }
+            );
+
+
+    }
+);
 
 </script>
 
