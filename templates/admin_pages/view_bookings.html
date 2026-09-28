@@ -51,6 +51,21 @@
                             {% if booking.camping_package %}
                             <span class="text-secondary mt-1"><strong>Package:</strong> {{ booking.camping_package.name }}</span>
                             {% endif %}
+
+<span class="mt-1">
+    <strong>Jacuzzi Bathtub:</strong>
+
+    {% if booking.jacuzzi_bathtub %}
+        <span class="badge bg-success">
+            <i class="fas fa-check me-1"></i> Requested
+        </span>
+    {% else %}
+        <span class="badge bg-secondary">
+            Not Requested
+        </span>
+    {% endif %}
+</span>
+
                         </div>
                     </td>
                     <td class="text-center">
@@ -117,6 +132,21 @@
                 {% if booking.camping_package %}
                 <p><strong>Selected Package:</strong> <span class="badge bg-secondary">{{ booking.camping_package.name }}</span></p>
                 {% endif %}
+<p>
+    <strong>Jacuzzi Bathtub:</strong>
+
+    {% if booking.jacuzzi_bathtub %}
+        <span class="badge bg-success">
+            <i class="fas fa-check me-1"></i>
+            Requested
+        </span>
+    {% else %}
+        <span class="badge bg-secondary">
+            <i class="fas fa-times me-1"></i>
+            Not Requested
+        </span>
+    {% endif %}
+</p>
                 {% if booking.message %}
                 <p><strong>Message:</strong></p>
                 <p>{{ booking.message }}</p>
