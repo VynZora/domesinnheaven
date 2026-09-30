@@ -1,6 +1,61 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - BLOG PAGE                                           #}
+{# ========================================================= #}
+
+{% block meta_title %}Munnar Travel & Glamping Blog | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Explore the Domes Inn Heaven blog for Munnar travel guides, glamping experiences, local attractions, nature escapes and useful tips to help you plan a memorable stay in Munnar, Kerala.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}Munnar Travel & Glamping Blog | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Discover Munnar travel guides, glamping inspiration, local attractions and helpful travel tips from Domes Inn Heaven. Get inspired for your next Munnar getaway.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH IMAGE                                          #}
+{# ========================================================= #}
+
+{% block og_image %}
+
+    {% static 'assets/img/new/dome15.jpeg' as blog_og_image %}
+
+    <meta
+        property="og:image"
+        content="{{ request.scheme }}://{{ request.get_host }}{{ blog_og_image }}"
+    >
+
+    <meta
+        property="og:image:alt"
+        content="Domes Inn Heaven Munnar travel and glamping blog"
+    >
+
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}Munnar Travel & Glamping Blog | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}Explore Munnar travel guides, glamping experiences, local attractions and travel tips from Domes Inn Heaven in Kerala.{% endblock %}
+
+
+{# ========================================================= #}
+{# PAGE CONTENT                                              #}
+{# ========================================================= #}
+
 {% block content %}
+
 <style>
     /* Hide the top bar (donation bar) only on the blogs page */
     .top-bar {

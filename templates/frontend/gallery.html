@@ -1,5 +1,46 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - GALLERY PAGE                                        #}
+{# ========================================================= #}
+
+{% block meta_title %}Gallery | Domes Inn Heaven Munnar{% endblock %}
+
+{% block meta_description %}Explore the Domes Inn Heaven gallery and discover our luxury dome stays in Munnar, Kerala. View photos of our domes, beautiful surroundings, interiors, amenities and memorable glamping experiences.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}Gallery | Domes Inn Heaven Munnar{% endblock %}
+
+{% block og_description %}Explore photos of Domes Inn Heaven in Munnar. Discover our luxury domes, beautiful interiors, amenities and peaceful natural surroundings in the hills of Munnar.{% endblock %}
+
+{% block og_image %}
+{% static 'assets/img/new/dome15.jpeg' as gallery_og_image %}
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ gallery_og_image }}"
+>
+<meta
+    property="og:image:alt"
+    content="Domes Inn Heaven luxury dome resort gallery in Munnar"
+>
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}Gallery | Domes Inn Heaven Munnar{% endblock %}
+
+{% block twitter_description %}View the Domes Inn Heaven gallery featuring luxury dome stays, interiors, amenities and beautiful natural surroundings in Munnar, Kerala.{% endblock %}
+
+
 {% block content %}
 
 <!-- preloader start-->

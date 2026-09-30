@@ -1,6 +1,77 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - BLOG DETAILS PAGE                                   #}
+{# ========================================================= #}
+
+{% block meta_title %}{{ blog.title }} | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}{% if blog.meta_description %}{{ blog.meta_description|striptags|truncatechars:160 }}{% elif blog.excerpt %}{{ blog.excerpt|striptags|truncatechars:160 }}{% else %}{{ blog.content|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}{{ blog.title }} | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}{% if blog.meta_description %}{{ blog.meta_description|striptags|truncatechars:200 }}{% elif blog.excerpt %}{{ blog.excerpt|striptags|truncatechars:200 }}{% else %}{{ blog.content|striptags|truncatechars:200 }}{% endif %}{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH IMAGE                                          #}
+{# ========================================================= #}
+
+{% block og_image %}
+
+    {% if blog.image %}
+
+        <meta
+            property="og:image"
+            content="{{ request.scheme }}://{{ request.get_host }}{{ blog.image.url }}"
+        >
+
+        <meta
+            property="og:image:alt"
+            content="{{ blog.title }} - Domes Inn Heaven"
+        >
+
+    {% else %}
+
+        {% static 'assets/img/new/dome15.jpeg' as blog_default_og_image %}
+
+        <meta
+            property="og:image"
+            content="{{ request.scheme }}://{{ request.get_host }}{{ blog_default_og_image }}"
+        >
+
+        <meta
+            property="og:image:alt"
+            content="Domes Inn Heaven Munnar"
+        >
+
+    {% endif %}
+
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}{{ blog.title }} | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}{% if blog.meta_description %}{{ blog.meta_description|striptags|truncatechars:200 }}{% elif blog.excerpt %}{{ blog.excerpt|striptags|truncatechars:200 }}{% else %}{{ blog.content|striptags|truncatechars:200 }}{% endif %}{% endblock %}
+
+
+{# ========================================================= #}
+{# PAGE CONTENT                                              #}
+{# ========================================================= #}
+
 {% block content %}
+
 <style>
 /* Sidebar gallery fix — uniform grid, no whitespace — all screen sizes */
 .s-widget-wrap .sidebar-gallery {

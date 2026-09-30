@@ -1,5 +1,46 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - BOOKING PAGE                                        #}
+{# ========================================================= #}
+
+{% block meta_title %}Book Your Stay in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Book your stay at Domes Inn Heaven in Munnar, Kerala. Choose your preferred luxury dome, check availability and plan a peaceful glamping getaway surrounded by the beautiful hills and nature of Munnar.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}Book Your Stay in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Plan your stay at Domes Inn Heaven in Munnar. Choose from our luxury dome stays, check availability and book your glamping experience surrounded by nature.{% endblock %}
+
+{% block og_image %}
+{% static 'assets/img/new/dome15.jpeg' as booking_og_image %}
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ booking_og_image }}"
+>
+<meta
+    property="og:image:alt"
+    content="Book a luxury dome stay at Domes Inn Heaven in Munnar"
+>
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}Book Your Stay in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}Book your luxury dome stay at Domes Inn Heaven in Munnar, Kerala. Check availability and plan your nature getaway.{% endblock %}
+
+
 {% block content %}
 
 			<style>

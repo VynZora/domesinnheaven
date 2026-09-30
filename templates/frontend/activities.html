@@ -1,5 +1,46 @@
 {% extends "frontend/base.html" %}
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - ACTIVITIES PAGE                                     #}
+{# ========================================================= #}
+
+{% block meta_title %}Activities & Experiences in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Discover exciting activities and experiences at Domes Inn Heaven in Munnar, Kerala. Explore nature, outdoor adventures and memorable experiences while enjoying your luxury dome stay in the beautiful hills of Munnar.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}Activities & Experiences in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Explore activities and memorable experiences at Domes Inn Heaven in Munnar. Enjoy nature, outdoor adventures and unique experiences during your luxury dome stay.{% endblock %}
+
+{% block og_image %}
+{% static 'assets/img/new/dome15.jpeg' as activities_og_image %}
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ activities_og_image }}"
+>
+<meta
+    property="og:image:alt"
+    content="Activities and experiences at Domes Inn Heaven in Munnar"
+>
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}Activities & Experiences in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}Discover nature activities, outdoor adventures and memorable experiences during your stay at Domes Inn Heaven in Munnar, Kerala.{% endblock %}
+
+
 {% block content %}
 
 <!-- preloader start-->

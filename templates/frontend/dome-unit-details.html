@@ -1,5 +1,45 @@
 {% extends "frontend/base.html" %}
+
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - DOME DETAILS PAGE                                   #}
+{# ========================================================= #}
+
+{% block meta_title %}{{ dome.name }} in Munnar | Luxury Dome Stay | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Stay at {{ dome.name }} in Munnar at Domes Inn Heaven. Enjoy a premium dome stay with comfortable interiors, modern amenities and a peaceful nature experience. Check facilities, photos, prices and book your stay.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH                                                #}
+{# ========================================================= #}
+
+{% block og_title %}{{ dome.name }} in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Discover {{ dome.name }} at Domes Inn Heaven, Munnar. Explore photos, facilities, stay information and pricing, and book your luxury dome experience.{% endblock %}
+
+{% block og_image %}
+{% if dome.main_image %}
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ dome.main_image.url }}"
+>
+<meta property="og:image:alt" content="{{ dome.name }} at Domes Inn Heaven, Munnar">
+{% endif %}
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}{{ dome.name }} in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}Explore {{ dome.name }} at Domes Inn Heaven in Munnar. View photos, facilities, pricing and stay information.{% endblock %}
+
+
 {% block content %}
 
 			<style>
@@ -368,10 +408,7 @@
 }
 
 
-/* Never vertically center content */
-.dome-details-section .details-layout-wrap {
-    align-items: flex-start !important;
-}
+
 
 
 /* Remove inherited unwanted top spacing */
@@ -557,6 +594,103 @@
 
 }
 {% comment %} make it responsive css end  {% endcomment %}
+
+
+/* right side content sticky css start */
+
+.dome-details-section {
+    overflow-x: clip !important;   /* clip does NOT break sticky, hidden does */
+    overflow-y: visible !important;
+}
+
+.dome-details-section .container,
+.dome-details-section .row,
+.dome-details-section [class*="col-"],
+.dome-details-section .details-layout-wrap {
+    overflow: visible !important;
+}
+
+.dome-details-section .details-layout-wrap {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+.dome-details-section .detail-sidebar {
+    align-self: stretch !important;
+    height: auto !important;
+    position: relative;
+}
+
+.dome-details-section .detail-sidebar-inner {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+}
+
+@media (max-width: 991.98px) {
+    .dome-details-section .detail-sidebar-inner {
+        position: static !important;
+    }
+}
+
+
+
+/* make the section grow with its content */
+.dome-details-section {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flow-root !important;   /* contains children, like a clearfix */
+    margin-bottom: 0 !important;
+}
+
+.dome-details-section .container,
+.dome-details-section .row,
+.dome-details-section [class*="col-"],
+.dome-details-section .details-layout-wrap {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+.dome-details-section .details-layout-wrap {
+    display: flex !important;
+    align-items: flex-start !important;
+}
+
+.dome-details-section .details-content,
+.dome-details-section .detail-sidebar {
+    position: relative !important;   /* undo any absolute positioning from the theme */
+}
+
+/* the next section must not be pulled up over this one */
+.policies-section {
+    margin-top: 0 !important;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* right side content sticky css end */
+
+
+/* remove leftover breadcrumb height when the right image is hidden */
+@media (max-width: 1199.98px) {
+    .dome-breadcrumb,
+    .dome-breadcrumb > .container-fluid,
+    .dome-breadcrumb .row,
+    .dome-breadcrumb-content-col {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .dome-breadcrumb .breadcrumb-content {
+        height: auto !important;
+    }
+}
+
 
 </style>
 
@@ -1271,5 +1405,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+{% comment %} sticky js start {% endcomment %}
+<script>
+window.addEventListener("load", function () {
+
+    const side  = document.querySelector(".dome-details-section .detail-sidebar");
+    const inner = document.querySelector(".dome-details-section .detail-sidebar-inner");
+    const left  = document.querySelector(".dome-details-section .details-content");
+    if (!side || !inner || !left) { console.warn("STICKY: elements not found"); return; }
+
+    const topGap = 100, bottomGap = 20;
+
+    // 1. Clear overflow clipping on every ancestor
+    let p = side.parentElement;
+    while (p && p !== document.documentElement) {
+        p.style.setProperty("overflow", "visible", "important");
+        p = p.parentElement;
+    }
+    document.documentElement.style.setProperty("overflow-x", "clip", "important");
+    document.body.style.setProperty("overflow-x", "clip", "important");
+
+    function update() {
+        if (window.innerWidth < 992) {
+            side.style.height = "";
+            inner.style.position = "static";
+            return;
+        }
+
+        // 2. Make the sidebar column exactly as tall as the left content
+        side.style.setProperty("height", left.offsetHeight + "px", "important");
+        side.style.setProperty("align-self", "flex-start", "important");
+
+        // 3. Sticky with the correct top value
+        const ih = inner.offsetHeight;
+        const vh = window.innerHeight;
+        const top = (ih + topGap + bottomGap > vh) ? (vh - ih - bottomGap) : topGap;
+
+        inner.style.setProperty("position", "sticky", "important");
+        inner.style.setProperty("top", top + "px", "important");
+    }
+
+    update();
+    setTimeout(update, 500);
+    setTimeout(update, 1500);
+    window.addEventListener("resize", update);
+    if ("ResizeObserver" in window) {
+        const ro = new ResizeObserver(update);
+        ro.observe(left);
+        ro.observe(inner);
+    }
+
+    // Debug report
+    console.log("STICKY REPORT", {
+        position: getComputedStyle(inner).position,
+        top: getComputedStyle(inner).top,
+        leftHeight: left.offsetHeight,
+        sidebarColHeight: side.offsetHeight,
+        innerHeight: inner.offsetHeight,
+        viewport: window.innerHeight
+    });
+});
+</script>
+{% comment %} sticky js end {% endcomment %}
+
 
 {% endblock %}

@@ -1,6 +1,49 @@
 {% extends "frontend/base.html" %}
+
 {% load static %}
+
+
+{# ========================================================= #}
+{# SEO - OUR DOMES PAGE                                      #}
+{# ========================================================= #}
+
+{% block meta_title %}Luxury Dome Stays in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block meta_description %}Explore luxury dome stays at Domes Inn Heaven in Munnar, Kerala. Discover premium glamping accommodation surrounded by nature, breathtaking mountain views and modern comforts. View our domes and book your stay.{% endblock %}
+
+
+{# ========================================================= #}
+{# OPEN GRAPH - FACEBOOK / WHATSAPP / LINKEDIN               #}
+{# ========================================================= #}
+
+{% block og_title %}Luxury Dome Stays in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block og_description %}Discover luxury dome stays and premium glamping at Domes Inn Heaven in Munnar. Explore our unique domes, beautiful mountain surroundings and comfortable nature stays.{% endblock %}
+
+{% block og_image %}
+{% static 'assets/img/new/dome15.jpeg' as domes_og_image %}
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ domes_og_image }}"
+>
+<meta
+    property="og:image:alt"
+    content="Luxury dome stays at Domes Inn Heaven in Munnar"
+>
+{% endblock %}
+
+
+{# ========================================================= #}
+{# TWITTER / X                                               #}
+{# ========================================================= #}
+
+{% block twitter_title %}Luxury Dome Stays in Munnar | Domes Inn Heaven{% endblock %}
+
+{% block twitter_description %}Explore luxury dome stays and premium glamping accommodation at Domes Inn Heaven in Munnar, Kerala.{% endblock %}
+
+
 {% block content %}
+
 
 <!-- preloader start-->
 <div id="preloader">
@@ -342,6 +385,35 @@
 				.contact-info-section {
 					background-color: #f8f7f0;
 				}
+
+
+
+
+
+				{% comment %} remove gap css start {% endcomment %}
+@media (max-width: 1199.98px) {
+
+    /* breadcrumb section must be exactly as tall as its content */
+    .breadcrumb-section,
+    .breadcrumb-section > .container-fluid,
+    .breadcrumb-section .row {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* the section right after it must not be pushed down */
+    .breadcrumb-section + .services-section {
+        margin-top: 0 !important;
+        top: auto !important;
+        transform: none !important;
+    }
+}
+				{% comment %} remove gap css end  {% endcomment %}
+
+
 			</style>
 			<div class="row"
      data-aos="fade-up"

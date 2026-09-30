@@ -2,30 +2,75 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Domes{% endblock %}</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {# ========================================================= #}
+    {# BASIC SEO                                                 #}
+    {# ========================================================= #}
+
+    <title>
+        {% block meta_title %}
+            Domes Inn Heaven | Luxury Glamping Resort in Munnar
+        {% endblock %}
+    </title>
+
+    <meta
+        name="description"
+        content="{% block meta_description %}Experience luxury glamping in Munnar at Domes Inn Heaven with luxury domes, Jacuzzi stays and premium accommodation surrounded by nature.{% endblock %}"
+    >
+
+    {# ========================================================= #}
+    {# OPEN GRAPH                                                #}
+    {# Facebook / WhatsApp / LinkedIn etc.                       #}
+    {# ========================================================= #}
+
+    <meta property="og:type" content="website">
+
+    <meta
+        property="og:title"
+        content="{% block og_title %}Domes Inn Heaven | Luxury Glamping Resort in Munnar{% endblock %}"
+    >
+
+    <meta
+        property="og:description"
+        content="{% block og_description %}Experience luxury glamping in Munnar at Domes Inn Heaven with luxury domes, Jacuzzi stays and premium accommodation surrounded by nature.{% endblock %}"
+    >
+
+    <meta
+        property="og:url"
+        content="{{ request.build_absolute_uri }}"
+    >
+
+    {% block og_image %}
+    {% static 'green.png' as default_og_image %}
+    <meta
+        property="og:image"
+        content="{{ request.scheme }}://{{ request.get_host }}{{ default_og_image }}"
+    >
+    {% endblock %}
 
 
-{# ========================================================= #}
-{# BASIC SEO META TAGS                                       #}
-{# ========================================================= #}
+    {# ========================================================= #}
+    {# TWITTER / X                                               #}
+    {# ========================================================= #}
 
-<title>{% block meta_title %}Domes Inn Heaven | Luxury Glamping Resort in Munnar{% endblock %}</title>
-<meta
-    name="description"
-    content="{% block meta_description %}Experience luxury glamping in Munnar at Domes Inn Heaven with luxury glamps, Jacuzzi glamps, cottages and private pool villas surrounded by nature.{% endblock %}">
-{# ========================================================= #}
-{# OPEN GRAPH / SOCIAL SHARING                               #}
-{# ========================================================= #}
-<meta property="og:type" content="website">
-<meta
-    property="og:title"
-    content="{% block og_title %}Domes Inn Heaven | Luxury Glamping Resort in Munnar{% endblock %}">
-<meta
-    property="og:description"
-    content="{% block og_description %}Experience luxury glamping in Munnar at Domes Inn Heaven with luxury glamps, Jacuzzi glamps, cottages and private pool villas surrounded by nature.{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta
+        name="twitter:title"
+        content="{% block twitter_title %}Domes Inn Heaven | Luxury Glamping Resort in Munnar{% endblock %}"
+    >
+
+    <meta
+        name="twitter:description"
+        content="{% block twitter_description %}Experience luxury glamping in Munnar at Domes Inn Heaven surrounded by nature.{% endblock %}"
+    >
+
+
     
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">

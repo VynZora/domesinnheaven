@@ -962,8 +962,132 @@
 {% comment %} faq css end  {% endcomment %}
 
 
+{% comment %} mobile layout fix start {% endcomment %}
+
+/* ── Dome cards: tablet & mobile layout fix ── */
+@media (max-width: 1199px) {
+
+    .dome-event-panel .event-card-2 {
+        display: flex !important;
+        flex-direction: column !important;   /* image on top, content below */
+        align-items: stretch !important;
+        gap: 0 !important;
+        padding: 20px !important;
+    }
+
+    .dome-event-panel .event-thumb,
+    .dome-event-panel .card-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        min-width: 0;
+    }
+
+    .dome-event-panel .event-thumb {
+        margin-bottom: 20px !important;
+    }
+
+    /* overrides the inline height:350px on the <img> */
+    .dome-event-panel .event-thumb img {
+        width: 100% !important;
+        height: 300px !important;
+        object-fit: cover;
+        display: block;
+    }
+
+    .dome-event-panel .event-card-title h2 {
+        margin-bottom: 18px;
+        word-break: normal;
+    }
+
+    /* button + price sit side by side, and wrap if there isn't room */
+    .dome-event-panel .join-event {
+        flex-wrap: wrap;
+        gap: 16px 24px;
+    }
+
+    .dome-event-panel .top-right {
+        margin-left: auto;
+        text-align: right;
+    }
+}
+
+@media (max-width: 575px) {
+    .dome-event-panel .event-card-2 {
+        padding: 14px !important;
+    }
+
+    .dome-event-panel .event-thumb img {
+        height: 230px !important;
+    }
+
+    .dome-event-panel .join-event {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dome-event-panel .top-right {
+        margin-left: 0;
+        text-align: left;
+    }
+}
 
 
+
+/* ── About page: breadcrumb + gap fix for tablet / small screens ── */
+@media (max-width: 991px) {
+
+    /* remove desktop fixed heights / spacing */
+    .breadcrumb-section {
+        height: auto !important;
+        min-height: 0 !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .breadcrumb-section .row {
+        margin: 0;
+    }
+
+    /* let the banner size itself and stack nav + title */
+    .breadcrumb-content {
+        height: auto !important;
+        min-height: 260px !important;
+        padding: 40px 24px !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 14px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .breadcrumb-content .breadcrumb-nav,
+    .breadcrumb-content .breadcrumb-title {
+        position: static !important;   /* stops the overlap */
+        transform: none !important;
+        margin: 0 !important;
+    }
+
+    .breadcrumb-title h2 {
+        font-size: clamp(36px, 8vw, 56px);
+        line-height: 1.1;
+    }
+
+    /* pull the next section up */
+    .why-us-section-6 {
+        margin-top: 0 !important;
+        padding-top: 40px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .breadcrumb-content {
+        min-height: 220px !important;
+        padding: 30px 18px !important;
+    }
+}
+{% comment %} mobile layout fix end  {% endcomment %}
 	</style>
 
 <!-- preloader start-->
@@ -1669,9 +1793,8 @@
                                     <strong>Domes Inn Heaven</strong>
                                     is a <strong>Luxury Glamping Retreat in Munnar</strong>
                                     offering private dome stays, cottages and pool villas
-                                    in a peaceful natural setting. The property combines
-                                    comfortable accommodation with the experience of
-                                    staying close to the hills and greenery of Munnar.
+                                    in a peaceful natural setting. The dome accommodation includes Mercury, Jupiter, Mars, Venus, Uranus and Neptune, with each dome offering a 550 sq. ft. interior, king-size latex memory foam bed, air conditioning, free Wi-Fi, flat-screen TV, minibar and pantry, bathroom amenities, outdoor jacuzzi and hammock.
+
                                 </p>
 
                             </div>
@@ -1714,13 +1837,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Domes Inn Heaven was created around the idea
-                                    of experiencing Munnar from a different kind
-                                    of accommodation. Its
-                                    <strong>geodesic dome resort</strong>
-                                    concept brings guests closer to nature while
-                                    providing the privacy and comfort expected
-                                    from a luxury stay.
+                                    Domes Inn Heaven is designed around the idea of experiencing Munnar through geodesic dome accommodation combined with modern comforts. The six domes—Mercury, Jupiter, Mars, Venus, Uranus and Neptune—provide spacious 550 sq. ft. interiors with facilities including air conditioning, king-size latex memory foam beds, flat-screen TVs, free Wi-Fi, outdoor Jacuzzis and hammocks.
                                 </p>
 
                             </div>
@@ -1763,13 +1880,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Domes Inn Heaven offers
-                                    <strong>luxury glamping in Munnar</strong>
-                                    through private glamps, Jacuzzi glamps,
-                                    cottages and pool villas. Guests can enjoy
-                                    scenic surroundings, peaceful outdoor spaces
-                                    and comfortable accommodation while spending
-                                    more time close to nature.
+                                    Domes Inn Heaven offers luxury glamping in Munnar through its dome stays, cottages and pool villas. Guests staying in the domes can enjoy a spacious 550 sq. ft. interior, premium flooring, king-size latex memory foam bed, air conditioning, flat-screen TV, free Wi-Fi, minibar and pantry, bathroom amenities, 24-hour hot water, outdoor jacuzzi and hammock.
                                 </p>
 
                             </div>
@@ -1812,13 +1923,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    The combination of dome accommodation,
-                                    hill views and a nature-focused setting
-                                    makes Domes Inn Heaven a
-                                    <strong>unique stay in Kerala</strong>.
-                                    Guests can experience the outdoors from
-                                    their accommodation while enjoying the
-                                    comforts of a private stay.
+                                    The combination of geodesic dome accommodation, spacious interiors and private outdoor facilities makes Domes Inn Heaven a unique stay in Kerala. The Mercury, Jupiter, Mars, Venus, Uranus and Neptune domes each provide 550 sq. ft. of space along with modern facilities such as air conditioning, Wi-Fi, a king-size latex memory foam bed, outdoor jacuzzi and hammock.
                                 </p>
 
                             </div>
@@ -1861,15 +1966,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Domes Inn Heaven offers
-                                    <strong>
-                                        Luxury Glamps, Luxury Jacuzzi Glamps,
-                                        Eagle Eye Cottages and Eagle Eye
-                                        Private Pool Villas
-                                    </strong>.
-                                    The range gives couples, families and
-                                    groups different options for enjoying a
-                                    <strong>luxury nature retreat in Munnar</strong>.
+                                    Domes Inn Heaven offers six named dome stays—Mercury, Jupiter, Mars, Venus, Uranus and Neptune—along with cottages and pool villas. The domes feature 550 sq. ft. interiors, king-size latex memory foam beds, air conditioning, flat-screen TVs, free Wi-Fi, minibar and pantry, bathroom amenities, hair dryers, 24-hour hot water, outdoor Jacuzzis and hammocks.
                                 </p>
 
                             </div>
@@ -1912,13 +2009,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Yes. Domes Inn Heaven is a
-                                    <strong>dome resort in Munnar</strong>
-                                    offering geodesic dome accommodation
-                                    alongside cottages and private pool villas.
-                                    The dome stays are designed to keep the
-                                    surrounding hills and greenery an important
-                                    part of the guest experience.
+                                    Yes, Domes Inn Heaven is a dome resort in Munnar offering geodesic dome accommodation. The dome options are named Mercury, Jupiter, Mars, Venus, Uranus and Neptune. Each dome provides a spacious 550 sq. ft. interior with modern facilities including air conditioning, free Wi-Fi, flat-screen TV, minibar and pantry, outdoor jacuzzi and hammock.
                                 </p>
 
                             </div>
@@ -1961,13 +2052,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Yes. Domes Inn Heaven is suited to
-                                    travellers looking for a
-                                    <strong>nature retreat in Munnar</strong>
-                                    where they can slow down, enjoy the
-                                    surrounding greenery and spend time
-                                    outdoors while staying in comfortable
-                                    accommodation.
+                                    Yes. Domes Inn Heaven is suitable for travellers looking for a nature-focused stay in Munnar. Guests can stay in spacious 550 sq. ft. domes while enjoying facilities such as outdoor Jacuzzis and hammocks. The domes also include air conditioning, Wi-Fi, comfortable king-size latex memory foam beds, flat-screen TVs and 24-hour hot water for a comfortable stay.
                                 </p>
 
                             </div>
@@ -1994,7 +2079,7 @@
                             </span>
 
                             <span class="about-faq-question-text">
-                                Does Domes Inn Heaven offer sustainable glamping in Kerala?
+                                Does Domes Inn Heaven offer a comfortable luxury glamping stay in Kerala?
                             </span>
 
                             <span
@@ -2010,15 +2095,7 @@
                             <div class="about-faq-answer-inner">
 
                                 <p>
-                                    Domes Inn Heaven takes a nature-focused
-                                    approach to hospitality, with accommodation
-                                    designed around the surrounding environment.
-                                    For travellers searching for
-                                    <strong>sustainable glamping Kerala</strong>
-                                    or an
-                                    <strong>eco luxury stay Kerala</strong>,
-                                    the property offers a comfortable way to
-                                    experience a nature-focused holiday in Munnar.
+                                    Yes. Domes Inn Heaven offers a comfortable luxury glamping stay in Kerala with modern facilities inside its dome accommodation. The Mercury, Jupiter, Mars, Venus, Uranus and Neptune domes include premium flooring, king-size latex memory foam beds, air conditioning, flat-screen TVs, free Wi-Fi, minibar and pantry, bathroom amenities, hair dryers, 24-hour hot water, outdoor Jacuzzis and hammocks.
                                 </p>
 
                             </div>
