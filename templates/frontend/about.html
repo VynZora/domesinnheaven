@@ -1088,7 +1088,232 @@
     }
 }
 {% comment %} mobile layout fix end  {% endcomment %}
-	</style>
+	
+
+{% comment %} story section css start {% endcomment %}
+
+/* ── Why-us section: image matches content height ── */
+.why-us-image {
+    position: relative;
+    height: 100%;
+    min-height: 420px;          /* image never gets smaller than this */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.why-us-image img {
+    position: absolute;         /* fills the column whatever the text height is */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.why-us-text p {
+    margin-bottom: 14px;
+}
+
+.why-us-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* On phones the columns stack, so give the image a fixed height */
+@media (max-width: 767px) {
+    .why-us-image {
+        height: 300px;
+        min-height: 0;
+    }
+}
+
+{% comment %} story section css end  {% endcomment %}
+
+
+
+{% comment %} what make unique css start {% endcomment %}
+
+/* ==========================================================
+   WHAT MAKES US DIFFERENT - EXPANDABLE ROWS
+========================================================== */
+.dif-section {
+    background-color: #f8f7f0;
+    padding: 60px 0;
+}
+
+.dif-image {
+    position: relative;
+    height: 100%;
+    min-height: 460px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.dif-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.dif-list {
+    margin: 30px 0 34px;
+    border-top: 1px solid rgba(61, 75, 51, 0.15);
+}
+
+.dif-item {
+    border-bottom: 1px solid rgba(61, 75, 51, 0.15);
+}
+
+.dif-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 24px 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.dif-number {
+    flex: 0 0 auto;
+    min-width: 26px;
+    color: #d4a373;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.dif-title {
+    margin: 0;
+    color: #b9bdb3;                 /* faded when closed */
+    font-size: clamp(22px, 2.2vw, 34px);
+    line-height: 1.2;
+    transition: color 0.4s ease;
+}
+
+.dif-item:hover .dif-title,
+.dif-item.active .dif-title {
+    color: #2f3d27;                 /* dark green when open */
+}
+
+/* smooth expand / collapse */
+.dif-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(.4, 0, .2, 1);
+}
+
+.dif-answer-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.dif-answer p {
+    margin: 0;
+    padding: 0 10px 26px 48px;      /* aligns text under the title */
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+.dif-item.active .dif-answer {
+    grid-template-rows: 1fr;
+}
+
+.dif-item.active .dif-answer p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dif-question:focus-visible {
+    outline: 2px solid #536d35;
+    outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+    .dif-image {
+        height: 300px;
+        min-height: 0;
+    }
+    .dif-question {
+        gap: 14px;
+        padding: 18px 0;
+    }
+    .dif-answer p {
+        padding-left: 40px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dif-answer, .dif-answer p, .dif-title { transition: none !important; }
+}
+
+
+
+/* ── Make "What Makes Us Different" section more compact ── */
+.dif-section {
+    padding: 40px 0;                     /* was 60px */
+}
+
+.dif-image {
+    min-height: 360px;                   /* was 460px */
+    border-radius: 20px;
+}
+
+/* smaller heading inside this section only */
+.dif-content .common-title h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.15;
+    margin-bottom: 0;
+}
+
+.dif-list {
+    margin: 20px 0 24px;                 /* was 30px 0 34px */
+}
+
+.dif-question {
+    padding: 14px 0;                     /* was 24px */
+    gap: 16px;
+}
+
+.dif-title {
+    font-size: clamp(18px, 1.6vw, 24px); /* was up to 34px */
+}
+
+.dif-number {
+    font-size: 13px;
+}
+
+.dif-answer p {
+    padding: 0 10px 16px 42px;           /* was 0 10px 26px 48px */
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+    .dif-section {
+        padding: 30px 0;
+    }
+    .dif-image {
+        height: 240px;
+    }
+    .dif-question {
+        padding: 12px 0;
+    }
+    .dif-answer p {
+        padding-left: 36px;
+    }
+}
+{% comment %} what makes unique css end {% endcomment %}
+</style>
 
 <!-- preloader start-->
 <div id="preloader">
@@ -1136,62 +1361,71 @@
 
 	<section class="why-us-section-6 p-t-100 p-t-md-60 p-t-xs-40" style="background-image: url('{% static "assets/img/bg/why-us-bg.webp" %}'), url('{% static "assets/img/bg/who-we-are-bg.webp" %}');">
 			<div class=" container">
-		<div class="row align-items-center g-4 p-b-80">
-			<div class="col-12 col-md-6">
-				<div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-					<img src="{% static 'assets/img/static_images_new/3.png' %}" style="width: 100%; height: 420px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.12);" alt="Why Domes Inn Heaven" />
-				</div>
-			</div>
-			<div class="col-12 col-md-6">
-				<div class="why-us-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-					<div class="common-subtitle">
-						<!-- <img src="{% static 'assets/img/icons/icon-2.svg' %}" alt="icon-2"/> -->
-						<span>Who We Are</span>
-					</div>
-					<div class="common-title text-start">
-						<h2>Why Escape to Domes Inn Heaven?</h2>
-					</div>
-					<div class="text">
-						<p>
-							Discover a retreat where luxury meets the untouched beauty of Munnar. Our domes offer a unique sanctuary above the clouds, providing an immersive nature experience without compromising on modern comforts.
-						</p>
-					</div>
-					<div class="services">
-						<div class="service-left">
-							<div class="service">
-								<i class="fa-solid fa-check"></i>
-								<p>Premium Glamping</p>
-							</div>
-							<div class="service">
-								<i class="fa-solid fa-check"></i>
-								<p>Breathtaking Views</p>
-							</div>
-						</div>
-						<div class="service-right">
-							<div class="service">
-								<i class="fa-solid fa-check"></i>
-								<p>Eco-Friendly Luxury</p>
-							</div>
-							<div class="service">
-								<i class="fa-solid fa-check"></i>
-								<p>Sunset & Sunrise Vistas</p>
-							</div>
-						</div>
-					</div>
-					<div class="annual-donation-wrap">
-						<div class="blog-btn">
-							<a href="{% url 'booking' %}" class="e-primary-btn has-icon">
-								Book Now
-								<span class="icon-wrap">
-									<span class="icon"><i class="fa-regular fa-arrow-right"></i><i
-											class="fa-regular fa-arrow-right"></i></span>
-								</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="row align-items-stretch g-4 g-lg-5 p-b-80 why-us-row">
+
+    <!-- IMAGE (stretches to match the text height) -->
+    <div class="col-12 col-md-6">
+        <div class="why-us-image" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+            <img src="{% static 'assets/img/static_images_new/3.png' %}" alt="Why Domes Inn Heaven" />
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="col-12 col-md-6 d-flex align-items-center">
+        <div class="why-us-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <div class="common-subtitle">
+                <span>Who We Are</span>
+            </div>
+            <div class="common-title text-start">
+                <h2>Why Escape to Domes Inn Heaven?</h2>
+            </div>
+
+            <div class="text why-us-text">
+                <p>
+                    The idea behind Domes Inn Heaven was simple: give guests a chance to experience
+                    Munnar from a more personal and unusual setting. The first thought was the dome
+                    itself, a space where you could wake up surrounded by nature and look up at the
+                    sky at night.
+                </p>
+                <p>
+                    Over time, that idea grew into six unique dome stays: Mercury, Jupiter, Mars,
+                    Venus, Uranus and Neptune. Each offers a spacious 550 sq. ft. interior with a
+                    king-size latex memory foam bed, air conditioning, flat-screen TV, free Wi-Fi,
+                    minibar and pantry, 24-hour hot water, an outdoor jacuzzi and hammock.
+                </p>
+                <p>
+                    We believe some of the best holiday moments are the quiet ones: a cool morning,
+                    a warm cup of tea, mist moving across the hills. That is the feeling we want
+                    Domes Inn Heaven to hold onto.
+                </p>
+            </div>
+
+            <div class="services">
+                <div class="service-left">
+                    <div class="service"><i class="fa-solid fa-check"></i><p>Premium Glamping</p></div>
+                    <div class="service"><i class="fa-solid fa-check"></i><p>Breathtaking Views</p></div>
+                </div>
+                <div class="service-right">
+                    <div class="service"><i class="fa-solid fa-check"></i><p>Eco-Friendly Luxury</p></div>
+                    <div class="service"><i class="fa-solid fa-check"></i><p>Sunset & Sunrise Vistas</p></div>
+                </div>
+            </div>
+
+            <div class="annual-donation-wrap">
+                <div class="blog-btn">
+                    <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+                        Book Now
+                        <span class="icon-wrap">
+                            <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 		<!-- company-achievements start -->
 		<div class="company-achievements p-b-100 p-b-xs-40" data-aos="fade-up" data-aos-duration="1000"
 			data-aos-delay="200">
@@ -1443,76 +1677,98 @@
 	<!-- why-us-section end -->
 	</div>
 
-	<section style="background-color: #f8f7f0; padding: 60px 0;">
-		<div class="container">
-		<div class="row align-items-center g-4 g-md-5">
-			<div class="col-12 col-md-6">
-				<img src="{% static 'assets/img/static_images_new/7.png' %}" style="width: 100%; height: 420px; object-fit: cover; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);" alt="Our History" />
-			</div>
-			<div class="col-12 col-md-6">
-				<div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" style="padding-left: 10px;">
-					<div class="common-subtitle">
-						<!-- <img src="{% static 'assets/img/icons/icon-2.svg' %}" alt="icon-2"/> -->
-						<span>Our History</span>
-					</div>
-					<div class="common-title text-start">
-						<h2>The Domes Inn Heaven Story</h2>
-					</div>
-					<div class="text mt-4">
-						<p>Domes Inn Heaven was born from a simple question: <em>What if luxury had no walls?</em> We've
-							grown from a single hillside dome into Kerala's premier glamping retreat, designed to
-							connect you deeply with the nature around you.</p>
-					</div>
-					<div class="c-tabs-wrapper mt-4">
-						<ul class="nav nav-tabs" id="myTab" role="tablist">
-							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="vision-tab" data-bs-toggle="tab"
-									data-bs-target="#vision-tab-pane" type="button" role="tab"
-									aria-controls="vision-tab-pane" aria-selected="true">
-									Our Vision
-								</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="mission-tab" data-bs-toggle="tab"
-									data-bs-target="#mission-tab-pane" type="button" role="tab"
-									aria-controls="mission-tab-pane" aria-selected="false">
-									Our Mission
-								</button>
-							</li>
-						</ul>
-						<div class="tab-content" id="myTabContent">
-							<div class="tab-pane fade show active" id="vision-tab-pane" role="tabpanel"
-								aria-labelledby="vision-tab" tabindex="0">
-								<div class="tab-content p-t-20">
-									<div class="reward">
-										<h5>Redefining Nature Luxury</h5>
-									</div>
-									<div class="text">
-										<p>To be the world’s most sought-after glamping destination where luxury and
-											wilderness coexist in perfect harmony, inspiring a deeper connection with
-											the Earth.</p>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="mission-tab-pane" role="tabpanel"
-								aria-labelledby="mission-tab" tabindex="0">
-								<div class="tab-content p-t-20">
-									<div class="reward">
-										<h5>Sustainable & Soulful Stays</h5>
-									</div>
-									<div class="text">
-										<p>To provide exceptional hospitality through eco-friendly dome stays, ensuring
-											every guest experiences the raw beauty of Kerala without compromising on
-											premium comfort.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+<section class="dif-section">
+    <div class="container">
+        <div class="row align-items-stretch g-4 g-lg-5">
+
+            <!-- IMAGE -->
+            <div class="col-12 col-md-6">
+                <div class="dif-image" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="{% static 'assets/img/static_images_new/7.png' %}" alt="What makes Domes Inn Heaven different" />
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="col-12 col-md-6 d-flex align-items-center">
+                <div class="dif-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+
+                    <div class="common-subtitle">
+                        <span>Why Make Us Unique</span>
+                    </div>
+                    <div class="common-title text-start">
+                        <h2>What Makes Domes Inn Heaven Different?</h2>
+                    </div>
+
+                    <div class="dif-list">
+
+                        <div class="dif-item active">
+                            <button class="dif-question" type="button" aria-expanded="true">
+                                <span class="dif-number">01</span>
+                                <h3 class="dif-title">A Stay Close to Nature</h3>
+                            </button>
+                            <div class="dif-answer">
+                                <div class="dif-answer-inner">
+                                    <p>The natural surroundings are an important part of the experience, from the cool mornings and greenery to the changing views throughout the day.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dif-item">
+                            <button class="dif-question" type="button" aria-expanded="false">
+                                <span class="dif-number">02</span>
+                                <h3 class="dif-title">Comfortable Dome Living</h3>
+                            </button>
+                            <div class="dif-answer">
+                                <div class="dif-answer-inner">
+                                    <p>Our dome accommodation gives guests something different from a conventional hotel room while keeping the comfort needed for a relaxing stay.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dif-item">
+                            <button class="dif-question" type="button" aria-expanded="false">
+                                <span class="dif-number">03</span>
+                                <h3 class="dif-title">Different Accommodation Choices</h3>
+                            </button>
+                            <div class="dif-answer">
+                                <div class="dif-answer-inner">
+                                    <p>Choose from Luxury Glamps, Jacuzzi Glamps, cottages and private pool villas based on the space and experience you want.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dif-item">
+                            <button class="dif-question" type="button" aria-expanded="false">
+                                <span class="dif-number">04</span>
+                                <h3 class="dif-title">Personal Guest Service</h3>
+                            </button>
+                            <div class="dif-answer">
+                                <div class="dif-answer-inner">
+                                    <p>Our team is here to make your stay comfortable while giving you the privacy and quiet that make a luxury nature retreat Munnar worth taking.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="blog-btn dif-btn">
+                        <a href="{% url 'booking' %}" class="e-primary-btn has-icon">
+                            Book Your Stay
+                            <span class="icon-wrap">
+                                <span class="icon">
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                    <i class="fa-regular fa-arrow-right"></i>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 	<!-- about-us-section-3 end -->
 
 	{% comment %} <!-- volunteer-section start -->
@@ -2566,4 +2822,40 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+
+{% comment %} uniques section js start {% endcomment %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const items = document.querySelectorAll(".dif-item");
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    function openItem(item) {
+        items.forEach(function (el) {
+            const isTarget = el === item;
+            el.classList.toggle("active", isTarget);
+            el.querySelector(".dif-question").setAttribute("aria-expanded", isTarget);
+        });
+    }
+
+    items.forEach(function (item) {
+        // Hover (desktop only)
+        item.addEventListener("mouseenter", function () {
+            if (canHover.matches) openItem(item);
+        });
+
+        // Click / tap (mobile + keyboard)
+        item.querySelector(".dif-question").addEventListener("click", function () {
+            if (item.classList.contains("active") && !canHover.matches) {
+                item.classList.remove("active");
+                this.setAttribute("aria-expanded", "false");
+            } else {
+                openItem(item);
+            }
+        });
+    });
+});
+</script>
+{% comment %} ubique js end {% endcomment %}
 {% endblock %}
