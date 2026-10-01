@@ -41,6 +41,65 @@
 {% block twitter_description %}Discover nature activities, outdoor adventures and memorable experiences during your stay at Domes Inn Heaven in Munnar, Kerala.{% endblock %}
 
 
+{% block extra_css %}
+<style>
+/* ── Activities page: breadcrumb + gap fix for tablet / small screens ── */
+@media (max-width: 991px) {
+
+    /* remove desktop fixed heights / spacing */
+    .breadcrumb-section {
+        height: auto !important;
+        min-height: 0 !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .breadcrumb-section .row {
+        margin: 0;
+    }
+
+    /* let the banner size itself and stack nav + title */
+    .breadcrumb-content {
+        height: auto !important;
+        min-height: 260px !important;
+        padding: 40px 24px !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 14px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .breadcrumb-content .breadcrumb-nav,
+    .breadcrumb-content .breadcrumb-title {
+        position: static !important;   /* stops the overlap */
+        transform: none !important;
+        margin: 0 !important;
+    }
+
+    .breadcrumb-title h2 {
+        font-size: clamp(36px, 8vw, 56px);
+        line-height: 1.1;
+    }
+
+    /* pull the next section up */
+    .services-section {
+        margin-top: 0 !important;
+        padding-top: 40px !important;
+        padding-bottom: 60px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .breadcrumb-content {
+        min-height: 220px !important;
+        padding: 30px 18px !important;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <!-- preloader start-->

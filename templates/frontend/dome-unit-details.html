@@ -889,10 +889,6 @@
                                 </p>
                             </div>
 
-							<div class="detail-text m-b-40">
-								{{ dome.description|safe }}
-							</div>
-
 {% if dome.package_items or dome.facilities %}
 
 <div class="payment-method-form m-b-50">
@@ -967,6 +963,12 @@
 </div>
 
 {% endif %}
+
+							<div class="detail-text m-b-40">
+								{{ dome.description|safe }}
+							</div>
+
+
 						</div>
 
 						<div class="detail-sidebar">

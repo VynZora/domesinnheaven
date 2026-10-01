@@ -117,7 +117,18 @@ class DomeType(OptimizedImageModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        name_changed = False
+
+        if self.pk:
+            old_name = (
+            DomeType.objects
+            .filter(pk=self.pk)
+            .values_list("name", flat=True)
+            .first()
+          )
+            name_changed = old_name is not None and old_name != self.name
+
+        if not self.slug or name_changed:
             base_slug = slugify(self.name)[:230]
             slug = base_slug
             counter = 1
@@ -125,10 +136,9 @@ class DomeType(OptimizedImageModel):
             while DomeType.objects.filter(
                 slug=slug
             ).exclude(pk=self.pk).exists():
-
-                suffix = f"-{counter}"
-                slug = f"{base_slug[:250-len(suffix)]}{suffix}"
-                counter += 1
+                 suffix = f"-{counter}"
+                 slug = f"{base_slug[:250 - len(suffix)]}{suffix}"
+                 counter += 1
 
             self.slug = slug
 
