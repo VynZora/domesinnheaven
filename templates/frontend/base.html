@@ -23,6 +23,15 @@
         content="{% block meta_description %}Experience luxury glamping in Munnar at Domes Inn Heaven with luxury domes, Jacuzzi stays and premium accommodation surrounded by nature.{% endblock %}"
     >
 
+
+{# ========================================================= #}
+{# CANONICAL URL                                             #}
+{# ========================================================= #}
+
+<link rel="canonical"
+      href="{% block canonical_url %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
+
+
     {# ========================================================= #}
     {# OPEN GRAPH                                                #}
     {# Facebook / WhatsApp / LinkedIn etc.                       #}
