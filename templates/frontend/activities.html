@@ -97,6 +97,49 @@
         padding: 30px 18px !important;
     }
 }
+
+
+{% comment %} activity cards issues css start {% endcomment %}
+/* =========================================================
+   ACTIVITIES GRID - FORCE CONSISTENT 2 COLUMN LAYOUT
+========================================================= */
+
+.activities-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 30px !important;
+    width: 100%;
+}
+
+.activities-grid .activity-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+
+.activities-grid .project-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.activities-grid .project-card .thumb {
+    width: 100% !important;
+}
+
+
+/* Mobile */
+@media (max-width: 767px) {
+
+    .activities-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+}
+{% comment %} activity cards issues css end {% endcomment %}
 </style>
 {% endblock %}
 
@@ -164,7 +207,7 @@
 
         {% for activity in activities %}
 
-        <div class="col-12 col-md-6 m-b-30">
+         <div class="activity-item">
 
             <div class="project-card style-2 style-service">
                 <div class="thumb">
