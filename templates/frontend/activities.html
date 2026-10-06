@@ -155,68 +155,148 @@
 				</div>
 			</div>
 		</div>
-		<div class="container">
-			<div class="row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-				{% for activity in activities %}
-				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 m-b-30">
-					<div class="project-card style-2 style-service">
-						<div class="thumb">
-							<a href="{% url 'activity_details' activity.slug %}">
-								{% if activity.image %}
-								<img alt="{{ activity.title }}" src="{{ activity.image.url }}">
-								{% else %}
-								<img alt="thumb" src="{% static 'assets/img/static_images_new/12.png' %}">
-								{% endif %}
-							</a>
-							<div class="tag">
-								<p>{{ activity.duration|default:"1 Day" }}</p>
-							</div>
-							<div class="content">
-								<h5>{{ activity.title }}</h5>
-								<p>{{ activity.description|truncatewords:15 | safe }}</p>
-								<div class="join-us">
-									<a class="e-primary-btn has-icon" href="{% url 'activity_details' activity.slug %}">Read More <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				{% empty %}
-				<div class="col-12 text-center">
-					<p>No activities available right now.</p>
-				</div>
-				{% endfor %}
-			</div>
-			{% if activities.has_other_pages %}
-			<div class="row justify-content-center text-center m-t-20">
-				<div class="col-xl-6">
-					<div class="project-pagination">
-						<ul>
-							{% if activities.has_previous %}
-							<li class="icon">
-								<a href="?page={{ activities.previous_page_number }}"><i class="fa-regular fa-arrow-left"></i></a>
-							</li>
-							{% endif %}
+<div class="container">
 
-							{% for i in activities.paginator.page_range %}
-								{% if activities.number == i %}
-									<li class="active"><a href="#">0{{ i }}</a></li>
-								{% else %}
-									<li><a href="?page={{ i }}">0{{ i }}</a></li>
-								{% endif %}
-							{% endfor %}
+    <div class="row"
+         data-aos="fade-up"
+         data-aos-delay="200"
+         data-aos-duration="1000">
 
-							{% if activities.has_next %}
-							<li class="icon">
-								<a href="?page={{ activities.next_page_number }}"><i class="fa-regular fa-arrow-right"></i></a>
-							</li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-			</div>
-			{% endif %}
-		</div>
+        {% for activity in activities %}
+
+        <div class="col-12 col-md-6 m-b-30">
+
+            <div class="project-card style-2 style-service">
+                <div class="thumb">
+
+                    <a href="{% url 'activity_details' activity.slug %}">
+                        {% if activity.image %}
+                        <img
+                            alt="{{ activity.title }}"
+                            src="{{ activity.image.url }}"
+                        >
+                        {% else %}
+                        <img
+                            alt="thumb"
+                            src="{% static 'assets/img/static_images_new/12.png' %}"
+                        >
+                        {% endif %}
+                    </a>
+
+                    <div class="tag">
+                        <p>{{ activity.duration|default:"1 Day" }}</p>
+                    </div>
+
+                    <div class="content">
+
+                        <h5>{{ activity.title }}</h5>
+
+                        <p>
+                            {{ activity.description|truncatewords:15|safe }}
+                        </p>
+
+                        <div class="join-us">
+                            <a
+                                class="e-primary-btn has-icon"
+                                href="{% url 'activity_details' activity.slug %}"
+                            >
+                                Read More
+
+                                <span class="icon-wrap">
+                                    <span class="icon">
+                                        <i class="fa-regular fa-arrow-right"></i>
+                                        <i class="fa-regular fa-arrow-right"></i>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12 text-center">
+            <p>No activities available right now.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- ============================================
+         PAGINATION
+    ============================================= -->
+    {% if activities.has_other_pages %}
+
+    <div class="row justify-content-center text-center m-t-20">
+
+        <div class="col-xl-6">
+
+            <div class="project-pagination">
+
+                <ul>
+
+                    <!-- Previous -->
+                    {% if activities.has_previous %}
+                    <li class="icon">
+                        <a href="?page={{ activities.previous_page_number }}">
+                            <i class="fa-regular fa-arrow-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+
+                    <!-- Page Numbers -->
+                    {% for i in activities.paginator.page_range %}
+
+                        {% if activities.number == i %}
+
+                        <li class="active">
+                            <a href="?page={{ i }}">
+                                {{ i }}
+                            </a>
+                        </li>
+
+                        {% else %}
+
+                        <li>
+                            <a href="?page={{ i }}">
+                                {{ i }}
+                            </a>
+                        </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    <!-- Next -->
+                    {% if activities.has_next %}
+                    <li class="icon">
+                        <a href="?page={{ activities.next_page_number }}">
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+    <!-- PAGINATION END -->
+
+
+</div>
 	</section>
 	<!-- services-section end -->
 
