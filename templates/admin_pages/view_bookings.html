@@ -25,64 +25,41 @@
 
 
             <!-- ====================================================
-                 EXCEL DOWNLOAD DROPDOWN
-            ===================================================== -->
+     EXCEL DOWNLOAD OPTIONS
+===================================================== -->
 
-            <div class="dropdown">
+<div class="d-flex flex-wrap gap-2">
 
-                <a href="{% url 'admin_download_bookings_excel' %}?type=all"
-                  class="btn btn-success btn-sm">
-
-                    <i class="fas fa-file-excel me-1"></i>
-                      Download Excel
-
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-end shadow">
-
-                    <!-- ALL BOOKINGS -->
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            href="{% url 'admin_download_bookings_excel' %}?type=all"
-                        >
-                            <i class="fas fa-database me-2"></i>
-                            Download All Bookings
-                        </a>
-                    </li>
+    <!-- ALL BOOKINGS -->
+    <a
+        href="{% url 'admin_download_bookings_excel' %}?type=all"
+        class="btn btn-success btn-sm"
+    >
+        <i class="fas fa-file-excel me-1"></i>
+        All Bookings
+    </a>
 
 
-                    <!-- CURRENT PAGE -->
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            href="{% url 'admin_download_bookings_excel' %}?type=page&page={{ bookings.number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
-                        >
-                            <i class="fas fa-file-alt me-2"></i>
-                            Download Current Page
-                        </a>
-                    </li>
+    <!-- CURRENT PAGE -->
+    <a
+        href="{% url 'admin_download_bookings_excel' %}?type=page&page={{ bookings.number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+        class="btn btn-outline-success btn-sm"
+    >
+        <i class="fas fa-file-alt me-1"></i>
+        Current Page
+    </a>
 
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+    <!-- FILTERED RESULTS -->
+    <a
+        href="{% url 'admin_download_bookings_excel' %}?type=filtered&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+        class="btn btn-outline-primary btn-sm"
+    >
+        <i class="fas fa-filter me-1"></i>
+        Filtered Results
+    </a>
 
-
-                    <!-- FILTERED DATA -->
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            href="{% url 'admin_download_bookings_excel' %}?type=filtered&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
-                        >
-                            <i class="fas fa-filter me-2"></i>
-                            Download Filtered Results
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
+</div>
 
         </div>
 

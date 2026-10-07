@@ -1369,12 +1369,10 @@ def dome_type_delete(request, pk):
 
 
 
+
+
 @login_required(login_url="admin_login")
 def admin_download_bookings_excel(request):
-
-    # ============================================================
-    # BASE QUERY
-    # ============================================================
 
     bookings = (
         Booking.objects
@@ -1385,10 +1383,11 @@ def admin_download_bookings_excel(request):
         .order_by("-created_at")
     )
 
-
     # ============================================================
-    # EXPORT MODE
-    # all | page | filtered
+    # EXPORT TYPE
+    # all      = all bookings
+    # page     = current page only
+    # filtered = all filtered bookings
     # ============================================================
 
     export_type = request.GET.get("type", "all")
@@ -1401,7 +1400,6 @@ def admin_download_bookings_excel(request):
     search = request.GET.get("search", "").strip()
 
     if search:
-
         bookings = bookings.filter(
             Q(name__icontains=search)
             | Q(phone__icontains=search)
@@ -1413,49 +1411,20 @@ def admin_download_bookings_excel(request):
 
 
     # ============================================================
-    # DATE FILTERS
+    # DATE POSTED FILTER
     # ============================================================
 
     date_from = request.GET.get("date_from", "").strip()
     date_to = request.GET.get("date_to", "").strip()
-
 
     if date_from:
         bookings = bookings.filter(
             created_at__date__gte=date_from
         )
 
-
     if date_to:
         bookings = bookings.filter(
             created_at__date__lte=date_to
-        )
-
-
-    # ============================================================
-    # CHECK-IN FILTER
-    # ============================================================
-
-    check_in_from = request.GET.get(
-        "check_in_from",
-        ""
-    ).strip()
-
-    check_in_to = request.GET.get(
-        "check_in_to",
-        ""
-    ).strip()
-
-
-    if check_in_from:
-        bookings = bookings.filter(
-            check_in__gte=check_in_from
-        )
-
-
-    if check_in_to:
-        bookings = bookings.filter(
-            check_in__lte=check_in_to
         )
 
 
@@ -1465,16 +1434,12 @@ def admin_download_bookings_excel(request):
 
     jacuzzi = request.GET.get("jacuzzi", "").strip()
 
-
     if jacuzzi == "yes":
-
         bookings = bookings.filter(
             jacuzzi_bathtub=True
         )
 
-
     elif jacuzzi == "no":
-
         bookings = bookings.filter(
             jacuzzi_bathtub=False
         )
@@ -1484,31 +1449,24 @@ def admin_download_bookings_excel(request):
     # CURRENT PAGE EXPORT
     # ============================================================
 
+    page_number = request.GET.get("page", 1)
+
     if export_type == "page":
 
-        page_number = request.GET.get(
-            "page",
-            1
-        )
+        paginator = Paginator(bookings, 10)
 
-        paginator = Paginator(
-            bookings,
-            10
-        )
+        page_obj = paginator.get_page(page_number)
 
-        bookings = paginator.get_page(
-            page_number
-        ).object_list
+        bookings = page_obj.object_list
 
 
     # ============================================================
-    # CREATE WORKBOOK
+    # CREATE EXCEL
     # ============================================================
 
     workbook = Workbook()
 
     worksheet = workbook.active
-
     worksheet.title = "Bookings"
 
 
@@ -1517,33 +1475,22 @@ def admin_download_bookings_excel(request):
     # ============================================================
 
     headers = [
-
         "Booking ID",
-
         "Date Posted",
-
         "Name",
-
         "Phone",
-
         "Email",
-
         "Check In",
-
         "Check Out",
-
         "Guests",
-
         "Dome Type",
-
         "Camping Package",
-
         "Jacuzzi Bathtub",
-
         "Message",
-
         "Status",
     ]
+
+    worksheet.append(headers)
 
 
     # ============================================================
@@ -1561,46 +1508,15 @@ def admin_download_bookings_excel(request):
     )
 
     thin_border = Border(
-
-        left=Side(
-            style="thin",
-            color="D9E1F2"
-        ),
-
-        right=Side(
-            style="thin",
-            color="D9E1F2"
-        ),
-
-        top=Side(
-            style="thin",
-            color="D9E1F2"
-        ),
-
-        bottom=Side(
-            style="thin",
-            color="D9E1F2"
-        ),
+        left=Side(style="thin", color="D9E2F3"),
+        right=Side(style="thin", color="D9E2F3"),
+        top=Side(style="thin", color="D9E2F3"),
+        bottom=Side(style="thin", color="D9E2F3"),
     )
 
-
-    # ============================================================
-    # WRITE HEADER
-    # ============================================================
-
-    for column_number, heading in enumerate(
-        headers,
-        1
-    ):
-
-        cell = worksheet.cell(
-            row=1,
-            column=column_number,
-            value=heading
-        )
+    for cell in worksheet[1]:
 
         cell.fill = header_fill
-
         cell.font = header_font
 
         cell.alignment = Alignment(
@@ -1612,62 +1528,42 @@ def admin_download_bookings_excel(request):
 
 
     # ============================================================
-    # WRITE BOOKING DATA
+    # BOOKING DATA
     # ============================================================
 
-    for row_number, booking in enumerate(
-        bookings,
-        2
-    ):
+    for booking in bookings:
 
-
-        # Dome
-
-        dome_type = ""
-
+        # Dome Type
         if booking.dome_type:
-
-            dome_type = booking.dome_type.name
-
+            dome_type_name = booking.dome_type.name
+        else:
+            dome_type_name = "Not Selected"
 
         # Camping Package
-
-        camping_package = ""
-
         if booking.camping_package:
-
-            camping_package = (
-                booking.camping_package.name
-            )
-
+            camping_package_name = booking.camping_package.name
+        else:
+            camping_package_name = "Not Selected"
 
         # Jacuzzi
-
-        jacuzzi_status = (
-            "Requested"
-            if booking.jacuzzi_bathtub
-            else "Not Requested"
-        )
-
+        if booking.jacuzzi_bathtub:
+            jacuzzi_status = "Requested"
+        else:
+            jacuzzi_status = "Not Requested"
 
         # Read status
-
-        read_status = (
-            "Read"
-            if booking.is_read
-            else "Unread"
-        )
+        if booking.is_read:
+            read_status = "Read"
+        else:
+            read_status = "Unread"
 
 
-        row_data = [
-
+        worksheet.append([
             booking.id,
 
             booking.created_at.strftime(
                 "%d-%m-%Y %I:%M %p"
-            )
-            if booking.created_at
-            else "",
+            ) if booking.created_at else "",
 
             booking.name or "",
 
@@ -1677,89 +1573,79 @@ def admin_download_bookings_excel(request):
 
             booking.check_in.strftime(
                 "%d-%m-%Y"
-            )
-            if booking.check_in
-            else "",
+            ) if booking.check_in else "",
 
             booking.check_out.strftime(
                 "%d-%m-%Y"
-            )
-            if booking.check_out
-            else "",
+            ) if booking.check_out else "",
 
             booking.guests or 0,
 
-            dome_type,
+            dome_type_name,
 
-            camping_package,
+            camping_package_name,
 
             jacuzzi_status,
 
             booking.message or "",
 
             read_status,
-        ]
+        ])
 
 
-        for column_number, value in enumerate(
-            row_data,
-            1
-        ):
+    # ============================================================
+    # COLUMN WIDTH
+    # ============================================================
 
-            cell = worksheet.cell(
-                row=row_number,
-                column=column_number,
-                value=value
-            )
+    column_widths = {
+        "A": 12,
+        "B": 23,
+        "C": 22,
+        "D": 18,
+        "E": 32,
+        "F": 15,
+        "G": 15,
+        "H": 10,
+        "I": 25,
+        "J": 30,
+        "K": 20,
+        "L": 45,
+        "M": 15,
+    }
 
-            cell.border = thin_border
+    for column, width in column_widths.items():
+
+        worksheet.column_dimensions[column].width = width
+
+
+    # ============================================================
+    # BODY STYLE
+    # ============================================================
+
+    for row in worksheet.iter_rows(
+        min_row=2,
+        max_row=worksheet.max_row
+    ):
+
+        for cell in row:
 
             cell.alignment = Alignment(
                 vertical="top",
                 wrap_text=True
             )
 
-
-    # ============================================================
-    # COLUMN WIDTHS
-    # ============================================================
-
-    column_widths = {
-
-        "A": 12,
-        "B": 23,
-        "C": 25,
-        "D": 20,
-        "E": 35,
-        "F": 16,
-        "G": 16,
-        "H": 12,
-        "I": 25,
-        "J": 30,
-        "K": 20,
-        "L": 50,
-        "M": 15,
-    }
-
-
-    for column, width in column_widths.items():
-
-        worksheet.column_dimensions[
-            column
-        ].width = width
+            cell.border = thin_border
 
 
     # ============================================================
-    # EXCEL SETTINGS
+    # FREEZE HEADER + FILTER
     # ============================================================
 
     worksheet.freeze_panes = "A2"
 
     worksheet.auto_filter.ref = (
-        worksheet.dimensions
+        f"A1:M{worksheet.max_row}"
     )
-
-    worksheet.row_dimensions[1].height = 25
 
 
     # ============================================================
@@ -1768,28 +1654,17 @@ def admin_download_bookings_excel(request):
 
     if export_type == "page":
 
-        page_number = request.GET.get(
-            "page",
-            1
-        )
-
         filename = (
             f"bookings_page_{page_number}.xlsx"
         )
 
-
     elif export_type == "filtered":
 
-        filename = (
-            "filtered_bookings.xlsx"
-        )
-
+        filename = "filtered_bookings.xlsx"
 
     else:
 
-        filename = (
-            "all_bookings.xlsx"
-        )
+        filename = "all_bookings.xlsx"
 
 
     # ============================================================
@@ -1797,19 +1672,15 @@ def admin_download_bookings_excel(request):
     # ============================================================
 
     response = HttpResponse(
-
         content_type=(
-            "application/"
-            "vnd.openxmlformats-officedocument."
+            "application/vnd.openxmlformats-officedocument."
             "spreadsheetml.sheet"
         )
     )
 
-
     response["Content-Disposition"] = (
         f'attachment; filename="{filename}"'
     )
-
 
     workbook.save(response)
 
