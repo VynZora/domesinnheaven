@@ -733,6 +733,165 @@ Dome Type List | Admin Dashboard
                                         </div>
 
 
+
+
+                                        <!-- ========================================= -->
+<!-- FAQS -->
+<!-- ========================================= -->
+
+<div class="col-12 mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <label class="form-label mb-1">
+                Frequently Asked Questions
+            </label>
+
+            <div class="form-text mt-0">
+                Add, edit or remove FAQs for this dome.
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn btn-outline-primary btn-sm add-update-faq"
+            data-container="faqContainer{{ dome.id }}"
+        >
+            <i class="fas fa-plus me-1"></i>
+            Add FAQ
+        </button>
+
+    </div>
+
+
+    <div
+        id="faqContainer{{ dome.id }}"
+        class="update-faq-container"
+    >
+
+        {% for faq in dome.faqs.all %}
+
+            <div class="faq-item border rounded p-3 mb-3 bg-light">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <strong class="faq-number">
+                        FAQ {{ forloop.counter }}
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm remove-faq-button"
+                    >
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Question
+                    </label>
+
+                    <input
+                        type="text"
+                        name="faq_question[]"
+                        class="form-control"
+                        value="{{ faq.question }}"
+                        placeholder="Enter FAQ question"
+                        maxlength="255"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label class="form-label">
+                        Answer
+                    </label>
+
+                    <textarea
+                        name="faq_answer[]"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter FAQ answer"
+                    >{{ faq.answer }}</textarea>
+
+                </div>
+
+            </div>
+
+
+        {% empty %}
+
+            <div class="faq-item border rounded p-3 mb-3 bg-light">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <strong class="faq-number">
+                        FAQ 1
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm remove-faq-button"
+                    >
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Question
+                    </label>
+
+                    <input
+                        type="text"
+                        name="faq_question[]"
+                        class="form-control"
+                        placeholder="Enter FAQ question"
+                        maxlength="255"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label class="form-label">
+                        Answer
+                    </label>
+
+                    <textarea
+                        name="faq_answer[]"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter FAQ answer"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
                                     </div>
 
                                 </div>
@@ -1522,6 +1681,219 @@ document.addEventListener(
 
 
             });
+
+
+            // =====================================================
+// UPDATE MODAL FAQ MANAGER
+// =====================================================
+
+
+// -----------------------------------------------------
+// ADD NEW FAQ
+// -----------------------------------------------------
+
+document
+    .querySelectorAll(".add-update-faq")
+    .forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const containerId =
+                    this.dataset.container;
+
+
+                const container =
+                    document.getElementById(
+                        containerId
+                    );
+
+
+                if (!container) {
+                    return;
+                }
+
+
+                const faqItem =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                faqItem.className =
+                    "faq-item border rounded p-3 mb-3 bg-light";
+
+
+                faqItem.innerHTML = `
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <strong class="faq-number">
+                            FAQ
+                        </strong>
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm remove-faq-button"
+                        >
+                            <i class="fas fa-trash"></i>
+                            Remove
+                        </button>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Question
+                        </label>
+
+                        <input
+                            type="text"
+                            name="faq_question[]"
+                            class="form-control"
+                            placeholder="Enter FAQ question"
+                            maxlength="255"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="form-label">
+                            Answer
+                        </label>
+
+                        <textarea
+                            name="faq_answer[]"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Enter FAQ answer"
+                        ></textarea>
+
+                    </div>
+                `;
+
+
+                container.appendChild(
+                    faqItem
+                );
+
+
+                updateFaqNumbers(
+                    container
+                );
+
+            }
+        );
+
+    });
+
+
+// -----------------------------------------------------
+// REMOVE FAQ
+// -----------------------------------------------------
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const removeButton =
+            event.target.closest(
+                ".remove-faq-button"
+            );
+
+
+        if (!removeButton) {
+            return;
+        }
+
+
+        const faqItem =
+            removeButton.closest(
+                ".faq-item"
+            );
+
+
+        if (!faqItem) {
+            return;
+        }
+
+
+        const container =
+            faqItem.closest(
+                ".update-faq-container"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        faqItem.remove();
+
+
+        updateFaqNumbers(
+            container
+        );
+
+    }
+);
+
+
+// -----------------------------------------------------
+// NUMBER FAQS
+// -----------------------------------------------------
+
+function updateFaqNumbers(container) {
+
+    const faqItems =
+        container.querySelectorAll(
+            ".faq-item"
+        );
+
+
+    faqItems.forEach(
+        function (item, index) {
+
+            const number =
+                item.querySelector(
+                    ".faq-number"
+                );
+
+
+            if (number) {
+
+                number.textContent =
+                    "FAQ " + (index + 1);
+
+            }
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// INITIAL NUMBERING
+// -----------------------------------------------------
+
+document
+    .querySelectorAll(
+        ".update-faq-container"
+    )
+    .forEach(function (container) {
+
+        updateFaqNumbers(
+            container
+        );
+
+    });
 
 
     }

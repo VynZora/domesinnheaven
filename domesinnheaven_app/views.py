@@ -41,6 +41,7 @@ from .models import (
     Booking,
     DomeType,
     DomeTypeImage,
+    DomeFAQ
     
 
 )
@@ -100,9 +101,13 @@ def services(request):
 
 
 def services_details(request, slug):
+
     dome = get_object_or_404(
-    DomeType.objects.prefetch_related("images"),
-    slug=slug
+        DomeType.objects.prefetch_related(
+            "images",
+            "faqs",
+        ),
+        slug=slug,
     )
 
     recent_domes = (
@@ -119,6 +124,7 @@ def services_details(request, slug):
             "recent_domes": recent_domes,
         }
     )
+
 
 
 
@@ -592,27 +598,52 @@ from django.shortcuts import render, redirect
 from .forms import BookingForm
 
 
+# ============================================================
+# BOOKING - FRONTEND
+# ============================================================
+
 def booking(request):
 
     if request.method == "POST":
+
         form = BookingForm(request.POST)
 
         if form.is_valid():
+
+            # Save booking.
+            #
+            # BookingForm now contains:
+            # name
+            # phone
+            # email
+            # guests
+            # check_in
+            # check_out
+            # dome_type
+            # message
+            #
+            # No Add-ons
+            # No Jacuzzi Bathtub
+
             booking_obj = form.save()
 
             messages.success(
                 request,
-                "Booking request sent successfully. We will contact you soon."
+                "Booking request sent successfully. "
+                "We will contact you soon."
             )
 
             return redirect("booking")
 
+        # Form validation failed
         messages.error(
             request,
-            "Please check the form and correct the errors below."
+            "Please check the form and correct "
+            "the errors below."
         )
 
     else:
+
         form = BookingForm()
 
     return render(
@@ -634,8 +665,18 @@ def booking(request):
 #     page_obj = paginator.get_page(page_number)
 #     return render(request, "admin_pages/view_bookings.html", {"bookings": page_obj})
 
+
+
+# ============================================================
+# BOOKINGS - ADMIN LIST
+# ============================================================
+
 @login_required(login_url="admin_login")
 def admin_view_bookings(request):
+
+    # ========================================================
+    # MARK UNREAD BOOKINGS AS READ
+    # ========================================================
 
     Booking.objects.filter(
         is_read=False
@@ -644,22 +685,28 @@ def admin_view_bookings(request):
     )
 
 
+    # ========================================================
+    # BASE QUERYSET
+    # ========================================================
+
     bookings_qs = (
         Booking.objects
         .select_related(
             "dome_type",
-            "camping_package"
+            "camping_package",
         )
         .order_by("-created_at")
     )
 
 
-    # Search
+    # ========================================================
+    # SEARCH
+    # ========================================================
+
     search = request.GET.get(
         "search",
         ""
     ).strip()
-
 
     if search:
 
@@ -683,12 +730,14 @@ def admin_view_bookings(request):
         )
 
 
-    # Date posted from
+    # ========================================================
+    # DATE FROM
+    # ========================================================
+
     date_from = request.GET.get(
         "date_from",
         ""
     ).strip()
-
 
     if date_from:
 
@@ -697,12 +746,14 @@ def admin_view_bookings(request):
         )
 
 
-    # Date posted to
+    # ========================================================
+    # DATE TO
+    # ========================================================
+
     date_to = request.GET.get(
         "date_to",
         ""
     ).strip()
-
 
     if date_to:
 
@@ -711,59 +762,45 @@ def admin_view_bookings(request):
         )
 
 
-    # Jacuzzi
-    jacuzzi = request.GET.get(
-        "jacuzzi",
-        ""
-    )
-
-
-    if jacuzzi == "yes":
-
-        bookings_qs = bookings_qs.filter(
-            jacuzzi_bathtub=True
-        )
-
-
-    elif jacuzzi == "no":
-
-        bookings_qs = bookings_qs.filter(
-            jacuzzi_bathtub=False
-        )
-
+    # ========================================================
+    # PAGINATION
+    # ========================================================
 
     paginator = Paginator(
         bookings_qs,
         10
     )
 
-
     page_number = request.GET.get(
         "page"
     )
-
 
     page_obj = paginator.get_page(
         page_number
     )
 
 
+    # ========================================================
+    # CONTEXT
+    # ========================================================
+
+    context = {
+        "bookings": page_obj,
+        "search": search,
+        "date_from": date_from,
+        "date_to": date_to,
+    }
+
+
+    # ========================================================
+    # PAGE
+    # ========================================================
+
     return render(
         request,
         "admin_pages/view_bookings.html",
-        {
-            "bookings": page_obj,
-
-            "search": search,
-
-            "date_from": date_from,
-
-            "date_to": date_to,
-
-            "jacuzzi": jacuzzi,
-        }
+        context
     )
-
 
 
 
@@ -980,20 +1017,29 @@ def admin_dome_type_list(request):
 
     dome_types_qs = (
         DomeType.objects
-        .prefetch_related("images")
+        .prefetch_related(
+            "images",
+            "faqs",
+        )
         .order_by("-created_at")
     )
 
+
     paginator = Paginator(
         dome_types_qs,
-        10
+        10,
     )
 
-    page_number = request.GET.get("page")
+
+    page_number = request.GET.get(
+        "page"
+    )
+
 
     dome_types = paginator.get_page(
         page_number
     )
+
 
     return render(
         request,
@@ -1042,6 +1088,7 @@ def admin_dome_type_list(request):
 #     )
 
 
+
 @login_required(login_url="admin_login")
 def dome_type_create(request):
 
@@ -1054,8 +1101,16 @@ def dome_type_create(request):
 
         if form.is_valid():
 
-            # Get directly from request.FILES.
+            # =====================================================
+            # GET UPLOADED DOME IMAGES
+            # =====================================================
+
             images = request.FILES.getlist("images")
+
+
+            # =====================================================
+            # REQUIRE AT LEAST ONE IMAGE
+            # =====================================================
 
             if not images:
 
@@ -1066,21 +1121,22 @@ def dome_type_create(request):
 
             else:
 
-                # -----------------------------------------
-                # CREATE DOME WITHOUT SAVING UPLOAD
-                # INTO main_image
-                # -----------------------------------------
+                # =================================================
+                # CREATE DOME
+                # =================================================
 
                 dome_type = form.save(commit=False)
 
+                # main_image will point to the first
+                # DomeTypeImage after upload.
                 dome_type.main_image = None
 
                 dome_type.save()
 
 
-                # -----------------------------------------
-                # SAVE EACH UPLOADED IMAGE EXACTLY ONCE
-                # -----------------------------------------
+                # =================================================
+                # SAVE DOME GALLERY IMAGES
+                # =================================================
 
                 first_gallery_image = None
 
@@ -1097,12 +1153,9 @@ def dome_type_create(request):
                         first_gallery_image = gallery_image
 
 
-                # -----------------------------------------
-                # POINT main_image TO THE ALREADY
-                # STORED FIRST GALLERY IMAGE
-                #
-                # NO FILE IS UPLOADED AGAIN HERE.
-                # -----------------------------------------
+                # =================================================
+                # SET FIRST GALLERY IMAGE AS MAIN IMAGE
+                # =================================================
 
                 if first_gallery_image:
 
@@ -1112,6 +1165,58 @@ def dome_type_create(request):
                         main_image=first_gallery_image.image.name
                     )
 
+
+                # =================================================
+                # SAVE FAQS
+                # =================================================
+
+                faq_questions = request.POST.getlist(
+                    "faq_question[]"
+                )
+
+                faq_answers = request.POST.getlist(
+                    "faq_answer[]"
+                )
+
+
+                for index, question in enumerate(
+                    faq_questions
+                ):
+
+                    question = question.strip()
+
+                    answer = ""
+
+                    if index < len(faq_answers):
+                        answer = faq_answers[index].strip()
+
+
+                    # ---------------------------------------------
+                    # Ignore empty FAQ row
+                    # ---------------------------------------------
+
+                    if not question and not answer:
+                        continue
+
+
+                    # ---------------------------------------------
+                    # Save only when both question + answer exist
+                    # ---------------------------------------------
+
+                    if question and answer:
+
+                        DomeFAQ.objects.create(
+                            dome_type=dome_type,
+                            question=question,
+                            answer=answer,
+                            order=index,
+                            is_active=True,
+                        )
+
+
+                # =================================================
+                # SUCCESS
+                # =================================================
 
                 messages.success(
                     request,
@@ -1123,16 +1228,25 @@ def dome_type_create(request):
                 )
 
 
+        # =========================================================
+        # FORM ERROR
+        # =========================================================
+
         messages.error(
             request,
             "Dome type could not be created. "
             "Please correct the errors below.",
         )
 
+
     else:
 
         form = DomeTypeForm()
 
+
+    # =============================================================
+    # PAGE
+    # =============================================================
 
     return render(
         request,
@@ -1144,33 +1258,52 @@ def dome_type_create(request):
     )
 
 
+
+
 @login_required(login_url="admin_login")
 def dome_type_update(request, pk):
 
+    # =============================================================
+    # GET DOME
+    # =============================================================
+
     dome = get_object_or_404(
-        DomeType.objects.prefetch_related("images"),
+        DomeType.objects.prefetch_related(
+            "images",
+            "faqs",
+        ),
         pk=pk,
     )
 
+
+    # =============================================================
+    # ONLY POST IS USED FOR UPDATE
+    # =============================================================
+
     if request.method != "POST":
-        return redirect("admin_dome_type_list")
+
+        return redirect(
+            "admin_dome_type_list"
+        )
 
 
-    # =====================================================
+    # =============================================================
     # IMPORTANT
     #
     # Do NOT give request.FILES to DomeTypeForm.
     #
-    # "images" is handled manually below.
-    # This prevents the uploaded temporary files from
-    # being consumed/moved unexpectedly.
-    # =====================================================
+    # Gallery images are manually handled below.
+    # =============================================================
 
     form = DomeTypeForm(
         request.POST,
         instance=dome,
     )
 
+
+    # =============================================================
+    # VALIDATE FORM
+    # =============================================================
 
     if not form.is_valid():
 
@@ -1188,38 +1321,99 @@ def dome_type_update(request, pk):
         )
 
 
-    # =====================================================
-    # NEW FILES
-    # =====================================================
+    # =============================================================
+    # GET NEW IMAGES
+    # =============================================================
 
-    new_images = request.FILES.getlist("images")
+    new_images = request.FILES.getlist(
+        "images"
+    )
 
 
-    # =====================================================
-    # IMAGES USER CLICKED × TO DELETE
-    # =====================================================
+    # =============================================================
+    # GET EXISTING IMAGES SELECTED FOR DELETION
+    # =============================================================
 
     delete_image_ids = request.POST.getlist(
         "delete_images"
     )
 
 
-    # =====================================================
+    # =============================================================
     # UPDATE NORMAL DOME FIELDS
-    # =====================================================
+    # =============================================================
 
     dome = form.save(commit=False)
 
     # Keep current main image.
-    #
-    # We do NOT assign a TemporaryUploadedFile here.
+    # Do not assign uploaded temporary files here.
 
     dome.save()
 
 
-    # =====================================================
-    # DELETE SELECTED EXISTING GALLERY RECORDS
-    # =====================================================
+    # =============================================================
+    # UPDATE FAQS
+    # =============================================================
+
+    faq_questions = request.POST.getlist(
+        "faq_question[]"
+    )
+
+    faq_answers = request.POST.getlist(
+        "faq_answer[]"
+    )
+
+
+    # -------------------------------------------------------------
+    # Remove the old FAQ records
+    # -------------------------------------------------------------
+    #
+    # The current form sends the complete FAQ list.
+    # Therefore recreate them from the submitted form.
+    # -------------------------------------------------------------
+
+    dome.faqs.all().delete()
+
+
+    # -------------------------------------------------------------
+    # Create current FAQ records
+    # -------------------------------------------------------------
+
+    for index, question in enumerate(
+        faq_questions
+    ):
+
+        question = question.strip()
+
+        answer = ""
+
+        if index < len(faq_answers):
+
+            answer = faq_answers[index].strip()
+
+
+        # Ignore completely empty FAQ rows
+
+        if not question and not answer:
+            continue
+
+
+        # Save complete FAQ
+
+        if question and answer:
+
+            DomeFAQ.objects.create(
+                dome_type=dome,
+                question=question,
+                answer=answer,
+                order=index,
+                is_active=True,
+            )
+
+
+    # =============================================================
+    # CURRENT MAIN IMAGE
+    # =============================================================
 
     current_main_name = (
         dome.main_image.name
@@ -1229,6 +1423,10 @@ def dome_type_update(request, pk):
 
     main_was_deleted = False
 
+
+    # =============================================================
+    # DELETE SELECTED EXISTING GALLERY IMAGES
+    # =============================================================
 
     if delete_image_ids:
 
@@ -1245,18 +1443,19 @@ def dome_type_update(request, pk):
             if (
                 current_main_name
                 and
-                gallery_image.image.name == current_main_name
+                gallery_image.image.name
+                == current_main_name
             ):
+
                 main_was_deleted = True
+
 
             gallery_image.delete()
 
 
-    # =====================================================
+    # =============================================================
     # SAVE NEW IMAGES
-    #
-    # Every TemporaryUploadedFile is used ONE TIME.
-    # =====================================================
+    # =============================================================
 
     first_new_gallery_image = None
 
@@ -1270,19 +1469,23 @@ def dome_type_update(request, pk):
             )
         )
 
+
         if first_new_gallery_image is None:
+
             first_new_gallery_image = gallery_image
 
 
-    # =====================================================
+    # =============================================================
     # DETERMINE NEW MAIN IMAGE
-    # =====================================================
+    # =============================================================
 
     new_main_image_name = None
 
 
-    # If new images were uploaded:
-    # first new image becomes main image.
+    # -------------------------------------------------------------
+    # If new images are uploaded,
+    # first new image becomes main image
+    # -------------------------------------------------------------
 
     if first_new_gallery_image:
 
@@ -1291,8 +1494,10 @@ def dome_type_update(request, pk):
         )
 
 
-    # If old main image was deleted and no new image
-    # was uploaded, use first remaining gallery image.
+    # -------------------------------------------------------------
+    # If current main image was deleted and no new image exists,
+    # use first remaining gallery image
+    # -------------------------------------------------------------
 
     elif main_was_deleted:
 
@@ -1303,6 +1508,7 @@ def dome_type_update(request, pk):
             .first()
         )
 
+
         if remaining_image:
 
             new_main_image_name = (
@@ -1310,15 +1516,9 @@ def dome_type_update(request, pk):
             )
 
 
-    # =====================================================
-    # UPDATE main_image WITHOUT TRIGGERING save()
-    #
-    # This is deliberate.
-    #
-    # main_image is only pointing to an already stored
-    # gallery image. We do NOT want OptimizedImageModel
-    # to optimize that same file again.
-    # =====================================================
+    # =============================================================
+    # UPDATE MAIN IMAGE
+    # =============================================================
 
     if new_main_image_name:
 
@@ -1327,6 +1527,7 @@ def dome_type_update(request, pk):
         ).update(
             main_image=new_main_image_name
         )
+
 
     elif main_was_deleted:
 
@@ -1337,14 +1538,20 @@ def dome_type_update(request, pk):
         )
 
 
+    # =============================================================
+    # SUCCESS
+    # =============================================================
+
     messages.success(
         request,
         f'"{dome.name}" updated successfully.',
     )
 
+
     return redirect(
         "admin_dome_type_list"
     )
+
 
 
 
@@ -1370,9 +1577,16 @@ def dome_type_delete(request, pk):
 
 
 
+# ============================================================
+# DOWNLOAD BOOKINGS AS EXCEL
+# ============================================================
 
 @login_required(login_url="admin_login")
 def admin_download_bookings_excel(request):
+
+    # ========================================================
+    # BASE QUERYSET
+    # ========================================================
 
     bookings = (
         Booking.objects
@@ -1383,96 +1597,118 @@ def admin_download_bookings_excel(request):
         .order_by("-created_at")
     )
 
-    # ============================================================
+
+    # ========================================================
     # EXPORT TYPE
+    #
     # all      = all bookings
-    # page     = current page only
+    # page     = current page
     # filtered = all filtered bookings
-    # ============================================================
+    # ========================================================
 
-    export_type = request.GET.get("type", "all")
+    export_type = request.GET.get(
+        "type",
+        "all"
+    )
 
 
-    # ============================================================
+    # ========================================================
     # SEARCH FILTER
-    # ============================================================
+    # ========================================================
 
-    search = request.GET.get("search", "").strip()
+    search = request.GET.get(
+        "search",
+        ""
+    ).strip()
 
     if search:
+
         bookings = bookings.filter(
+
             Q(name__icontains=search)
+
             | Q(phone__icontains=search)
+
             | Q(email__icontains=search)
+
             | Q(message__icontains=search)
-            | Q(dome_type__name__icontains=search)
-            | Q(camping_package__name__icontains=search)
+
+            | Q(
+                dome_type__name__icontains=search
+            )
+
+            | Q(
+                camping_package__name__icontains=search
+            )
         )
 
 
-    # ============================================================
-    # DATE POSTED FILTER
-    # ============================================================
+    # ========================================================
+    # DATE FILTER
+    # ========================================================
 
-    date_from = request.GET.get("date_from", "").strip()
-    date_to = request.GET.get("date_to", "").strip()
+    date_from = request.GET.get(
+        "date_from",
+        ""
+    ).strip()
+
+    date_to = request.GET.get(
+        "date_to",
+        ""
+    ).strip()
+
 
     if date_from:
+
         bookings = bookings.filter(
             created_at__date__gte=date_from
         )
 
+
     if date_to:
+
         bookings = bookings.filter(
             created_at__date__lte=date_to
         )
 
 
-    # ============================================================
-    # JACUZZI FILTER
-    # ============================================================
-
-    jacuzzi = request.GET.get("jacuzzi", "").strip()
-
-    if jacuzzi == "yes":
-        bookings = bookings.filter(
-            jacuzzi_bathtub=True
-        )
-
-    elif jacuzzi == "no":
-        bookings = bookings.filter(
-            jacuzzi_bathtub=False
-        )
-
-
-    # ============================================================
+    # ========================================================
     # CURRENT PAGE EXPORT
-    # ============================================================
+    # ========================================================
 
-    page_number = request.GET.get("page", 1)
+    page_number = request.GET.get(
+        "page",
+        1
+    )
 
     if export_type == "page":
 
-        paginator = Paginator(bookings, 10)
+        paginator = Paginator(
+            bookings,
+            10
+        )
 
-        page_obj = paginator.get_page(page_number)
+        page_obj = paginator.get_page(
+            page_number
+        )
 
         bookings = page_obj.object_list
 
 
-    # ============================================================
-    # CREATE EXCEL
-    # ============================================================
+    # ========================================================
+    # CREATE EXCEL WORKBOOK
+    # ========================================================
 
     workbook = Workbook()
 
     worksheet = workbook.active
+
     worksheet.title = "Bookings"
 
 
-    # ============================================================
+    # ========================================================
     # HEADERS
-    # ============================================================
+    # ========================================================
 
     headers = [
         "Booking ID",
@@ -1485,7 +1721,6 @@ def admin_download_bookings_excel(request):
         "Guests",
         "Dome Type",
         "Camping Package",
-        "Jacuzzi Bathtub",
         "Message",
         "Status",
     ]
@@ -1493,9 +1728,9 @@ def admin_download_bookings_excel(request):
     worksheet.append(headers)
 
 
-    # ============================================================
+    # ========================================================
     # HEADER STYLE
-    # ============================================================
+    # ========================================================
 
     header_fill = PatternFill(
         fill_type="solid",
@@ -1508,15 +1743,33 @@ def admin_download_bookings_excel(request):
     )
 
     thin_border = Border(
-        left=Side(style="thin", color="D9E2F3"),
-        right=Side(style="thin", color="D9E2F3"),
-        top=Side(style="thin", color="D9E2F3"),
-        bottom=Side(style="thin", color="D9E2F3"),
+
+        left=Side(
+            style="thin",
+            color="D9E2F3"
+        ),
+
+        right=Side(
+            style="thin",
+            color="D9E2F3"
+        ),
+
+        top=Side(
+            style="thin",
+            color="D9E2F3"
+        ),
+
+        bottom=Side(
+            style="thin",
+            color="D9E2F3"
+        ),
     )
+
 
     for cell in worksheet[1]:
 
         cell.fill = header_fill
+
         cell.font = header_font
 
         cell.alignment = Alignment(
@@ -1527,75 +1780,109 @@ def admin_download_bookings_excel(request):
         cell.border = thin_border
 
 
-    # ============================================================
+    # ========================================================
     # BOOKING DATA
-    # ============================================================
+    # ========================================================
 
-    for booking in bookings:
+    for booking_obj in bookings:
 
-        # Dome Type
-        if booking.dome_type:
-            dome_type_name = booking.dome_type.name
+
+        # ----------------------------------------------------
+        # DOME TYPE
+        # ----------------------------------------------------
+
+        if booking_obj.dome_type:
+
+            dome_type_name = (
+                booking_obj.dome_type.name
+            )
+
         else:
+
             dome_type_name = "Not Selected"
 
-        # Camping Package
-        if booking.camping_package:
-            camping_package_name = booking.camping_package.name
+
+        # ----------------------------------------------------
+        # CAMPING PACKAGE
+        # ----------------------------------------------------
+
+        if booking_obj.camping_package:
+
+            camping_package_name = (
+                booking_obj.camping_package.name
+            )
+
         else:
+
             camping_package_name = "Not Selected"
 
-        # Jacuzzi
-        if booking.jacuzzi_bathtub:
-            jacuzzi_status = "Requested"
-        else:
-            jacuzzi_status = "Not Requested"
 
-        # Read status
-        if booking.is_read:
+        # ----------------------------------------------------
+        # READ STATUS
+        # ----------------------------------------------------
+
+        if booking_obj.is_read:
+
             read_status = "Read"
+
         else:
+
             read_status = "Unread"
 
 
+        # ----------------------------------------------------
+        # ADD EXCEL ROW
+        # ----------------------------------------------------
+
         worksheet.append([
-            booking.id,
 
-            booking.created_at.strftime(
-                "%d-%m-%Y %I:%M %p"
-            ) if booking.created_at else "",
+            booking_obj.id,
 
-            booking.name or "",
+            (
+                booking_obj.created_at.strftime(
+                    "%d-%m-%Y %I:%M %p"
+                )
+                if booking_obj.created_at
+                else ""
+            ),
 
-            booking.phone or "",
+            booking_obj.name or "",
 
-            booking.email or "",
+            booking_obj.phone or "",
 
-            booking.check_in.strftime(
-                "%d-%m-%Y"
-            ) if booking.check_in else "",
+            booking_obj.email or "",
 
-            booking.check_out.strftime(
-                "%d-%m-%Y"
-            ) if booking.check_out else "",
+            (
+                booking_obj.check_in.strftime(
+                    "%d-%m-%Y"
+                )
+                if booking_obj.check_in
+                else ""
+            ),
 
-            booking.guests or 0,
+            (
+                booking_obj.check_out.strftime(
+                    "%d-%m-%Y"
+                )
+                if booking_obj.check_out
+                else ""
+            ),
+
+            booking_obj.guests or 0,
 
             dome_type_name,
 
             camping_package_name,
 
-            jacuzzi_status,
-
-            booking.message or "",
+            booking_obj.message or "",
 
             read_status,
         ])
 
 
-    # ============================================================
-    # COLUMN WIDTH
-    # ============================================================
+    # ========================================================
+    # COLUMN WIDTHS
+    # ========================================================
 
     column_widths = {
         "A": 12,
@@ -1606,21 +1893,23 @@ def admin_download_bookings_excel(request):
         "F": 15,
         "G": 15,
         "H": 10,
-        "I": 25,
+        "I": 28,
         "J": 30,
-        "K": 20,
-        "L": 45,
-        "M": 15,
+        "K": 45,
+        "L": 15,
     }
+
 
     for column, width in column_widths.items():
 
-        worksheet.column_dimensions[column].width = width
+        worksheet.column_dimensions[
+            column
+        ].width = width
 
 
-    # ============================================================
+    # ========================================================
     # BODY STYLE
-    # ============================================================
+    # ========================================================
 
     for row in worksheet.iter_rows(
         min_row=2,
@@ -1637,20 +1926,20 @@ def admin_download_bookings_excel(request):
             cell.border = thin_border
 
 
-    # ============================================================
+    # ========================================================
     # FREEZE HEADER + FILTER
-    # ============================================================
+    # ========================================================
 
     worksheet.freeze_panes = "A2"
 
     worksheet.auto_filter.ref = (
-        f"A1:M{worksheet.max_row}"
+        f"A1:L{worksheet.max_row}"
     )
 
 
-    # ============================================================
+    # ========================================================
     # FILE NAME
-    # ============================================================
+    # ========================================================
 
     if export_type == "page":
 
@@ -1667,18 +1956,20 @@ def admin_download_bookings_excel(request):
         filename = "all_bookings.xlsx"
 
 
-    # ============================================================
-    # RESPONSE
-    # ============================================================
+    # ========================================================
+    # HTTP RESPONSE
+    # ========================================================
 
     response = HttpResponse(
         content_type=(
-            "application/vnd.openxmlformats-officedocument."
-            "spreadsheetml.sheet"
+            "application/vnd.openxmlformats-"
+            "officedocument.spreadsheetml.sheet"
         )
     )
 
-    response["Content-Disposition"] = (
+    response[
+        "Content-Disposition"
+    ] = (
         f'attachment; filename="{filename}"'
     )
 

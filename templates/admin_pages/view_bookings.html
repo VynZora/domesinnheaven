@@ -24,7 +24,7 @@
             </div>
 
 
-            <!-- ====================================================
+<!-- ====================================================
      EXCEL DOWNLOAD OPTIONS
 ===================================================== -->
 
@@ -42,7 +42,7 @@
 
     <!-- CURRENT PAGE -->
     <a
-        href="{% url 'admin_download_bookings_excel' %}?type=page&page={{ bookings.number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+        href="{% url 'admin_download_bookings_excel' %}?type=page&page={{ bookings.number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}"
         class="btn btn-outline-success btn-sm"
     >
         <i class="fas fa-file-alt me-1"></i>
@@ -52,7 +52,7 @@
 
     <!-- FILTERED RESULTS -->
     <a
-        href="{% url 'admin_download_bookings_excel' %}?type=filtered&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+        href="{% url 'admin_download_bookings_excel' %}?type=filtered&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}"
         class="btn btn-outline-primary btn-sm"
     >
         <i class="fas fa-filter me-1"></i>
@@ -75,149 +75,103 @@
 
         <div class="card-body">
 
-            <form method="GET">
+           <form method="GET">
 
-                <div class="row g-3 align-items-end">
+    <div class="row g-3 align-items-end">
 
+        <!-- SEARCH -->
+        <div class="col-xl-5 col-lg-5 col-md-6">
 
-                    <!-- SEARCH -->
+            <label class="form-label small fw-semibold">
+                Search Booking
+            </label>
 
-                    <div class="col-xl-4 col-lg-4 col-md-6">
+            <div class="input-group input-group-sm">
 
-                        <label class="form-label small fw-semibold">
-                            Search Booking
-                        </label>
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
 
-                        <div class="input-group input-group-sm">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    value="{{ search }}"
+                    placeholder="Name, phone, email, dome..."
+                >
 
-                            <span class="input-group-text">
-                                <i class="fas fa-search"></i>
-                            </span>
+            </div>
 
-                            <input
-                                type="text"
-                                name="search"
-                                class="form-control"
-                                value="{{ search }}"
-                                placeholder="Name, phone, email, dome..."
-                            >
-
-                        </div>
-
-                    </div>
+        </div>
 
 
+        <!-- DATE FROM -->
+        <div class="col-xl-2 col-lg-2 col-md-6">
 
-                    <!-- DATE FROM -->
+            <label class="form-label small fw-semibold">
+                Posted From
+            </label>
 
-                    <div class="col-xl-2 col-lg-2 col-md-6">
+            <input
+                type="date"
+                name="date_from"
+                value="{{ date_from }}"
+                class="form-control form-control-sm"
+            >
 
-                        <label class="form-label small fw-semibold">
-                            Posted From
-                        </label>
-
-                        <input
-                            type="date"
-                            name="date_from"
-                            value="{{ date_from }}"
-                            class="form-control form-control-sm"
-                        >
-
-                    </div>
+        </div>
 
 
+        <!-- DATE TO -->
+        <div class="col-xl-2 col-lg-2 col-md-6">
 
-                    <!-- DATE TO -->
+            <label class="form-label small fw-semibold">
+                Posted To
+            </label>
 
-                    <div class="col-xl-2 col-lg-2 col-md-6">
+            <input
+                type="date"
+                name="date_to"
+                value="{{ date_to }}"
+                class="form-control form-control-sm"
+            >
 
-                        <label class="form-label small fw-semibold">
-                            Posted To
-                        </label>
-
-                        <input
-                            type="date"
-                            name="date_to"
-                            value="{{ date_to }}"
-                            class="form-control form-control-sm"
-                        >
-
-                    </div>
+        </div>
 
 
+        <!-- FILTER BUTTON -->
+        <div class="col-xl-3 col-lg-3 col-md-6">
 
-                    <!-- JACUZZI -->
+            <div class="d-flex gap-2">
 
-                    <div class="col-xl-2 col-lg-2 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Jacuzzi
-                        </label>
-
-                        <select
-                            name="jacuzzi"
-                            class="form-select form-select-sm"
-                        >
-
-                            <option value="">
-                                All
-                            </option>
-
-                            <option
-                                value="yes"
-                                {% if jacuzzi == "yes" %}selected{% endif %}
-                            >
-                                Requested
-                            </option>
-
-                            <option
-                                value="no"
-                                {% if jacuzzi == "no" %}selected{% endif %}
-                            >
-                                Not Requested
-                            </option>
-
-                        </select>
-
-                    </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-sm flex-grow-1"
+                >
+                    <i class="fas fa-filter me-1"></i>
+                    Filter
+                </button>
 
 
+                {% if search or date_from or date_to %}
 
-                    <!-- FILTER BUTTON -->
+                    <a
+                        href="{% url 'admin_view_bookings' %}"
+                        class="btn btn-outline-secondary btn-sm"
+                        title="Clear Filters"
+                    >
+                        <i class="fas fa-times"></i>
+                    </a>
 
-                    <div class="col-xl-2 col-lg-2 col-md-6">
+                {% endif %}
 
-                        <div class="d-flex gap-2">
+            </div>
 
-                            <button
-                                type="submit"
-                                class="btn btn-primary btn-sm flex-grow-1"
-                            >
-                                <i class="fas fa-filter me-1"></i>
-                                Filter
-                            </button>
+        </div>
 
+    </div>
 
-                            {% if search or date_from or date_to or jacuzzi %}
-
-                            <a
-                                href="{% url 'admin_view_bookings' %}"
-                                class="btn btn-outline-secondary btn-sm"
-                                title="Clear Filters"
-                            >
-                                <i class="fas fa-times"></i>
-                            </a>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </form>
+</form>
 
         </div>
 
@@ -229,7 +183,7 @@
          ACTIVE FILTER INFORMATION
     ============================================================ -->
 
-    {% if search or date_from or date_to or jacuzzi %}
+    {% if search or date_from or date_to %}
 
     <div class="alert alert-light border py-2 mb-3">
 
@@ -267,20 +221,6 @@
 
             {% endif %}
 
-
-            {% if jacuzzi == "yes" %}
-
-            <span class="badge bg-success">
-                Jacuzzi Requested
-            </span>
-
-            {% elif jacuzzi == "no" %}
-
-            <span class="badge bg-dark">
-                Jacuzzi Not Requested
-            </span>
-
-            {% endif %}
 
 
             <a
@@ -464,58 +404,6 @@
 
                             {% endif %}
 
-
-
-                            <!-- CAMPING PACKAGE -->
-
-                            {% if booking.camping_package %}
-
-                            <span class="text-secondary mt-1">
-
-                                <strong>
-                                    Package:
-                                </strong>
-
-                                {{ booking.camping_package.name }}
-
-                            </span>
-
-                            {% endif %}
-
-
-
-                            <!-- JACUZZI -->
-
-                            <span class="mt-1">
-
-                                <strong>
-                                    Jacuzzi Bathtub:
-                                </strong>
-
-
-                                {% if booking.jacuzzi_bathtub %}
-
-                                <span class="badge bg-success">
-
-                                    <i class="fas fa-check me-1"></i>
-
-                                    Requested
-
-                                </span>
-
-                                {% else %}
-
-                                <span class="badge bg-secondary">
-
-                                    Not Requested
-
-                                </span>
-
-                                {% endif %}
-
-                            </span>
-
-
                         </div>
 
                     </td>
@@ -576,7 +464,7 @@
                         </p>
 
 
-                        {% if search or date_from or date_to or jacuzzi %}
+                        {% if search or date_from or date_to %}
 
                         <small class="text-muted">
 
@@ -620,7 +508,7 @@
 
                 <a
                     class="page-link"
-                    href="?page={{ bookings.previous_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                    href="?page={{ bookings.previous_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}"
                 >
                     &laquo;
                 </a>
@@ -661,7 +549,7 @@
 
                     <a
                         class="page-link"
-                        href="?page={{ i }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                        href="?page={{ i }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}"
                     >
                         {{ i }}
                     </a>
@@ -682,7 +570,7 @@
 
                 <a
                     class="page-link"
-                    href="?page={{ bookings.next_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                    href="?page={{ bookings.next_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}"
                 >
                     &raquo;
                 </a>
@@ -878,62 +766,6 @@
 
                 {% endif %}
 
-
-
-                <!-- PACKAGE -->
-
-                {% if booking.camping_package %}
-
-                <p>
-
-                    <strong>
-                        Selected Package:
-                    </strong>
-
-                    <span class="badge bg-secondary">
-
-                        {{ booking.camping_package.name }}
-
-                    </span>
-
-                </p>
-
-                {% endif %}
-
-
-
-                <!-- JACUZZI -->
-
-                <p>
-
-                    <strong>
-                        Jacuzzi Bathtub:
-                    </strong>
-
-
-                    {% if booking.jacuzzi_bathtub %}
-
-                    <span class="badge bg-success">
-
-                        <i class="fas fa-check me-1"></i>
-
-                        Requested
-
-                    </span>
-
-                    {% else %}
-
-                    <span class="badge bg-secondary">
-
-                        <i class="fas fa-times me-1"></i>
-
-                        Not Requested
-
-                    </span>
-
-                    {% endif %}
-
-                </p>
 
 
 

@@ -160,6 +160,46 @@ class DomeType(OptimizedImageModel):
 
 
 
+# ============================================================
+# DOME FAQ
+# ============================================================
+
+class DomeFAQ(models.Model):
+
+    dome_type = models.ForeignKey(
+        DomeType,
+        on_delete=models.CASCADE,
+        related_name="faqs",
+    )
+
+    question = models.CharField(
+        max_length=500,
+    )
+
+    answer = models.TextField()
+
+    order = models.PositiveIntegerField(
+        default=0,
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = "Dome FAQ"
+        verbose_name_plural = "Dome FAQs"
+
+    def __str__(self):
+        return f"{self.dome_type.name} - {self.question}"
+
+
+
 class DomeTypeImage(OptimizedImageModel):
 
     image_fields = ["image"]
@@ -426,11 +466,15 @@ class ContactMessage(models.Model):
 
 
 class Booking(models.Model):
+
     name = models.CharField(max_length=100)
+
     email = models.EmailField()
+
     phone = models.CharField(max_length=20)
 
     check_in = models.DateField()
+
     check_out = models.DateField()
 
     camping_package = models.ForeignKey(
@@ -439,11 +483,6 @@ class Booking(models.Model):
         null=True,
         blank=True
     )
-
-    jacuzzi_bathtub = models.BooleanField(
-               default=False,
-               help_text="Guest requested Jacuzzi bathtub"
-            )
 
     dome_type = models.ForeignKey(
         DomeType,
@@ -463,4 +502,4 @@ class Booking(models.Model):
     )
 
     def __str__(self):
-        return f"Booking for {self.name} on {self.check_in}"
+        return f"{self.name} - {self.check_in}"

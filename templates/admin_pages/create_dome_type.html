@@ -745,6 +745,102 @@
 
 
                                 <!-- ================================================= -->
+<!-- DOME FAQS -->
+<!-- ================================================= -->
+
+<div class="col-12 mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+            <label class="form-label mb-1">
+                Frequently Asked Questions
+            </label>
+
+            <div class="form-text mt-0">
+                Add questions and answers related to this dome.
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="btn btn-outline-primary btn-sm"
+            id="addFaqButton"
+        >
+            <i class="fas fa-plus me-1"></i>
+            Add FAQ
+        </button>
+
+    </div>
+
+
+    <div id="faqContainer">
+
+        <!-- ================================================= -->
+        <!-- FIRST FAQ ROW -->
+        <!-- ================================================= -->
+
+        <div class="faq-item border rounded p-3 mb-3 bg-light">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <strong class="faq-number">
+                    FAQ 1
+                </strong>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm remove-faq-button"
+                >
+                    <i class="fas fa-trash"></i>
+                    Remove
+                </button>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Question
+                </label>
+
+                <input
+                    type="text"
+                    name="faq_question[]"
+                    class="form-control"
+                    placeholder="Example: Is breakfast included?"
+                    maxlength="255"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label class="form-label">
+                    Answer
+                </label>
+
+                <textarea
+                    name="faq_answer[]"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Enter the answer..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+                                <!-- ================================================= -->
                                 <!-- BUTTONS -->
                                 <!-- ================================================= -->
 
@@ -1477,6 +1573,175 @@ document.addEventListener(
 
                 }
             );
+
+
+
+            // =====================================================
+// DOME FAQ MANAGER
+// =====================================================
+
+const faqContainer =
+    document.getElementById("faqContainer");
+
+const addFaqButton =
+    document.getElementById("addFaqButton");
+
+
+if (faqContainer && addFaqButton) {
+
+    // =================================================
+    // CREATE FAQ
+    // =================================================
+
+    addFaqButton.addEventListener(
+        "click",
+        function () {
+
+            const faqItem =
+                document.createElement("div");
+
+            faqItem.className =
+                "faq-item border rounded p-3 mb-3 bg-light";
+
+            faqItem.innerHTML = `
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <strong class="faq-number">
+                        FAQ
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm remove-faq-button"
+                    >
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Question
+                    </label>
+
+                    <input
+                        type="text"
+                        name="faq_question[]"
+                        class="form-control"
+                        placeholder="Example: Is breakfast included?"
+                        maxlength="255"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label class="form-label">
+                        Answer
+                    </label>
+
+                    <textarea
+                        name="faq_answer[]"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter the answer..."
+                    ></textarea>
+
+                </div>
+            `;
+
+
+            faqContainer.appendChild(
+                faqItem
+            );
+
+
+            updateFaqNumbers();
+
+        }
+    );
+
+
+    // =================================================
+    // REMOVE FAQ
+    // =================================================
+
+    faqContainer.addEventListener(
+        "click",
+        function (event) {
+
+            const removeButton =
+                event.target.closest(
+                    ".remove-faq-button"
+                );
+
+
+            if (!removeButton) {
+                return;
+            }
+
+
+            const faqItem =
+                removeButton.closest(
+                    ".faq-item"
+                );
+
+
+            if (faqItem) {
+
+                faqItem.remove();
+
+                updateFaqNumbers();
+
+            }
+
+        }
+    );
+
+
+    // =================================================
+    // UPDATE FAQ NUMBERS
+    // =================================================
+
+    function updateFaqNumbers() {
+
+        const faqItems =
+            faqContainer.querySelectorAll(
+                ".faq-item"
+            );
+
+
+        faqItems.forEach(
+            function (item, index) {
+
+                const number =
+                    item.querySelector(
+                        ".faq-number"
+                    );
+
+
+                if (number) {
+
+                    number.textContent =
+                        "FAQ " + (index + 1);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    updateFaqNumbers();
+
+}
+
 
 
     }

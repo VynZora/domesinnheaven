@@ -1,3 +1,4 @@
+import re
 from django import forms
 from django.utils import timezone
 
@@ -308,6 +309,18 @@ class CampingPackageForm(forms.ModelForm):
 # User directly selects DomeType.
 # ============================================================
 
+# ============================================================
+# BOOKING FORM + COMPLETE VALIDATION
+# ============================================================
+
+import re
+
+from django import forms
+from django.utils import timezone
+
+from .models import Booking
+
+
 class BookingForm(forms.ModelForm):
 
     class Meta:
@@ -321,7 +334,6 @@ class BookingForm(forms.ModelForm):
             "check_in",
             "check_out",
             "dome_type",
-            "jacuzzi_bathtub",
             "message",
         ]
 
@@ -330,21 +342,38 @@ class BookingForm(forms.ModelForm):
             "name": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Your name",
-                }
-            ),
-
-            "email": forms.EmailInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Your email",
+                    "placeholder": "e.g. John Doe",
+                    "minlength": "2",
+                    "maxlength": "100",
+                    "autocomplete": "name",
                 }
             ),
 
             "phone": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Phone number",
+                    "placeholder": "e.g. +91 9946 280 626",
+                    "maxlength": "18",
+                    "autocomplete": "tel",
+                }
+            ),
+
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "e.g. john@example.com",
+                    "maxlength": "254",
+                    "autocomplete": "email",
+                }
+            ),
+
+            "guests": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "e.g. 2",
+                    "min": "1",
+                    "max": "20",
+                    "step": "1",
                 }
             ),
 
@@ -369,26 +398,206 @@ class BookingForm(forms.ModelForm):
                 }
             ),
 
-            "guests": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "min": "1",
-                    "placeholder": "Number of guests",
-                }
-            ),
-
             "message": forms.Textarea(
                 attrs={
                     "class": "form-control",
                     "rows": 4,
-                    "placeholder": "Message (optional)",
+                    "maxlength": "1000",
+                    "placeholder": "Tell us anything we should know...",
                 }
             ),
         }
 
 
     # ========================================================
-    # DATE VALIDATION
+    # REQUIRED / OPTIONAL FIELDS
+    # ========================================================
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Required fields
+        self.fields["name"].required = True
+        self.fields["phone"].required = True
+        self.fields["email"].required = True
+        self.fields["guests"].required = True
+        self.fields["check_in"].required = True
+        self.fields["check_out"].required = True
+        self.fields["dome_type"].required = True
+
+        # Optional field
+        self.fields["message"].required = False
+
+        # Dome dropdown
+        self.fields["dome_type"].queryset = (
+            self.fields["dome_type"]
+            .queryset
+            .order_by("name")
+        )
+
+        self.fields["dome_type"].empty_label = "Select Dome Type"
+
+
+    # ========================================================
+    # NAME VALIDATION
+    # ========================================================
+
+    def clean_name(self):
+
+        name = self.cleaned_data.get("name", "").strip()
+
+        if not name:
+            raise forms.ValidationError(
+                "Please enter your name."
+            )
+
+        if len(name) < 2:
+            raise forms.ValidationError(
+                "Name must contain at least 2 characters."
+            )
+
+        if len(name) > 100:
+            raise forms.ValidationError(
+                "Name cannot exceed 100 characters."
+            )
+
+        # Allow letters, spaces, dot, apostrophe and hyphen
+        if not re.fullmatch(
+            r"[A-Za-zÀ-ÖØ-öø-ÿ.' -]+",
+            name
+        ):
+            raise forms.ValidationError(
+                "Please enter a valid name. "
+                "Numbers and special symbols are not allowed."
+            )
+
+        return name
+
+
+    # ========================================================
+    # PHONE VALIDATION
+    # ========================================================
+
+    def clean_phone(self):
+
+        phone = self.cleaned_data.get("phone", "").strip()
+
+        if not phone:
+            raise forms.ValidationError(
+                "Please enter your phone number."
+            )
+
+        # Remove spaces, brackets and hyphens
+        cleaned_phone = re.sub(
+            r"[\s()-]",
+            "",
+            phone
+        )
+
+        # Accepted examples:
+        # 9946280626
+        # 919946280626
+        # +919946280626
+        # +91 9946 280 626
+
+        if not re.fullmatch(
+            r"\+?\d{10,15}",
+            cleaned_phone
+        ):
+            raise forms.ValidationError(
+                "Please enter a valid phone number "
+                "with 10 to 15 digits."
+            )
+
+        return phone
+
+
+    # ========================================================
+    # EMAIL VALIDATION
+    # ========================================================
+
+    def clean_email(self):
+
+        email = self.cleaned_data.get(
+            "email",
+            ""
+        ).strip().lower()
+
+        if not email:
+            raise forms.ValidationError(
+                "Please enter your email address."
+            )
+
+        # Django EmailField validates email format.
+        return email
+
+
+    # ========================================================
+    # NUMBER OF GUESTS VALIDATION
+    # ========================================================
+
+    def clean_guests(self):
+
+        guests = self.cleaned_data.get("guests")
+
+        if guests is None:
+            raise forms.ValidationError(
+                "Please enter the number of guests."
+            )
+
+        if guests < 1:
+            raise forms.ValidationError(
+                "At least 1 guest is required."
+            )
+
+        if guests > 20:
+            raise forms.ValidationError(
+                "Maximum 20 guests are allowed."
+            )
+
+        return guests
+
+
+    # ========================================================
+    # DOME TYPE VALIDATION
+    # ========================================================
+
+    def clean_dome_type(self):
+
+        dome_type = self.cleaned_data.get(
+            "dome_type"
+        )
+
+        if not dome_type:
+            raise forms.ValidationError(
+                "Please select a dome type."
+            )
+
+        return dome_type
+
+
+    # ========================================================
+    # MESSAGE VALIDATION
+    # ========================================================
+
+    def clean_message(self):
+
+        message = self.cleaned_data.get(
+            "message",
+            ""
+        ).strip()
+
+        if len(message) > 1000:
+            raise forms.ValidationError(
+                "Special request cannot exceed "
+                "1000 characters."
+            )
+
+        return message
+
+
+    # ========================================================
+    # CHECK-IN / CHECK-OUT VALIDATION
     # ========================================================
 
     def clean(self):
@@ -400,11 +609,11 @@ class BookingForm(forms.ModelForm):
 
         today = timezone.localdate()
 
-        errors = {}
-
-        # Check-in cannot be before today
+        # Check-in cannot be in the past
         if check_in and check_in < today:
-            errors["check_in"] = (
+
+            self.add_error(
+                "check_in",
                 "Check-in date cannot be in the past."
             )
 
@@ -414,11 +623,10 @@ class BookingForm(forms.ModelForm):
             and check_out
             and check_out <= check_in
         ):
-            errors["check_out"] = (
+
+            self.add_error(
+                "check_out",
                 "Check-out date must be after check-in date."
             )
-
-        if errors:
-            raise forms.ValidationError(errors)
 
         return cleaned_data
