@@ -4,201 +4,1122 @@
 {% block title %}Bookings | Liok Admin{% endblock %}
 
 {% block content %}
+
 <div class="dashboard__form__wraper">
-    <div class="create__course__title mb-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h4 class="mb-0">Bookings</h4>
-        <div class="d-flex align-items-center gap-2 ms-auto">
-            <div class="search-box">
-                <input type="text" id="bookingSearchInput" class="form-control form-control-sm"
-                    placeholder="Search booking...">
+
+    <!-- ============================================================
+         PAGE HEADER
+    ============================================================ -->
+
+    <div class="create__course__title mb-4">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+            <div>
+                <h4 class="mb-1">Bookings</h4>
+
+                <small class="text-muted">
+                    Manage, search, filter and export booking requests
+                </small>
             </div>
+
+
+            <!-- ====================================================
+                 EXCEL DOWNLOAD DROPDOWN
+            ===================================================== -->
+
+            <div class="dropdown">
+
+                <a href="{% url 'admin_download_bookings_excel' %}?type=all"
+                  class="btn btn-success btn-sm">
+
+                    <i class="fas fa-file-excel me-1"></i>
+                      Download Excel
+
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                    <!-- ALL BOOKINGS -->
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'admin_download_bookings_excel' %}?type=all"
+                        >
+                            <i class="fas fa-database me-2"></i>
+                            Download All Bookings
+                        </a>
+                    </li>
+
+
+                    <!-- CURRENT PAGE -->
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'admin_download_bookings_excel' %}?type=page&page={{ bookings.number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                        >
+                            <i class="fas fa-file-alt me-2"></i>
+                            Download Current Page
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+
+                    <!-- FILTERED DATA -->
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'admin_download_bookings_excel' %}?type=filtered&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                        >
+                            <i class="fas fa-filter me-2"></i>
+                            Download Filtered Results
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
         </div>
+
     </div>
+
+
+
+    <!-- ============================================================
+         SEARCH + FILTER SECTION
+    ============================================================ -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3 align-items-end">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+
+                        <label class="form-label small fw-semibold">
+                            Search Booking
+                        </label>
+
+                        <div class="input-group input-group-sm">
+
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control"
+                                value="{{ search }}"
+                                placeholder="Name, phone, email, dome..."
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DATE FROM -->
+
+                    <div class="col-xl-2 col-lg-2 col-md-6">
+
+                        <label class="form-label small fw-semibold">
+                            Posted From
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_from"
+                            value="{{ date_from }}"
+                            class="form-control form-control-sm"
+                        >
+
+                    </div>
+
+
+
+                    <!-- DATE TO -->
+
+                    <div class="col-xl-2 col-lg-2 col-md-6">
+
+                        <label class="form-label small fw-semibold">
+                            Posted To
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_to"
+                            value="{{ date_to }}"
+                            class="form-control form-control-sm"
+                        >
+
+                    </div>
+
+
+
+                    <!-- JACUZZI -->
+
+                    <div class="col-xl-2 col-lg-2 col-md-6">
+
+                        <label class="form-label small fw-semibold">
+                            Jacuzzi
+                        </label>
+
+                        <select
+                            name="jacuzzi"
+                            class="form-select form-select-sm"
+                        >
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option
+                                value="yes"
+                                {% if jacuzzi == "yes" %}selected{% endif %}
+                            >
+                                Requested
+                            </option>
+
+                            <option
+                                value="no"
+                                {% if jacuzzi == "no" %}selected{% endif %}
+                            >
+                                Not Requested
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- FILTER BUTTON -->
+
+                    <div class="col-xl-2 col-lg-2 col-md-6">
+
+                        <div class="d-flex gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-sm flex-grow-1"
+                            >
+                                <i class="fas fa-filter me-1"></i>
+                                Filter
+                            </button>
+
+
+                            {% if search or date_from or date_to or jacuzzi %}
+
+                            <a
+                                href="{% url 'admin_view_bookings' %}"
+                                class="btn btn-outline-secondary btn-sm"
+                                title="Clear Filters"
+                            >
+                                <i class="fas fa-times"></i>
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================================================
+         ACTIVE FILTER INFORMATION
+    ============================================================ -->
+
+    {% if search or date_from or date_to or jacuzzi %}
+
+    <div class="alert alert-light border py-2 mb-3">
+
+        <div class="d-flex flex-wrap align-items-center gap-2">
+
+            <small class="fw-bold">
+                <i class="fas fa-filter me-1"></i>
+                Active Filters:
+            </small>
+
+
+            {% if search %}
+
+            <span class="badge bg-primary">
+                Search: {{ search }}
+            </span>
+
+            {% endif %}
+
+
+            {% if date_from %}
+
+            <span class="badge bg-secondary">
+                From: {{ date_from }}
+            </span>
+
+            {% endif %}
+
+
+            {% if date_to %}
+
+            <span class="badge bg-secondary">
+                To: {{ date_to }}
+            </span>
+
+            {% endif %}
+
+
+            {% if jacuzzi == "yes" %}
+
+            <span class="badge bg-success">
+                Jacuzzi Requested
+            </span>
+
+            {% elif jacuzzi == "no" %}
+
+            <span class="badge bg-dark">
+                Jacuzzi Not Requested
+            </span>
+
+            {% endif %}
+
+
+            <a
+                href="{% url 'admin_view_bookings' %}"
+                class="small ms-auto text-decoration-none"
+            >
+                Clear All
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- ============================================================
+         BOOKINGS TABLE
+    ============================================================ -->
 
     <div class="custom-table-container">
+
         <table class="table table-striped table-hover align-middle">
+
             <thead class="table-light">
+
                 <tr>
-                    <th scope="col">Date Posted</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Contact Info</th>
-                    <th scope="col">Booking Details</th>
-                    <th scope="col" class="text-center">Actions</th>
+
+                    <th scope="col">
+                        Date Posted
+                    </th>
+
+                    <th scope="col">
+                        Name
+                    </th>
+
+                    <th scope="col">
+                        Contact Info
+                    </th>
+
+                    <th scope="col">
+                        Booking Details
+                    </th>
+
+                    <th
+                        scope="col"
+                        class="text-center"
+                    >
+                        Actions
+                    </th>
+
                 </tr>
+
             </thead>
+
+
             <tbody>
+
                 {% for booking in bookings %}
+
                 <tr>
-                    <td>{{ booking.created_at|date:"M d, Y" }}</td>
-                    <td><strong>{{ booking.name }}</strong></td>
+
+                    <!-- DATE -->
+
                     <td>
-                        <div class="d-flex flex-column small">
-                            <span><i class="fas fa-phone"></i> {{ booking.phone }}</span>
-                            {% if booking.email %}<span><i class="fas fa-envelope"></i> {{ booking.email }}</span>{% endif %}
+
+                        <div class="small">
+
+                            {{ booking.created_at|date:"M d, Y" }}
+
+                            <div class="text-muted">
+                                {{ booking.created_at|date:"h:i A" }}
+                            </div>
+
                         </div>
+
                     </td>
+
+
+
+                    <!-- NAME -->
+
                     <td>
+
+                        <strong>
+                            {{ booking.name }}
+                        </strong>
+
+                    </td>
+
+
+
+                    <!-- CONTACT -->
+
+                    <td>
+
                         <div class="d-flex flex-column small">
-                            <span><strong>Check In:</strong> {{ booking.check_in|date:"M d, Y" }}</span>
-                            <span><strong>Check Out:</strong> {{ booking.check_out|date:"M d, Y" }}</span>
-                            <span><strong>Guests:</strong> {{ booking.guests }}</span>
-                            {% if booking.dome_category %}
-                            <span class="text-success mt-1"><strong>Category:</strong> {{ booking.dome_category.name }}</span>
+
+                            <span>
+
+                                <i class="fas fa-phone me-1"></i>
+
+                                {{ booking.phone }}
+
+                            </span>
+
+
+                            {% if booking.email %}
+
+                            <span>
+
+                                <i class="fas fa-envelope me-1"></i>
+
+                                {{ booking.email }}
+
+                            </span>
+
                             {% endif %}
+
+                        </div>
+
+                    </td>
+
+
+
+                    <!-- BOOKING DETAILS -->
+
+                    <td>
+
+                        <div class="d-flex flex-column small">
+
+
+                            <span>
+
+                                <strong>
+                                    Check In:
+                                </strong>
+
+                                {{ booking.check_in|date:"M d, Y" }}
+
+                            </span>
+
+
+                            <span>
+
+                                <strong>
+                                    Check Out:
+                                </strong>
+
+                                {{ booking.check_out|date:"M d, Y" }}
+
+                            </span>
+
+
+                            <span>
+
+                                <strong>
+                                    Guests:
+                                </strong>
+
+                                {{ booking.guests }}
+
+                            </span>
+
+
+
+                            <!-- DOME TYPE -->
+
                             {% if booking.dome_type %}
-                            <span class="text-info mt-1"><strong>Dome:</strong> {{ booking.dome_type.name }}</span>
+
+                            <span class="text-info mt-1">
+
+                                <strong>
+                                    Dome:
+                                </strong>
+
+                                {{ booking.dome_type.name }}
+
+                            </span>
+
                             {% endif %}
+
+
+
+                            <!-- CAMPING PACKAGE -->
+
                             {% if booking.camping_package %}
-                            <span class="text-secondary mt-1"><strong>Package:</strong> {{ booking.camping_package.name }}</span>
+
+                            <span class="text-secondary mt-1">
+
+                                <strong>
+                                    Package:
+                                </strong>
+
+                                {{ booking.camping_package.name }}
+
+                            </span>
+
                             {% endif %}
 
-<span class="mt-1">
-    <strong>Jacuzzi Bathtub:</strong>
 
-    {% if booking.jacuzzi_bathtub %}
-        <span class="badge bg-success">
-            <i class="fas fa-check me-1"></i> Requested
-        </span>
-    {% else %}
-        <span class="badge bg-secondary">
-            Not Requested
-        </span>
-    {% endif %}
-</span>
+
+                            <!-- JACUZZI -->
+
+                            <span class="mt-1">
+
+                                <strong>
+                                    Jacuzzi Bathtub:
+                                </strong>
+
+
+                                {% if booking.jacuzzi_bathtub %}
+
+                                <span class="badge bg-success">
+
+                                    <i class="fas fa-check me-1"></i>
+
+                                    Requested
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Not Requested
+
+                                </span>
+
+                                {% endif %}
+
+                            </span>
+
 
                         </div>
+
                     </td>
+
+
+
+                    <!-- ACTIONS -->
+
                     <td class="text-center">
-                        <button type="button" class="btn btn-sm btn-info me-1 text-white" data-bs-toggle="modal"
-                            data-bs-target="#readBookingModal{{ booking.id }}">
-                            <i class="fas fa-book-open"></i> Read
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-info me-1 text-white"
+                            data-bs-toggle="modal"
+                            data-bs-target="#readBookingModal{{ booking.id }}"
+                        >
+
+                            <i class="fas fa-book-open"></i>
+
+                            Read
+
                         </button>
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteBookingModal{{ booking.id }}">
+
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteBookingModal{{ booking.id }}"
+                        >
+
                             <i class="fas fa-trash"></i>
+
                         </button>
+
                     </td>
+
+
                 </tr>
+
+
                 {% empty %}
+
+
                 <tr>
-                    <td colspan="5" class="text-center py-4">
-                        <p class="text-muted">No bookings yet.</p>
+
+                    <td
+                        colspan="5"
+                        class="text-center py-5"
+                    >
+
+                        <i class="fas fa-calendar-times fa-2x text-muted mb-3"></i>
+
+                        <p class="text-muted mb-1">
+
+                            No bookings found.
+
+                        </p>
+
+
+                        {% if search or date_from or date_to or jacuzzi %}
+
+                        <small class="text-muted">
+
+                            Try changing or clearing your filters.
+
+                        </small>
+
+                        {% endif %}
+
                     </td>
+
                 </tr>
+
+
                 {% endfor %}
+
             </tbody>
+
         </table>
+
     </div>
+
+
+
+    <!-- ============================================================
+         PAGINATION
+    ============================================================ -->
 
     {% if bookings.has_other_pages %}
+
     <nav aria-label="Bookings pagination">
+
         <ul class="pagination justify-content-center mt-4">
+
+
+            <!-- PREVIOUS -->
+
             {% if bookings.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ bookings.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
-            {% for i in bookings.paginator.page_range %}
-            {% if bookings.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+                    href="?page={{ bookings.previous_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                >
+                    &laquo;
+                </a>
+
+            </li>
+
             {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+
+            <li class="page-item disabled">
+
+                <span class="page-link">
+                    &laquo;
+                </span>
+
+            </li>
+
             {% endif %}
+
+
+
+            <!-- PAGE NUMBERS -->
+
+            {% for i in bookings.paginator.page_range %}
+
+                {% if bookings.number == i %}
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+                        {{ i }}
+                    </span>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ i }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                    >
+                        {{ i }}
+                    </a>
+
+                </li>
+
+                {% endif %}
+
             {% endfor %}
+
+
+
+            <!-- NEXT -->
+
             {% if bookings.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ bookings.next_page_number }}">&raquo;</a></li>
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+                    href="?page={{ bookings.next_page_number }}&search={{ search|urlencode }}&date_from={{ date_from }}&date_to={{ date_to }}&jacuzzi={{ jacuzzi }}"
+                >
+                    &raquo;
+                </a>
+
+            </li>
+
+            {% else %}
+
+            <li class="page-item disabled">
+
+                <span class="page-link">
+                    &raquo;
+                </span>
+
+            </li>
+
             {% endif %}
+
+
         </ul>
+
     </nav>
+
     {% endif %}
+
+
 </div>
+
+
+
+<!-- ================================================================
+     READ + DELETE MODALS
+================================================================ -->
 
 {% for booking in bookings %}
-<div class="modal fade" id="readBookingModal{{ booking.id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+
+
+<!-- ================================================================
+     READ BOOKING MODAL
+================================================================ -->
+
+<div
+    class="modal fade"
+    id="readBookingModal{{ booking.id }}"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title">Booking from {{ booking.name }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <h5 class="modal-title">
+
+                    Booking from {{ booking.name }}
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
             </div>
+
+
             <div class="modal-body">
-                <p><strong>Check In:</strong> {{ booking.check_in|date:"M d, Y" }}</p>
-                <p><strong>Check Out:</strong> {{ booking.check_out|date:"M d, Y" }}</p>
-                <p><strong>Guests:</strong> {{ booking.guests }}</p>
-                {% if booking.dome_category %}
-                <p><strong>Category:</strong> <span class="badge bg-success">{{ booking.dome_category.name }}</span></p>
-                {% endif %}
-                {% if booking.dome_type %}
-                <p><strong>Dome Type:</strong> <span class="badge bg-info">{{ booking.dome_type.name }}</span></p>
-                {% endif %}
-                {% if booking.camping_package %}
-                <p><strong>Selected Package:</strong> <span class="badge bg-secondary">{{ booking.camping_package.name }}</span></p>
-                {% endif %}
-<p>
-    <strong>Jacuzzi Bathtub:</strong>
 
-    {% if booking.jacuzzi_bathtub %}
-        <span class="badge bg-success">
-            <i class="fas fa-check me-1"></i>
-            Requested
-        </span>
+
+                <!-- CUSTOMER -->
+
+                <!-- CUSTOMER DETAILS -->
+
+<div class="mb-3">
+
+    <small class="text-muted d-block mb-2">
+        Customer Details
+    </small>
+
+    <!-- Name -->
+    <p class="mb-2">
+        <strong>
+            <i class="fas fa-user me-2"></i>
+            Name:
+        </strong>
+        {{ booking.name }}
+    </p>
+
+    <!-- Mobile Number -->
+    <p class="mb-2">
+        <strong>
+            <i class="fas fa-phone me-2"></i>
+            Mobile:
+        </strong>
+
+        <a href="tel:{{ booking.phone }}"
+           class="text-decoration-none">
+            {{ booking.phone }}
+        </a>
+    </p>
+
+    <!-- Email -->
+    {% if booking.email %}
+    <p class="mb-2">
+        <strong>
+            <i class="fas fa-envelope me-2"></i>
+            Email:
+        </strong>
+
+        <a href="mailto:{{ booking.email }}"
+           class="text-decoration-none">
+            {{ booking.email }}
+        </a>
+    </p>
     {% else %}
-        <span class="badge bg-secondary">
-            <i class="fas fa-times me-1"></i>
-            Not Requested
+    <p class="mb-2">
+        <strong>
+            <i class="fas fa-envelope me-2"></i>
+            Email:
+        </strong>
+
+        <span class="text-muted">
+            Not provided
         </span>
+    </p>
     {% endif %}
-</p>
-                {% if booking.message %}
-                <p><strong>Message:</strong></p>
-                <p>{{ booking.message }}</p>
-                {% endif %}
-                <hr>
-                <div class="d-flex gap-2">
-                    <a href="tel:{{ booking.phone }}" class="btn btn-outline-primary flex-grow-1"><i
-                            class="fas fa-phone"></i> Call</a>
-                    {% if booking.email %}
-                    <a href="mailto:{{ booking.email }}" class="btn btn-outline-secondary flex-grow-1"><i
-                            class="fas fa-envelope"></i> Email</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 
-<div class="modal fade" id="deleteBookingModal{{ booking.id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" action="{% url 'admin_delete_booking' booking.id %}">
-                {% csrf_token %}
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Booking</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<hr>
+
+
+                <!-- CHECK IN -->
+
+                <p>
+
+                    <strong>
+                        Check In:
+                    </strong>
+
+                    {{ booking.check_in|date:"M d, Y" }}
+
+                </p>
+
+
+                <!-- CHECK OUT -->
+
+                <p>
+
+                    <strong>
+                        Check Out:
+                    </strong>
+
+                    {{ booking.check_out|date:"M d, Y" }}
+
+                </p>
+
+
+                <!-- GUESTS -->
+
+                <p>
+
+                    <strong>
+                        Guests:
+                    </strong>
+
+                    {{ booking.guests }}
+
+                </p>
+
+
+
+                <!-- DOME TYPE -->
+
+                {% if booking.dome_type %}
+
+                <p>
+
+                    <strong>
+                        Dome Type:
+                    </strong>
+
+                    <span class="badge bg-info">
+
+                        {{ booking.dome_type.name }}
+
+                    </span>
+
+                </p>
+
+                {% endif %}
+
+
+
+                <!-- PACKAGE -->
+
+                {% if booking.camping_package %}
+
+                <p>
+
+                    <strong>
+                        Selected Package:
+                    </strong>
+
+                    <span class="badge bg-secondary">
+
+                        {{ booking.camping_package.name }}
+
+                    </span>
+
+                </p>
+
+                {% endif %}
+
+
+
+                <!-- JACUZZI -->
+
+                <p>
+
+                    <strong>
+                        Jacuzzi Bathtub:
+                    </strong>
+
+
+                    {% if booking.jacuzzi_bathtub %}
+
+                    <span class="badge bg-success">
+
+                        <i class="fas fa-check me-1"></i>
+
+                        Requested
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge bg-secondary">
+
+                        <i class="fas fa-times me-1"></i>
+
+                        Not Requested
+
+                    </span>
+
+                    {% endif %}
+
+                </p>
+
+
+
+                <!-- MESSAGE -->
+
+                {% if booking.message %}
+
+                <hr>
+
+                <p class="mb-1">
+
+                    <strong>
+                        Message:
+                    </strong>
+
+                </p>
+
+                <p>
+                    {{ booking.message }}
+                </p>
+
+                {% endif %}
+
+
+
+                <hr>
+
+
+                <!-- CONTACT BUTTONS -->
+
+                <div class="d-flex gap-2">
+
+                    <a
+                        href="tel:{{ booking.phone }}"
+                        class="btn btn-outline-primary flex-grow-1"
+                    >
+
+                        <i class="fas fa-phone"></i>
+
+                        Call
+
+                    </a>
+
+
+                    {% if booking.email %}
+
+                    <a
+                        href="mailto:{{ booking.email }}"
+                        class="btn btn-outline-secondary flex-grow-1"
+                    >
+
+                        <i class="fas fa-envelope"></i>
+
+                        Email
+
+                    </a>
+
+                    {% endif %}
+
                 </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this booking?
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </form>
+
+
+            </div>
+
         </div>
+
     </div>
+
 </div>
+
+
+
+<!-- ================================================================
+     DELETE BOOKING MODAL
+================================================================ -->
+
+<div
+    class="modal fade"
+    id="deleteBookingModal{{ booking.id }}"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form
+                method="post"
+                action="{% url 'admin_delete_booking' booking.id %}"
+            >
+
+                {% csrf_token %}
+
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Delete Booking
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    ></button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <p class="mb-1">
+
+                        Are you sure you want to delete the booking from
+
+                        <strong>
+                            {{ booking.name }}
+                        </strong>?
+
+                    </p>
+
+                    <small class="text-danger">
+
+                        This action cannot be undone.
+
+                    </small>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+
+                        <i class="fas fa-trash me-1"></i>
+
+                        Yes, Delete
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 {% endfor %}
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("bookingSearchInput");
-        const tableRows = document.querySelectorAll("tbody tr");
-
-        searchInput.addEventListener("keyup", function () {
-            const value = this.value.toLowerCase();
-            tableRows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.indexOf(value) > -1 ? "" : "none";
-            });
-        });
-    });
-</script>
 {% endblock %}

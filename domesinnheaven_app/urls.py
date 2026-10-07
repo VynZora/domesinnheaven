@@ -109,4 +109,12 @@ path(
     path("dashboard/dome-types/add/", views.dome_type_create, name="dome_type_create"),
     path("dashboard/dome-types/<int:pk>/edit/", views.dome_type_update, name="dome_type_update"),
     path("dashboard/dome-types/<int:pk>/delete/", views.dome_type_delete, name="dome_type_delete"),
+
+
+
+    path(
+    "dashboard/bookings/download-excel/",
+    views.admin_download_bookings_excel,
+    name="admin_download_bookings_excel",
+),
 ]

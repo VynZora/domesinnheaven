@@ -23,6 +23,13 @@ from .forms import (
 )
 
 
+from django.http import HttpResponse
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+
+from .models import Booking   # change this if Booking is imported from another app
+
 from .models import (
     Blog,
     Category,
@@ -618,14 +625,147 @@ def booking(request):
 
 
 
+# @login_required(login_url="admin_login")
+# def admin_view_bookings(request):
+#     Booking.objects.filter(is_read=False).update(is_read=True)
+#     bookings = Booking.objects.all().order_by("-created_at")
+#     paginator = Paginator(bookings, 10)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+#     return render(request, "admin_pages/view_bookings.html", {"bookings": page_obj})
+
 @login_required(login_url="admin_login")
 def admin_view_bookings(request):
-    Booking.objects.filter(is_read=False).update(is_read=True)
-    bookings = Booking.objects.all().order_by("-created_at")
-    paginator = Paginator(bookings, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    return render(request, "admin_pages/view_bookings.html", {"bookings": page_obj})
+
+    Booking.objects.filter(
+        is_read=False
+    ).update(
+        is_read=True
+    )
+
+
+    bookings_qs = (
+        Booking.objects
+        .select_related(
+            "dome_type",
+            "camping_package"
+        )
+        .order_by("-created_at")
+    )
+
+
+    # Search
+    search = request.GET.get(
+        "search",
+        ""
+    ).strip()
+
+
+    if search:
+
+        bookings_qs = bookings_qs.filter(
+
+            Q(name__icontains=search)
+
+            | Q(phone__icontains=search)
+
+            | Q(email__icontains=search)
+
+            | Q(message__icontains=search)
+
+            | Q(
+                dome_type__name__icontains=search
+            )
+
+            | Q(
+                camping_package__name__icontains=search
+            )
+        )
+
+
+    # Date posted from
+    date_from = request.GET.get(
+        "date_from",
+        ""
+    ).strip()
+
+
+    if date_from:
+
+        bookings_qs = bookings_qs.filter(
+            created_at__date__gte=date_from
+        )
+
+
+    # Date posted to
+    date_to = request.GET.get(
+        "date_to",
+        ""
+    ).strip()
+
+
+    if date_to:
+
+        bookings_qs = bookings_qs.filter(
+            created_at__date__lte=date_to
+        )
+
+
+    # Jacuzzi
+    jacuzzi = request.GET.get(
+        "jacuzzi",
+        ""
+    )
+
+
+    if jacuzzi == "yes":
+
+        bookings_qs = bookings_qs.filter(
+            jacuzzi_bathtub=True
+        )
+
+
+    elif jacuzzi == "no":
+
+        bookings_qs = bookings_qs.filter(
+            jacuzzi_bathtub=False
+        )
+
+
+    paginator = Paginator(
+        bookings_qs,
+        10
+    )
+
+
+    page_number = request.GET.get(
+        "page"
+    )
+
+
+    page_obj = paginator.get_page(
+        page_number
+    )
+
+
+    return render(
+        request,
+        "admin_pages/view_bookings.html",
+        {
+            "bookings": page_obj,
+
+            "search": search,
+
+            "date_from": date_from,
+
+            "date_to": date_to,
+
+            "jacuzzi": jacuzzi,
+        }
+    )
+
+
+
 
 @login_required(login_url="admin_login")
 def admin_delete_booking(request, pk):
@@ -1226,3 +1366,451 @@ def dome_type_delete(request, pk):
         )
 
     return redirect("admin_dome_type_list")
+
+
+
+@login_required(login_url="admin_login")
+def admin_download_bookings_excel(request):
+
+    # ============================================================
+    # BASE QUERY
+    # ============================================================
+
+    bookings = (
+        Booking.objects
+        .select_related(
+            "dome_type",
+            "camping_package",
+        )
+        .order_by("-created_at")
+    )
+
+
+    # ============================================================
+    # EXPORT MODE
+    # all | page | filtered
+    # ============================================================
+
+    export_type = request.GET.get("type", "all")
+
+
+    # ============================================================
+    # SEARCH FILTER
+    # ============================================================
+
+    search = request.GET.get("search", "").strip()
+
+    if search:
+
+        bookings = bookings.filter(
+            Q(name__icontains=search)
+            | Q(phone__icontains=search)
+            | Q(email__icontains=search)
+            | Q(message__icontains=search)
+            | Q(dome_type__name__icontains=search)
+            | Q(camping_package__name__icontains=search)
+        )
+
+
+    # ============================================================
+    # DATE FILTERS
+    # ============================================================
+
+    date_from = request.GET.get("date_from", "").strip()
+    date_to = request.GET.get("date_to", "").strip()
+
+
+    if date_from:
+        bookings = bookings.filter(
+            created_at__date__gte=date_from
+        )
+
+
+    if date_to:
+        bookings = bookings.filter(
+            created_at__date__lte=date_to
+        )
+
+
+    # ============================================================
+    # CHECK-IN FILTER
+    # ============================================================
+
+    check_in_from = request.GET.get(
+        "check_in_from",
+        ""
+    ).strip()
+
+    check_in_to = request.GET.get(
+        "check_in_to",
+        ""
+    ).strip()
+
+
+    if check_in_from:
+        bookings = bookings.filter(
+            check_in__gte=check_in_from
+        )
+
+
+    if check_in_to:
+        bookings = bookings.filter(
+            check_in__lte=check_in_to
+        )
+
+
+    # ============================================================
+    # JACUZZI FILTER
+    # ============================================================
+
+    jacuzzi = request.GET.get("jacuzzi", "").strip()
+
+
+    if jacuzzi == "yes":
+
+        bookings = bookings.filter(
+            jacuzzi_bathtub=True
+        )
+
+
+    elif jacuzzi == "no":
+
+        bookings = bookings.filter(
+            jacuzzi_bathtub=False
+        )
+
+
+    # ============================================================
+    # CURRENT PAGE EXPORT
+    # ============================================================
+
+    if export_type == "page":
+
+        page_number = request.GET.get(
+            "page",
+            1
+        )
+
+        paginator = Paginator(
+            bookings,
+            10
+        )
+
+        bookings = paginator.get_page(
+            page_number
+        ).object_list
+
+
+    # ============================================================
+    # CREATE WORKBOOK
+    # ============================================================
+
+    workbook = Workbook()
+
+    worksheet = workbook.active
+
+    worksheet.title = "Bookings"
+
+
+    # ============================================================
+    # HEADERS
+    # ============================================================
+
+    headers = [
+
+        "Booking ID",
+
+        "Date Posted",
+
+        "Name",
+
+        "Phone",
+
+        "Email",
+
+        "Check In",
+
+        "Check Out",
+
+        "Guests",
+
+        "Dome Type",
+
+        "Camping Package",
+
+        "Jacuzzi Bathtub",
+
+        "Message",
+
+        "Status",
+    ]
+
+
+    # ============================================================
+    # HEADER STYLE
+    # ============================================================
+
+    header_fill = PatternFill(
+        fill_type="solid",
+        fgColor="1F4E78"
+    )
+
+    header_font = Font(
+        color="FFFFFF",
+        bold=True
+    )
+
+    thin_border = Border(
+
+        left=Side(
+            style="thin",
+            color="D9E1F2"
+        ),
+
+        right=Side(
+            style="thin",
+            color="D9E1F2"
+        ),
+
+        top=Side(
+            style="thin",
+            color="D9E1F2"
+        ),
+
+        bottom=Side(
+            style="thin",
+            color="D9E1F2"
+        ),
+    )
+
+
+    # ============================================================
+    # WRITE HEADER
+    # ============================================================
+
+    for column_number, heading in enumerate(
+        headers,
+        1
+    ):
+
+        cell = worksheet.cell(
+            row=1,
+            column=column_number,
+            value=heading
+        )
+
+        cell.fill = header_fill
+
+        cell.font = header_font
+
+        cell.alignment = Alignment(
+            horizontal="center",
+            vertical="center"
+        )
+
+        cell.border = thin_border
+
+
+    # ============================================================
+    # WRITE BOOKING DATA
+    # ============================================================
+
+    for row_number, booking in enumerate(
+        bookings,
+        2
+    ):
+
+
+        # Dome
+
+        dome_type = ""
+
+        if booking.dome_type:
+
+            dome_type = booking.dome_type.name
+
+
+        # Camping Package
+
+        camping_package = ""
+
+        if booking.camping_package:
+
+            camping_package = (
+                booking.camping_package.name
+            )
+
+
+        # Jacuzzi
+
+        jacuzzi_status = (
+            "Requested"
+            if booking.jacuzzi_bathtub
+            else "Not Requested"
+        )
+
+
+        # Read status
+
+        read_status = (
+            "Read"
+            if booking.is_read
+            else "Unread"
+        )
+
+
+        row_data = [
+
+            booking.id,
+
+            booking.created_at.strftime(
+                "%d-%m-%Y %I:%M %p"
+            )
+            if booking.created_at
+            else "",
+
+            booking.name or "",
+
+            booking.phone or "",
+
+            booking.email or "",
+
+            booking.check_in.strftime(
+                "%d-%m-%Y"
+            )
+            if booking.check_in
+            else "",
+
+            booking.check_out.strftime(
+                "%d-%m-%Y"
+            )
+            if booking.check_out
+            else "",
+
+            booking.guests or 0,
+
+            dome_type,
+
+            camping_package,
+
+            jacuzzi_status,
+
+            booking.message or "",
+
+            read_status,
+        ]
+
+
+        for column_number, value in enumerate(
+            row_data,
+            1
+        ):
+
+            cell = worksheet.cell(
+                row=row_number,
+                column=column_number,
+                value=value
+            )
+
+            cell.border = thin_border
+
+            cell.alignment = Alignment(
+                vertical="top",
+                wrap_text=True
+            )
+
+
+    # ============================================================
+    # COLUMN WIDTHS
+    # ============================================================
+
+    column_widths = {
+
+        "A": 12,
+        "B": 23,
+        "C": 25,
+        "D": 20,
+        "E": 35,
+        "F": 16,
+        "G": 16,
+        "H": 12,
+        "I": 25,
+        "J": 30,
+        "K": 20,
+        "L": 50,
+        "M": 15,
+    }
+
+
+    for column, width in column_widths.items():
+
+        worksheet.column_dimensions[
+            column
+        ].width = width
+
+
+    # ============================================================
+    # EXCEL SETTINGS
+    # ============================================================
+
+    worksheet.freeze_panes = "A2"
+
+    worksheet.auto_filter.ref = (
+        worksheet.dimensions
+    )
+
+    worksheet.row_dimensions[1].height = 25
+
+
+    # ============================================================
+    # FILE NAME
+    # ============================================================
+
+    if export_type == "page":
+
+        page_number = request.GET.get(
+            "page",
+            1
+        )
+
+        filename = (
+            f"bookings_page_{page_number}.xlsx"
+        )
+
+
+    elif export_type == "filtered":
+
+        filename = (
+            "filtered_bookings.xlsx"
+        )
+
+
+    else:
+
+        filename = (
+            "all_bookings.xlsx"
+        )
+
+
+    # ============================================================
+    # RESPONSE
+    # ============================================================
+
+    response = HttpResponse(
+
+        content_type=(
+            "application/"
+            "vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        )
+    )
+
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="{filename}"'
+    )
+
+
+    workbook.save(response)
+
+    return response
