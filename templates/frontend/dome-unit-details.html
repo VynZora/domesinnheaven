@@ -2537,6 +2537,286 @@
 
 {% comment %} layout fixing css end  {% endcomment %}
 
+
+
+{% comment %} add-on section css start {% endcomment %}
+/* ===================================================
+   DOME ADD-ON EXPERIENCES
+=================================================== */
+
+.dome-addon-section {
+    width: 100%;
+    padding: 45px 0 55px;
+    margin: 10px 0 25px;
+    background: #fff;
+    position: relative;
+    clear: both;
+}
+
+/* HEADING */
+
+.dome-addon-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 38px;
+}
+
+.dome-addon-subtitle {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #b78a58;
+    text-transform: uppercase;
+}
+
+.dome-addon-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin: 12px auto 15px;
+    color: #3d4b33;
+    font-size: 8px;
+}
+
+.dome-addon-divider span {
+    display: block;
+    width: 25px;
+    height: 1px;
+    background: #b78a58;
+}
+
+.dome-addon-heading h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 2.5vw, 36px);
+    line-height: 1.2;
+    font-weight: 600;
+    color: #35442f;
+    margin: 0 0 12px;
+}
+
+.dome-addon-heading p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #777c73;
+    margin: 0 auto;
+    max-width: 570px;
+}
+
+/* GRID */
+
+.dome-addon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 32px;
+    justify-items: center;
+    align-items: start;
+}
+
+/* INDIVIDUAL ITEM */
+
+.dome-addon-item {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.dome-addon-item:hover {
+    transform: translateY(-5px);
+}
+
+/* CIRCULAR IMAGE */
+
+.dome-addon-image-wrap {
+    width: clamp(95px, 11vw, 145px);
+    height: clamp(95px, 11vw, 145px);
+    position: relative;
+    margin: 0 auto 17px;
+    border-radius: 50%;
+    border: 2px solid #d4a373;
+    padding: 4px;
+    background: #fff;
+}
+
+.dome-addon-image-wrap > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.dome-addon-item:hover .dome-addon-image-wrap {
+    box-shadow: 0 10px 24px rgba(61, 75, 51, 0.13);
+}
+
+/* OVERLAPPING ICON */
+
+.dome-addon-icon {
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    transform: translateY(-50%);
+
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid #c69a64;
+    border-radius: 50%;
+
+    background: #fff;
+    color: #c69a64;
+    font-size: 16px;
+
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+    transition: background 0.3s ease,
+                color 0.3s ease;
+}
+
+.dome-addon-item:hover .dome-addon-icon {
+    background: #3d4b33;
+    border-color: #3d4b33;
+    color: #fff;
+}
+
+/* ITEM TITLE */
+
+.dome-addon-item h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #35442f;
+
+    margin: 0 auto;
+    max-width: 190px;
+    overflow-wrap: break-word;
+}
+
+.dome-addon-item h3 span {
+    display: block;
+}
+
+/* ===================================================
+   LARGE DESKTOP
+   Show all 7 items in one row where space allows
+=================================================== */
+
+@media (min-width: 1600px) {
+    .dome-addon-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .dome-addon-image-wrap {
+        width: 110px;
+        height: 110px;
+    }
+
+    .dome-addon-item h3 {
+        font-size: 14px;
+    }
+}
+
+/* ===================================================
+   TABLET
+=================================================== */
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .dome-addon-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 30px 15px;
+    }
+
+    .dome-addon-image-wrap {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* ===================================================
+   MOBILE
+=================================================== */
+
+@media (max-width: 575.98px) {
+    .dome-addon-section {
+        padding: 35px 0 40px;
+        margin: 0 0 15px;
+    }
+
+    .dome-addon-heading {
+        margin-bottom: 30px;
+        padding: 0 5px;
+    }
+
+    .dome-addon-subtitle {
+        font-size: 10px;
+        letter-spacing: 1.3px;
+    }
+
+    .dome-addon-heading h2 {
+        font-size: 28px;
+    }
+
+    .dome-addon-heading p {
+        font-size: 13px;
+    }
+
+    .dome-addon-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 14px;
+        row-gap: 30px;
+    }
+
+    .dome-addon-image-wrap {
+        width: 112px;
+        height: 112px;
+        margin-bottom: 14px;
+    }
+
+    .dome-addon-icon {
+        width: 36px;
+        height: 36px;
+        left: -12px;
+        font-size: 13px;
+    }
+
+    .dome-addon-item h3 {
+        font-size: 14px;
+        max-width: 145px;
+    }
+}
+
+@media (max-width: 359px) {
+    .dome-addon-image-wrap {
+        width: 95px;
+        height: 95px;
+    }
+
+    .dome-addon-item h3 {
+        font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dome-addon-item,
+    .dome-addon-image-wrap,
+    .dome-addon-icon {
+        transition: none;
+    }
+}
+{% comment %} add-on section css end  {% endcomment %}
+
 </style>
 
 <!-- preloader start-->
@@ -2896,6 +3176,163 @@
     </div>
 
 </div>
+
+
+<!-- ================================================
+     DOME ADD-ON EXPERIENCES SECTION
+================================================= -->
+
+<section class="dome-addon-section" aria-labelledby="domeAddonTitle">
+
+    <div class="dome-addon-heading">
+
+        <span class="dome-addon-subtitle">
+            RESORT FACILITIES & ADD-ONS
+        </span>
+
+        <div class="dome-addon-divider">
+            <span></span>
+            <i class="fa-solid fa-diamond"></i>
+            <span></span>
+        </div>
+
+        <h2 id="domeAddonTitle">
+            Everything for a Perfect Stay
+        </h2>
+
+        <p>
+            Discover our facilities and special experiences,
+            designed for relaxation, fun and memorable moments.
+        </p>
+
+    </div>
+
+    <div class="dome-addon-grid">
+
+        <!-- 01 RESTAURANT -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/restaurant.webp' %}"
+                    alt="Restaurant dining area"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-utensils"></i>
+                </span>
+            </div>
+
+            <h3>Restaurant</h3>
+        </div>
+
+        <!-- 02 SWIMMING POOL -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/swimming-pool.webp' %}"
+                    alt="Swimming pool with kids pool"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-water-ladder"></i>
+                </span>
+            </div>
+
+            <h3>Swimming Pool <span>with Kids Pool</span></h3>
+        </div>
+
+        <!-- 03 KIDS PLAY AREA -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/kids-play-area.webp' %}"
+                    alt="Outdoor kids play area"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-children"></i>
+                </span>
+            </div>
+
+            <h3>Kids Play Area</h3>
+        </div>
+
+        <!-- 04 BBQ -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/bbq.webp' %}"
+                    alt="Outdoor BBQ experience"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                </span>
+            </div>
+
+            <h3>BBQ</h3>
+        </div>
+
+        <!-- 05 HONEYMOON DECORATION -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/honeymoon.webp' %}"
+                    alt="Romantic honeymoon room decoration"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </span>
+            </div>
+
+            <h3>Honeymoon <span>Decoration</span></h3>
+        </div>
+
+        <!-- 06 CANDLE LIGHT DINNER -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/candle-dinner.webp' %}"
+                    alt="Romantic candle light dinner"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                </span>
+            </div>
+
+            <h3>Candle Light <span>Dinner</span></h3>
+        </div>
+
+        <!-- 07 CONFERENCE HALL -->
+        <div class="dome-addon-item">
+            <div class="dome-addon-image-wrap">
+                <img
+                    src="{% static 'assets/img/addons/conference.webp' %}"
+                    alt="Conference hall"
+                    loading="lazy"
+                >
+
+                <span class="dome-addon-icon">
+                    <i class="fa-solid fa-people-group"></i>
+                </span>
+            </div>
+
+            <h3>Conference Hall</h3>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- END DOME ADD-ON EXPERIENCES -->
 
 
 
