@@ -2393,6 +2393,117 @@
     }
 
 }
+
+
+/* ============================================
+   DOME FAQ — REFINED HEADING
+============================================ */
+
+.dome-details-faq .dome-details-faq-heading {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 0 34px;
+    text-align: left;
+}
+
+/* Small eyebrow with gold accent */
+
+.dome-details-faq .dome-faq-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 17px;
+
+    color: #a77d4c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.5;
+}
+
+.dome-details-faq .dome-faq-eyebrow-line {
+    display: block;
+    width: 30px;
+    height: 2px;
+    flex-shrink: 0;
+    background: #d4a373;
+}
+
+/* Main title */
+
+.dome-details-faq .dome-faq-main-title {
+    margin: 0 0 15px;
+
+    color: #35442f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(29px, 3vw, 42px);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.8px;
+
+    text-align: left;
+}
+
+.dome-details-faq .dome-faq-main-title span {
+    color: #a77d4c;
+}
+
+/* Description */
+
+.dome-details-faq .dome-faq-intro {
+    max-width: 620px;
+    margin: 0;
+
+    color: #70766c;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.dome-details-faq .dome-faq-intro strong {
+    color: #3d4b33;
+    font-weight: 600;
+}
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+    .dome-details-faq .dome-faq-main-title {
+        font-size: 34px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 575.98px) {
+    .dome-details-faq .dome-details-faq-heading {
+        margin-bottom: 26px;
+    }
+
+    .dome-details-faq .dome-faq-eyebrow {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        gap: 9px;
+        margin-bottom: 13px;
+    }
+
+    .dome-details-faq .dome-faq-eyebrow-line {
+        width: 22px;
+    }
+
+    .dome-details-faq .dome-faq-main-title {
+        font-size: clamp(27px, 7vw, 33px);
+        line-height: 1.22;
+        letter-spacing: -0.5px;
+        margin-bottom: 12px;
+    }
+
+    .dome-details-faq .dome-faq-intro {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
 {% comment %} faq css end  {% endcomment %}
 
 </style>
@@ -2768,20 +2879,16 @@
     <!-- FAQ HEADING -->
     <div class="dome-details-faq-heading">
 
-        <div class="common-subtitle">
-            <span>Frequently Asked Questions</span>
-        </div>
-
-        <div class="common-title">
-            <h2>Everything You Need to Know</h2>
-        </div>
-
-        <p>
-            Find helpful information about your stay at
-            {{ dome.name }}.
-        </p>
-
+    <div class="dome-faq-eyebrow">
+        <span class="dome-faq-eyebrow-line"></span>
+        <span>FREQUENTLY ASKED QUESTIONS</span>
     </div>
+
+    <h2 class="dome-faq-main-title">
+        Everything You Need <span>to Know.</span>
+    </h2>
+
+</div>
 
 
     <!-- FAQ ACCORDION -->
