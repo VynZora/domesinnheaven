@@ -2506,6 +2506,37 @@
 }
 {% comment %} faq css end  {% endcomment %}
 
+
+{% comment %} layout fixing css start {% endcomment %}
+/* Stack the sidebar below the content on tablet and mobile */
+@media (max-width: 991.98px) {
+
+    .dome-details-section .details-layout-wrap {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 40px;
+    }
+
+    .dome-details-section .details-content,
+    .dome-details-section .detail-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 auto !important;
+        height: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .dome-details-section .detail-sidebar-inner {
+        position: static !important;
+        top: auto !important;
+        width: 100% !important;
+    }
+}
+
+{% comment %} layout fixing css end  {% endcomment %}
+
 </style>
 
 <!-- preloader start-->
@@ -3547,7 +3578,7 @@
                      data-aos-duration="900">
 
                     <img
-                        src="{% static 'assets/img/dome-features/06-king-beds.jpg' %}"
+                        src="{% static 'assets/img/dome-features/06-king-beds.webp' %}"
                         alt="Two king size beds inside the dome"
                         loading="lazy"
                     >
@@ -3872,65 +3903,76 @@
 
 
             <!-- =====================================================
-                 12 — SPACIOUS BATHROOM
-            ====================================================== -->
+     12 — SPACIOUS BATHROOM
+     Includes Hair Dryer and Toiletries
+====================================================== -->
 
-            <div class="dome-feature-item feature-right">
+<div class="dome-feature-item feature-right">
 
-                <div class="feature-content"
-                     data-aos="fade-right"
-                     data-aos-duration="900">
+    <!-- CONTENT -->
+    <div class="feature-content"
+         data-aos="fade-right"
+         data-aos-duration="900">
 
-                    <span class="feature-number">12</span>
+        <span class="feature-number">12</span>
 
-                    <h3>Spacious Bathroom</h3>
+        <h3>Spacious Bathroom</h3>
 
-                    <p>
-                        Freshen up in a spacious bathroom designed
-                        to complement the comfort of your dome stay.
-                    </p>
+        <p>
+            Refresh and unwind in a spacious, thoughtfully
+            designed bathroom featuring modern amenities,
+            essential toiletries, and a hair dryer for
+            a comfortable and convenient stay.
+        </p>
 
-                    <div class="feature-tags">
+        <div class="feature-tags">
 
-                        <span>
-                            <i class="fa-solid fa-shower"></i>
-                            Spacious Bathroom
-                        </span>
+            <span>
+                <i class="fa-solid fa-shower"></i>
+                Spacious Bathroom
+            </span>
 
-                        <span>
-                            <i class="fa-solid fa-droplet"></i>
-                            Modern Comfort
-                        </span>
+            <span>
+                <i class="fa-solid fa-wind"></i>
+                Hair Dryer
+            </span>
 
-                    </div>
+            <span>
+                <i class="fa-solid fa-pump-soap"></i>
+                Toiletries
+            </span>
 
-                </div>
+        </div>
 
-
-                <div class="feature-timeline-center">
-
-                    <span class="feature-dot">
-                        <i class="fa-solid fa-shower"></i>
-                    </span>
-
-                </div>
+    </div>
 
 
-                <div class="feature-image"
-                     data-aos="fade-left"
-                     data-aos-duration="900">
+    <!-- TIMELINE ICON -->
+    <div class="feature-timeline-center">
 
-                    <img
-                        src="{% static 'assets/img/dome-features/12-bathroom.webp' %}"
-                        alt="Spacious bathroom at Domes Inn Heaven"
-                        loading="lazy"
-                    >
+        <span class="feature-dot">
+            <i class="fa-solid fa-shower"></i>
+        </span>
 
-                    <span class="feature-image-number">12</span>
+    </div>
 
-                </div>
 
-            </div>
+    <!-- IMAGE -->
+    <div class="feature-image"
+         data-aos="fade-left"
+         data-aos-duration="900">
+
+        <img
+            src="{% static 'assets/img/dome-features/12-bathroom.webp' %}"
+            alt="Spacious bathroom with toiletries and hair dryer at Domes Inn Heaven"
+            loading="lazy"
+        >
+
+        <span class="feature-image-number">12</span>
+
+    </div>
+
+</div>
 
 
 
@@ -3938,7 +3980,7 @@
                  13 — HAIR DRYER
             ====================================================== -->
 
-            <div class="dome-feature-item feature-left">
+            {% comment %} <div class="dome-feature-item feature-left">
 
                 <div class="feature-image"
                      data-aos="fade-right"
@@ -3988,14 +4030,14 @@
 
                 </div>
 
-            </div>
+            </div> {% endcomment %}
 
 
 
             <!-- =====================================================
                  14 — TOILETRIES
             ====================================================== -->
-
+{% comment %} 
             <div class="dome-feature-item feature-right">
 
                 <div class="feature-content"
@@ -4051,7 +4093,7 @@
 
                 </div>
 
-            </div>
+            </div> {% endcomment %}
 
 
         </div>
