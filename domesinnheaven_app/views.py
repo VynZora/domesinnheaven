@@ -1352,63 +1352,66 @@ def dome_type_update(request, pk):
 
 
     # =============================================================
-    # UPDATE FAQS
-    # =============================================================
+# UPDATE MULTIPLE FAQS
+# =============================================================
 
-    faq_questions = request.POST.getlist(
-        "faq_question[]"
-    )
+    faq_questions = request.POST.getlist("faq_question[]")
+    faq_answers = request.POST.getlist("faq_answer[]")
 
-    faq_answers = request.POST.getlist(
-        "faq_answer[]"
-    )
+# Make sure each question has a matching answer
+    if len(faq_questions) != len(faq_answers):
+        messages.error(
+        request,
+        "FAQ data is incomplete. Please try again."
+       )
+        return redirect("admin_dome_type_list")
 
+    faq_data = []
 
-    # -------------------------------------------------------------
-    # Remove the old FAQ records
-    # -------------------------------------------------------------
-    #
-    # The current form sends the complete FAQ list.
-    # Therefore recreate them from the submitted form.
-    # -------------------------------------------------------------
-
-    dome.faqs.all().delete()
-
-
-    # -------------------------------------------------------------
-    # Create current FAQ records
-    # -------------------------------------------------------------
-
-    for index, question in enumerate(
-        faq_questions
-    ):
-
+    for question, answer in zip(faq_questions, faq_answers):
         question = question.strip()
+        answer = answer.strip()
 
-        answer = ""
-
-        if index < len(faq_answers):
-
-            answer = faq_answers[index].strip()
-
-
-        # Ignore completely empty FAQ rows
-
+    # Ignore completely empty FAQ rows
         if not question and not answer:
             continue
 
+    # Do not silently discard incomplete FAQs
+        if not question or not answer:
+           messages.error(
+            request,
+            "Every FAQ must have both a question and an answer."
+          )
+           return redirect("admin_dome_type_list")
 
-        # Save complete FAQ
+        if len(question) > 255:
+            messages.error(
+            request,
+            "FAQ questions cannot exceed 255 characters."
+           )
+            return redirect("admin_dome_type_list")
 
-        if question and answer:
+        faq_data.append((question, answer))
 
-            DomeFAQ.objects.create(
-                dome_type=dome,
-                question=question,
-                answer=answer,
-                order=index,
-                is_active=True,
-            )
+
+# Save FAQs together in a database transaction
+    from django.db import transaction
+
+    with transaction.atomic():
+
+    # Delete old FAQ records only after validating the new list
+        DomeFAQ.objects.filter(dome_type=dome).delete()
+
+    # Save all submitted FAQs
+        for index, (question, answer) in enumerate(faq_data):
+
+           DomeFAQ.objects.create(
+              dome_type=dome,
+               question=question,
+              answer=answer,
+              order=index,
+              is_active=True,
+        )
 
 
     # =============================================================
