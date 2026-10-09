@@ -11,6 +11,7 @@ from django.conf import settings
 from django.db.models import Q
 import requests
 from urllib.parse import quote
+from bs4 import BeautifulSoup
 
 from .forms import (
     BlogForm,
@@ -99,14 +100,163 @@ def services(request):
     })
 
 
+# def services_details(request, slug):
+
+#     dome = get_object_or_404(
+#         DomeType.objects.prefetch_related("images", "faqs"),
+#         slug=slug,
+#     )
+
+#     recent_domes = (
+#         DomeType.objects
+#         .exclude(pk=dome.pk)
+#         .order_by("-created_at")[:5]
+#     )
+
+#     # Parse the existing rich-text description.
+    
+# # ==========================================
+# # DYNAMIC DESCRIPTION HIGHLIGHTS
+# # Supports any number of bullet points
+# # ==========================================
+
+#     soup = BeautifulSoup(
+#         dome.description or "",
+#         "html.parser"
+#     )
+
+#     description_highlights = []
+
+#     icons = [
+#         "fa-mountain-sun",
+#          "fa-bed",
+#        "fa-bath",
+#         "fa-water-ladder",
+#         "fa-utensils",
+#         "fa-leaf",
+#         "fa-star",
+#         "fa-check",
+#     ]
+
+# # Find bullet lists in the description
+#     for ul in soup.find_all("ul"):
+
+#         items = ul.find_all("li", recursive=False)
+
+#         if not items:
+#            continue
+
+#     # Convert every bullet point into a highlight
+#         for item in items:
+
+#             title = item.get_text(" ", strip=True)
+
+#             if not title:
+#                continue
+
+#             index = len(description_highlights)
+
+#             description_highlights.append({
+#             "title": title,
+#             "icon": icons[index % len(icons)],
+#         })
+
+#     # Remove only the converted list
+#         ul.decompose()
+
+# # Preserve remaining description content
+#     description_html = str(soup)
+
+
+#     return render(
+#         request,
+#         "frontend/dome-unit-details.html",
+#         {
+#             "dome": dome,
+#             "recent_domes": recent_domes,
+#             "description_html": description_html,
+#             "description_highlights": description_highlights,
+#         },
+#     )
+
+
+
+def get_dome_highlight_icon(title):
+    """
+    Select the correct Font Awesome icon
+    based on the description point.
+    """
+
+    text = " ".join(title.lower().split())
+
+    # Meal plans — check these before generic words
+    if "map plan" in text or "modified american plan" in text:
+        return "fa-utensils"
+
+    if "cp plan" in text or "continental plan" in text:
+        return "fa-mug-hot"
+
+    # Jacuzzi
+    if any(word in text for word in (
+        "jacuzzi",
+        "hot tub",
+        "whirlpool",
+    )):
+        return "fa-hot-tub-person"
+
+    # Patio and plantation views
+    if any(word in text for word in (
+        "patio",
+        "cardamom",
+        "plantation",
+        "panoramic",
+        "mountain view",
+        "valley view",
+        "balcony",
+    )):
+        return "fa-mountain-sun"
+
+    # Bathroom
+    if any(word in text for word in (
+        "bathroom",
+        "bath",
+        "toiletries",
+        "shower",
+    )):
+        return "fa-bath"
+
+    # Luxury interiors
+    if any(word in text for word in (
+        "eco-luxe",
+        "interior",
+        "luxury",
+        "premium",
+        "bedroom",
+        "king bed",
+    )):
+        return "fa-bed"
+
+    # Other useful icons
+    if "wifi" in text or "internet" in text:
+        return "fa-wifi"
+
+    if "parking" in text:
+        return "fa-car"
+
+    if "air conditioning" in text:
+        return "fa-snowflake"
+
+    if "nature" in text or "forest" in text:
+        return "fa-leaf"
+
+    # Default icon for any new, unmatched point
+    return "fa-circle-check"
+
 
 def services_details(request, slug):
 
     dome = get_object_or_404(
-        DomeType.objects.prefetch_related(
-            "images",
-            "faqs",
-        ),
+        DomeType.objects.prefetch_related("images", "faqs"),
         slug=slug,
     )
 
@@ -116,13 +266,52 @@ def services_details(request, slug):
         .order_by("-created_at")[:5]
     )
 
+    # ==========================================
+    # DYNAMIC DESCRIPTION HIGHLIGHTS
+    # ==========================================
+
+    soup = BeautifulSoup(
+        dome.description or "",
+        "html.parser"
+    )
+
+    description_highlights = []
+
+    # Convert bullet lists into individual cards
+    for ul in soup.find_all("ul"):
+
+        items = ul.find_all("li", recursive=False)
+
+        if not items:
+            continue
+
+        for item in items:
+
+            title = item.get_text(" ", strip=True)
+
+            if not title:
+                continue
+
+            description_highlights.append({
+                "title": title,
+                "icon": get_dome_highlight_icon(title),
+            })
+
+        # Remove converted list from normal description
+        ul.decompose()
+
+    # Keep remaining rich-text description
+    description_html = str(soup)
+
     return render(
         request,
         "frontend/dome-unit-details.html",
         {
             "dome": dome,
             "recent_domes": recent_domes,
-        }
+            "description_html": description_html,
+            "description_highlights": description_highlights,
+        },
     )
 
 

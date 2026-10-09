@@ -2817,6 +2817,168 @@
 }
 {% comment %} add-on section css end  {% endcomment %}
 
+
+
+
+{% comment %} description css start {% endcomment %}
+
+/* ==========================================
+   DYNAMIC DOME DESCRIPTION HIGHLIGHTS
+========================================== */
+
+.stay-highlights {
+    width: 100%;
+    margin: 34px 0 45px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.stay-highlights-heading {
+    margin-bottom: 25px;
+}
+
+.stay-highlights-eyebrow {
+    display: block;
+    margin-bottom: 9px;
+    color: #c69565;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.stay-highlights-heading h3 {
+    margin: 0 0 8px;
+    color: #004b43;
+    font-size: clamp(23px, 2.5vw, 30px);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.stay-highlights-heading p {
+    margin: 0;
+    color: #74786e;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.stay-highlights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stay-highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    min-height: 82px;
+    padding: 14px 18px;
+    background: #fffdf9;
+    border: 1px solid #eae5db;
+    border-radius: 13px;
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.stay-highlight-item:hover {
+    transform: translateY(-2px);
+    border-color: #d4a373;
+    box-shadow: 0 9px 25px rgba(61,75,51,0.07);
+}
+
+.stay-highlight-icon {
+    display: flex;
+    flex: 0 0 52px;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #3d4b33;
+    color: white;
+    font-size: 19px;
+}
+
+.stay-highlight-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.stay-highlight-text h4 {
+    margin: 0;
+    color: #263c32;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.stay-highlight-number {
+    flex-shrink: 0;
+    margin-left: auto;
+    color: #d4a373;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* TABLET */
+@media (max-width: 991.98px) {
+    .stay-highlights {
+         padding: 0;
+    }
+
+    .stay-highlight-item {
+        gap: 14px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 575.98px) {
+    .stay-highlights {
+        padding: 0;
+        border-radius: 14px;
+    }
+
+    .stay-highlights-heading h3 {
+        font-size: 23px;
+    }
+
+    .stay-highlight-item {
+        padding: 12px;
+        gap: 12px;
+        min-height: 70px;
+    }
+
+    .stay-highlight-icon {
+        flex-basis: 43px;
+        width: 43px;
+        height: 43px;
+        font-size: 16px;
+    }
+
+    .stay-highlight-text h4 {
+        font-size: 14px;
+    }
+
+    .stay-highlight-number {
+        font-size: 12px;
+    }
+}
+
+/* Remove outer background and border */
+.dome-description-highlights,
+.dome-description-highlights-wrapper {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+{% comment %} description css end  {% endcomment %}
+
 </style>
 
 <!-- preloader start-->
@@ -3012,7 +3174,7 @@
                                 <p class="m-0" style="color: var(--theme-color); font-weight: 500;">
                                     Check-in: <strong>{{ dome.check_in }}</strong> &nbsp; | &nbsp; Check-out: <strong>{{ dome.check_out }}</strong>
                                 </p>
-                            </div> {% endcomment %}
+                            </div>  {% endcomment %}
 
 {% if dome.package_items or dome.facilities %}
 
@@ -3090,9 +3252,61 @@
 {% endif %}
 
 
+
+<!-- DOME DESCRIPTION: NORMAL TEXT + DYNAMIC HIGHLIGHTS -->
+
+{% if description_html|striptags|cut:" " %}
 <div class="detail-text m-b-40">
-    {{ dome.description|safe }}
+    {{ description_html|safe }}
 </div>
+{% endif %}
+
+{% if description_highlights %}
+
+<section class="stay-highlights" aria-labelledby="stayHighlightsTitle">
+
+    <div class="stay-highlights-heading">
+
+        <h3 id="stayHighlightsTitle">
+            What Makes This Stay Special
+        </h3>
+
+        <p>
+            Thoughtfully designed comforts, surrounded by nature.
+        </p>
+    </div>
+
+    <div class="stay-highlights-list">
+
+        {% for point in description_highlights %}
+
+        <div class="stay-highlight-item">
+
+            <div class="stay-highlight-icon">
+                <i class="fa-solid {{ point.icon }}"
+                   aria-hidden="true"></i>
+            </div>
+
+            <div class="stay-highlight-text">
+                <h4>{{ point.title }}</h4>
+            </div>
+
+            <span class="stay-highlight-number">
+                {{ forloop.counter|stringformat:"02d" }}
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+<!-- END DYNAMIC STAY HIGHLIGHTS -->
+
 
 
 <!-- =====================================================
