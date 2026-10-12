@@ -1864,171 +1864,226 @@
 /* =========================================================
    SIMPLE DESCRIPTION HIGHLIGHT CARDS
 ========================================================= */
+/* =====================================================
+   PREMIUM DOME EXPERIENCE CARDS
+   INSPIRED BY IMAGE-FIRST EXPERIENCE CARDS
+===================================================== */
 
 .dome-highlight-cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-
-    margin-top: 10px;
-    margin-bottom: 40px;
+    gap: 22px;
+    margin: 35px 0 65px;
+    align-items: stretch;
 }
 
-
-/* CARD */
+/* MAIN CARD */
 
 .dome-highlight-card {
     position: relative;
-
-    min-height: 215px;
-
-    padding: 25px 20px 22px;
-
-    background: #f8f7f0;
-
-    border: 1px solid #eee9df;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    padding: 14px;
+    background: #365344;
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 14px;
+    overflow: hidden;
 
     transition:
-        transform .3s ease,
-        box-shadow .3s ease,
-        border-color .3s ease;
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
 }
-
 
 .dome-highlight-card:hover {
-    transform: translateY(-5px);
-
-    border-color: rgba(212, 163, 115, .45);
-
-    box-shadow:
-        0 14px 35px rgba(61, 75, 51, .10);
+    transform: translateY(-7px);
+    background: #2c493b;
+    box-shadow: 0 18px 35px rgba(30, 55, 42, .18);
 }
 
+/* IMAGE AREA */
 
-/* ICON */
-
-.dome-highlight-icon {
-    width: 46px;
-    height: 46px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 22px;
-
-    border-radius: 50%;
-
-    background: #3D4B33;
-    color: #fff;
-
-    font-size: 17px;
+.dome-highlight-image {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+    border-radius: 9px;
+    background: #e7e5da;
 }
 
+.dome-highlight-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
 
-/* NUMBER */
+.dome-highlight-card:hover .dome-highlight-image img {
+    transform: scale(1.06);
+}
+
+/* CARD NUMBER */
 
 .dome-highlight-number {
     position: absolute;
-
-    top: 26px;
-    right: 20px;
-
-    color: #d4a373;
-
-    font-family: Georgia, serif;
-    font-size: 16px;
-    font-weight: 700;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 7px 12px;
+    background: #f8edda;
+    border-radius: 5px;
+    color: #35503d;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
+/* CONTENT AREA */
 
-/* TITLE */
+.dome-highlight-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px 5px 6px;
+}
 
 .dome-highlight-content h4 {
-    margin: 0 0 10px;
-
-    color: #253024;
-
-    font-size: 18px;
-    line-height: 1.35;
+    margin: 0 0 13px;
+    color: #fff8e8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
     font-weight: 700;
+    line-height: 1.35;
 }
-
-
-/* DESCRIPTION */
 
 .dome-highlight-content p {
-    margin: 0;
-
-    color: #6a7067;
-
-    font-size: 13px;
-    line-height: 1.65;
+    margin: 0 0 24px;
+    color: #e5e8dc;
+    font-size: 14px;
+    line-height: 1.75;
 }
 
+/* EXPLORE BUTTON */
 
-/* Small gold detail */
+.dome-highlight-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 11px 16px;
+    border-radius: 6px;
+    background: #d4a373;
+    color: #243d30;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-decoration: none;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        gap .25s ease;
+}
+
+.dome-highlight-link:hover {
+    background: #fff1d8;
+    color: #243d30;
+    gap: 15px;
+}
+
+.dome-highlight-link i {
+    font-size: 12px;
+}
+
+/* REMOVE OLD BOTTOM GOLD LINE */
 
 .dome-highlight-card::after {
-    content: "";
-
-    position: absolute;
-
-    left: 20px;
-    bottom: 0;
-
-    width: 38px;
-    height: 3px;
-
-    background: #d4a373;
-
-    border-radius: 3px 3px 0 0;
-
-    transition: width .3s ease;
+    display: none;
 }
 
-.dome-highlight-card:hover::after {
-    width: 70px;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
+/* TABLET */
 
 @media (max-width: 991.98px) {
-
     .dome-highlight-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
     }
 
+    .dome-highlight-image {
+        height: 210px;
+    }
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
+/* MOBILE */
 
 @media (max-width: 575.98px) {
-
     .dome-highlight-cards {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 18px;
+        margin: 25px 0 45px;
     }
 
     .dome-highlight-card {
-        min-height: auto;
-        padding: 20px;
+        padding: 12px;
     }
 
-    .dome-highlight-icon {
-        width: 42px;
-        height: 42px;
-        margin-bottom: 16px;
+    .dome-highlight-image {
+        height: 220px;
+    }
+
+    .dome-highlight-content {
+        padding: 20px 6px 8px;
+    }
+
+    .dome-highlight-content h4 {
+        font-size: 20px;
+    }
+
+    .dome-highlight-content p {
+        font-size: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dome-highlight-card,
+    .dome-highlight-image img,
+    .dome-highlight-link {
+        transition: none;
+    }
+}
+
+
+/* =====================================================
+   FIX EXTRA SPACE BETWEEN DOME FEATURES AND 3 CARDS
+   DESKTOP ONLY
+===================================================== */
+
+@media (min-width: 992px) {
+
+    /* Reduce reserved height below the dome */
+    .dome-static-facilities .dsf-layout {
+        aspect-ratio: 1000 / 570;
+    }
+
+    /* Reduce bottom spacing of facilities section */
+    .dome-static-facilities {
+        margin-bottom: 15px;
+        padding-bottom: 0;
+    }
+
+    /* Bring the three cards closer */
+    .dome-highlight-cards {
+        margin-top: 10px;
     }
 
 }
+
+
 
 {% comment %} description 3 cards css end  {% endcomment %}
 
@@ -5405,6 +5460,23 @@
 
 
 
+<!-- =====================================================
+     DOME DESCRIPTION - CONNECTED EXPERIENCE DESIGN
+===================================================== -->
+
+<div class="dome-description-pattern-wrap">
+
+    {% if description_html|striptags|cut:" " %}
+    <div class="detail-text m-b-40">
+        {{ description_html|safe }}
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- END DOME DESCRIPTION -->                            
+
+
 
 <!-- STATIC DOME FACILITIES SHOWCASE - START -->
 
@@ -5636,46 +5708,30 @@
 
 
 
-
-<!-- =====================================================
-     DOME DESCRIPTION - CONNECTED EXPERIENCE DESIGN
-===================================================== -->
-
-<div class="dome-description-pattern-wrap">
-
-    {% if description_html|striptags|cut:" " %}
-    <div class="detail-text m-b-40">
-        {{ description_html|safe }}
-    </div>
-    {% endif %}
-
-</div>
-
-<!-- END DOME DESCRIPTION -->
-
-
-
-
 <!-- =====================================================
      DOME HIGHLIGHT CARDS
 ====================================================== -->
+<!-- =====================================================
+     PREMIUM DOME EXPERIENCE CARDS
+===================================================== -->
 
 <div class="dome-highlight-cards">
 
-    <!-- CARD 01 -->
-    <div class="dome-highlight-card">
+    <!-- CARD 01: PRIVATE PATIO -->
+    <article class="dome-highlight-card">
 
-        <div class="dome-highlight-icon">
-            <i class="fa-regular fa-tree"></i>
+        <div class="dome-highlight-image">
+            <img
+                src="{% static 'assets/img/dome-highlights/private-patio.webp' %}"
+                alt="Private patio with cardamom plantation views"
+                loading="lazy"
+            >
+           
         </div>
 
         <div class="dome-highlight-content">
 
-            <span class="dome-highlight-number">01</span>
-
-            <h4>
-                Private Patio with Cardamom Plantation Views
-            </h4>
+            <h4>Private Patio with Cardamom Plantation Views</h4>
 
             <p>
                 600 sq. ft. private patio opening towards the
@@ -5684,23 +5740,23 @@
 
         </div>
 
-    </div>
+    </article>
 
 
-    <!-- CARD 02 -->
-    <div class="dome-highlight-card">
+    <!-- CARD 02: INTERIORS -->
+    <article class="dome-highlight-card">
 
-        <div class="dome-highlight-icon">
-            <i class="fa-regular fa-bed"></i>
+        <div class="dome-highlight-image">
+            <img
+                src="{% static 'assets/img/dome-highlights/eco-luxe-interior.webp' %}"
+                alt="Premium eco-luxe dome interiors"
+                loading="lazy"
+            >
         </div>
 
         <div class="dome-highlight-content">
 
-            <span class="dome-highlight-number">02</span>
-
-            <h4>
-                Premium Eco-Luxe Interiors
-            </h4>
+            <h4>Premium Eco-Luxe Interiors</h4>
 
             <p>
                 650 sq. ft. of air-conditioned interior space with
@@ -5709,34 +5765,35 @@
 
         </div>
 
-    </div>
+    </article>
 
 
-    <!-- CARD 03 -->
-    <div class="dome-highlight-card">
+    <!-- CARD 03: AMENITIES -->
+    <article class="dome-highlight-card">
 
-        <div class="dome-highlight-icon">
-            <i class="fa-regular fa-sparkles"></i>
+        <div class="dome-highlight-image">
+            <img
+                src="{% static 'assets/img/dome-highlights/modern-amenities.webp' %}"
+                alt="Modern amenities at Domes Inn Heaven"
+                loading="lazy"
+            >
+           
         </div>
 
         <div class="dome-highlight-content">
 
-            <span class="dome-highlight-number">03</span>
-
-            <h4>
-                Modern Amenities for a Comfortable Stay
-            </h4>
+            <h4>Modern Amenities for a Comfortable Stay</h4>
 
             <p>
                 Smart TV, high-speed Wi-Fi, pantry, mini refrigerator,
                 spacious bathroom, toiletries and hair dryer.
             </p>
-
         </div>
 
-    </div>
+    </article>
 
 </div>
+
 
 
 <!-- ================================================
@@ -5994,40 +6051,112 @@
 						<div class="detail-sidebar">
 							<div class="detail-sidebar-inner">
                                 <!-- Info Widget -->
-								<div class="s-widget-wrap m-b-30">
-									<div class="w-title">
-										<h3>Stay Information</h3>
-										<div class="bar-wrap">
-											<div class="bar-1"></div>
-											<div class="bar-2"></div>
-										</div>
-									</div>
-									<div class="project-info-wrap">
-										<div class="project-info">
-											<div class="icon">
-												<i class="fa-solid fa-indian-rupee-sign"></i>
-											</div>
-											<div class="key-value">
-												<div class="key"><p>Starting From</p></div>
-												<div class="value"><h6>₹{{ dome.normal_price|default:'0' }}</h6></div>
-											</div>
-										</div>
-										<div class="project-info">
-											<div class="icon">
-												<i class="fa-regular fa-clock"></i>
-											</div>
-											<div class="key-value">
-												<div class="key"><p>Check-in</p></div>
-												<div class="value"><h6>{{ dome.check_in }}</h6></div>
-											</div>
-										</div>
-										<div class="project-info">
-											<div class="icon">
-												<i class="fa-regular fa-calendar-check"></i>
-											</div>
-										</div>
-									</div>
-								</div>
+								
+
+{% if dome.normal_price or dome.check_in or dome.available_date %}
+
+<div class="s-widget-wrap m-b-30">
+
+    <!-- CARD HEADING -->
+    <div class="w-title">
+        <h3>Stay Information</h3>
+
+        <div class="bar-wrap">
+            <div class="bar-1"></div>
+            <div class="bar-2"></div>
+        </div>
+    </div>
+
+    <div class="project-info-wrap">
+
+        <!-- ========================================
+             PRICE - SHOW ONLY IF GREATER THAN ZERO
+        ========================================= -->
+        {% if dome.normal_price and dome.normal_price > 0 %}
+
+        <div class="project-info">
+
+            <div class="icon">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+            </div>
+
+            <div class="key-value">
+
+                <div class="key">
+                    <p>Starting From</p>
+                </div>
+
+                <div class="value">
+                    <h6>₹{{ dome.normal_price }}</h6>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ========================================
+             CHECK-IN - SHOW ONLY IF AVAILABLE
+        ========================================= -->
+        {% if dome.check_in %}
+
+        <div class="project-info">
+
+            <div class="icon">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+
+            <div class="key-value">
+
+                <div class="key">
+                    <p>Check-in</p>
+                </div>
+
+                <div class="value">
+                    <h6>{{ dome.check_in }}</h6>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ========================================
+             CALENDAR - SHOW ONLY IF DATE EXISTS
+        ========================================= -->
+        {% if dome.available_date %}
+
+        <div class="project-info">
+
+            <div class="icon">
+                <i class="fa-regular fa-calendar-check"></i>
+            </div>
+
+            <div class="key-value">
+
+                <div class="key">
+                    <p>Available Date</p>
+                </div>
+
+                <div class="value">
+                    <h6>{{ dome.available_date|date:"d M Y" }}</h6>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endif %}                                
 
                                 <!-- Booking Widget -->
                                 <div class="s-widget-wrap m-b-30" style="background: #f8f9fa; border: 1px solid #eee;">
@@ -6041,7 +6170,7 @@
                                     <div class="p-t-10">
                                         <p class="m-b-20" style="font-size: 14px; line-height: 1.6;">Secure your luxury dome experience today. We offer a seamless booking process and instant confirmation.</p>
                                         <a href="{% url 'booking' %}" class="e-primary-btn has-icon w-100 justify-content-center">
-                                            Book Now
+                                            Enquire Now
                                             <span class="icon-wrap">
                                                 <span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span>
                                             </span>
@@ -7299,8 +7428,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+<!-- =====================================================
+     DOME GALLERY - AUTOMATIC IMAGE SLIDER
+===================================================== -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+    const gallery = document.querySelector(".dome-gallery");
 
     const mainImage = document.getElementById("domeGalleryMainImage");
 
@@ -7311,138 +7445,241 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevButton = document.getElementById("domeGalleryPrev");
     const nextButton = document.getElementById("domeGalleryNext");
 
-
-    if (!mainImage || thumbnails.length === 0) {
+    if (!gallery || !mainImage || thumbnails.length === 0) {
         return;
     }
 
+    // =============================================
+    // SETTINGS
+    // =============================================
+
+    const slideInterval = 4000; // Change image every 4 seconds
+    const fadeDuration = 250;
 
     let currentIndex = 0;
+    let autoSlide = null;
+    let fadeTimeout = null;
 
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-    // =====================================================
-    // SHOW IMAGE
-    // =====================================================
+    // =============================================
+    // SHOW SELECTED IMAGE
+    // =============================================
 
     function showImage(index) {
 
-        if (index < 0) {
-            index = thumbnails.length - 1;
-        }
-
-        if (index >= thumbnails.length) {
-            index = 0;
-        }
-
-        currentIndex = index;
+        currentIndex =
+            (index + thumbnails.length) % thumbnails.length;
 
         const selectedThumbnail = thumbnails[currentIndex];
-
         const imageUrl = selectedThumbnail.dataset.image;
 
+        if (!imageUrl) return;
 
-        // Small fade effect
-        mainImage.style.opacity = "0";
+        clearTimeout(fadeTimeout);
 
+        mainImage.style.opacity = prefersReducedMotion ? "1" : "0";
 
-        setTimeout(function () {
+        fadeTimeout = setTimeout(function () {
 
             mainImage.src = imageUrl;
-
             mainImage.style.opacity = "1";
 
-        }, 150);
+        }, prefersReducedMotion ? 0 : fadeDuration);
 
+        // Update active thumbnail
+        thumbnails.forEach(function (thumbnail, i) {
 
-        // Remove active state
-        thumbnails.forEach(function (thumbnail) {
-
-            thumbnail.classList.remove("active");
+            thumbnail.classList.toggle(
+                "active",
+                i === currentIndex
+            );
 
         });
 
+        // Move thumbnail strip to selected thumbnail
+        const strip = selectedThumbnail.parentElement;
 
-        // Set current thumbnail active
-        selectedThumbnail.classList.add("active");
+        const targetLeft =
+            selectedThumbnail.offsetLeft -
+            strip.offsetLeft -
+            (strip.clientWidth - selectedThumbnail.offsetWidth) / 2;
 
-
-        // Automatically scroll thumbnail into view
-        selectedThumbnail.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
+        strip.scrollTo({
+            left: targetLeft,
+            behavior: prefersReducedMotion ? "instant" : "smooth"
         });
-
     }
 
+    // =============================================
+    // STOP AUTO SLIDER
+    // =============================================
 
-    // =====================================================
+    function stopAutoSlide() {
+
+        if (autoSlide !== null) {
+            clearInterval(autoSlide);
+            autoSlide = null;
+        }
+    }
+
+    // =============================================
+    // START AUTO SLIDER
+    // =============================================
+
+    function startAutoSlide() {
+
+        stopAutoSlide();
+
+        if (
+            thumbnails.length < 2 ||
+            prefersReducedMotion ||
+            document.hidden
+        ) {
+            return;
+        }
+
+        autoSlide = setInterval(function () {
+
+            showImage(currentIndex + 1);
+
+        }, slideInterval);
+    }
+
+    // =============================================
     // THUMBNAIL CLICK
-    // =====================================================
+    // =============================================
 
     thumbnails.forEach(function (thumbnail, index) {
 
         thumbnail.addEventListener("click", function () {
 
             showImage(index);
+            stopAutoSlide();
 
         });
 
     });
 
-
-    // =====================================================
-    // PREVIOUS
-    // =====================================================
+    // =============================================
+    // PREVIOUS BUTTON
+    // =============================================
 
     if (prevButton) {
 
         prevButton.addEventListener("click", function () {
 
             showImage(currentIndex - 1);
+            stopAutoSlide();
 
         });
 
     }
 
-
-    // =====================================================
-    // NEXT
-    // =====================================================
+    // =============================================
+    // NEXT BUTTON
+    // =============================================
 
     if (nextButton) {
 
         nextButton.addEventListener("click", function () {
 
             showImage(currentIndex + 1);
+            stopAutoSlide();
 
         });
 
     }
 
+    // =============================================
+    // PAUSE ON HOVER
+    // =============================================
 
-    // =====================================================
+    gallery.addEventListener("mouseenter", function () {
+
+        stopAutoSlide();
+
+    });
+
+    gallery.addEventListener("mouseleave", function () {
+
+        if (!gallery.contains(document.activeElement)) {
+            startAutoSlide();
+        }
+
+    });
+
+    // =============================================
+    // PAUSE ON KEYBOARD FOCUS
+    // =============================================
+
+    gallery.addEventListener("focusin", stopAutoSlide);
+
+    gallery.addEventListener("focusout", function (event) {
+
+        if (!gallery.contains(event.relatedTarget)) {
+            startAutoSlide();
+        }
+
+    });
+
+    // =============================================
     // KEYBOARD NAVIGATION
-    // =====================================================
+    // =============================================
 
     document.addEventListener("keydown", function (event) {
 
+        if (!gallery.contains(document.activeElement)) {
+            return;
+        }
+
         if (event.key === "ArrowLeft") {
 
+            event.preventDefault();
             showImage(currentIndex - 1);
+            stopAutoSlide();
 
         }
 
         if (event.key === "ArrowRight") {
 
+            event.preventDefault();
             showImage(currentIndex + 1);
+            stopAutoSlide();
 
         }
 
     });
 
+    // =============================================
+    // PAUSE WHEN TAB IS HIDDEN
+    // =============================================
+
+    document.addEventListener("visibilitychange", function () {
+
+        if (document.hidden) {
+            stopAutoSlide();
+        } else if (
+            !gallery.matches(":hover") &&
+            !gallery.contains(document.activeElement)
+        ) {
+            startAutoSlide();
+        }
+
+    });
+
+    // =============================================
+    // INITIALIZE
+    // =============================================
+
+    startAutoSlide();
+
 });
 </script>
+
+
 
 {% comment %} sticky js start {% endcomment %}
 <script>
