@@ -1861,228 +1861,385 @@
 
 
 {% comment %} description 3 cards css start {% endcomment %}
-/* =========================================================
-   SIMPLE DESCRIPTION HIGHLIGHT CARDS
-========================================================= */
-/* =====================================================
-   PREMIUM DOME EXPERIENCE CARDS
-   INSPIRED BY IMAGE-FIRST EXPERIENCE CARDS
-===================================================== */
 
-.dome-highlight-cards {
+/* ================================================
+   PREMIUM DOME EXPERIENCE SHOWCASE
+   ALTERNATING IMAGE AND TEXT LAYOUT
+================================================ */
+
+.dome-experience-showcase {
+    --experience-green: #244e43;
+    --experience-cream: #fbfaf0;
+    --experience-gold: #c79b65;
+
+    width: 100%;
+    margin: 24px 0 75px;
+    padding: 0;
+}
+
+/* EACH EXPERIENCE ROW */
+
+.dome-experience-row {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px;
-    margin: 35px 0 65px;
+    grid-template-columns: 1fr 1fr;
     align-items: stretch;
+    min-height: 330px;
+    overflow: hidden;
+    background: var(--experience-cream);
+    border-radius: 16px;
 }
 
-/* MAIN CARD */
+/* TEXT SIDE */
 
-.dome-highlight-card {
+.dome-experience-copy {
     position: relative;
     display: flex;
-    flex-direction: column;
-    min-width: 0;
-    height: 100%;
-    padding: 14px;
-    background: #365344;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 14px;
-    overflow: hidden;
-
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease,
-        background .35s ease;
-}
-
-.dome-highlight-card:hover {
-    transform: translateY(-7px);
-    background: #2c493b;
-    box-shadow: 0 18px 35px rgba(30, 55, 42, .18);
-}
-
-/* IMAGE AREA */
-
-.dome-highlight-image {
-    position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    border-radius: 9px;
-    background: #e7e5da;
-}
-
-.dome-highlight-image img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform .6s ease;
-}
-
-.dome-highlight-card:hover .dome-highlight-image img {
-    transform: scale(1.06);
-}
-
-/* CARD NUMBER */
-
-.dome-highlight-number {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 2;
-    padding: 7px 12px;
-    background: #f8edda;
-    border-radius: 5px;
-    color: #35503d;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-/* CONTENT AREA */
-
-.dome-highlight-content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 22px 5px 6px;
-}
-
-.dome-highlight-content h4 {
-    margin: 0 0 13px;
-    color: #fff8e8;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.35;
-}
-
-.dome-highlight-content p {
-    margin: 0 0 24px;
-    color: #e5e8dc;
-    font-size: 14px;
-    line-height: 1.75;
-}
-
-/* EXPLORE BUTTON */
-
-.dome-highlight-link {
-    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: auto;
-    padding: 11px 16px;
-    border-radius: 6px;
-    background: #d4a373;
-    color: #243d30;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .8px;
-    text-decoration: none;
-    transition:
-        background .25s ease,
-        color .25s ease,
-        gap .25s ease;
+    padding: 45px 38px;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 5% 100%,
+            rgba(65, 106, 79, 0.09),
+            transparent 60%
+        ),
+        var(--experience-cream);
 }
 
-.dome-highlight-link:hover {
-    background: #fff1d8;
-    color: #243d30;
-    gap: 15px;
+/* SUBTLE DECORATIVE PATTERN */
+
+.dome-experience-copy::before {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: -115px;
+    bottom: -120px;
+    border: 1px solid rgba(36, 78, 67, 0.09);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
-.dome-highlight-link i {
-    font-size: 12px;
+.dome-experience-copy::after {
+    content: "";
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    right: -80px;
+    bottom: -85px;
+    border: 1px solid rgba(36, 78, 67, 0.08);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
-/* REMOVE OLD BOTTOM GOLD LINE */
+.dome-experience-copy-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+}
 
-.dome-highlight-card::after {
-    display: none;
+/* SMALL TOP LABEL */
+
+.dome-experience-eyebrow {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: #a67b48;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+}
+
+/* HEADING */
+
+.dome-experience-copy h3 {
+    margin: 0 0 16px;
+    color: var(--experience-green);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(23px, 2.1vw, 31px);
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+/* DESCRIPTION */
+
+.dome-experience-copy p {
+    margin: 0;
+    color: #5e665f;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.85;
+}
+
+/* IMAGE SIDE */
+
+.dome-experience-photo {
+    position: relative;
+    min-width: 0;
+    min-height: 330px;
+    overflow: hidden;
+    background: #e6e9e1;
+}
+
+.dome-experience-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 330px;
+    object-fit: cover;
+    transition: transform 0.65s ease;
+}
+
+.dome-experience-row:hover
+.dome-experience-photo img {
+    transform: scale(1.045);
+}
+
+/* ALTERNATING ROW
+   IMAGE LEFT / TEXT RIGHT */
+
+.dome-experience-row-reverse
+.dome-experience-photo {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.dome-experience-row-reverse
+.dome-experience-copy {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* DECORATIVE DIVIDER */
+
+.dome-experience-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 35px 0;
+    color: #b6b9aa;
+}
+
+.dome-experience-divider span {
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: #deded2;
+}
+
+.dome-experience-divider i {
+    font-size: 19px;
+    color: var(--experience-gold);
+    transform: rotate(-25deg);
 }
 
 /* TABLET */
 
 @media (max-width: 991.98px) {
-    .dome-highlight-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
+
+    .dome-experience-row {
+        min-height: 280px;
     }
 
-    .dome-highlight-image {
-        height: 210px;
+    .dome-experience-copy {
+        padding: 30px 25px;
+    }
+
+    .dome-experience-copy h3 {
+        font-size: 24px;
+    }
+
+    .dome-experience-copy p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .dome-experience-photo,
+    .dome-experience-photo img {
+        min-height: 280px;
     }
 }
 
 /* MOBILE */
 
-@media (max-width: 575.98px) {
-    .dome-highlight-cards {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        margin: 25px 0 45px;
+@media (max-width: 767.98px) {
+
+    .dome-experience-showcase {
+        margin: 20px 0 50px;
     }
 
-    .dome-highlight-card {
-        padding: 12px;
+    .dome-experience-row {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 14px;
     }
 
-    .dome-highlight-image {
-        height: 220px;
+    /* ALWAYS SHOW IMAGE FIRST ON MOBILE */
+
+    .dome-experience-photo {
+        order: 1;
+        width: 100%;
+        height: 250px;
+        min-height: 0;
     }
 
-    .dome-highlight-content {
-        padding: 20px 6px 8px;
+    .dome-experience-photo img {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        object-fit: cover;
     }
 
-    .dome-highlight-content h4 {
-        font-size: 20px;
+    .dome-experience-copy {
+        order: 2;
+        width: 100%;
+        padding: 30px 25px 35px;
     }
 
-    .dome-highlight-content p {
+    .dome-experience-copy-inner {
+        max-width: none;
+    }
+
+    .dome-experience-copy h3 {
+        font-size: 25px;
+    }
+
+    .dome-experience-copy p {
         font-size: 14px;
+    }
+
+    .dome-experience-divider {
+        margin: 25px 0;
     }
 }
 
+@media (max-width: 420px) {
+
+    .dome-experience-photo {
+        height: 215px;
+    }
+
+    .dome-experience-copy {
+        padding: 25px 20px 30px;
+    }
+
+    .dome-experience-copy h3 {
+        font-size: 22px;
+    }
+}
+
+/* ACCESSIBILITY */
+
 @media (prefers-reduced-motion: reduce) {
-    .dome-highlight-card,
-    .dome-highlight-image img,
-    .dome-highlight-link {
+    .dome-experience-photo img {
         transition: none;
     }
 }
 
 
-/* =====================================================
-   FIX EXTRA SPACE BETWEEN DOME FEATURES AND 3 CARDS
-   DESKTOP ONLY
-===================================================== */
 
+/* ============================================
+   DOME EXPERIENCE CARDS - COMPACT SIZE FIX
+============================================ */
+
+/* DESKTOP */
 @media (min-width: 992px) {
 
-    /* Reduce reserved height below the dome */
-    .dome-static-facilities .dsf-layout {
-        aspect-ratio: 1000 / 570;
+    .dome-experience-showcase .dome-experience-row {
+        height: 300px;
+        min-height: 0;
+        grid-template-columns: 1fr 1fr;
     }
 
-    /* Reduce bottom spacing of facilities section */
-    .dome-static-facilities {
-        margin-bottom: 15px;
-        padding-bottom: 0;
+    .dome-experience-showcase .dome-experience-photo {
+        height: 300px;
+        min-height: 0;
     }
 
-    /* Bring the three cards closer */
-    .dome-highlight-cards {
-        margin-top: 10px;
+    .dome-experience-showcase .dome-experience-photo img {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        object-fit: cover;
     }
 
+    .dome-experience-showcase .dome-experience-copy {
+        padding: 25px 32px;
+    }
+
+    .dome-experience-showcase .dome-experience-copy h3 {
+        font-size: 25px;
+        line-height: 1.3;
+        margin-bottom: 12px;
+    }
+
+    .dome-experience-showcase .dome-experience-copy p {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .dome-experience-showcase .dome-experience-eyebrow {
+        margin-bottom: 10px;
+    }
+
+    .dome-experience-showcase .dome-experience-divider {
+        margin: 22px 0;
+    }
 }
 
+/* TABLET */
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    .dome-experience-showcase .dome-experience-row {
+        height: 280px;
+        min-height: 0;
+    }
+
+    .dome-experience-showcase .dome-experience-photo,
+    .dome-experience-showcase .dome-experience-photo img {
+        height: 280px;
+        min-height: 0;
+        object-fit: cover;
+    }
+
+    .dome-experience-showcase .dome-experience-copy {
+        padding: 22px;
+    }
+
+    .dome-experience-showcase .dome-experience-copy h3 {
+        font-size: 22px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 767.98px) {
+
+    .dome-experience-showcase .dome-experience-row {
+        height: auto;
+    }
+
+    .dome-experience-showcase .dome-experience-photo,
+    .dome-experience-showcase .dome-experience-photo img {
+        height: 210px;
+        min-height: 0;
+    }
+
+    .dome-experience-showcase .dome-experience-copy {
+        padding: 24px 22px;
+    }
+
+    .dome-experience-showcase .dome-experience-copy h3 {
+        font-size: 22px;
+    }
+
+    .dome-experience-showcase .dome-experience-divider {
+        margin: 20px 0;
+    }
+}
 
 
 {% comment %} description 3 cards css end  {% endcomment %}
@@ -5711,42 +5868,68 @@
 <!-- =====================================================
      DOME HIGHLIGHT CARDS
 ====================================================== -->
-<!-- =====================================================
-     PREMIUM DOME EXPERIENCE CARDS
-===================================================== -->
 
-<div class="dome-highlight-cards">
+<!-- ================================================
+     PREMIUM DOME EXPERIENCE SHOWCASE
+================================================ -->
 
-    <!-- CARD 01: PRIVATE PATIO -->
-    <article class="dome-highlight-card">
+<section class="dome-experience-showcase"
+         aria-label="Luxury dome experience highlights">
 
-        <div class="dome-highlight-image">
+    <!-- EXPERIENCE 01 -->
+    <article class="dome-experience-row">
+
+        <div class="dome-experience-copy">
+            <div class="dome-experience-copy-inner">
+
+                <h3>
+                    Private Patio with Cardamom
+                    Plantation Views
+                </h3>
+
+                <p>
+                    600 sq. ft. private patio opening towards the
+                    cardamom plantation with a peaceful open jacuzzi.
+                </p>
+            </div>
+        </div>
+
+        <div class="dome-experience-photo">
             <img
                 src="{% static 'assets/img/dome-highlights/private-patio.webp' %}"
                 alt="Private patio with cardamom plantation views"
                 loading="lazy"
             >
-           
-        </div>
-
-        <div class="dome-highlight-content">
-
-            <h4>Private Patio with Cardamom Plantation Views</h4>
-
-            <p>
-                600 sq. ft. private patio opening towards the
-                cardamom plantation with a peaceful open jacuzzi.
-            </p>
-
         </div>
 
     </article>
 
 
-    <!-- CARD 02: INTERIORS -->
-    <article class="dome-highlight-card">
+    <div class="dome-experience-divider" aria-hidden="true">
+        <span></span>
+        <i class="fa-solid fa-leaf"></i>
+        <span></span>
+    </div>
 
-        <div class="dome-highlight-image">
+
+    <!-- EXPERIENCE 02 -->
+    <article class="dome-experience-row dome-experience-row-reverse">
+
+        <div class="dome-experience-copy">
+            <div class="dome-experience-copy-inner">
+                
+
+                <h3>Premium Eco-Luxe Interiors</h3>
+
+                <p>
+                    650 sq. ft. of air-conditioned interior space
+                    with two king-size beds for up to 4 adults
+                    and 2 children.
+                </p>
+            </div>
+        </div>
+
+        <div class="dome-experience-photo">
             <img
                 src="{% static 'assets/img/dome-highlights/eco-luxe-interior.webp' %}"
                 alt="Premium eco-luxe dome interiors"
@@ -5754,45 +5937,48 @@
             >
         </div>
 
-        <div class="dome-highlight-content">
-
-            <h4>Premium Eco-Luxe Interiors</h4>
-
-            <p>
-                650 sq. ft. of air-conditioned interior space with
-                two king-size beds for up to 4 adults and 2 children.
-            </p>
-
-        </div>
-
     </article>
 
 
-    <!-- CARD 03: AMENITIES -->
-    <article class="dome-highlight-card">
+    <div class="dome-experience-divider" aria-hidden="true">
+        <span></span>
+        <i class="fa-solid fa-leaf"></i>
+        <span></span>
+    </div>
 
-        <div class="dome-highlight-image">
+
+    <!-- EXPERIENCE 03 -->
+    <article class="dome-experience-row">
+
+        <div class="dome-experience-copy">
+            <div class="dome-experience-copy-inner">
+
+
+                <h3>
+                    Modern Amenities for a
+                    Comfortable Stay
+                </h3>
+
+                <p>
+                    Smart TV, high-speed Wi-Fi, pantry,
+                    mini refrigerator, spacious bathroom,
+                    toiletries and hair dryer.
+                </p>
+            </div>
+        </div>
+
+        <div class="dome-experience-photo">
             <img
                 src="{% static 'assets/img/dome-highlights/modern-amenities.webp' %}"
                 alt="Modern amenities at Domes Inn Heaven"
                 loading="lazy"
             >
-           
-        </div>
-
-        <div class="dome-highlight-content">
-
-            <h4>Modern Amenities for a Comfortable Stay</h4>
-
-            <p>
-                Smart TV, high-speed Wi-Fi, pantry, mini refrigerator,
-                spacious bathroom, toiletries and hair dryer.
-            </p>
         </div>
 
     </article>
 
-</div>
+</section>
+
 
 
 
