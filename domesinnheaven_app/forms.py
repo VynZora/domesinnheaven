@@ -352,7 +352,7 @@ class BookingForm(forms.ModelForm):
             "phone": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "e.g. +91 9946 280 626",
+                    "placeholder": "e.g. +91 8848455244",
                     "maxlength": "18",
                     "autocomplete": "tel",
                 }
@@ -498,7 +498,7 @@ class BookingForm(forms.ModelForm):
         # 9946280626
         # 919946280626
         # +919946280626
-        # +91 9946 280 626
+        # +91 8848455244
 
         if not re.fullmatch(
             r"\+?\d{10,15}",
