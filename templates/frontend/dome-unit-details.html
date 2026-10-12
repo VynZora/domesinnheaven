@@ -5125,6 +5125,84 @@
 }
 
 
+
+
+
+
+/* ==========================================================
+   DOME FACILITIES - ICONS FURTHER FROM DOME, DOTS ON DOME
+   --xn / --yn = icon centre (% of layout)
+   --dn        = where the gold dot lands on the dome (% of layout)
+   --push      = extra space for ALL icons (0 = as set below)
+========================================================== */
+
+@media (min-width: 768px) {
+
+    .dome-static-facilities .dsf-layout {
+        --push: 0;
+    }
+
+    /* positions + automatic line length */
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(n) {
+        --x: calc((var(--xn) - var(--push)) * 1%);
+        --y: calc(var(--yn) * 1%);
+        --line-length: calc((var(--dn) - var(--xn) + var(--push)) * 1cqw - var(--icon) / 2);
+    }
+
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(n) {
+        --x: calc((var(--xn) + var(--push)) * 1%);
+        --y: calc(var(--yn) * 1%);
+        --line-length: calc((var(--xn) + var(--push) - var(--dn)) * 1cqw - var(--icon) / 2);
+    }
+
+    /* ---------- LEFT SIDE ---------- */
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(1) { --xn: 29;   --yn: 11;   --dn: 43.4; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(2) { --xn: 23;   --yn: 20.7; --dn: 32.5; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(3) { --xn: 18.5; --yn: 30.3; --dn: 27.9; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(4) { --xn: 15;   --yn: 40;   --dn: 24.3; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(5) { --xn: 12;   --yn: 49.7; --dn: 21.9; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(6) { --xn: 11.5; --yn: 59.3; --dn: 21.4; }
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(7) { --xn: 14;   --yn: 69;   --dn: 34.8; }
+
+    /* ---------- RIGHT SIDE ---------- */
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(1) { --xn: 66.5; --yn: 11;   --dn: 53; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(2) { --xn: 73;   --yn: 20.7; --dn: 63.8; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(3) { --xn: 78.5; --yn: 30.3; --dn: 68.4; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(4) { --xn: 82;   --yn: 40;   --dn: 72; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(5) { --xn: 84;   --yn: 49.7; --dn: 74.4; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(6) { --xn: 84.5; --yn: 59.3; --dn: 75; }
+    .dome-static-facilities .dsf-right .dsf-item:nth-child(7) { --xn: 82.5; --yn: 69;   --dn: 61.6; }
+
+    /* ---------- GOLD LINE ---------- */
+    .dome-static-facilities .dsf-icon::before {
+        width: var(--line-length);
+        height: 1.5px;
+        background: #D4A373;
+    }
+
+    /* ---------- GOLD DOT (centre = end of line) ---------- */
+    .dome-static-facilities .dsf-icon::after {
+        width: 8px;
+        height: 8px;
+        background: #D4A373;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        box-sizing: content-box;
+    }
+
+    .dome-static-facilities .dsf-left .dsf-icon::before  { left: 100%; right: auto; }
+    .dome-static-facilities .dsf-left .dsf-icon::after   { left: calc(100% + var(--line-length) - 6px); right: auto; }
+
+    .dome-static-facilities .dsf-right .dsf-icon::before { right: 100%; left: auto; }
+    .dome-static-facilities .dsf-right .dsf-icon::after  { right: calc(100% + var(--line-length) - 6px); left: auto; }
+
+    /* ---------- LABELS: wrap earlier so far-out labels don't leave the page ---------- */
+    .dome-static-facilities .dsf-left .dsf-item:nth-child(n+4) .dsf-name {
+        width: clamp(90px, 12cqw, 130px);
+    }
+}
+
+
 {% comment %} features in description css end  {% endcomment %}
 
 </style>
@@ -5338,7 +5416,7 @@
     <div class="dsf-heading">
          <div class="dome-connected-heading">
             <h3 id="stayHighlightsTitle">
-               OUR DOME FACILITIES
+               OUR DOME FEATURES
             </h3>
         </div>
     </div>
