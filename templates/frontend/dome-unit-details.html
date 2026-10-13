@@ -5415,7 +5415,367 @@
 }
 
 
+{% comment %} new  {% endcomment %}
+
+/* ==========================================================
+   DOME FACILITIES - DOTS ANCHORED TO THE DOME IMAGE
+   Desktop / tablet only (>= 768px). Mobile cards unchanged.
+
+   Image settings (all numbers are cqw = % of layout width):
+     --img-cx     dome image centre X
+     --img-cy     dome image centre Y
+     --img-w      dome image width
+     --img-ratio  image height / width  (check your PNG!)
+
+   Per item:
+     --ix / --iy  icon centre
+     --u  / --v   where the gold dot sits ON the dome image
+                  (0-1 across, 0-1 down)
+========================================================== */
+@media (min-width: 768px) {
+
+    /* ---------- taller layout + bigger dome ---------- */
+    .dome-static-facilities .dsf-layout {
+        --img-cx: 50;
+        --img-cy: 39.5;
+        --img-w: 72;
+        --img-ratio: 0.75;
+
+        max-width: 1000px;
+        aspect-ratio: 1000 / 760;
+    }
+
+    .dome-static-facilities .dsf-layout .dsf-center {
+        left: calc(var(--img-cx) * 1cqw);
+        top: calc(var(--img-cy) * 1cqw);
+        width: calc(var(--img-w) * 1cqw);
+        transform: translate(-50%, -50%);
+    }
+
+    .dome-static-facilities .dsf-layout .dsf-image-wrap img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* ---------- item position + dot maths ---------- */
+    .dome-static-facilities .dsf-layout .dsf-item {
+        left: calc(var(--ix) * 1cqw);
+        top: calc(var(--iy) * 1cqw);
+
+        /* dot position on the dome (cqw) */
+        --dot-x: calc(var(--img-cx) - var(--img-w) / 2 + var(--u) * var(--img-w));
+        --dot-y: calc(var(--img-cy) - var(--img-w) * var(--img-ratio) / 2 + var(--v) * var(--img-w) * var(--img-ratio));
+
+        /* vector icon centre -> dot (cqw, unitless) */
+        --ddx: calc(var(--dot-x) - var(--ix));
+        --ddy: calc(var(--dot-y) - var(--iy));
+    }
+
+    /* ---------- angled gold line ---------- */
+    .dome-static-facilities .dsf-layout .dsf-item .dsf-icon::before {
+        --ang: atan2(calc(var(--ddy) * 1cqw), calc(var(--ddx) * 1cqw));
+
+        content: "";
+        position: absolute;
+        left: calc(50% + cos(var(--ang)) * var(--icon) / 2);
+        top: calc(50% + sin(var(--ang)) * var(--icon) / 2 - 0.75px);
+        right: auto;
+
+        width: calc(hypot(var(--ddx) * 1cqw, var(--ddy) * 1cqw) - var(--icon) / 2);
+        height: 1.5px;
+
+        background: #D4A373;
+        transform-origin: 0 50%;
+        transform: rotate(var(--ang));
+        z-index: -1;
+    }
+
+    /* ---------- gold dot (sits exactly on the target) ---------- */
+    .dome-static-facilities .dsf-layout .dsf-item .dsf-icon::after {
+        content: "";
+        position: absolute;
+        left: calc(50% + var(--ddx) * 1cqw);
+        top: calc(50% + var(--ddy) * 1cqw);
+        right: auto;
+
+        width: 8px;
+        height: 8px;
+        box-sizing: content-box;
+
+        background: #D4A373;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* scaling the icon on hover would drag the dot off the dome */
+    .dome-static-facilities .dsf-layout .dsf-icon:hover {
+        scale: 1;
+    }
+
+    /* ---------- labels ---------- */
+    .dome-static-facilities .dsf-layout .dsf-name {
+        width: clamp(70px, 11cqw, 125px);
+        font-size: clamp(9px, 1.25cqw, 13px);
+        line-height: 1.35;
+    }
+
+    /* ---------- LEFT: icon position + dot on dome ---------- */
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(1) { --ix: 30;   --iy: 21; --u: .423; --v: .320; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(2) { --ix: 24;   --iy: 29; --u: .337; --v: .381; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(3) { --ix: 19.5; --iy: 37; --u: .272; --v: .477; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(4) { --ix: 16.5; --iy: 45; --u: .213; --v: .591; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(5) { --ix: 15;   --iy: 53; --u: .186; --v: .705; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(6) { --ix: 17;   --iy: 61; --u: .390; --v: .774; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(7) { --ix: 21;   --iy: 69; --u: .311; --v: .906; }
+
+    /* ---------- RIGHT: icon position + dot on dome ---------- */
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(1) { --ix: 70;   --iy: 21; --u: .646; --v: .372; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(2) { --ix: 76;   --iy: 29; --u: .711; --v: .451; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(3) { --ix: 80.5; --iy: 37; --u: .770; --v: .538; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(4) { --ix: 83.5; --iy: 45; --u: .816; --v: .617; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(5) { --ix: 85;   --iy: 53; --u: .842; --v: .696; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(6) { --ix: 83;   --iy: 61; --u: .869; --v: .774; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(7) { --ix: 79;   --iy: 69; --u: .724; --v: .906; }
+}
+
 {% comment %} features in description css end  {% endcomment %}
+
+
+{% comment %} description points css start {% endcomment %}
+/* =====================================================
+   DYNAMIC DOME DESCRIPTION FACILITIES
+   CLEAN ICON GRID - REFERENCE STYLE
+===================================================== */
+
+/* Description paragraph */
+
+.dome-description-content {
+    margin-bottom: 25px;
+}
+
+.dome-description-content p {
+    color: #5e665f;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+
+/* Hide only lists successfully converted to icons */
+
+.dome-description-content .dome-facility-converted {
+    display: none !important;
+}
+
+/* Facilities section */
+
+.dome-description-facilities {
+    width: 100%;
+    padding: 25px 0 30px;
+    background: #ffffff;
+}
+
+.dome-description-facilities[hidden] {
+    display: none !important;
+}
+
+/* Four columns on desktop */
+
+.dome-description-facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 55px;
+}
+
+/* Individual facility - NO CARD */
+
+.dome-description-facility {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    text-align: center;
+    min-width: 0;
+    padding: 8px 5px;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* SVG icon */
+
+.dome-description-facility-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    color: #e77d49;
+
+    transition: transform .3s ease;
+}
+
+.dome-description-facility-icon svg {
+    width: 46px;
+    height: 46px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.dome-description-facility:hover
+.dome-description-facility-icon {
+    transform: translateY(-4px);
+}
+
+/* Facility title */
+
+.dome-description-facility-title {
+    color: #19342c;
+
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+
+    margin: 0;
+
+    overflow-wrap: anywhere;
+}
+
+/* Optional small decorative underline */
+
+.dome-description-facility::after {
+    content: "";
+    width: 20px;
+    height: 2px;
+
+    margin-top: 14px;
+
+    background: #d6a475;
+
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.dome-description-facility:hover::after {
+    opacity: 1;
+}
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+
+    .dome-description-facilities-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 40px;
+    }
+
+    .dome-description-facility-title {
+        font-size: 15px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 575.98px) {
+
+    .dome-description-facilities {
+        padding: 20px 0;
+    }
+
+    .dome-description-facilities-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 12px;
+        row-gap: 35px;
+    }
+
+    .dome-description-facility-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 15px;
+    }
+
+    .dome-description-facility-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .dome-description-facility-title {
+        font-size: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dome-description-facility-icon {
+        transition: none;
+    }
+}
+
+
+
+/* ==========================================
+   DYNAMIC DOME FACILITIES - FINAL FIX
+========================================== */
+
+.dome-description-facilities {
+    display: block;
+    width: 100%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.dome-description-facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+}
+
+.dome-description-facility {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    text-align: center;
+}
+
+.dome-description-facility-icon i {
+    display: inline-block;
+    color: #3d4b33;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.dome-description-facility-title {
+    color: #35412f;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+    .dome-description-facilities-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .dome-description-facilities-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+{% comment %} description points css end  {% endcomment %}
 
 </style>
 
@@ -5621,17 +5981,69 @@
      DOME DESCRIPTION - CONNECTED EXPERIENCE DESIGN
 ===================================================== -->
 
+<!-- ==============================================
+     DYNAMIC DOME DESCRIPTION + FACILITIES
+============================================== -->
+
+
+<!-- ==============================================
+     DYNAMIC DOME DESCRIPTION + FACILITIES
+============================================== -->
+
 <div class="dome-description-pattern-wrap">
 
     {% if description_html|striptags|cut:" " %}
-    <div class="detail-text m-b-40">
+
+    <!-- NORMAL DESCRIPTION -->
+    <div
+        id="domeDescriptionContent"
+        class="detail-text dome-description-content"
+    >
         {{ description_html|safe }}
     </div>
+
+    {% endif %}
+
+
+    {% if description_highlights %}
+
+    <!-- DYNAMIC FACILITIES FROM DJANGO -->
+    <div
+        id="domeFacilitiesSection"
+        class="dome-description-facilities"
+    >
+
+        <div
+            id="domeFacilitiesGrid"
+            class="dome-description-facilities-grid"
+        >
+
+            {% for highlight in description_highlights %}
+
+            <div class="dome-description-facility">
+
+                <div class="dome-description-facility-icon">
+                   <i data-lucide="{{ highlight.icon }}"></i>
+                </div>
+
+                <p class="dome-description-facility-title">
+                    {{ highlight.title }}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
     {% endif %}
 
 </div>
 
-<!-- END DOME DESCRIPTION -->                            
+<!-- END DOME DESCRIPTION -->
+
 
 
 
@@ -5715,7 +6127,7 @@
         <div class="dsf-center">
             <div class="dsf-image-wrap">
                 <img
-                    src="{% static 'assets/img/dome-features/domes-feture-bg.png' %}"
+                    src="{% static 'assets/img/dome-features/domes-bg.png' %}"
                     alt="Luxury furnished glamping dome with private jacuzzi"
                     loading="lazy"
                     decoding="async"
@@ -5872,7 +6284,7 @@
 <!-- ================================================
      PREMIUM DOME EXPERIENCE SHOWCASE
 ================================================ -->
-
+{% comment %} 
 <section class="dome-experience-showcase"
          aria-label="Luxury dome experience highlights">
 
@@ -5977,7 +6389,7 @@
 
     </article>
 
-</section>
+</section> {% endcomment %}
 
 
 
@@ -8473,5 +8885,24 @@ document.addEventListener(
 );
 </script>
 {% comment %} faq js end  {% endcomment %}
+
+{% comment %} svg icon js start {% endcomment %}
+
+
+<!-- SVG ICONS FOR DYNAMIC DOME FACILITIES -->
+
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+});
+</script>
+
+{% comment %} svg icons js end  {% endcomment %}
 
 {% endblock %}

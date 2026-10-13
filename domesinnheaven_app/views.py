@@ -181,51 +181,56 @@ def services(request):
 
 
 
+
 def get_dome_highlight_icon(title):
     """
-    Select the correct Font Awesome icon
-    based on the description point.
+    Choose the most relevant Lucide icon for each
+    dynamic facility description.
     """
 
     text = " ".join(title.lower().split())
 
-    # Meal plans — check these before generic words
-    if "map plan" in text or "modified american plan" in text:
-        return "fa-utensils"
+    # 1. Bathroom - check before water/jacuzzi
+    if any(word in text for word in (
+        "bathroom",
+        "bath tub",
+        "bathtub",
+        "toiletries",
+        "shower",
+        "washroom",
+    )):
+        return "bath"
 
-    if "cp plan" in text or "continental plan" in text:
-        return "fa-mug-hot"
-
-    # Jacuzzi
+    # 2. Jacuzzi
     if any(word in text for word in (
         "jacuzzi",
         "hot tub",
         "whirlpool",
+        "spa",
     )):
-        return "fa-hot-tub-person"
+        return "waves"
 
-    # Patio and plantation views
+    # 3. Meal plans
     if any(word in text for word in (
-        "patio",
-        "cardamom",
-        "plantation",
-        "panoramic",
-        "mountain view",
-        "valley view",
-        "balcony",
+        "map plan",
+        "modified american plan",
+        "half board",
+        "full board",
+        "meal plan",
+        "dining",
+        "restaurant",
     )):
-        return "fa-mountain-sun"
+        return "utensils"
 
-    # Bathroom
     if any(word in text for word in (
-        "bathroom",
-        "bath",
-        "toiletries",
-        "shower",
+        "cp plan",
+        "continental plan",
+        "breakfast",
+        "coffee",
     )):
-        return "fa-bath"
+        return "coffee"
 
-    # Luxury interiors
+    # 4. Luxury interiors
     if any(word in text for word in (
         "eco-luxe",
         "interior",
@@ -234,23 +239,47 @@ def get_dome_highlight_icon(title):
         "bedroom",
         "king bed",
     )):
-        return "fa-bed"
+        return "bed-double"
 
-    # Other useful icons
+    # 5. Plantation and mountain views
+    if any(word in text for word in (
+        "patio",
+        "cardamom",
+        "plantation",
+        "panoramic",
+        "mountain",
+        "valley",
+        "balcony",
+        "view",
+    )):
+        return "trees"
+
+    # 6. Other facilities
     if "wifi" in text or "internet" in text:
-        return "fa-wifi"
+        return "wifi"
 
     if "parking" in text:
-        return "fa-car"
+        return "car-front"
 
     if "air conditioning" in text:
-        return "fa-snowflake"
+        return "snowflake"
 
     if "nature" in text or "forest" in text:
-        return "fa-leaf"
+        return "leaf"
 
-    # Default icon for any new, unmatched point
-    return "fa-circle-check"
+    if "pool" in text:
+        return "waves"
+
+    if "tv" in text or "television" in text:
+        return "tv"
+
+    # Default
+    return "circle-check"
+
+
+
+from bs4 import BeautifulSoup
+from django.shortcuts import render, get_object_or_404
 
 
 def services_details(request, slug):
@@ -277,10 +306,10 @@ def services_details(request, slug):
 
     description_highlights = []
 
-    # Convert bullet lists into individual cards
-    for ul in soup.find_all("ul"):
+    # Extract HTML bullet and numbered lists
+    for list_tag in soup.find_all(["ul", "ol"]):
 
-        items = ul.find_all("li", recursive=False)
+        items = list_tag.find_all("li", recursive=False)
 
         if not items:
             continue
@@ -289,18 +318,16 @@ def services_details(request, slug):
 
             title = item.get_text(" ", strip=True)
 
-            if not title:
-                continue
+            if title:
+                description_highlights.append({
+                    "title": title,
+                    "icon": get_dome_highlight_icon(title),
+                })
 
-            description_highlights.append({
-                "title": title,
-                "icon": get_dome_highlight_icon(title),
-            })
+        # Remove converted list from description
+        list_tag.decompose()
 
-        # Remove converted list from normal description
-        ul.decompose()
-
-    # Keep remaining rich-text description
+    # Remaining paragraphs, headings, etc.
     description_html = str(soup)
 
     return render(
@@ -313,6 +340,7 @@ def services_details(request, slug):
             "description_highlights": description_highlights,
         },
     )
+
 
 
 

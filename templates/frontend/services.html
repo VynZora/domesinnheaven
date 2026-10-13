@@ -42,6 +42,12 @@
 {% block twitter_description %}Explore luxury dome stays and premium glamping accommodation at Domes Inn Heaven in Munnar, Kerala.{% endblock %}
 
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+
 {% block content %}
 
 
@@ -208,22 +214,821 @@
 		<div class="c-shape-2"><img alt="shape-31" src="{% static 'assets/img/shapes/shape-31.webp' %}"></div>
 	</section>
 	<!-- services-section end --> {% endcomment %}
-	<!-- services-section start -->
-	<section class="services-section bg-cream p-t-100 p-b-70 p-t-xs-40 p-b-xs-40">
+	
+
+<!-- services-section start -->
+
+<!-- =========================================================
+     NEW DOMES SHOWCASE - SECTION 01 + SECTION 02
+========================================================= -->
+
+<!-- SECTION 01: STATIC IMAGE + TWO DOME CARDS -->
+<section class="di-dome-top-section">
+
+    <div class="container">
+
+        <!-- HEADING -->
+        <div class="di-dome-heading">
+
+            <div class="di-dome-eyebrow">
+                <span></span>
+                WHAT WE DO
+                <span></span>
+            </div>
+
+            <h2>
+                We Offer Different Domes
+                <br>
+                For You
+            </h2>
+
+        </div>
+
+        <!-- THREE COLUMN SHOWCASE -->
+        <div class="di-dome-top-grid">
+
+            <!-- STATIC IMAGE - LEFT -->
+            <div class="di-dome-static-panel">
+
+                <img
+                    src="{% static 'assets\img\static_images_new\19.png' %}"
+                    alt="Luxury glamping domes at Domes Inn Heaven Munnar"
+                    loading="lazy"
+                >
+
+                <div class="di-dome-static-content">
+                    <span>DOMES INN HEAVEN · MUNNAR</span>
+                    <h3>GLAMPS</h3>
+                </div>
+
+            </div>
+
+            <!-- DYNAMIC DOME CARDS -->
+            {% for dome in dome_types %}
+
+                {% if forloop.counter <= 2 %}
+
+                <article class="di-dome-top-card">
+
+                    <a
+                        href="{% url 'dome_details' dome.slug %}"
+                        class="di-dome-card-image-link"
+                        aria-label="View {{ dome.name }}"
+                    >
+
+                        {% if dome.main_image %}
+                        <img
+                            src="{{ dome.main_image.url }}"
+                            alt="{{ dome.name }}"
+                            loading="lazy"
+                        >
+                        {% else %}
+                        <img
+                            src="{% static 'assets/img/new/dome15.jpeg' %}"
+                            alt="{{ dome.name }}"
+                            loading="lazy"
+                        >
+                        {% endif %}
+
+                    </a>
+
+                    <div class="di-dome-top-content">
+
+                        <span class="di-dome-card-kicker">
+                            DOMES INN HEAVEN · MUNNAR
+                        </span>
+
+                        <h3>{{ dome.name }}</h3>
+
+                        <a
+                            href="{% url 'dome_details' dome.slug %}"
+                            class="di-dome-details-link"
+                        >
+                            VIEW DETAILS
+                            <span>
+                                <i class="fa-regular fa-arrow-right"></i>
+                            </span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SECTION 02: FULL SCENIC BACKGROUND + FEATURED DOME
+========================================================= -->
+
+<section
+    class="di-dome-featured-section"
+    style="background-image: url('{% static 'domes-page.webp' %}');"
+>
+
+    <div class="di-dome-featured-container">
+
+        <div class="di-dome-featured-intro">
+
+            <span>THE SIGNATURE EXPERIENCE</span>
+
+            <h2>
+                Escape Into Nature.
+                <br>
+                Stay In Luxury.
+            </h2>
+
+        </div>
+
+        {% for dome in dome_types %}
+
+            {% if forloop.counter == 3 %}
+
+            <article class="di-dome-featured-card">
+
+                <a
+                    href="{% url 'dome_details' dome.slug %}"
+                    class="di-dome-featured-image-link"
+                    aria-label="View {{ dome.name }}"
+                >
+
+                    {% if dome.main_image %}
+                    <img
+                        src="{{ dome.main_image.url }}"
+                        alt="{{ dome.name }}"
+                        loading="lazy"
+                    >
+                    {% else %}
+                    <img
+                        src="{% static 'assets/img/new/dome15.jpeg' %}"
+                        alt="{{ dome.name }}"
+                        loading="lazy"
+                    >
+                    {% endif %}
+
+                </a>
+
+                <div class="di-dome-featured-content">
+
+                    <span class="di-dome-card-kicker">
+                        DOMES INN HEAVEN · MUNNAR
+                    </span>
+
+                    <h3>{{ dome.name }}</h3>
+
+                    <a
+                        href="{% url 'dome_details' dome.slug %}"
+                        class="di-dome-details-link"
+                    >
+                        VIEW DETAILS
+                        <span>
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </span>
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- END NEW DOMES SHOWCASE -->
+
+<!-- services-section end -->
+
+
+	<!-- process-section start -->
+	<div class="process-section p-t-140 p-b-100 p-t-xs-40 p-b-xs-40">
 		<div class="container">
-			<div class="row justify-content-center text-center m-b-50 m-b-xs-40">
-				<div class="col-xl-6">
-					<div class="common-subtitle" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-						<!-- <img alt="icon-1" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>What We Do</span>
-					</div>
-					<div class="common-title m-b-0" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
-						<h2>We Offer Different Domes For You</h2>
+			<div class="row">
+				<div class="container">
+					<div class="row justify-content-center text-center m-b-50 m-b-xs-40">
+						<div class="col-xl-6">
+							<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+								<!-- <img alt="icon-1" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Booking Process</span>
+							</div>
+							<div class="common-title m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+								<h2>How To Book With Us</h2>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="container">
-			<style>
+			<div class="row" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+				<div class="col-xl-4">
+					<div class="service-card">
+						<div class="service-top">
+							<h4>Select Your Dome</h4>
+							<div class="number">
+								<span>01</span>
+							</div>
+						</div>
+						<div class="service-content">
+							<p>Browse our premium glamping options and choose the perfect fit for your stay.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-4">
+					<div class="service-card">
+						<div class="service-top">
+							<h4>Check Availability</h4>
+							<div class="number">
+								<span>02</span>
+							</div>
+						</div>
+						<div class="service-content">
+							<p>Contact us or check online for your desired dates to secure your heavenly escape.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-4">
+					<div class="service-card">
+						<div class="service-top">
+							<h4>Enjoy Your Stay</h4>
+							<div class="number">
+								<span>03</span>
+							</div>
+						</div>
+						<div class="service-content">
+							<p>Experience the ultimate luxury retreat and breathtaking mountain views in Munnar.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="c-shape-1"><img alt="shape-32" src="{% static 'assets/img/shapes/shape-32.webp' %}"></div>
+	</div>
+	<!-- process-section end -->
+
+	<!-- dust-recycling-section start -->
+	<section class="dust-recycling-section" style="background-image: url('{% static "assets/img/static_images_new/15.png" %}')">
+		<div class="container">
+			<div class="row justify-content-center align-items-xl-start align-items-center">
+				<div class="col-lg-10 col-12 order-2 order-lg-1">
+					<div class="dust-recycle-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+						<div class="dust-recycle-top">
+							<h5>Experience The True Essence of Munnar</h5>
+							<div class="services-4">
+								<div class="service-2">
+									<i class="fa-light fa-badge-check"></i>
+									<p>Unmatched Luxury Glamping</p>
+								</div>
+								<div class="service-2">
+									<i class="fa-light fa-badge-check"></i>
+									<p>Breathtaking Valley Views</p>
+								</div>
+							</div>
+						</div>
+						<div class="campaign-progress">
+							<div class="environmental">
+								<div class="top">
+									<p>Guest Satisfaction</p>
+									<p>98%</p>
+								</div>
+								<div aria-label="Basic example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="98" class="progress" role="progressbar">
+									<div class="progress-bar" style="width: 98%"></div>
+								</div>
+							</div>
+							<div class="campaigns">
+								<div class="top">
+									<p>Nature Immersion</p>
+									<p>100%</p>
+								</div>
+								<div aria-label="Basic example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" class="progress" role="progressbar">
+									<div class="progress-bar" style="width: 100%"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-2 order-1 order-lg-2 m-b-md-60 m-b-xs-40" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+					<div class="btn-layer">
+						<a class="play-btn" data-fancybox="" href="https://www.youtube.com/watch?v=fLeJJPxua3E&amp;ab_channel=Motiversity">Play</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- dust-recycling-section end -->
+
+	<!-- faq-section start -->
+	<section class="faq-section style-service domes-faq-section" style="background-image: url('{% static "assets/img/bg/why-us-bg-3.webp" %}')">
+		<div class="container domes-faq-container">
+			 <div class="row faq domes-faq-layout">
+				<div class="col-lg-5 domes-faq-left" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+					<div class="common-subtitle">
+						<!-- <img alt="icon-2" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Question &amp; Answer</span>
+					</div>
+					<div class="common-title text-start">
+						<h2>Frequently Asked Question <span>?</span></h2>
+					</div>
+					<div class="text">
+						<p>Find answers to common questions about your stay at our luxury glamping resort.</p>
+					</div>
+					<div class="annual-donation-wrap mt-4">
+						<div class="blog-btn">
+							<a class="e-primary-btn has-icon" href="{% url 'contact' %}">Have You Any Questions? <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+						</div>
+						<a href="{{ google_review_url }}" target="_blank" rel="noopener noreferrer"
+							aria-label="Google rating {{ google_review_rating }} out of 5"
+							class="google-review-badge">
+							<div class="google-review-inner">
+								<div class="google-review-top">
+									<svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+										<path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+										<path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+										<path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+										<path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+									</svg>
+									<span class="google-label">Google Reviews</span>
+								</div>
+								<div class="google-stars-row">
+									<span class="rating-number">{{ google_review_rating }}</span>
+									<div class="google-stars">
+										<i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i>
+									</div>
+									<span class="review-count">({{ google_review_count }})</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-7 domes-faq-right"
+     data-aos="fade-up"
+     data-aos-delay="400"
+     data-aos-duration="1000">
+<div class="accordion faq-accordion domes-faq-accordion"
+     id="domesFaqAccordion">
+
+    <!-- FAQ 1 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading1">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq1"
+                    aria-expanded="false"
+                    aria-controls="domeFaq1">
+                <span class="accordion-title">01</span>
+                <span class="domes-faq-question">
+                    What types of dome stays are available at Domes Inn Heaven?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq1" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading1"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                Domes Inn Heaven offers three current dome accommodation options:
+                Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo.
+                These stays provide a comfortable dome stay in Munnar with spacious
+                interiors, modern amenities, and private outdoor spaces overlooking
+                the surrounding cardamom plantation and greenery.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading2">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq2"
+                    aria-expanded="false"
+                    aria-controls="domeFaq2">
+                <span class="accordion-title">02</span>
+                <span class="domes-faq-question">
+                    Is Domes Inn Heaven a luxury dome resort in Munnar?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq2" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading2"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                Yes, Domes Inn Heaven offers a luxury dome resort experience in
+                Munnar through its Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury
+                Jacuzzi Glamp Combo accommodations. The stays combine premium
+                interiors, air conditioning, king-size beds, Wi-Fi, spacious
+                bathrooms, and outdoor areas, making them suitable for travellers
+                searching for a luxury dome resort in Munnar or a luxury dome
+                resort Kerala experience.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading3">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq3"
+                    aria-expanded="false"
+                    aria-controls="domeFaq3">
+                <span class="accordion-title">03</span>
+                <span class="domes-faq-question">
+                    What makes a luxury dome stay in Munnar special?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq3" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading3"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                A luxury dome stay in Munnar combines the distinctive design of
+                dome accommodation with the comfort of a well-equipped private
+                stay. At Domes Inn Heaven, guests can enjoy spacious 650 sq ft
+                interiors, air conditioning, king-size beds, Smart TV, high-speed
+                Wi-Fi, pantry facilities, a mini refrigerator, and a spacious
+                bathroom. The private outdoor areas also provide a closer
+                connection to the surrounding cardamom plantation.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 4 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading4">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq4"
+                    aria-expanded="false"
+                    aria-controls="domeFaq4">
+                <span class="accordion-title">04</span>
+                <span class="domes-faq-question">
+                    Does Domes Inn Heaven offer a geodesic dome stay in Munnar?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq4" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading4"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                Yes, Domes Inn Heaven offers dome accommodation designed around
+                the geodesic dome concept for guests seeking a geodesic dome stay
+                in Munnar. The Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury
+                Jacuzzi Glamp Combo provide modern interiors and outdoor spaces
+                while keeping guests close to the natural surroundings of Munnar.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 5 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading5">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq5"
+                    aria-expanded="false"
+                    aria-controls="domeFaq5">
+                <span class="accordion-title">05</span>
+                <span class="domes-faq-question">
+                    What facilities are available in the luxury dome accommodation?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq5" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading5"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                The luxury dome accommodation at Domes Inn Heaven includes
+                features such as 650 sq ft of interior space, air conditioning,
+                two king-size beds, a 42-inch Smart TV, high-speed Wi-Fi, a pantry
+                area, mini refrigerator, spacious bathroom, hair dryer, and
+                toiletries. Each accommodation also has a 600 sq ft private patio
+                connected to the surrounding cardamom plantation.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 6 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading6">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq6"
+                    aria-expanded="false"
+                    aria-controls="domeFaq6">
+                <span class="accordion-title">06</span>
+                <span class="domes-faq-question">
+                    Does Domes Inn Heaven offer a private dome stay in Munnar?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq6" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading6"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                Yes, the dome accommodations provide private spaces designed for
+                a comfortable private dome stay in Munnar. The Luxury Glamp,
+                Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo each feature
+                a 600 sq ft private patio opening towards the cardamom plantation.
+                The Luxury Jacuzzi Glamp and Luxury Jacuzzi Glamp Combo
+                additionally include an open jacuzzi.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 7 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading7">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq7"
+                    aria-expanded="false"
+                    aria-controls="domeFaq7">
+                <span class="accordion-title">07</span>
+                <span class="domes-faq-question">
+                    Is Domes Inn Heaven suitable for a premium or unique dome stay in Munnar?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq7" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading7"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                Yes. Domes Inn Heaven is suitable for travellers looking for a
+                premium dome stay in Munnar or a unique dome stay in Munnar.
+                The accommodations combine spacious interiors, premium eco-luxe
+                design, modern facilities, private outdoor areas, and natural
+                surroundings. Guests can choose between the Luxury Glamp,
+                Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo based on
+                their preferred facilities.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 8 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="domeFaqHeading8">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#domeFaq8"
+                    aria-expanded="false"
+                    aria-controls="domeFaq8">
+                <span class="accordion-title">08</span>
+                <span class="domes-faq-question">
+                    What is the difference between the Luxury Glamp, Luxury Jacuzzi
+                    Glamp, and Luxury Jacuzzi Glamp Combo?
+                </span>
+                <span class="icon" aria-hidden="true">
+                    <span class="icon-plus"></span>
+                    <span class="icon-minus"></span>
+                </span>
+            </button>
+        </h2>
+        <div id="domeFaq8" class="accordion-collapse collapse"
+             aria-labelledby="domeFaqHeading8"
+             data-bs-parent="#domesFaqAccordion">
+            <div class="accordion-body">
+                The Luxury Glamp provides a spacious dome stay with a private
+                plantation-facing patio and modern amenities. The Luxury Jacuzzi
+                Glamp adds an open jacuzzi and is offered on a CP plan, while the
+                Luxury Jacuzzi Glamp Combo includes an open jacuzzi and is offered
+                on a MAP plan. All three options provide 650 sq ft interiors,
+                a 600 sq ft private patio, two king-size beds, air conditioning,
+                Smart TV, Wi-Fi, pantry facilities, and a spacious bathroom.
+            </div>
+        </div>
+    </div>
+
+</div>					
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- faq-section end-->
+
+	<!-- policies-section start -->
+	<section class="policies-section p-t-100 p-b-100 p-t-xs-60 p-b-xs-60">
+		<div class="container">
+
+			<div class="text-center m-b-60 m-b-xs-40">
+				<div class="common-subtitle"><span>Know Before You Go</span></div>
+				<div class="common-title mb-0"><h2>Resort Policies & Guidelines</h2></div>
+			</div>
+
+			<div class="policies-accordion">
+
+				<!-- Resort Policies -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">01</span>
+							<h3 class="policy-title">Resort Policies</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>Check-in time is 2:00 PM and Check-out time is 11:00 AM. Early check-in and late check-out are subject to availability and additional charges.</li>
+							<li>It is mandatory to present a valid government-issued photo ID for Indian citizens. All other nationalities must present a valid Passport and Visa at check-in.</li>
+							<li>Pets are not allowed inside the resort.</li>
+							<li>Photo-shoots can be done on a chargeable basis only.</li>
+							<li>All rooms are strictly non-smoking.</li>
+							<li>In-room dining is not available.</li>
+							<li>Loud music is not permitted in public areas. We prioritize maintaining a peaceful environment for all guests and the surrounding nature.</li>
+							<li>Visitors are not allowed inside the resort premises.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Child Policy -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">02</span>
+							<h3 class="policy-title">Child Policy</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>Two children up to 5 years of age can stay free of charge in the parents' room when using the existing bed. A maximum of one extra bed can be provided on a chargeable basis.</li>
+							<li>A child aged 6–12 years, a child above 12 years, or an extra adult will be charged additionally.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Cancellation / No-Show Policy -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">03</span>
+							<h3 class="policy-title">Cancellation &amp; No-Show Policy</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>In case of no-show or cancellation of a guaranteed reservation, the resort reserves the right to levy a retention charge for the entire stay.</li>
+							<li>50% retention charges apply for cancellations made within 14 days of arrival. Full retention charges apply for cancellations within 7 days of arrival.</li>
+							<li>Online payment fees and bank transaction charges will be levied on any refund processed within the eligible cancellation period.</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Terms & Conditions -->
+				<div class="policy-item">
+					<div class="policy-header">
+						<div style="display:flex; align-items:baseline; gap:16px;">
+							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">04</span>
+							<h3 class="policy-title">Terms &amp; Conditions</h3>
+						</div>
+						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
+					</div>
+					<div class="policy-body">
+						<ul>
+							<li>The services of this site are available only to individuals who can form legally binding contracts under applicable law, and are not available to minors.</li>
+							<li>By using this site, you confirm that you are of sufficient legal age to create binding legal obligations for any liability incurred as a result of your use of this site.</li>
+							<li>You also confirm that you are legally authorized to make travel reservations and/or purchases for yourself or for another person for whom you are authorized to act.</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<!-- policies-section end -->
+
+	<!-- contact-info-section start -->
+	<section class="contact-info-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="contact-info-layout">
+						<a class="contact-info active" href="mailto:info@domesinnheaven.com">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-paper-plane"></i>
+								</div>
+							</div>
+							<h3>info@domesinnheaven.com</h3>
+							<p>Send an Email</p>
+						</a>
+						<a class="contact-info" href="tel:+919946280626">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-phone-arrow-up-right"></i>
+								</div>
+							</div>
+							<h3>+91 8848455244</h3>
+							<p>Any Time Call Us</p>
+						</a>
+						<a class="contact-info" href="#">
+							<div class="icon-wrap">
+								<div class="icon-shape"></div>
+								<div class="icon">
+									<i class="fa-solid fa-location-dot"></i>
+								</div>
+							</div>
+							<h3>Munnar, Kerala 685612, India</h3>
+							<p>Our Location</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- contact-info-section end -->
+</main>
+
+<!-- Vendors Js -->
+<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+<script src="{% static 'assets/vendor/fancybox/fancybox.umd.js' %}"></script>
+<script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
+
+<!-- Main Js -->
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.policy-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item   = header.parentElement;
+            const body   = item.querySelector('.policy-body');
+            const isOpen = item.classList.contains('open');
+
+            // Close all open items and reset their max-height
+            document.querySelectorAll('.policy-item.open').forEach(el => {
+                el.classList.remove('open');
+                el.querySelector('.policy-body').style.maxHeight = '0';
+            });
+
+            // If it was closed, open it with exact height
+            if (!isOpen) {
+                item.classList.add('open');
+                body.style.maxHeight = body.scrollHeight + 'px';
+            }
+        });
+    });
+});
+</script>
+
+
+
+<style>
 				.project-card.style-service { position: relative; transition: transform 0.3s ease; }
 				.project-card.style-service:hover { transform: translateY(-5px); }
 				.project-card.style-service .full-clickable-link::after {
@@ -1016,698 +1821,622 @@
     }
 }
 				{% comment %} faq css end  {% endcomment %}
-			</style>
-			<div class="row"
-     data-aos="fade-up"
-     data-aos-delay="200"
-     data-aos-duration="1000">
 
-    {% for dome in dome_types %}
 
-    <div class="col-xl-4 col-lg-4 col-md-6 m-b-30">
 
-        <div class="project-card style-service">
+                {% comment %} new domes css start {% endcomment %}
 
-            <div class="thumb">
 
-                <a href="{% url 'dome_details' dome.slug %}">
-                    {% if dome.main_image %}
-                        <img
-                            alt="{{ dome.name }}"
-                            src="{{ dome.main_image.url }}"
-                        >
-                    {% endif %}
-                </a>
+/* ==========================================================
+   DOMES INN HEAVEN - NEW ACCOMMODATION SHOWCASE
+   Scoped CSS - does not affect other sections
+========================================================== */
 
-                <div class="tag">
-                    <p>
-                        No - {{ forloop.counter|stringformat:"02d" }}
-                    </p>
-                </div>
+.di-dome-top-section,
+.di-dome-featured-section {
+    box-sizing: border-box;
+}
 
-                <div class="content">
+.di-dome-top-section *,
+.di-dome-featured-section * {
+    box-sizing: border-box;
+}
 
-                    <h5>
-                        {{ dome.name }}
-                    </h5>
+/* ==========================================================
+   SECTION 01 - CREAM BACKGROUND
+========================================================== */
 
-                    <div class="join-us">
+.di-dome-top-section {
+    position: relative;
+    background: #faf9ef;
+    padding: 90px 0 25px;
+    margin-bottom: 0;
+    overflow: hidden;
+}
 
-                        <a
-                            class="e-primary-btn has-icon is-hover-white full-clickable-link"
-                            href="{% url 'dome_details' dome.slug %}"
-                        >
-                            View Dome
+.di-dome-top-section > .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-                            <span class="icon-wrap">
-                                <span class="icon">
-                                    <i class="fa-regular fa-arrow-right"></i>
-                                    <i class="fa-regular fa-arrow-right"></i>
-                                </span>
-                            </span>
+/* HEADING */
 
-                        </a>
+.di-dome-heading {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
 
-                    </div>
+.di-dome-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
 
-                </div>
+    margin-bottom: 22px;
 
-            </div>
+    color: #a48353;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
 
-        </div>
+.di-dome-eyebrow span {
+    width: 45px;
+    height: 1px;
+    background: #cbb58c;
+}
 
-    </div>
+.di-dome-heading h2 {
+    margin: 0 0 20px;
 
-    {% empty %}
+    color: #173d33;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 4.2vw, 65px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+}
 
-    <div class="col-12">
-        <p class="text-center">
-            No Domes available yet.
-        </p>
-    </div>
+.di-dome-heading p {
+    max-width: 650px;
+    margin: 0 auto;
 
-    {% endfor %}
+    color: #59675f;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+}
 
-</div>
-		</div>
-		<div class="c-shape-1"><img alt="shape-30" src="{% static 'assets/img/shapes/shape-30.webp' %}"></div>
-		<div class="c-shape-2"><img alt="shape-31" src="{% static 'assets/img/shapes/shape-31.webp' %}"></div>
-	</section>
-	<!-- services-section end -->
+/* ==========================================================
+   THREE-COLUMN GRID
+========================================================== */
 
-	<!-- process-section start -->
-	<div class="process-section p-t-140 p-b-100 p-t-xs-40 p-b-xs-40">
-		<div class="container">
-			<div class="row">
-				<div class="container">
-					<div class="row justify-content-center text-center m-b-50 m-b-xs-40">
-						<div class="col-xl-6">
-							<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-								<!-- <img alt="icon-1" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Booking Process</span>
-							</div>
-							<div class="common-title m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-								<h2>How To Book With Us</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
-				<div class="col-xl-4">
-					<div class="service-card">
-						<div class="service-top">
-							<h4>Select Your Dome</h4>
-							<div class="number">
-								<span>01</span>
-							</div>
-						</div>
-						<div class="service-content">
-							<p>Browse our premium glamping options and choose the perfect fit for your stay.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-4">
-					<div class="service-card">
-						<div class="service-top">
-							<h4>Check Availability</h4>
-							<div class="number">
-								<span>02</span>
-							</div>
-						</div>
-						<div class="service-content">
-							<p>Contact us or check online for your desired dates to secure your heavenly escape.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-4">
-					<div class="service-card">
-						<div class="service-top">
-							<h4>Enjoy Your Stay</h4>
-							<div class="number">
-								<span>03</span>
-							</div>
-						</div>
-						<div class="service-content">
-							<p>Experience the ultimate luxury retreat and breathtaking mountain views in Munnar.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="c-shape-1"><img alt="shape-32" src="{% static 'assets/img/shapes/shape-32.webp' %}"></div>
-	</div>
-	<!-- process-section end -->
+.di-dome-top-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr 1fr;
+    gap: 24px;
 
-	<!-- dust-recycling-section start -->
-	<section class="dust-recycling-section" style="background-image: url('{% static "assets/img/static_images_new/15.png" %}')">
-		<div class="container">
-			<div class="row justify-content-center align-items-xl-start align-items-center">
-				<div class="col-lg-10 col-12 order-2 order-lg-1">
-					<div class="dust-recycle-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-						<div class="dust-recycle-top">
-							<h5>Experience The True Essence of Munnar</h5>
-							<div class="services-4">
-								<div class="service-2">
-									<i class="fa-light fa-badge-check"></i>
-									<p>Unmatched Luxury Glamping</p>
-								</div>
-								<div class="service-2">
-									<i class="fa-light fa-badge-check"></i>
-									<p>Breathtaking Valley Views</p>
-								</div>
-							</div>
-						</div>
-						<div class="campaign-progress">
-							<div class="environmental">
-								<div class="top">
-									<p>Guest Satisfaction</p>
-									<p>98%</p>
-								</div>
-								<div aria-label="Basic example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="98" class="progress" role="progressbar">
-									<div class="progress-bar" style="width: 98%"></div>
-								</div>
-							</div>
-							<div class="campaigns">
-								<div class="top">
-									<p>Nature Immersion</p>
-									<p>100%</p>
-								</div>
-								<div aria-label="Basic example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" class="progress" role="progressbar">
-									<div class="progress-bar" style="width: 100%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-2 order-1 order-lg-2 m-b-md-60 m-b-xs-40" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-					<div class="btn-layer">
-						<a class="play-btn" data-fancybox="" href="https://www.youtube.com/watch?v=fLeJJPxua3E&amp;ab_channel=Motiversity">Play</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- dust-recycling-section end -->
+    width: 100%;
+    align-items: stretch;
+}
 
-	<!-- faq-section start -->
-	<section class="faq-section style-service domes-faq-section" style="background-image: url('{% static "assets/img/bg/why-us-bg-3.webp" %}')">
-		<div class="container domes-faq-container">
-			 <div class="row faq domes-faq-layout">
-				<div class="col-lg-5 domes-faq-left" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-					<div class="common-subtitle">
-						<!-- <img alt="icon-2" src="{% static 'assets/img/icons/icon-2.svg' %}"> --> <span>Question &amp; Answer</span>
-					</div>
-					<div class="common-title text-start">
-						<h2>Frequently Asked Question <span>?</span></h2>
-					</div>
-					<div class="text">
-						<p>Find answers to common questions about your stay at our luxury glamping resort.</p>
-					</div>
-					<div class="annual-donation-wrap mt-4">
-						<div class="blog-btn">
-							<a class="e-primary-btn has-icon" href="{% url 'contact' %}">Have You Any Questions? <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-						</div>
-						<a href="{{ google_review_url }}" target="_blank" rel="noopener noreferrer"
-							aria-label="Google rating {{ google_review_rating }} out of 5"
-							class="google-review-badge">
-							<div class="google-review-inner">
-								<div class="google-review-top">
-									<svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
-										<path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-										<path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-										<path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-										<path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-									</svg>
-									<span class="google-label">Google Reviews</span>
-								</div>
-								<div class="google-stars-row">
-									<span class="rating-number">{{ google_review_rating }}</span>
-									<div class="google-stars">
-										<i class="fa-solid fa-star"></i>
-										<i class="fa-solid fa-star"></i>
-										<i class="fa-solid fa-star"></i>
-										<i class="fa-solid fa-star"></i>
-										<i class="fa-solid fa-star"></i>
-									</div>
-									<span class="review-count">({{ google_review_count }})</span>
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-7 domes-faq-right"
-     data-aos="fade-up"
-     data-aos-delay="400"
-     data-aos-duration="1000">
-<div class="accordion faq-accordion domes-faq-accordion"
-     id="domesFaqAccordion">
+/* SHARED CARD STYLES */
 
-    <!-- FAQ 1 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading1">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq1"
-                    aria-expanded="false"
-                    aria-controls="domeFaq1">
-                <span class="accordion-title">01</span>
-                <span class="domes-faq-question">
-                    What types of dome stays are available at Domes Inn Heaven?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq1" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading1"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                Domes Inn Heaven offers three current dome accommodation options:
-                Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo.
-                These stays provide a comfortable dome stay in Munnar with spacious
-                interiors, modern amenities, and private outdoor spaces overlooking
-                the surrounding cardamom plantation and greenery.
-            </div>
-        </div>
-    </div>
+.di-dome-static-panel,
+.di-dome-top-card {
+    position: relative;
 
-    <!-- FAQ 2 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading2">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq2"
-                    aria-expanded="false"
-                    aria-controls="domeFaq2">
-                <span class="accordion-title">02</span>
-                <span class="domes-faq-question">
-                    Is Domes Inn Heaven a luxury dome resort in Munnar?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq2" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading2"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                Yes, Domes Inn Heaven offers a luxury dome resort experience in
-                Munnar through its Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury
-                Jacuzzi Glamp Combo accommodations. The stays combine premium
-                interiors, air conditioning, king-size beds, Wi-Fi, spacious
-                bathrooms, and outdoor areas, making them suitable for travellers
-                searching for a luxury dome resort in Munnar or a luxury dome
-                resort Kerala experience.
-            </div>
-        </div>
-    </div>
+    height: 535px;
+    min-width: 0;
 
-    <!-- FAQ 3 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading3">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq3"
-                    aria-expanded="false"
-                    aria-controls="domeFaq3">
-                <span class="accordion-title">03</span>
-                <span class="domes-faq-question">
-                    What makes a luxury dome stay in Munnar special?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq3" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading3"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                A luxury dome stay in Munnar combines the distinctive design of
-                dome accommodation with the comfort of a well-equipped private
-                stay. At Domes Inn Heaven, guests can enjoy spacious 650 sq ft
-                interiors, air conditioning, king-size beds, Smart TV, high-speed
-                Wi-Fi, pantry facilities, a mini refrigerator, and a spacious
-                bathroom. The private outdoor areas also provide a closer
-                connection to the surrounding cardamom plantation.
-            </div>
-        </div>
-    </div>
+    border-radius: 16px;
+    overflow: hidden;
 
-    <!-- FAQ 4 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading4">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq4"
-                    aria-expanded="false"
-                    aria-controls="domeFaq4">
-                <span class="accordion-title">04</span>
-                <span class="domes-faq-question">
-                    Does Domes Inn Heaven offer a geodesic dome stay in Munnar?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq4" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading4"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                Yes, Domes Inn Heaven offers dome accommodation designed around
-                the geodesic dome concept for guests seeking a geodesic dome stay
-                in Munnar. The Luxury Glamp, Luxury Jacuzzi Glamp, and Luxury
-                Jacuzzi Glamp Combo provide modern interiors and outdoor spaces
-                while keeping guests close to the natural surroundings of Munnar.
-            </div>
-        </div>
-    </div>
+    background: #dce4da;
+    isolation: isolate;
+}
 
-    <!-- FAQ 5 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading5">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq5"
-                    aria-expanded="false"
-                    aria-controls="domeFaq5">
-                <span class="accordion-title">05</span>
-                <span class="domes-faq-question">
-                    What facilities are available in the luxury dome accommodation?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq5" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading5"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                The luxury dome accommodation at Domes Inn Heaven includes
-                features such as 650 sq ft of interior space, air conditioning,
-                two king-size beds, a 42-inch Smart TV, high-speed Wi-Fi, a pantry
-                area, mini refrigerator, spacious bathroom, hair dryer, and
-                toiletries. Each accommodation also has a 600 sq ft private patio
-                connected to the surrounding cardamom plantation.
-            </div>
-        </div>
-    </div>
+/* IMAGES */
 
-    <!-- FAQ 6 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading6">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq6"
-                    aria-expanded="false"
-                    aria-controls="domeFaq6">
-                <span class="accordion-title">06</span>
-                <span class="domes-faq-question">
-                    Does Domes Inn Heaven offer a private dome stay in Munnar?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq6" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading6"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                Yes, the dome accommodations provide private spaces designed for
-                a comfortable private dome stay in Munnar. The Luxury Glamp,
-                Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo each feature
-                a 600 sq ft private patio opening towards the cardamom plantation.
-                The Luxury Jacuzzi Glamp and Luxury Jacuzzi Glamp Combo
-                additionally include an open jacuzzi.
-            </div>
-        </div>
-    </div>
+.di-dome-static-panel > img,
+.di-dome-card-image-link img {
+    display: block;
 
-    <!-- FAQ 7 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading7">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq7"
-                    aria-expanded="false"
-                    aria-controls="domeFaq7">
-                <span class="accordion-title">07</span>
-                <span class="domes-faq-question">
-                    Is Domes Inn Heaven suitable for a premium or unique dome stay in Munnar?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq7" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading7"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                Yes. Domes Inn Heaven is suitable for travellers looking for a
-                premium dome stay in Munnar or a unique dome stay in Munnar.
-                The accommodations combine spacious interiors, premium eco-luxe
-                design, modern facilities, private outdoor areas, and natural
-                surroundings. Guests can choose between the Luxury Glamp,
-                Luxury Jacuzzi Glamp, and Luxury Jacuzzi Glamp Combo based on
-                their preferred facilities.
-            </div>
-        </div>
-    </div>
+    width: 100%;
+    height: 100%;
 
-    <!-- FAQ 8 -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="domeFaqHeading8">
-            <button class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#domeFaq8"
-                    aria-expanded="false"
-                    aria-controls="domeFaq8">
-                <span class="accordion-title">08</span>
-                <span class="domes-faq-question">
-                    What is the difference between the Luxury Glamp, Luxury Jacuzzi
-                    Glamp, and Luxury Jacuzzi Glamp Combo?
-                </span>
-                <span class="icon" aria-hidden="true">
-                    <span class="icon-plus"></span>
-                    <span class="icon-minus"></span>
-                </span>
-            </button>
-        </h2>
-        <div id="domeFaq8" class="accordion-collapse collapse"
-             aria-labelledby="domeFaqHeading8"
-             data-bs-parent="#domesFaqAccordion">
-            <div class="accordion-body">
-                The Luxury Glamp provides a spacious dome stay with a private
-                plantation-facing patio and modern amenities. The Luxury Jacuzzi
-                Glamp adds an open jacuzzi and is offered on a CP plan, while the
-                Luxury Jacuzzi Glamp Combo includes an open jacuzzi and is offered
-                on a MAP plan. All three options provide 650 sq ft interiors,
-                a 600 sq ft private patio, two king-size beds, air conditioning,
-                Smart TV, Wi-Fi, pantry facilities, and a spacious bathroom.
-            </div>
-        </div>
-    </div>
+    object-fit: cover;
+    object-position: center;
 
-</div>					
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- faq-section end-->
+    transition: transform 0.7s ease;
+}
 
-	<!-- policies-section start -->
-	<section class="policies-section p-t-100 p-b-100 p-t-xs-60 p-b-xs-60">
-		<div class="container">
+.di-dome-card-image-link {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
 
-			<div class="text-center m-b-60 m-b-xs-40">
-				<div class="common-subtitle"><span>Know Before You Go</span></div>
-				<div class="common-title mb-0"><h2>Resort Policies & Guidelines</h2></div>
-			</div>
+.di-dome-static-panel:hover > img,
+.di-dome-top-card:hover img {
+    transform: scale(1.055);
+}
 
-			<div class="policies-accordion">
+/* GRADIENT */
 
-				<!-- Resort Policies -->
-				<div class="policy-item">
-					<div class="policy-header">
-						<div style="display:flex; align-items:baseline; gap:16px;">
-							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">01</span>
-							<h3 class="policy-title">Resort Policies</h3>
-						</div>
-						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
-					</div>
-					<div class="policy-body">
-						<ul>
-							<li>Check-in time is 2:00 PM and Check-out time is 11:00 AM. Early check-in and late check-out are subject to availability and additional charges.</li>
-							<li>It is mandatory to present a valid government-issued photo ID for Indian citizens. All other nationalities must present a valid Passport and Visa at check-in.</li>
-							<li>Pets are not allowed inside the resort.</li>
-							<li>Photo-shoots can be done on a chargeable basis only.</li>
-							<li>All rooms are strictly non-smoking.</li>
-							<li>In-room dining is not available.</li>
-							<li>Loud music is not permitted in public areas. We prioritize maintaining a peaceful environment for all guests and the surrounding nature.</li>
-							<li>Visitors are not allowed inside the resort premises.</li>
-						</ul>
-					</div>
-				</div>
+.di-dome-static-panel::after,
+.di-dome-top-card::after {
+    content: "";
 
-				<!-- Child Policy -->
-				<div class="policy-item">
-					<div class="policy-header">
-						<div style="display:flex; align-items:baseline; gap:16px;">
-							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">02</span>
-							<h3 class="policy-title">Child Policy</h3>
-						</div>
-						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
-					</div>
-					<div class="policy-body">
-						<ul>
-							<li>Two children up to 5 years of age can stay free of charge in the parents' room when using the existing bed. A maximum of one extra bed can be provided on a chargeable basis.</li>
-							<li>A child aged 6–12 years, a child above 12 years, or an extra adult will be charged additionally.</li>
-						</ul>
-					</div>
-				</div>
+    position: absolute;
+    inset: 0;
 
-				<!-- Cancellation / No-Show Policy -->
-				<div class="policy-item">
-					<div class="policy-header">
-						<div style="display:flex; align-items:baseline; gap:16px;">
-							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">03</span>
-							<h3 class="policy-title">Cancellation &amp; No-Show Policy</h3>
-						</div>
-						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
-					</div>
-					<div class="policy-body">
-						<ul>
-							<li>In case of no-show or cancellation of a guaranteed reservation, the resort reserves the right to levy a retention charge for the entire stay.</li>
-							<li>50% retention charges apply for cancellations made within 14 days of arrival. Full retention charges apply for cancellations within 7 days of arrival.</li>
-							<li>Online payment fees and bank transaction charges will be levied on any refund processed within the eligible cancellation period.</li>
-						</ul>
-					</div>
-				</div>
+    background: linear-gradient(
+        180deg,
+        transparent 38%,
+        rgba(8, 29, 23, 0.12) 55%,
+        rgba(5, 24, 19, 0.83) 100%
+    );
 
-				<!-- Terms & Conditions -->
-				<div class="policy-item">
-					<div class="policy-header">
-						<div style="display:flex; align-items:baseline; gap:16px;">
-							<span style="font-size:12px; font-weight:700; color:#d4a373; letter-spacing:2px;">04</span>
-							<h3 class="policy-title">Terms &amp; Conditions</h3>
-						</div>
-						<span class="policy-icon"><i class="fa-regular fa-plus"></i></span>
-					</div>
-					<div class="policy-body">
-						<ul>
-							<li>The services of this site are available only to individuals who can form legally binding contracts under applicable law, and are not available to minors.</li>
-							<li>By using this site, you confirm that you are of sufficient legal age to create binding legal obligations for any liability incurred as a result of your use of this site.</li>
-							<li>You also confirm that you are legally authorized to make travel reservations and/or purchases for yourself or for another person for whom you are authorized to act.</li>
-						</ul>
-					</div>
-				</div>
+    z-index: 2;
+    pointer-events: none;
+}
 
-			</div>
-		</div>
-	</section>
-	<!-- policies-section end -->
+/* ==========================================================
+   STATIC LEFT IMAGE
+========================================================== */
 
-	<!-- contact-info-section start -->
-	<section class="contact-info-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12">
-					<div class="contact-info-layout">
-						<a class="contact-info active" href="mailto:info@domesinnheaven.com">
-							<div class="icon-wrap">
-								<div class="icon-shape"></div>
-								<div class="icon">
-									<i class="fa-solid fa-paper-plane"></i>
-								</div>
-							</div>
-							<h3>info@domesinnheaven.com</h3>
-							<p>Send an Email</p>
-						</a>
-						<a class="contact-info" href="tel:+919946280626">
-							<div class="icon-wrap">
-								<div class="icon-shape"></div>
-								<div class="icon">
-									<i class="fa-solid fa-phone-arrow-up-right"></i>
-								</div>
-							</div>
-							<h3>+91 8848455244</h3>
-							<p>Any Time Call Us</p>
-						</a>
-						<a class="contact-info" href="#">
-							<div class="icon-wrap">
-								<div class="icon-shape"></div>
-								<div class="icon">
-									<i class="fa-solid fa-location-dot"></i>
-								</div>
-							</div>
-							<h3>Munnar, Kerala 685612, India</h3>
-							<p>Our Location</p>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- contact-info-section end -->
-</main>
+.di-dome-static-content {
+    position: absolute;
+    z-index: 3;
 
-<!-- Vendors Js -->
-<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
-<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
-<script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-<script src="{% static 'assets/vendor/fancybox/fancybox.umd.js' %}"></script>
-<script src="{% static 'assets/vendor/counter/purecounter.js' %}"></script>
+    left: 34px;
+    right: 30px;
+    bottom: 35px;
 
-<!-- Main Js -->
-<script src="{% static 'assets/js/script.js' %}"></script>
+    color: #fff;
+    pointer-events: none;
+}
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.policy-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const item   = header.parentElement;
-            const body   = item.querySelector('.policy-body');
-            const isOpen = item.classList.contains('open');
+.di-dome-static-content > span {
+    display: block;
 
-            // Close all open items and reset their max-height
-            document.querySelectorAll('.policy-item.open').forEach(el => {
-                el.classList.remove('open');
-                el.querySelector('.policy-body').style.maxHeight = '0';
-            });
+    margin-bottom: 12px;
 
-            // If it was closed, open it with exact height
-            if (!isOpen) {
-                item.classList.add('open');
-                body.style.maxHeight = body.scrollHeight + 'px';
-            }
-        });
-    });
-});
-</script>
+    color: #e3c79c;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.di-dome-static-content h3 {
+    margin: 0;
+
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(44px, 5vw, 76px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================
+   TOP DOME CARDS
+========================================================== */
+
+.di-dome-top-content {
+    position: absolute;
+    z-index: 3;
+
+    left: 25px;
+    right: 25px;
+    bottom: 29px;
+
+    color: #fff;
+    pointer-events: none;
+}
+
+.di-dome-card-kicker {
+    display: block;
+
+    margin-bottom: 13px;
+
+    color: #e2c28b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    line-height: 1.5;
+}
+
+.di-dome-top-content h3 {
+    margin: 0 0 22px;
+
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(23px, 2vw, 31px);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.di-dome-details-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+
+    width: fit-content;
+
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+
+    pointer-events: auto;
+}
+
+.di-dome-details-link > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 33px;
+    height: 33px;
+
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+
+    transition: background 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease;
+}
+
+.di-dome-details-link:hover > span {
+    background: #fff;
+    color: #173d33;
+    transform: translateX(4px);
+}
+
+/* ==========================================================
+   SECTION 02 - FULL BACKGROUND
+========================================================== */
+
+.di-dome-featured-section {
+    position: relative;
+
+    min-height: 760px;
+    padding: 95px 0 110px;
+
+    background-color: #234c3b;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* VERY LIGHT OVERLAY - KEEP BACKGROUND VISIBLE */
+
+.di-dome-featured-section::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(8, 31, 24, 0.42) 0%,
+        rgba(8, 31, 24, 0.12) 45%,
+        rgba(8, 31, 24, 0) 85%
+    );
+
+    z-index: 0;
+    pointer-events: none;
+}
+
+.di-dome-featured-container {
+    position: relative;
+    z-index: 1;
+
+    width: min(100% - 48px, 1370px);
+    margin: 0 auto;
+}
+
+/* FEATURED INTRO */
+
+.di-dome-featured-intro {
+    max-width: 680px;
+    margin-bottom: 38px;
+}
+
+.di-dome-featured-intro > span {
+    display: block;
+    margin-bottom: 16px;
+
+    color: #e8cf9e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.di-dome-featured-intro h2 {
+    margin: 0;
+
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 4vw, 62px);
+    font-weight: 500;
+    line-height: 1.14;
+    letter-spacing: -1px;
+}
+
+/* FEATURED CARD */
+
+.di-dome-featured-card {
+    position: relative;
+
+    width: min(100%, 475px);
+    height: 430px;
+
+    border-radius: 17px;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    background: #234c3b;
+    isolation: isolate;
+}
+
+.di-dome-featured-image-link {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.di-dome-featured-image-link img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition: transform 0.7s ease;
+}
+
+.di-dome-featured-card:hover img {
+    transform: scale(1.055);
+}
+
+.di-dome-featured-card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        180deg,
+        transparent 35%,
+        rgba(8, 29, 23, 0.18) 55%,
+        rgba(5, 24, 19, 0.9) 100%
+    );
+
+    z-index: 2;
+    pointer-events: none;
+}
+
+.di-dome-featured-content {
+    position: absolute;
+    z-index: 3;
+
+    left: 30px;
+    right: 30px;
+    bottom: 32px;
+
+    pointer-events: none;
+}
+
+.di-dome-featured-content h3 {
+    margin: 0 0 22px;
+
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 3vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+/* ==========================================================
+   LAPTOP
+========================================================== */
+
+@media (max-width: 1199.98px) {
+
+    .di-dome-top-grid {
+        grid-template-columns: 1.25fr 1fr 1fr;
+        gap: 16px;
+    }
+
+    .di-dome-static-panel,
+    .di-dome-top-card {
+        height: 455px;
+    }
+
+    .di-dome-top-content {
+        left: 20px;
+        right: 20px;
+    }
+
+    .di-dome-top-content h3 {
+        font-size: 24px;
+    }
+
+    .di-dome-featured-section {
+        min-height: 700px;
+    }
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 991.98px) {
+
+    .di-dome-top-section {
+        padding: 70px 0 80px;
+    }
+
+    .di-dome-top-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .di-dome-static-panel {
+        grid-column: 1 / -1;
+        height: 340px;
+    }
+
+    .di-dome-top-card {
+        height: 420px;
+    }
+
+    .di-dome-featured-section {
+        min-height: 650px;
+        background-position: 60% center;
+    }
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 767.98px) {
+
+    .di-dome-top-section {
+        padding: 55px 0 65px;
+    }
+
+    .di-dome-heading {
+        margin-bottom: 35px;
+    }
+
+    .di-dome-heading h2 {
+        font-size: clamp(32px, 8vw, 42px);
+        letter-spacing: -0.5px;
+    }
+
+    .di-dome-heading p {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .di-dome-eyebrow {
+        font-size: 11px;
+        gap: 12px;
+    }
+
+    .di-dome-eyebrow span {
+        width: 28px;
+    }
+
+    .di-dome-top-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .di-dome-static-panel {
+        grid-column: auto;
+        height: 330px;
+    }
+
+    .di-dome-top-card {
+        height: 380px;
+    }
+
+    .di-dome-top-content h3 {
+        font-size: 27px;
+    }
+
+    .di-dome-featured-section {
+        min-height: 0;
+        padding: 70px 0 85px;
+        background-position: 65% center;
+    }
+
+    .di-dome-featured-section::before {
+        background: rgba(8, 31, 24, 0.3);
+    }
+
+    .di-dome-featured-container {
+        width: min(100% - 32px, 480px);
+    }
+
+    .di-dome-featured-intro {
+        margin-bottom: 30px;
+    }
+
+    .di-dome-featured-intro h2 {
+        font-size: 36px;
+    }
+
+    .di-dome-featured-card {
+        width: 100%;
+        height: 380px;
+    }
+
+    .di-dome-featured-content h3 {
+        font-size: 30px;
+    }
+}
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 420px) {
+
+    .di-dome-static-panel {
+        height: 290px;
+    }
+
+    .di-dome-top-card {
+        height: 340px;
+    }
+
+    .di-dome-featured-card {
+        height: 340px;
+    }
+
+    .di-dome-static-content h3 {
+        font-size: 46px;
+    }
+
+    .di-dome-featured-intro h2 {
+        font-size: 30px;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .di-dome-static-panel img,
+    .di-dome-top-card img,
+    .di-dome-featured-card img {
+        transition: none;
+    }
+}
+
+                {% comment %} new domes css end {% endcomment %}
+            </style>
+
+
 
 {% endblock %}
