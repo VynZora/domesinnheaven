@@ -222,54 +222,34 @@
      NEW DOMES SHOWCASE - SECTION 01 + SECTION 02
 ========================================================= -->
 
-<!-- SECTION 01: STATIC IMAGE + TWO DOME CARDS -->
+
+<!-- =========================================================
+     SECTION 01 - THREE DYNAMIC DOME CARDS
+========================================================= -->
+
 <section class="di-dome-top-section">
 
     <div class="container">
 
-        <!-- HEADING -->
+        <!-- SECTION HEADING -->
         <div class="di-dome-heading">
-
-            <div class="di-dome-eyebrow">
-                <span></span>
-                WHAT WE DO
-                <span></span>
-            </div>
-
             <h2>
                 We Offer Different Domes
                 <br>
                 For You
             </h2>
-
         </div>
 
-        <!-- THREE COLUMN SHOWCASE -->
+        <!-- THREE DYNAMIC CARDS -->
         <div class="di-dome-top-grid">
 
-            <!-- STATIC IMAGE - LEFT -->
-            <div class="di-dome-static-panel">
-
-                <img
-                    src="{% static 'assets\img\static_images_new\19.png' %}"
-                    alt="Luxury glamping domes at Domes Inn Heaven Munnar"
-                    loading="lazy"
-                >
-
-                <div class="di-dome-static-content">
-                    <span>DOMES INN HEAVEN · MUNNAR</span>
-                    <h3>GLAMPS</h3>
-                </div>
-
-            </div>
-
-            <!-- DYNAMIC DOME CARDS -->
             {% for dome in dome_types %}
 
-                {% if forloop.counter <= 2 %}
+                
 
                 <article class="di-dome-top-card">
 
+                    <!-- FULL IMAGE -->
                     <a
                         href="{% url 'dome_details' dome.slug %}"
                         class="di-dome-card-image-link"
@@ -277,21 +257,26 @@
                     >
 
                         {% if dome.main_image %}
+
                         <img
                             src="{{ dome.main_image.url }}"
                             alt="{{ dome.name }}"
                             loading="lazy"
                         >
+
                         {% else %}
+
                         <img
                             src="{% static 'assets/img/new/dome15.jpeg' %}"
                             alt="{{ dome.name }}"
                             loading="lazy"
                         >
+
                         {% endif %}
 
                     </a>
 
+                    <!-- CARD CONTENT -->
                     <div class="di-dome-top-content">
 
                         <span class="di-dome-card-kicker">
@@ -305,16 +290,22 @@
                             class="di-dome-details-link"
                         >
                             VIEW DETAILS
+
                             <span>
                                 <i class="fa-regular fa-arrow-right"></i>
                             </span>
+
                         </a>
 
                     </div>
 
                 </article>
 
-                {% endif %}
+                
+
+            {% empty %}
+
+                <p>No dome accommodations are available.</p>
 
             {% endfor %}
 
@@ -325,20 +316,20 @@
 </section>
 
 
+
 <!-- =========================================================
      SECTION 02: FULL SCENIC BACKGROUND + FEATURED DOME
 ========================================================= -->
 
-<section
+{% comment %} <section
     class="di-dome-featured-section"
-    style="background-image: url('{% static 'domes-page.webp' %}');"
->
+    style="background-image: url('{% static 'domes-page.webp' %}');">
 
     <div class="di-dome-featured-container">
 
         <div class="di-dome-featured-intro">
 
-            <span>THE SIGNATURE EXPERIENCE</span>
+            <span>WHAT WE DO</span>
 
             <h2>
                 Escape Into Nature.
@@ -404,7 +395,7 @@
 
     </div>
 
-</section>
+</section> {% endcomment %}
 
 <!-- END NEW DOMES SHOWCASE -->
 
@@ -2433,6 +2424,135 @@ document.addEventListener('DOMContentLoaded', () => {
         transition: none;
     }
 }
+
+
+/* =====================================================
+   SECTION 01 - THREE EQUAL DYNAMIC DOME CARDS
+===================================================== */
+
+.di-dome-top-section .di-dome-top-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* Equal-height full-image cards */
+
+.di-dome-top-section .di-dome-top-card {
+    position: relative;
+    width: 100%;
+    height: 535px;
+    min-width: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Image fills entire card */
+
+.di-dome-top-section .di-dome-card-image-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.di-dome-top-section .di-dome-card-image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Bottom content remains over the image */
+
+.di-dome-top-section .di-dome-top-content {
+    position: absolute;
+    z-index: 3;
+    left: 25px;
+    right: 25px;
+    bottom: 29px;
+    background: transparent;
+}
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+    .di-dome-top-section .di-dome-top-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .di-dome-top-section .di-dome-top-card {
+        height: 440px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 767.98px) {
+    .di-dome-top-section .di-dome-top-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .di-dome-top-section .di-dome-top-card {
+        height: 400px;
+    }
+}
+
+
+/* THREE DOMES PER ROW */
+
+.di-dome-top-section .di-dome-top-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* EACH DOME CARD */
+
+.di-dome-top-section .di-dome-top-card {
+    width: 100%;
+    min-width: 0;
+    height: 535px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+/* TABLET - TWO PER ROW */
+
+@media (max-width: 991.98px) {
+    .di-dome-top-section .di-dome-top-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .di-dome-top-section .di-dome-top-card {
+        height: 440px;
+    }
+}
+
+/* MOBILE - ONE PER ROW */
+
+@media (max-width: 767.98px) {
+    .di-dome-top-section .di-dome-top-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .di-dome-top-section .di-dome-top-card {
+        height: 400px;
+    }
+}
+
+
 
                 {% comment %} new domes css end {% endcomment %}
             </style>
