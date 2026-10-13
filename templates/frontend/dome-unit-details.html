@@ -5539,6 +5539,121 @@
     .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(7) { --ix: 79;   --iy: 69; --u: .724; --v: .906; }
 }
 
+/* ==========================================================
+   DOME FACILITIES - HORIZONTAL LINES
+   Per row: icon height = dot height (so the line is flat).
+   --iy / --dy = row height        (cqw)
+   --ix        = icon centre X     (cqw)
+   --dx        = dot X on the dome (cqw)
+========================================================== */
+@media (min-width: 768px) {
+
+    .dome-static-facilities .dsf-layout {
+        aspect-ratio: 1000 / 720;
+    }
+
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item {
+        --icon: 4.2cqw;
+        --sh: 0;
+        left: calc(var(--ix) * 1cqw);
+        top: calc(var(--iy) * 1cqw);
+    }
+
+    /* labels */
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item .dsf-name {
+        width: 12cqw;
+        font-size: clamp(9px, 1.15cqw, 13px);
+        line-height: 1.3;
+    }
+
+    /* ---------- LEFT line + dot ---------- */
+    .dome-static-facilities .dsf-layout .dsf-side.dsf-left .dsf-item .dsf-icon::before {
+        content: "";
+        position: absolute;
+        left: 100%;
+        right: auto;
+        top: 50%;
+        width: calc((var(--dx) - var(--ix)) * 1cqw - var(--icon) / 2);
+        height: 1.5px;
+        background: #D4A373;
+        transform: translateY(-50%);
+        transform-origin: 50% 50%;
+        z-index: -1;
+    }
+
+    .dome-static-facilities .dsf-layout .dsf-side.dsf-left .dsf-item .dsf-icon::after {
+        content: "";
+        position: absolute;
+        left: calc(50% + (var(--dx) - var(--ix)) * 1cqw);
+        right: auto;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        box-sizing: content-box;
+        background: #D4A373;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* ---------- RIGHT line + dot ---------- */
+    .dome-static-facilities .dsf-layout .dsf-side.dsf-right .dsf-item .dsf-icon::before {
+        content: "";
+        position: absolute;
+        right: 100%;
+        left: auto;
+        top: 50%;
+        width: calc((var(--ix) - var(--dx)) * 1cqw - var(--icon) / 2);
+        height: 1.5px;
+        background: #D4A373;
+        transform: translateY(-50%);
+        transform-origin: 50% 50%;
+        z-index: -1;
+    }
+
+    .dome-static-facilities .dsf-layout .dsf-side.dsf-right .dsf-item .dsf-icon::after {
+        content: "";
+        position: absolute;
+        right: calc(50% + (var(--ix) - var(--dx)) * 1cqw);
+        left: auto;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        box-sizing: content-box;
+        background: #D4A373;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transform: translate(50%, -50%);
+    }
+
+    /* ---------- ROW HEIGHTS (same for left and right) ---------- */
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(1) { --iy: 30.4; --dy: 30.4; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(2) { --iy: 35.8; --dy: 35.8; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(3) { --iy: 41.1; --dy: 41.1; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(4) { --iy: 46.5; --dy: 46.5; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(5) { --iy: 51.8; --dy: 51.8; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(6) { --iy: 57.2; --dy: 57.2; }
+    .dome-static-facilities .dsf-layout .dsf-side .dsf-item:nth-child(7) { --iy: 62.5; --dy: 62.5; }
+
+    /* ---------- LEFT: icon X + dot X ---------- */
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(1) { --ix: 21;   --dx: 44.2; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(2) { --ix: 17;   --dx: 37.1; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(3) { --ix: 14.5; --dx: 32.8; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(4) { --ix: 13;   --dx: 30; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(5) { --ix: 12.5; --dx: 28.5; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(6) { --ix: 13.5; --dx: 23.5; }
+    .dome-static-facilities .dsf-layout .dsf-left .dsf-item:nth-child(7) { --ix: 16;   --dx: 32.2; }
+
+    /* ---------- RIGHT: icon X + dot X ---------- */
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(1) { --ix: 79;   --dx: 53.3; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(2) { --ix: 83;   --dx: 63; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(3) { --ix: 85.5; --dx: 68.2; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(4) { --ix: 87;   --dx: 72; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(5) { --ix: 87.5; --dx: 74.7; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(6) { --ix: 86.5; --dx: 76.6; }
+    .dome-static-facilities .dsf-layout .dsf-right .dsf-item:nth-child(7) { --ix: 84;   --dx: 70.1; }
+}
+
 {% comment %} features in description css end  {% endcomment %}
 
 
@@ -8044,256 +8159,207 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
 <!-- =====================================================
-     DOME GALLERY - AUTOMATIC IMAGE SLIDER
+     DOME GALLERY - FIXED AUTOMATIC IMAGE SLIDER
+===================================================== -->
+<!-- =====================================================
+     DOME GALLERY - AUTO SLIDER (NO PAGE JUMPING)
 ===================================================== -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+(function () {
+    "use strict";
 
-    const gallery = document.querySelector(".dome-gallery");
+    function initializeDomeGallery() {
 
-    const mainImage = document.getElementById("domeGalleryMainImage");
+        const gallery = document.querySelector(".dome-gallery");
+        if (!gallery || gallery.dataset.sliderInitialized === "true") return;
 
-    const thumbnails = Array.from(
-        document.querySelectorAll(".dome-gallery-thumbnail")
-    );
+        const mainImage  = gallery.querySelector("#domeGalleryMainImage");
+        const prevButton = gallery.querySelector("#domeGalleryPrev");
+        const nextButton = gallery.querySelector("#domeGalleryNext");
+        const thumbnails = Array.from(
+            gallery.querySelectorAll(".dome-gallery-thumbnail")
+        );
 
-    const prevButton = document.getElementById("domeGalleryPrev");
-    const nextButton = document.getElementById("domeGalleryNext");
+        if (!mainImage || thumbnails.length === 0) return;
 
-    if (!gallery || !mainImage || thumbnails.length === 0) {
-        return;
-    }
+        gallery.dataset.sliderInitialized = "true";
 
-    // =============================================
-    // SETTINGS
-    // =============================================
+        const SLIDE_INTERVAL = 4000;
+        const FADE_DURATION  = 200;
 
-    const slideInterval = 4000; // Change image every 4 seconds
-    const fadeDuration = 250;
+        let currentIndex = 0;
+        let slideTimer   = null;
+        let fadeTimer    = null;
+        let galleryVisible = true;
 
-    let currentIndex = 0;
-    let autoSlide = null;
-    let fadeTimeout = null;
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
 
-    const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
+        /* ------------------------------------------
+           Scroll ONLY the thumbnail strip sideways.
+           Never touches the page's vertical scroll.
+        ------------------------------------------ */
+        function centerThumbnail(thumb) {
+            const strip = thumb.parentElement;
+            if (!strip) return;
 
-    // =============================================
-    // SHOW SELECTED IMAGE
-    // =============================================
+            const target =
+                thumb.offsetLeft -
+                (strip.clientWidth - thumb.offsetWidth) / 2;
 
-    function showImage(index) {
+            strip.scrollTo({
+                left: Math.max(0, target),
+                behavior: reducedMotion ? "auto" : "smooth"
+            });
+        }
 
-        currentIndex =
-            (index + thumbnails.length) % thumbnails.length;
+        /* ------------------------------------------
+           Show an image
+        ------------------------------------------ */
+        function showImage(index, animate) {
 
-        const selectedThumbnail = thumbnails[currentIndex];
-        const imageUrl = selectedThumbnail.dataset.image;
+            const total = thumbnails.length;
+            const target = (index + total) % total;   // wrapped index
+            currentIndex = target;
 
-        if (!imageUrl) return;
+            const thumb    = thumbnails[target];
+            const imageUrl = thumb.getAttribute("data-image");
+            if (!imageUrl) return;
 
-        clearTimeout(fadeTimeout);
+            // active thumbnail state
+            thumbnails.forEach(function (t, i) {
+                t.classList.toggle("active", i === target);
+                t.setAttribute("aria-current", i === target ? "true" : "false");
+            });
 
-        mainImage.style.opacity = prefersReducedMotion ? "1" : "0";
+            // horizontal strip scroll (skip on first load)
+            if (animate) centerThumbnail(thumb);
 
-        fadeTimeout = setTimeout(function () {
+            clearTimeout(fadeTimer);
 
-            mainImage.src = imageUrl;
-            mainImage.style.opacity = "1";
+            const preload = new Image();
 
-        }, prefersReducedMotion ? 0 : fadeDuration);
+            preload.onload = function () {
 
-        // Update active thumbnail
-        thumbnails.forEach(function (thumbnail, i) {
+                // ignore if user already moved to another image
+                if (currentIndex !== target) return;
 
-            thumbnail.classList.toggle(
-                "active",
-                i === currentIndex
-            );
+                if (reducedMotion || !animate) {
+                    mainImage.src = preload.src;
+                    mainImage.style.opacity = "1";
+                    return;
+                }
 
+                mainImage.style.opacity = "0";
+
+                fadeTimer = setTimeout(function () {
+                    if (currentIndex !== target) return;
+                    mainImage.src = preload.src;
+                    mainImage.style.opacity = "1";
+                }, FADE_DURATION);
+            };
+
+            preload.onerror = function () {
+                mainImage.style.opacity = "1";
+            };
+
+            preload.src = imageUrl;
+        }
+
+        /* ------------------------------------------
+           Timer
+        ------------------------------------------ */
+        function stopSlider() {
+            if (slideTimer !== null) {
+                clearInterval(slideTimer);
+                slideTimer = null;
+            }
+        }
+
+        function startSlider() {
+            stopSlider();
+
+            if (thumbnails.length < 2 || document.hidden) {
+                return;
+            }
+
+            slideTimer = setInterval(function () {
+                showImage(currentIndex + 1, true);
+            }, SLIDE_INTERVAL);
+        }
+
+        function goTo(index) {
+            showImage(index, true);
+            startSlider();
+        }
+
+        /* ------------------------------------------
+           Controls
+        ------------------------------------------ */
+        if (prevButton) {
+            prevButton.addEventListener("click", function () {
+                goTo(currentIndex - 1);
+            });
+        }
+
+        if (nextButton) {
+            nextButton.addEventListener("click", function () {
+                goTo(currentIndex + 1);
+            });
+        }
+
+        thumbnails.forEach(function (thumb, i) {
+            thumb.addEventListener("click", function () {
+                goTo(i);
+            });
         });
 
-        // Move thumbnail strip to selected thumbnail
-        const strip = selectedThumbnail.parentElement;
-
-        const targetLeft =
-            selectedThumbnail.offsetLeft -
-            strip.offsetLeft -
-            (strip.clientWidth - selectedThumbnail.offsetWidth) / 2;
-
-        strip.scrollTo({
-            left: targetLeft,
-            behavior: prefersReducedMotion ? "instant" : "smooth"
-        });
-    }
-
-    // =============================================
-    // STOP AUTO SLIDER
-    // =============================================
-
-    function stopAutoSlide() {
-
-        if (autoSlide !== null) {
-            clearInterval(autoSlide);
-            autoSlide = null;
-        }
-    }
-
-    // =============================================
-    // START AUTO SLIDER
-    // =============================================
-
-    function startAutoSlide() {
-
-        stopAutoSlide();
-
-        if (
-            thumbnails.length < 2 ||
-            prefersReducedMotion ||
-            document.hidden
-        ) {
-            return;
-        }
-
-        autoSlide = setInterval(function () {
-
-            showImage(currentIndex + 1);
-
-        }, slideInterval);
-    }
-
-    // =============================================
-    // THUMBNAIL CLICK
-    // =============================================
-
-    thumbnails.forEach(function (thumbnail, index) {
-
-        thumbnail.addEventListener("click", function () {
-
-            showImage(index);
-            stopAutoSlide();
-
+        gallery.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                goTo(currentIndex - 1);
+            } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                goTo(currentIndex + 1);
+            }
         });
 
-    });
+        // pause while the mouse is over the gallery
+        gallery.addEventListener("mouseenter", stopSlider);
+        gallery.addEventListener("mouseleave", startSlider);
 
-    // =============================================
-    // PREVIOUS BUTTON
-    // =============================================
-
-    if (prevButton) {
-
-        prevButton.addEventListener("click", function () {
-
-            showImage(currentIndex - 1);
-            stopAutoSlide();
-
+        // pause when the browser tab is hidden
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) stopSlider();
+            else startSlider();
         });
 
+       
+
+        /* ------------------------------------------
+           Init (no scrolling on first load)
+        ------------------------------------------ */
+        mainImage.style.transition = reducedMotion
+            ? "none"
+            : "opacity " + FADE_DURATION + "ms ease";
+
+        showImage(0, false);
+        console.log("Gallery images:", thumbnails.length);
+        startSlider();
     }
 
-    // =============================================
-    // NEXT BUTTON
-    // =============================================
-
-    if (nextButton) {
-
-        nextButton.addEventListener("click", function () {
-
-            showImage(currentIndex + 1);
-            stopAutoSlide();
-
-        });
-
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeDomeGallery);
+    } else {
+        initializeDomeGallery();
     }
 
-    // =============================================
-    // PAUSE ON HOVER
-    // =============================================
-
-    gallery.addEventListener("mouseenter", function () {
-
-        stopAutoSlide();
-
-    });
-
-    gallery.addEventListener("mouseleave", function () {
-
-        if (!gallery.contains(document.activeElement)) {
-            startAutoSlide();
-        }
-
-    });
-
-    // =============================================
-    // PAUSE ON KEYBOARD FOCUS
-    // =============================================
-
-    gallery.addEventListener("focusin", stopAutoSlide);
-
-    gallery.addEventListener("focusout", function (event) {
-
-        if (!gallery.contains(event.relatedTarget)) {
-            startAutoSlide();
-        }
-
-    });
-
-    // =============================================
-    // KEYBOARD NAVIGATION
-    // =============================================
-
-    document.addEventListener("keydown", function (event) {
-
-        if (!gallery.contains(document.activeElement)) {
-            return;
-        }
-
-        if (event.key === "ArrowLeft") {
-
-            event.preventDefault();
-            showImage(currentIndex - 1);
-            stopAutoSlide();
-
-        }
-
-        if (event.key === "ArrowRight") {
-
-            event.preventDefault();
-            showImage(currentIndex + 1);
-            stopAutoSlide();
-
-        }
-
-    });
-
-    // =============================================
-    // PAUSE WHEN TAB IS HIDDEN
-    // =============================================
-
-    document.addEventListener("visibilitychange", function () {
-
-        if (document.hidden) {
-            stopAutoSlide();
-        } else if (
-            !gallery.matches(":hover") &&
-            !gallery.contains(document.activeElement)
-        ) {
-            startAutoSlide();
-        }
-
-    });
-
-    // =============================================
-    // INITIALIZE
-    // =============================================
-
-    startAutoSlide();
-
-});
+})();
 </script>
+
 
 
 
