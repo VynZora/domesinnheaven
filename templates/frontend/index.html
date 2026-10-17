@@ -23,131 +23,473 @@
         object-fit: cover;
     }
 
-/* ── What We Do: Horizontal Scroll Section ── */
+/* ==========================================================
+   DOMES SPOTLIGHT - DESIGN 4
+========================================================== */
+
 .wwd-scroll-section {
-    /* overflow: hidden; Removed to allow GSAP pinning */
+    position: relative;
     height: 100vh;
+    min-height: 650px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    isolation: isolate;
+}
+
+.wwd-background-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(7, 24, 17, .76) 0%,
+            rgba(7, 24, 17, .52) 40%,
+            rgba(7, 24, 17, .32) 100%
+        );
 }
 
 .wwd-sticky-wrapper {
+    position: relative;
+    z-index: 1;
+    height: 100%;
     width: 100%;
 }
 
 .wwd-inner {
     display: flex;
     align-items: center;
-    height: 100vh;
-    min-height: 600px;
-    padding: 60px 60px 60px 80px;
-    gap: 60px;
+    width: 100%;
+    height: 100%;
+    min-height: 650px;
+    gap: 38px;
+    padding: 70px 0 70px clamp(35px, 5vw, 90px);
     box-sizing: border-box;
 }
 
+/* LEFT CONTENT */
+
 .wwd-left {
-    flex: 0 0 340px;
-    width: 340px;
-    color: #fff;
+    flex: 0 0 clamp(290px, 27vw, 400px);
+    width: clamp(290px, 27vw, 400px);
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    z-index: 2;
+    align-items: flex-start;
+    gap: 22px;
+    position: relative;
+    z-index: 5;
+}
+
+.wwd-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    color: #f0d69c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.wwd-eyebrow-line {
+    width: 35px;
+    height: 1px;
+    background: #e2c38a;
+}
+
+.wwd-left .common-title {
+    text-align: left;
+    margin: 0;
+}
+
+.wwd-left .common-title h2 {
+    color: #fff !important;
+    font-size: clamp(32px, 3.2vw, 54px);
+    line-height: 1.13;
+    font-weight: 600;
+    margin: 0;
+}
+
+.wwd-view-all {
+    margin-top: 22px;
+}
+
+
+
+
+/* CAROUSEL AREA */
+
+.wwd-carousel-area {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
 }
 
 .wwd-track-outer {
-    flex: 1;
-    overflow: hidden; /* clips the track — GSAP handles the movement */
-    height: 100%;
-    display: flex;
-    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 32px 0;
 }
 
 .wwd-track {
     display: flex;
-    gap: 30px;
     align-items: center;
+    gap: 24px;
+    width: max-content;
     will-change: transform;
 }
 
 .wwd-card {
-    flex: 0 0 360px; /* fixed card width — adjust to match your .project-card size */
-    width: 360px;
+    flex: 0 0 355px;
+    width: 355px;
+    height: 490px;
+    box-sizing: border-box;
+    transform: scale(.83);
+    opacity: .58;
+    filter: brightness(.68);
+    transition:
+        transform .45s cubic-bezier(.2,.8,.2,1),
+        opacity .45s ease,
+        filter .45s ease;
+    transform-origin: center center;
 }
 
-/* ── Mobile / Tablet: replace GSAP scroll with normal Swiper slider ── */
+.wwd-card.is-active {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+    z-index: 4;
+}
+
+.wwd-spotlight-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #172a20;
+    border: 1px solid rgba(235,210,158,.4);
+    box-shadow: 0 20px 45px rgba(0,0,0,.2);
+}
+
+.wwd-card.is-active .wwd-spotlight-card {
+    box-shadow: 0 28px 65px rgba(0,0,0,.38);
+    border-color: rgba(241,210,146,.8);
+}
+
+/* IMAGE */
+
+.wwd-card-image {
+    display: block;
+    position: absolute;
+    inset: 0;
+}
+
+.wwd-card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.wwd-card.is-active:hover .wwd-card-image img {
+    transform: scale(1.06);
+}
+
+.wwd-card-shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.15) 0%,
+        transparent 30%,
+        rgba(0,0,0,.22) 48%,
+        rgba(5,24,18,.94) 100%
+    );
+}
+
+/* CARD NUMBER */
+
+.wwd-card-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+    width: 47px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    background: rgba(10,25,18,.42);
+    border: 1px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(12px);
+}
+
+/* CARD CONTENT */
+
+.wwd-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 28px 25px 30px;
+    text-align: center;
+    color: #fff;
+}
+
+.wwd-card-label {
+    display: block;
+    margin-bottom: 12px;
+    color: #ead3a0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.wwd-card-content h3 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.wwd-card-content p {
+    color: rgba(255,255,255,.83);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0 auto 20px;
+    max-width: 270px;
+}
+
+.wwd-explore-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 11px 19px;
+    border: 1px solid #e6c98e;
+    border-radius: 50px;
+    color: #f5e6c5;
+    background: rgba(17,45,31,.6);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background .3s, color .3s;
+}
+
+.wwd-explore-btn:hover {
+    background: #f5e6c5;
+    color: #263c2b;
+}
+
+/* NAVIGATION */
+
+.wwd-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    min-height: 55px;
+}
+
+.wwd-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.6);
+    background: rgba(255,255,255,.13);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .3s, transform .3s;
+}
+
+.wwd-arrow:hover:not(:disabled) {
+    background: #f2dfb7;
+    color: #253b2b;
+    transform: scale(1.07);
+}
+
+.wwd-arrow:disabled {
+    opacity: .3;
+    cursor: not-allowed;
+}
+
+.wwd-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.wwd-page-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.4);
+    cursor: pointer;
+    transition: width .3s, background .3s;
+}
+
+.wwd-page-dot.is-active {
+    width: 24px;
+    border-radius: 20px;
+    background: #f1d5a0;
+}
+
+.wwd-empty {
+    color: white;
+    padding: 30px;
+}
+
+/* TABLET AND MOBILE */
+
 @media (max-width: 1199px) {
+
     .wwd-scroll-section {
         height: auto !important;
-        overflow: visible !important;
+        min-height: 0;
     }
+
     .wwd-sticky-wrapper {
-        position: static !important;
+        height: auto;
+        position: relative !important;
         transform: none !important;
-        width: 100% !important;
     }
+
     .wwd-inner {
-        display: block !important;
-        height: auto !important;
-        min-height: unset !important;
-        padding: 60px 20px 40px !important;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        height: auto;
+        gap: 35px;
+        padding: 70px 0 55px;
     }
+
     .wwd-left {
-        width: 100% !important;
-        flex: unset !important;
+        flex: none;
+        width: 100%;
+        max-width: 700px;
+        padding: 0 25px;
+        align-items: center;
         text-align: center;
-        padding: 0 0 30px;
     }
+
     .wwd-left .common-title {
         text-align: center !important;
     }
-    .wwd-left .e-primary-btn {
-        margin: 0 auto;
+
+    .wwd-left .common-title h2 {
+        font-size: clamp(32px, 5vw, 48px);
     }
+
+    .wwd-view-all {
+        margin-top: 5px;
+    }
+
+    .wwd-progress-info {
+        margin-top: 0;
+    }
+
+    .wwd-carousel-area {
+        width: 100%;
+        height: auto;
+        flex: none;
+    }
+
     .wwd-track-outer {
-        display: block !important;
-        flex: unset !important;
-        height: auto !important;
-        overflow: clip !important;
-        width: 100% !important;
-        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding: 25px 0;
+        touch-action: pan-y;
     }
+
     .wwd-track {
-        gap: 0; /* Kill desktop gap:30px — Swiper handles spacing via margin (spaceBetween) */
+        gap: 0;
+        width: 100%;
+        align-items: center;
     }
+
     .wwd-card {
-        flex: none;        /* Resets desktop flex:0 0 360px → auto basis, defers to Swiper's inline width */
-        height: auto;
-        box-sizing: border-box;
-        /* NOTE: Do NOT set width here — Swiper injects inline width:Xpx which must be the sole authority */
+        flex: none;
+        width: auto;
+        height: 460px;
     }
-    .wwd-card .project-card {
-        margin: 0 auto;
+
+    .wwd-controls {
+        margin-top: 12px;
     }
-    .wwd-card .project-card .thumb > a {
-        display: block;
-        height: 55vw;
-        min-height: 240px;
-        max-height: 420px;
+}
+
+@media (max-width: 767px) {
+
+    .wwd-inner {
+        padding: 55px 0 45px;
     }
-    .wwd-mobile-pagination {
-        display: block;
-        margin-top: 24px;
-        text-align: center;
+
+    .wwd-left {
+        padding: 0 20px;
+        gap: 17px;
     }
-    .wwd-mobile-pagination .swiper-pagination-bullet {
-        width: 10px;
-        height: 10px;
-        margin: 0 5px !important;
-        background: rgba(255,255,255,0.5) !important;
-        opacity: 1 !important;
+
+    .wwd-left .common-title h2 {
+        font-size: clamp(29px, 8vw, 39px);
+        line-height: 1.17;
     }
-    .wwd-mobile-pagination .swiper-pagination-bullet-active {
-        background: #fff !important;
+
+    .wwd-track-outer {
+        padding: 15px 0;
     }
-    .swiper-wrapper {
-        box-sizing: border-box;
+
+    .wwd-card {
+        height: 420px;
     }
-    .swiper-slide {
-        height: auto;
+
+    .wwd-card-content {
+        padding: 25px 20px;
+    }
+
+    .wwd-card-content h3 {
+        font-size: 23px;
+    }
+
+    .wwd-card-content p {
+        font-size: 12px;
+    }
+
+    .wwd-card-number {
+        width: 40px;
+        height: 40px;
+    }
+
+    .wwd-controls {
+        gap: 15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wwd-card,
+    .wwd-card-image img {
+        transition: none !important;
     }
 }
 
@@ -2413,6 +2755,1952 @@
 {% comment %} timeline feature css end  {% endcomment %}
 
 
+{% comment %} activity css start {% endcomment %}
+
+/* ==========================================================
+   DOMES INN HEAVEN - EDITORIAL ACTIVITIES DESIGN
+========================================================== */
+
+.dih-activities-section {
+    position: relative;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    min-height: 850px;
+    padding: 0;
+    background: #fbfaf2;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.dih-activities-section,
+.dih-activities-section * {
+    box-sizing: border-box;
+}
+
+/* ================= LEFT SIDE ================= */
+
+.dih-act-left {
+    position: relative;
+    min-width: 0;
+    min-height: 850px;
+    isolation: isolate;
+}
+
+/*
+   The PNG contains a transparent curved edge.
+   Extend it slightly into the right half to make
+   the two sections blend like the reference.
+*/
+
+/* ============================================
+   ACTIVITIES IMAGE - CORRECT PROPORTIONS
+============================================ */
+
+.dih-activities-section {
+    background: #faf9f2;
+}
+
+.dih-act-left {
+    position: relative;
+    min-height: 850px;
+    isolation: auto;
+    background: transparent;
+}
+
+.dih-act-scenic-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 112%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: left center;
+
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Darken only the area behind the left text */
+.dih-act-left::after {
+    content: "";
+    position: absolute;
+    inset: 0 25% 0 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        180deg,
+        rgba(3, 25, 17, .43) 0%,
+        rgba(3, 25, 17, .23) 40%,
+        transparent 75%
+    );
+}
+
+/* Keep the text above the image */
+.dih-act-left-content {
+    position: relative;
+    z-index: 3;
+}
+
+/* ============================================
+   NEW PREMIUM HEADING
+============================================ */
+
+.dih-act-wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+    white-space: normal;
+    color: #234b37;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.dih-act-wordmark-label {
+    display: block;
+    color: #ad874b;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+}
+
+.dih-act-wordmark h3 {
+    margin: 0;
+    color: #204b38;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(34px, 3.1vw, 53px);
+    font-weight: 500;
+    line-height: 1.03;
+    letter-spacing: -1.5px;
+}
+
+.dih-act-wordmark h3 span {
+    display: block;
+    color: #bb945c;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.dih-act-wordmark-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    color: #657568;
+    font-family: inherit;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.5;
+    letter-spacing: .2px;
+}
+
+.dih-act-wordmark-tagline > span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: #bb945c;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   BETTER RIGHT-SIDE SPACING
+============================================ */
+
+.dih-act-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 46px;
+}
+
+.dih-act-intro > p {
+    color: #697268;
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+
+@media (max-width: 1199px) {
+    .dih-act-intro {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .dih-act-wordmark h3 {
+        font-size: 43px;
+    }
+}
+
+@media (max-width: 991px) {
+    .dih-act-left {
+        min-height: 590px;
+        background: #143b2b;
+    }
+
+    .dih-act-scenic-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left center;
+    }
+
+    .dih-act-left::after {
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(3,25,17,.55),
+            rgba(3,25,17,.12)
+        );
+    }
+
+    .dih-act-intro {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .dih-act-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .dih-act-wordmark h3 {
+        font-size: 42px;
+    }
+
+    .dih-act-wordmark-tagline {
+        font-size: 11px;
+    }
+}
+
+
+.dih-act-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+    color: #eed3a0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.dih-act-eyebrow > span {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #eed3a0;
+}
+
+.dih-act-left-content h2 {
+    margin: 0 0 22px;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(37px, 3.5vw, 60px);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -1.2px;
+}
+
+.dih-act-left-content h2 em {
+    color: #eecb8e;
+    font-style: normal;
+}
+
+.dih-act-left-content p {
+    max-width: 405px;
+    margin: 0 0 25px;
+    color: rgba(255,255,255,.95);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.dih-act-view-all {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    padding: 5px 5px 5px 25px;
+    min-height: 60px;
+    border: 1px solid #f3dbad;
+    border-radius: 50px;
+    background: #f9edce;
+    color: #143b2c;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform .3s, background .3s;
+}
+
+.dih-act-view-all > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+    background: #0d4937;
+    color: #fff;
+    font-size: 17px;
+    transition: transform .3s;
+}
+
+.dih-act-view-all:hover {
+    color: #143b2c;
+    background: #f0dcac;
+    transform: translateY(-3px);
+}
+
+.dih-act-view-all:hover > span {
+    transform: rotate(-35deg);
+}
+
+/* ================= RIGHT SIDE ================= */
+
+.dih-act-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 75px clamp(28px, 4.2vw, 78px) 65px
+             clamp(45px, 5vw, 95px);
+}
+
+/* TOP INTRO */
+
+.dih-act-intro {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 55px;
+}
+
+.dih-act-wordmark {
+    display: flex;
+    align-items: flex-start;
+    color: #0b4c3a;
+    font-family: Georgia, "Times New Roman", serif;
+    white-space: nowrap;
+}
+
+.dih-act-big-e {
+    font-size: clamp(88px, 7vw, 130px);
+    line-height: .79;
+    letter-spacing: -8px;
+}
+
+.dih-act-wordmark > div {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}
+
+.dih-act-wordmark strong,
+.dih-act-wordmark > div > span {
+    display: block;
+    font-size: clamp(20px, 2.15vw, 35px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+}
+
+.dih-act-wordmark > div > span {
+    color: #a6a6a3;
+}
+
+.dih-act-intro > p {
+    margin: 0;
+    color: #61645e;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* LIST + FEATURED CARD */
+
+.dih-act-experience-layout {
+    display: grid;
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
+}
+
+.dih-act-list-panel {
+    min-width: 0;
+}
+
+.dih-act-list-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    margin-bottom: 24px;
+    border-radius: 0 50px 50px 0;
+    background: linear-gradient(
+        90deg,
+        rgba(225,235,213,.25),
+        #e9efdf
+    );
+    color: #16533f;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 4px;
+}
+
+.dih-act-list {
+    position: relative;
+    padding: 0 0 0 19px;
+}
+
+.dih-act-list::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background: #cbd6c7;
+}
+
+.dih-act-list-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 61px;
+    padding: 10px 0 10px 25px;
+    border: 0;
+    background: transparent;
+    color: #a1aea4;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color .3s, transform .3s;
+}
+
+.dih-act-timeline-dot {
+    position: absolute;
+    top: 50%;
+    left: -18px;
+    width: 15px;
+    height: 15px;
+    transform: translateY(-50%);
+    border: 1px solid #b7c8b7;
+    border-radius: 50%;
+    background: #fbfaf2;
+    transition: background .3s, border-color .3s;
+}
+
+.dih-act-item-name {
+    min-width: 0;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.dih-act-list-item > i {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity .3s, transform .3s;
+}
+
+.dih-act-list-item:hover,
+.dih-act-list-item.is-active {
+    color: #0b4c3a;
+}
+
+.dih-act-list-item.is-active {
+    font-weight: 700;
+}
+
+.dih-act-list-item.is-active .dih-act-timeline-dot {
+    background: #0b4c3a;
+    border-color: #0b4c3a;
+}
+
+.dih-act-list-item:hover > i,
+.dih-act-list-item.is-active > i {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dih-act-list-item:focus-visible,
+.dih-act-prev:focus-visible,
+.dih-act-next:focus-visible {
+    outline: 2px solid #0b4c3a;
+    outline-offset: 3px;
+}
+
+.dih-act-empty {
+    color: #6c776c;
+}
+
+/* FEATURED IMAGE */
+
+.dih-act-feature-panel {
+    min-width: 0;
+}
+
+.dih-act-feature-stage {
+    position: relative;
+    height: 450px;
+    border-radius: 26px 26px 80px 26px;
+    overflow: hidden;
+    background: #193f30;
+}
+
+.dih-act-feature {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.035);
+    transition:
+        opacity .55s ease,
+        visibility .55s ease,
+        transform .8s ease;
+}
+
+.dih-act-feature.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 2;
+}
+
+.dih-act-feature-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.dih-act-feature-link > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.dih-act-feature-link:hover > img {
+    transform: scale(1.06);
+}
+
+.dih-act-feature-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(4,25,18,.03) 25%,
+        rgba(4,25,18,.42) 56%,
+        rgba(3,30,21,.95) 100%
+    );
+}
+
+.dih-act-feature-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 27px;
+    color: #fff;
+}
+
+.dih-act-feature-label {
+    color: #f0d19a;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.dih-act-feature-content > strong {
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(23px, 2.1vw, 34px);
+    line-height: 1.12;
+    font-weight: 600;
+}
+
+.dih-act-feature-description {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    color: rgba(255,255,255,.9);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.dih-act-feature-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #f1d6a6;
+    font-size: 12px;
+}
+
+.dih-act-feature-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 25px;
+    color: #fff;
+    text-align: center;
+}
+
+/* NAVIGATION */
+
+.dih-act-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 22px;
+}
+
+.dih-act-counter {
+    color: #0b4c3a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.dih-act-counter-divider,
+.dih-act-total {
+    color: #a7b1a8;
+}
+
+.dih-act-navigation-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.dih-act-prev,
+.dih-act-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 49px;
+    height: 49px;
+    padding: 0;
+    border: 1px solid #d5dfd1;
+    border-radius: 50%;
+    background: transparent;
+    color: #0b4c3a;
+    cursor: pointer;
+    transition: background .3s, color .3s, transform .3s;
+}
+
+.dih-act-next {
+    background: #0b4c3a;
+    border-color: #0b4c3a;
+    color: #fff;
+}
+
+.dih-act-prev:hover,
+.dih-act-next:hover {
+    background: #17634b;
+    border-color: #17634b;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1399px) {
+    .dih-act-right {
+        padding-left: 60px;
+        padding-right: 30px;
+    }
+
+    .dih-act-experience-layout {
+        gap: 18px;
+    }
+
+    .dih-act-list-item {
+        font-size: 12px;
+        min-height: 56px;
+    }
+
+    .dih-act-feature-stage {
+        height: 410px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .dih-activities-section {
+        grid-template-columns: 46% 54%;
+        min-height: 750px;
+    }
+
+    .dih-act-left {
+        min-height: 750px;
+    }
+
+    .dih-act-left-content {
+        padding-left: 30px;
+        padding-top: 80px;
+    }
+
+    .dih-act-right {
+        padding: 55px 22px 50px 45px;
+    }
+
+    .dih-act-intro {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .dih-act-experience-layout {
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1fr);
+        gap: 15px;
+    }
+
+    .dih-act-feature-stage {
+        height: 360px;
+    }
+
+    .dih-act-list-heading {
+        font-size: 13px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (max-width: 991px) {
+    .dih-activities-section {
+        display: block;
+    }
+
+    .dih-act-left {
+        min-height: 590px;
+        overflow: hidden;
+        background: #123b2c;
+    }
+
+    .dih-act-scenic-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left center;
+    }
+
+    .dih-act-left::after {
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(4,25,17,.75) 0%,
+            rgba(4,25,17,.3) 65%,
+            rgba(4,25,17,.1) 100%
+        );
+    }
+
+    .dih-act-left-content {
+        padding: 75px 30px;
+    }
+
+    .dih-act-right {
+        padding: 65px 35px;
+    }
+
+    .dih-act-intro {
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+    }
+
+    .dih-act-experience-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .dih-act-feature-stage {
+        height: 420px;
+    }
+}
+
+@media (max-width: 575px) {
+    .dih-act-left {
+        min-height: 550px;
+    }
+
+    .dih-act-left-content {
+        padding: 55px 22px;
+    }
+
+    .dih-act-left-content h2 {
+        font-size: clamp(36px, 9vw, 49px);
+    }
+
+    .dih-act-left-content p {
+        font-size: 14px;
+    }
+
+    .dih-act-right {
+        padding: 50px 20px;
+    }
+
+    .dih-act-intro {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-bottom: 35px;
+    }
+
+    .dih-act-big-e {
+        font-size: 105px;
+    }
+
+    .dih-act-wordmark strong,
+    .dih-act-wordmark > div > span {
+        font-size: 28px;
+    }
+
+    .dih-act-experience-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .dih-act-list-item {
+        min-height: 49px;
+        font-size: 13px;
+    }
+
+    .dih-act-feature-stage {
+        height: 400px;
+    }
+
+    .dih-act-feature-content {
+        padding: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dih-act-feature,
+    .dih-act-feature-link > img,
+    .dih-act-list-item {
+        transition: none;
+    }
+}
+
+
+
+/* ==========================================
+   ACTIVITIES - FULL HEIGHT IMAGE FIX
+========================================== */
+
+@media (min-width: 992px) {
+
+    .dih-activities-section {
+        display: grid !important;
+        grid-template-columns: 50% 50% !important;
+        align-items: stretch !important;
+        min-height: 850px;
+        height: auto !important;
+        overflow: hidden;
+        background: #fbfaf2;
+    }
+
+    .dih-act-left {
+        position: relative !important;
+        align-self: stretch !important;
+        min-height: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        isolation: auto !important;
+        background: #fbfaf2 !important;
+    }
+
+    .dih-act-scenic-image {
+        position: absolute !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 116% !important;
+        height: 100% !important;
+
+        object-fit: fill !important;
+        object-position: left center !important;
+
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        z-index: 0 !important;
+        pointer-events: none;
+    }
+
+    .dih-act-left::after {
+        inset: 0 18% 0 0 !important;
+        z-index: 1 !important;
+        background: linear-gradient(
+            180deg,
+            rgba(3, 24, 17, .62) 0%,
+            rgba(3, 24, 17, .30) 35%,
+            rgba(3, 24, 17, .08) 65%,
+            transparent 100%
+        ) !important;
+    }
+
+    .dih-act-left-content {
+        position: relative !important;
+        z-index: 3 !important;
+        max-width: 490px;
+        padding-top: 95px !important;
+        padding-left: clamp(35px, 5vw, 90px) !important;
+    }
+
+    .dih-act-right {
+        position: relative;
+        z-index: 2;
+        background: transparent !important;
+    }
+}
+
+/* MOBILE / TABLET */
+@media (max-width: 991px) {
+
+    .dih-activities-section {
+        display: block !important;
+    }
+
+    .dih-act-left {
+        position: relative !important;
+        min-height: 590px !important;
+        overflow: hidden !important;
+        background: #173c2c !important;
+    }
+
+    .dih-act-scenic-image {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: left center !important;
+    }
+}
+
+
+/* Remove extra dark/grey overlay */
+.dih-activities-section .dih-act-left::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Remove any unwanted background shading */
+.dih-activities-section .dih-act-left {
+    background: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* Keep the transparent image clean */
+.dih-activities-section .dih-act-scenic-image {
+    filter: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+}
+
+
+
+
+/* ==========================================
+   ACTIVITIES - BOTANICAL DECORATION
+========================================== */
+
+.dih-activities-section .dih-act-right {
+    position: relative;
+    isolation: isolate;
+}
+
+/* Keep content above botanical artwork */
+.dih-activities-section .dih-act-intro,
+.dih-activities-section .dih-act-experience-layout {
+    position: relative;
+    z-index: 2;
+}
+
+/* Common pattern styling */
+.dih-activities-section .dih-act-pattern {
+    position: absolute;
+    display: block;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    filter: none;
+}
+
+/* Pattern 1 - top right */
+.dih-activities-section .dih-act-pattern-top {
+    width: clamp(190px, 19vw, 310px);
+    top: -65px;
+    right: -75px;
+    opacity: 0.16;
+    transform: rotate(18deg);
+}
+
+/* Pattern 2 - bottom left */
+.dih-activities-section .dih-act-pattern-bottom {
+    width: clamp(170px, 17vw, 280px);
+    bottom: -65px;
+    left: -75px;
+    opacity: 0.20;
+    transform: rotate(-32deg);
+}
+
+/* Gentle floating animation */
+@keyframes dihBotanicalFloat {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -12px;
+    }
+}
+
+.dih-activities-section .dih-act-pattern-top {
+    animation: dihBotanicalFloat 8s ease-in-out infinite;
+}
+
+.dih-activities-section .dih-act-pattern-bottom {
+    animation: dihBotanicalFloat 11s ease-in-out infinite reverse;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+    .dih-activities-section .dih-act-pattern-top {
+        width: 210px;
+        top: -30px;
+        right: -65px;
+        opacity: 0.12;
+    }
+
+    .dih-activities-section .dih-act-pattern-bottom {
+        width: 190px;
+        bottom: -35px;
+        left: -65px;
+        opacity: 0.14;
+    }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+    .dih-activities-section .dih-act-pattern-top {
+        width: 155px;
+        top: -20px;
+        right: -55px;
+        opacity: 0.12;
+    }
+
+    .dih-activities-section .dih-act-pattern-bottom {
+        width: 145px;
+        bottom: -35px;
+        left: -55px;
+        opacity: 0.10;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dih-activities-section .dih-act-pattern {
+        animation: none !important;
+    }
+}
+
+
+/* ============================================
+   ACTIVITIES — TIGHTER RIGHT-SIDE ALIGNMENT
+   AND THIRD BOTANICAL PATTERN
+============================================ */
+
+/* Desktop only */
+@media (min-width: 1200px) {
+
+    .dih-activities-section .dih-act-right {
+        padding-left: 28px !important;
+        padding-right: 45px !important;
+        padding-top: 65px;
+        padding-bottom: 55px;
+    }
+
+    /* Move the heading and description together */
+    .dih-activities-section .dih-act-intro {
+        grid-template-columns: minmax(0, 0.9fr)
+                               minmax(0, 1fr);
+        gap: 24px;
+        margin-bottom: 38px;
+    }
+
+    /* Bring the activity list and image closer */
+    .dih-activities-section .dih-act-experience-layout {
+        grid-template-columns: minmax(0, 0.85fr)
+                               minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .dih-activities-section .dih-act-list-panel,
+    .dih-activities-section .dih-act-feature-panel {
+        min-width: 0;
+    }
+}
+
+/* Third botanical decoration */
+.dih-activities-section .dih-act-pattern-middle {
+    position: absolute;
+    width: clamp(115px, 12vw, 190px);
+    top: 45%;
+    left: 8px;
+    opacity: 0.11;
+    transform: translateY(-50%) rotate(30deg);
+    z-index: 0;
+    pointer-events: none;
+    animation: none;
+}
+
+/* Keep decorations behind content */
+.dih-activities-section .dih-act-intro,
+.dih-activities-section .dih-act-experience-layout {
+    position: relative;
+    z-index: 2;
+}
+
+/* Hide middle pattern on smaller screens */
+@media (max-width: 1199px) {
+    .dih-activities-section .dih-act-pattern-middle {
+        display: none;
+    }
+}
+
+
+/* ==========================================
+   NEW GREEN BOTANICAL CORNER PATTERN
+========================================== */
+
+/* Desktop */
+.dih-activities-section .dih-act-pattern-corner {
+    position: absolute;
+
+    /* Position along upper-left of right section */
+    top: 15px;
+    left: 15px;
+
+    width: clamp(240px, 25vw, 390px);
+    height: auto;
+
+    object-fit: contain;
+    object-position: top left;
+
+    opacity: 0.10;
+
+    transform: none;
+    transform-origin: top left;
+
+    z-index: 0;
+
+    pointer-events: none;
+    user-select: none;
+
+    animation: none;
+}
+
+/* Keep heading, description, and activity cards above */
+.dih-activities-section .dih-act-intro,
+.dih-activities-section .dih-act-experience-layout {
+    position: relative;
+    z-index: 2;
+}
+
+/* Tablet */
+@media (max-width: 1199px) {
+    .dih-activities-section .dih-act-pattern-corner {
+        top: 10px;
+        left: 0;
+        width: 260px;
+        opacity: 0.08;
+    }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+    .dih-activities-section .dih-act-pattern-corner {
+        top: 0;
+        left: -20px;
+        width: 190px;
+        opacity: 0.07;
+    }
+}
+
+/* ======================================================
+   ACTIVITIES — LARGE DESKTOP GAP CORRECTION
+====================================================== */
+
+@media (min-width: 1200px) {
+
+    .dih-activities-section {
+        display: grid !important;
+        grid-template-columns: 42% 58% !important;
+        align-items: stretch;
+        overflow: hidden;
+    }
+
+    /* Left curved image */
+    .dih-activities-section .dih-act-left {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+    }
+
+    .dih-activities-section .dih-act-scenic-image {
+        width: 124% !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: fill !important;
+    }
+
+    /* Move the complete right section left */
+    .dih-activities-section .dih-act-right {
+        position: relative;
+        z-index: 2;
+
+        margin-left: -85px !important;
+
+        padding-left: 75px !important;
+        padding-right: clamp(35px, 3vw, 65px) !important;
+
+        min-width: 0;
+        background: transparent !important;
+    }
+
+    /* Keep the existing content and interactions */
+    .dih-activities-section .dih-act-intro,
+    .dih-activities-section .dih-act-experience-layout {
+        position: relative;
+        z-index: 3;
+    }
+}
+
+/* Extra-wide desktop screens */
+@media (min-width: 1600px) {
+
+    .dih-activities-section {
+        grid-template-columns: 40% 60% !important;
+    }
+
+    .dih-activities-section .dih-act-right {
+        margin-left: -105px !important;
+        padding-left: 85px !important;
+    }
+}
+
+
+/* ==========================================
+   ACTIVITIES — INCREASE LIST TEXT SIZE
+========================================== */
+
+@media (min-width: 1200px) {
+
+    .dih-activities-section .dih-act-list-item,
+    .dih-activities-section .dih-act-item-title {
+        font-size: 16px !important;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+}
+
+
+{% comment %} activity css end  {% endcomment %}
+
+
+
+{% comment %} testimonials css start {% endcomment %}
+/* ==========================================================
+   DOMES INN HEAVEN - FEATURED TESTIMONIALS
+   PREMIUM EDITORIAL LAYOUT
+========================================================== */
+
+.dih-featured-testimonials {
+    position: relative;
+    padding: 100px 0 80px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(103, 130, 73, 0.07), transparent 32%),
+        #f8f8f6;
+}
+
+.dih-ft-container {
+    width: min(100% - 80px, 1320px);
+    margin: 0 auto;
+}
+
+/* HEADING */
+
+.dih-ft-heading {
+    max-width: 850px;
+    margin: 0 auto 75px;
+    text-align: center;
+}
+
+.dih-ft-eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: #b89158;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.dih-ft-heading h2 {
+    margin: 0;
+    color: #3d4b33;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.dih-ft-heading p {
+    max-width: 780px;
+    margin: 20px auto 0;
+    color: #737a71;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* SLIDER */
+
+.dih-ft-slider {
+    position: relative;
+}
+
+.dih-ft-slides {
+    position: relative;
+}
+
+.dih-ft-slide {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(45px, 6vw, 95px);
+    min-height: 470px;
+    animation: dihFtFade 0.45s ease both;
+}
+
+.dih-ft-slide[hidden] {
+    display: none !important;
+}
+
+/* LEFT IMAGE */
+
+.dih-ft-image-column {
+    min-width: 0;
+}
+
+.dih-ft-image-frame {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #e5ede8, #a5b7ac);
+    box-shadow: 0 25px 45px rgba(36, 55, 39, 0.12);
+}
+
+.dih-ft-image-frame > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.dih-ft-image-frame:hover > img {
+    transform: scale(1.04);
+}
+
+.dih-ft-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #789c8b;
+    font-size: 65px;
+}
+
+/* RIGHT CONTENT */
+
+.dih-ft-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.dih-ft-stars {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    color: #ba9358;
+    font-size: 17px;
+}
+
+.dih-ft-quote-mark {
+    margin-bottom: 24px;
+    color: #66862b;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.dih-ft-review-wrap {
+    width: 100%;
+}
+
+.dih-ft-review-text {
+    position: relative;
+    color: #27332d;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(20px, 1.9vw, 27px);
+    font-weight: 400;
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+}
+
+/* COLLAPSED REVIEW */
+
+.dih-ft-review-text:not(.is-expanded) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    overflow: hidden;
+}
+
+/* EXPANDED REVIEW */
+
+.dih-ft-review-text.is-expanded {
+    display: block;
+    max-height: 290px;
+    overflow-y: auto;
+    padding-right: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: #b4c1a5 transparent;
+}
+
+/* READ MORE */
+
+/* =====================================================
+   TESTIMONIAL READ MORE - MATCH WEBSITE BUTTON DESIGN
+===================================================== */
+
+.dih-featured-testimonials .dih-ft-readmore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    width: auto;
+    min-height: 54px;
+
+    margin-top: 22px;
+    padding: 5px 5px 5px 25px;
+
+    border: 1px solid #e6d8b4;
+    border-radius: 50px;
+
+    background: #fff0cb;
+    color: #3D4B33;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.dih-featured-testimonials .dih-ft-readmore .dih-ft-btn-text {
+    color: inherit;
+    white-space: nowrap;
+}
+
+.dih-featured-testimonials .dih-ft-readmore .icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+
+    padding: 0;
+    margin: 0;
+
+    border-radius: 50%;
+    background: #3D4B33;
+    color: #ffffff;
+}
+
+.dih-featured-testimonials .dih-ft-readmore .icon {
+    color: #ffffff;
+}
+
+/* HOVER */
+
+.dih-featured-testimonials .dih-ft-readmore:hover {
+    background: #3D4B33;
+    border-color: #3D4B33;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.dih-featured-testimonials .dih-ft-readmore:hover .icon-wrap {
+    background: #fff0cb;
+    color: #3D4B33;
+}
+
+.dih-featured-testimonials .dih-ft-readmore:hover .icon {
+    color: #3D4B33;
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+    .dih-featured-testimonials .dih-ft-readmore {
+        min-height: 48px;
+        padding: 4px 4px 4px 20px;
+        font-size: 13px;
+    }
+
+    .dih-featured-testimonials .dih-ft-readmore .icon-wrap {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+}
+
+/* AUTHOR */
+
+.dih-ft-author {
+    margin-top: 35px;
+}
+
+.dih-ft-author h3 {
+    margin: 0 0 8px;
+    color: #25312a;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.dih-ft-author-label {
+    color: #809586;
+    font-size: 14px;
+}
+
+/* NAVIGATION */
+
+.dih-ft-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 45px;
+}
+
+.dih-ft-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid #dce5d7;
+    border-radius: 50%;
+    background: #fff;
+    color: #476239;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+
+.dih-ft-nav:hover:not(:disabled) {
+    background: #678b24;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.dih-ft-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.dih-ft-counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #7c8a76;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dih-ft-current {
+    color: #476239;
+    font-size: 17px;
+}
+
+.dih-ft-counter-divider {
+    color: #c2cbbd;
+}
+
+.dih-ft-empty {
+    text-align: center;
+    color: #6f786b;
+}
+
+/* ANIMATION */
+
+@keyframes dihFtFade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TABLET */
+
+@media (max-width: 991px) {
+
+    .dih-featured-testimonials {
+        padding: 75px 0 65px;
+    }
+
+    .dih-ft-container {
+        width: min(100% - 48px, 900px);
+    }
+
+    .dih-ft-heading {
+        margin-bottom: 50px;
+    }
+
+    .dih-ft-slide {
+        gap: 35px;
+        min-height: 380px;
+    }
+
+    .dih-ft-image-frame {
+        height: 340px;
+    }
+
+    .dih-ft-review-text {
+        font-size: 20px;
+    }
+
+    .dih-ft-review-text.is-expanded {
+        max-height: 240px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+
+    .dih-featured-testimonials {
+        padding: 60px 0 55px;
+    }
+
+    .dih-ft-container {
+        width: calc(100% - 36px);
+    }
+
+    .dih-ft-heading {
+        margin-bottom: 38px;
+    }
+
+    .dih-ft-heading h2 {
+        font-size: 34px;
+    }
+
+    .dih-ft-heading p {
+        font-size: 14px;
+    }
+
+    .dih-ft-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 35px;
+        min-height: 0;
+    }
+
+    .dih-ft-image-frame {
+        height: 300px;
+        border-radius: 20px;
+    }
+
+    .dih-ft-stars {
+        margin-bottom: 18px;
+    }
+
+    .dih-ft-quote-mark {
+        margin-bottom: 15px;
+    }
+
+    .dih-ft-review-text {
+        font-size: 20px;
+        line-height: 1.6;
+    }
+
+    .dih-ft-review-text.is-expanded {
+        max-height: 250px;
+    }
+
+    .dih-ft-author {
+        margin-top: 25px;
+    }
+
+    .dih-ft-author h3 {
+        font-size: 22px;
+    }
+
+    .dih-ft-controls {
+        margin-top: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .dih-ft-image-frame {
+        height: 250px;
+    }
+
+    .dih-ft-review-text {
+        font-size: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dih-ft-slide {
+        animation: none;
+    }
+}
+
+
+/* ==========================================================
+   COMPACT FEATURED TESTIMONIALS
+   Reduce section, image and review height
+========================================================== */
+
+@media (min-width: 992px) {
+
+    .dih-featured-testimonials {
+        padding-top: 65px;
+        padding-bottom: 55px;
+    }
+
+    .dih-ft-heading {
+        margin-bottom: 40px;
+    }
+
+    .dih-ft-heading h2 {
+        font-size: clamp(34px, 3.5vw, 48px);
+    }
+
+    .dih-ft-heading p {
+        margin-top: 14px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .dih-ft-slide {
+        min-height: 370px;
+        gap: clamp(35px, 5vw, 70px);
+    }
+
+    .dih-ft-image-frame {
+        height: 350px;
+        border-radius: 22px;
+    }
+
+    .dih-ft-stars {
+        margin-bottom: 12px;
+    }
+
+    .dih-ft-quote-mark {
+        margin-bottom: 12px;
+        font-size: 29px;
+    }
+
+    .dih-ft-review-text {
+        font-size: clamp(18px, 1.55vw, 22px);
+        line-height: 1.5;
+    }
+
+    .dih-ft-review-text:not(.is-expanded) {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+    }
+
+    .dih-ft-review-text.is-expanded {
+        max-height: 190px;
+        overflow-y: auto;
+    }
+
+    .dih-ft-readmore {
+        margin-top: 14px;
+    }
+
+    .dih-ft-author {
+        margin-top: 20px;
+    }
+
+    .dih-ft-author h3 {
+        font-size: 22px;
+        margin-bottom: 4px;
+    }
+
+    .dih-ft-controls {
+        margin-top: 25px;
+    }
+}
+
+/* TABLET */
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .dih-featured-testimonials {
+        padding: 60px 0 50px;
+    }
+
+    .dih-ft-heading {
+        margin-bottom: 35px;
+    }
+
+    .dih-ft-slide {
+        min-height: 320px;
+        gap: 30px;
+    }
+
+    .dih-ft-image-frame {
+        height: 300px;
+    }
+
+    .dih-ft-review-text {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    .dih-ft-review-text:not(.is-expanded) {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+    }
+
+    .dih-ft-review-text.is-expanded {
+        max-height: 170px;
+    }
+
+    .dih-ft-author {
+        margin-top: 18px;
+    }
+
+    .dih-ft-controls {
+        margin-top: 25px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+
+    .dih-featured-testimonials {
+        padding: 45px 0 40px;
+    }
+
+    .dih-ft-heading {
+        margin-bottom: 30px;
+    }
+
+    .dih-ft-slide {
+        gap: 24px;
+    }
+
+    .dih-ft-image-frame {
+        height: 240px;
+        border-radius: 18px;
+    }
+
+    .dih-ft-stars {
+        margin-bottom: 12px;
+    }
+
+    .dih-ft-quote-mark {
+        margin-bottom: 12px;
+    }
+
+    .dih-ft-review-text {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    .dih-ft-review-text:not(.is-expanded) {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+    }
+
+    .dih-ft-review-text.is-expanded {
+        max-height: 190px;
+    }
+
+    .dih-ft-author {
+        margin-top: 18px;
+    }
+
+    .dih-ft-controls {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dih-ft-image-frame {
+        height: 220px;
+    }
+}
+
+
+{% comment %} testimonials css end  {% endcomment %}
+
 </style>
 
 <!-- preloader start-->
@@ -2871,7 +5159,7 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
     {% endcomment %}
 	<!-- what-we-do-section end -->
 
-<!-- what-we-do-section start -->
+{% comment %} <!-- what-we-do-section start -->
 <section class="what-we-do-section wwd-scroll-section m-t-80 m-t-xs-40"
     style="position: relative; background-image: url('{% static "assets/img/static_images_new/1.png" %}'); background-size: cover; background-position: center;">
 
@@ -2935,7 +5223,159 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
     <div class="shape-10"><img src="{% static 'assets/img/shapes/shape-10.webp' %}" alt="shape-10"/></div>
     <div class="shape-11"><img src="{% static 'assets/img/shapes/shape-11.webp' %}" alt="shape-11"/></div>
 </section>
-<!-- what-we-do-section end -->
+<!-- what-we-do-section end --> {% endcomment %}
+
+
+
+<!-- =====================================================
+     DOMES SPOTLIGHT - SCROLL FOCUSED CAROUSEL
+===================================================== -->
+<section
+    class="what-we-do-section wwd-scroll-section m-t-80 m-t-xs-40"
+    id="dome-spotlight"
+    style="background-image: url('{% static 'assets/img/static_images_new/1.png' %}');"
+>
+    <div class="wwd-background-overlay"></div>
+
+    <div class="wwd-sticky-wrapper">
+        <div class="wwd-inner">
+
+            <!-- LEFT CONTENT -->
+            <div class="wwd-left">
+
+                <span class="wwd-eyebrow">
+                    <span class="wwd-eyebrow-line"></span>
+                    OUR DOMES
+                </span>
+
+                <div class="common-title text-start">
+                    <h2>
+                        Every detail of your stay is
+                        curated for comfort,
+                        wonder, and ease
+                    </h2>
+                </div>
+
+                <a
+                    href="{% url 'services' %}"
+                    class="e-primary-btn has-icon wwd-view-all"
+                >
+                    View All Domes
+
+                    <span class="icon-wrap">
+                        <span class="icon">
+                            <i class="fa-regular fa-arrow-right"></i>
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </span>
+                    </span>
+                </a>
+
+            </div>
+
+            <!-- RIGHT CAROUSEL -->
+            <div class="wwd-carousel-area">
+
+                <div class="wwd-track-outer">
+
+                    <div class="wwd-track">
+
+                        {% for dome in dome_types %}
+
+<article class="wwd-card">
+    <div class="wwd-spotlight-card">
+
+        <a href="{% url 'dome_details' dome.slug %}"
+           class="wwd-card-image"
+           aria-label="View {{ dome.name }}">
+
+            {% if dome.main_image %}
+                <img src="{{ dome.main_image.url }}"
+                     alt="{{ dome.name }}"
+                     loading="lazy">
+            {% else %}
+                <img src="{% static 'assets/img/new/dome15.jpeg' %}"
+                     alt="{{ dome.name }}"
+                     loading="lazy">
+            {% endif %}
+        </a>
+
+        <div class="wwd-card-shade"></div>
+
+        <div class="wwd-card-number">
+            <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+            <span>{{ forloop.counter|stringformat:"02d" }}</span>
+        </div>
+
+        <div class="wwd-card-content">
+
+            <span class="wwd-card-label">
+                DOMES INN HEAVEN · MUNNAR
+            </span>
+
+            <h3>{{ dome.name }}</h3>
+
+            <p>
+                Experience luxury in our handcrafted
+                {{ dome.name }}.
+            </p>
+
+            <a href="{% url 'dome_details' dome.slug %}"
+               class="wwd-explore-btn">
+                <span>Explore Stay</span>
+
+                <span class="wwd-explore-icon">
+                    <i class="fa-regular fa-arrow-right"></i>
+                </span>
+            </a>
+
+        </div>
+
+    </div>
+</article>
+
+                        {% empty %}
+
+                        <div class="wwd-empty">
+                            No domes available.
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <!-- NAVIGATION -->
+                <div class="wwd-controls">
+
+                    <button
+                        type="button"
+                        class="wwd-arrow wwd-prev"
+                        aria-label="Previous dome"
+                    >
+                        <i class="fa-regular fa-arrow-left"></i>
+                    </button>
+
+                    <div class="wwd-pagination"></div>
+
+                    <button
+                        type="button"
+                        class="wwd-arrow wwd-next"
+                        aria-label="Next dome"
+                    >
+                        <i class="fa-regular fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- DOMES SPOTLIGHT END -->
+
+
 
 <!-- why-us-section start -->
 <section class="why-us-new-section">
@@ -4050,7 +6490,7 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
 
 
 	<!-- our-camping start -->
-	<section class="our-camping-section overflow-x-clip p-t-60 p-b-60 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/static_images_new/1.png" %}');">
+	{% comment %} <section class="our-camping-section overflow-x-clip p-t-60 p-b-60 p-t-xs-40 p-b-xs-40" style="background-image: url('{% static "assets/img/static_images_new/1.png" %}');">
 		<div class="container">
 			<div class="row m-b-30 m-b-xs-40">
 				<div class="col-xl-12">
@@ -4119,8 +6559,241 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> {% endcomment %}
 	<!-- our-camping end -->
+
+
+<!-- =========================================================
+     DOMES INN HEAVEN - ACTIVITIES EDITORIAL SHOWCASE
+========================================================= -->
+<section class="dih-activities-section" id="activities">
+
+    <!-- LEFT: TRANSPARENT SCENIC IMAGE -->
+    <div class="dih-act-left">
+
+        <img
+            class="dih-act-scenic-image"
+            src="{% static 'assets\img\bg\activities-left.png' %}"
+            alt="Couple enjoying the Munnar hills at Domes Inn Heaven"
+        >
+
+        <div class="dih-act-left-content">
+            <div class="dih-act-eyebrow">
+                <span></span>
+                OUR ACTIVITIES
+            </div>
+
+            <h2>
+                Unforgettable<br>
+                Experiences<br>
+                <em>in Munnar</em>
+            </h2>
+
+            <p>
+                Explore exciting activities at Domes Inn Heaven
+                and make the most of your stay in Munnar.
+                From adventure to relaxation, there's
+                something for everyone.
+            </p>
+
+            <a href="{% url 'activities' %}" class="dih-act-view-all">
+                View All Activities
+                <span>
+                    <i class="fa-regular fa-arrow-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <!-- RIGHT: INTERACTIVE ACTIVITIES -->
+    
+<div class="dih-act-right">    
+    <!-- DECORATIVE BOTANICAL PATTERNS -->
+<img
+    src="{% static 'assets\img\patterns\pattern-1.png' %}"
+    class="dih-act-pattern dih-act-pattern-top"
+    alt=""
+    aria-hidden="true"
+>
+
+<img
+    src="{% static 'assets\img\patterns\pattern-1.png' %}"
+    class="dih-act-pattern dih-act-pattern-bottom"
+    alt=""
+    aria-hidden="true"
+>
+<!-- NEW GREEN BOTANICAL CORNER PATTERN -->
+<img
+    src="{% static 'assets/img/patterns/pattern-2.png' %}"
+    class="dih-act-pattern dih-act-pattern-corner"
+    alt=""
+    aria-hidden="true"
+>
+
+        <div class="dih-act-intro">
+<div class="dih-act-wordmark">
+    <span class="dih-act-wordmark-label">
+        THE BEAUTY OF THE HILLS
+    </span>
+
+    <h3>
+        Discover<br>
+        <span>Munnar</span>
+    </h3>
+
+    <div class="dih-act-wordmark-tagline">
+        <span></span>
+        Nature. Adventure. Memories.
+    </div>
+</div>
+
+            <p>
+                From nature walks and cycling to tea tasting
+                and off-road jeep safaris, discover experiences
+                that bring you closer to the beauty of Munnar.
+            </p>
+        </div>
+
+        <div class="dih-act-experience-layout">
+
+            <!-- ACTIVITIES LIST -->
+            <div class="dih-act-list-panel">
+
+                <div class="dih-act-list-heading">
+                    ACTIVITIES
+                </div>
+
+                <div class="dih-act-list" role="group" aria-label="Choose an activity">
+
+                    {% for activity in activities %}
+                    <button
+                        type="button"
+                        class="dih-act-list-item {% if forloop.first %}is-active{% endif %}"
+                        data-activity-index="{{ forloop.counter0 }}"
+                        aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                    >
+                        <span class="dih-act-timeline-dot"></span>
+
+                        <span class="dih-act-item-name">
+                            {{ activity.title }}
+                        </span>
+
+                        <i class="fa-regular fa-arrow-right"></i>
+                    </button>
+                    {% empty %}
+                    <p class="dih-act-empty">
+                        New experiences are coming soon.
+                    </p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- FEATURED ACTIVITY IMAGE -->
+            <div class="dih-act-feature-panel">
+
+                <div class="dih-act-feature-stage">
+
+                    {% for activity in activities %}
+                    <article
+                        class="dih-act-feature {% if forloop.first %}is-active{% endif %}"
+                        data-activity-panel="{{ forloop.counter0 }}"
+                        aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+                    >
+
+                        <a
+                            href="{% url 'activity_details' activity.slug %}"
+                            class="dih-act-feature-link"
+                            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                        >
+                            {% if activity.image %}
+                            <img
+                                src="{{ activity.image.url }}"
+                                alt="{{ activity.title }}"
+                                loading="lazy"
+                            >
+                            {% else %}
+                            <img
+                                src="{% static 'assets/img/static_images_new/1.png' %}"
+                                alt="{{ activity.title }}"
+                                loading="lazy"
+                            >
+                            {% endif %}
+
+                            <span class="dih-act-feature-overlay"></span>
+
+                            <span class="dih-act-feature-content">
+
+                                <span class="dih-act-feature-label">
+                                    EXPERIENCE {{ forloop.counter|stringformat:"02d" }}
+                                </span>
+
+                                <strong>{{ activity.title }}</strong>
+
+                                {% if activity.description %}
+                                <span class="dih-act-feature-description">
+                                    {{ activity.description|striptags|truncatewords:20 }}
+                                </span>
+                                {% endif %}
+
+                                {% if activity.duration %}
+                                <span class="dih-act-feature-duration">
+                                    <i class="fa-regular fa-clock"></i>
+                                    {{ activity.duration }}
+                                </span>
+                                {% endif %}
+
+                            </span>
+                        </a>
+
+                    </article>
+                    {% empty %}
+                    <div class="dih-act-feature-empty">
+                        Explore the beauty of Munnar
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="dih-act-navigation">
+                    <span class="dih-act-counter" aria-live="polite">
+                        <span class="dih-act-current">01</span>
+                        <span class="dih-act-counter-divider">/</span>
+                        <span class="dih-act-total">{{ activities|length|stringformat:"02d" }}</span>
+                    </span>
+
+                    <div class="dih-act-navigation-buttons">
+                        <button
+                            type="button"
+                            class="dih-act-prev"
+                            aria-label="Previous activity"
+                        >
+                            <i class="fa-regular fa-arrow-left"></i>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="dih-act-next"
+                            aria-label="Next activity"
+                        >
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ACTIVITIES EDITORIAL SHOWCASE END -->
+
+<!-- PREMIUM ACTIVITIES SHOWCASE END -->
+
+
+
+
+
 <!-- dome-types-section start -->
 {% comment %} <section class="dome-showcase-section">
 
@@ -4178,7 +6851,7 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
 
 	
 	<!-- testimonial start -->
-	<section class="testimonial p-t-120 p-t-md-100 p-t-xs-40 p-b-120 p-b-md-100 p-b-xs-40">
+	{% comment %} <section class="testimonial p-t-120 p-t-md-100 p-t-xs-40 p-b-120 p-b-md-100 p-b-xs-40">
 		<div class="container">
 			<div class="row align-items-center justify-content-between">
 				<div class="col-xl-4 m-b-lg-60 m-b-md-60 m-b-xs-40">
@@ -4269,8 +6942,163 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> {% endcomment %}
 	<!-- testimonial end -->
+
+
+<!-- =====================================================
+     DOMES INN HEAVEN - FEATURED GUEST TESTIMONIALS
+===================================================== -->
+
+<section class="dih-featured-testimonials" id="testimonials">
+
+    <div class="dih-ft-container">
+
+        <div class="dih-ft-heading">
+            <span class="dih-ft-eyebrow">GUEST EXPERIENCES</span>
+
+            <h2>What Our Guests Say About Us</h2>
+
+            <p>
+                Discover the experiences, cherished moments and beautiful
+                memories our guests have shared at Domes Inn Heaven, Munnar.
+            </p>
+        </div>
+
+        {% if testimonials %}
+
+        <div class="dih-ft-slider" id="dihFeaturedSlider">
+
+            <div class="dih-ft-slides">
+
+                {% for testimonial in testimonials %}
+
+                <article
+                    class="dih-ft-slide {% if forloop.first %}is-active{% endif %}"
+                    data-slide="{{ forloop.counter0 }}"
+                    {% if not forloop.first %}hidden{% endif %}
+                >
+
+                    <!-- LEFT IMAGE -->
+                    <div class="dih-ft-image-column">
+
+                        <div class="dih-ft-image-frame">
+
+                            {% if testimonial.image %}
+                                <img
+                                    src="{{ testimonial.image.url }}"
+                                    alt="Guest experience shared by {{ testimonial.name }}"
+                                    loading="lazy"
+                                >
+                            {% else %}
+                                <div class="dih-ft-image-placeholder">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT CONTENT -->
+                    <div class="dih-ft-content">
+
+                        <div class="dih-ft-stars" aria-label="Guest testimonial">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <div class="dih-ft-quote-mark" aria-hidden="true">
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+
+                        <div class="dih-ft-review-wrap">
+
+                            <div class="dih-ft-review-text" id="dih-ft-review-{{ forloop.counter }}">
+                                {{ testimonial.review|striptags|linebreaksbr }}
+                            </div>
+
+<button
+    type="button"
+    class="e-primary-btn has-icon dih-ft-readmore"
+    aria-expanded="false"
+    aria-controls="dih-ft-review-{{ forloop.counter }}"
+>
+    <span class="dih-ft-btn-text">Read more</span>
+
+    <span class="icon-wrap">
+        <span class="icon">
+            <i class="fa-regular fa-arrow-right"></i>
+            <i class="fa-regular fa-arrow-right"></i>
+        </span>
+    </span>
+</button>
+
+                        </div>
+
+                        <div class="dih-ft-author">
+                            <h3>{{ testimonial.name }}</h3>
+
+                            <span class="dih-ft-author-label">
+                                Domes Inn Heaven Guest
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- SLIDER CONTROLS -->
+            <div class="dih-ft-controls">
+
+                <button
+                    type="button"
+                    class="dih-ft-nav dih-ft-prev"
+                    aria-label="Previous testimonial"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+
+                <div class="dih-ft-counter">
+                    <span class="dih-ft-current">01</span>
+                    <span class="dih-ft-counter-divider">/</span>
+                    <span class="dih-ft-total">{{ testimonials|length|stringformat:"02d" }}</span>
+                </div>
+
+                <button
+                    type="button"
+                    class="dih-ft-nav dih-ft-next"
+                    aria-label="Next testimonial"
+                >
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <p class="dih-ft-empty">
+            Guest testimonials will appear here soon.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</section>    
+
+
+
+
 
 	{% comment %} <!-- major-partners start -->
 	<section class="major-partners p-t-80 p-b-140 p-b-lg-120 p-b-md-100 p-b-xs-40">
@@ -4973,91 +7801,402 @@ For travellers searching for a unique stay in Munnar, our approach is simple: gi
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.config({ ignoreMobileResize: true });
-        gsap.ticker.lagSmoothing(0);
+document.addEventListener("DOMContentLoaded", function () {
 
-        const track      = document.querySelector('.wwd-track');
-        const trackOuter = document.querySelector('.wwd-track-outer');
-        const wrapper    = document.querySelector('.wwd-sticky-wrapper');
-        const section    = document.querySelector('.what-we-do-section');
+    const section = document.querySelector("#dome-spotlight");
 
-        if (!track || !wrapper || !section) return;
+    if (!section) return;
 
-        const sv = gsap.matchMedia();
+    const outer = section.querySelector(".wwd-track-outer");
+    const track = section.querySelector(".wwd-track");
+    const cards = Array.from(section.querySelectorAll(".wwd-card"));
 
-        // ── Desktop: GSAP Horizontal Scroll ───────────────────────────────
-        sv.add("(min-width: 1200px)", () => {
-            const getScrollDistance = () => track.scrollWidth - trackOuter.offsetWidth;
+    const prevBtn = section.querySelector(".wwd-prev");
+    const nextBtn = section.querySelector(".wwd-next");
+    const pagination = section.querySelector(".wwd-pagination");
 
-            gsap.to(track, {
-                x        : () => -getScrollDistance(),
-                ease     : "none",
-                scrollTrigger: {
-                    trigger          : section,
-                    pin              : section,
-                    anticipatePin    : 1,
-                    scrub            : 1,
-                    start            : "top top",
-                    end              : () => `+=${getScrollDistance()}`,
-                    invalidateOnRefresh: true,
-                }
-            });
+    const currentLabel = section.querySelector(".wwd-current");
+    const totalLabel = section.querySelector(".wwd-total");
 
-            return () => {
-                gsap.set(track, { clearProps: "all" });
-            };
+    if (!outer || !track || !cards.length) return;
+
+    const total = cards.length;
+
+    let activeIndex = 0;
+    let mobileSwiper = null;
+    let desktopTrigger = null;
+
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    /* ============================================
+       HELPERS
+    ============================================ */
+
+    function formatNumber(number) {
+        return String(number).padStart(2, "0");
+    }
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    function updateUI(index) {
+
+        activeIndex = clamp(index, 0, total - 1);
+
+        cards.forEach(function (card, i) {
+            card.classList.toggle("is-active", i === activeIndex);
         });
 
-        // ── Mobile: Swiper Carousel ──
-        sv.add("(max-width: 1199px)", () => {
-            const swiper = new Swiper('.wwd-track-outer', {
-                wrapperClass: 'wwd-track',
-                slideClass: 'wwd-card',
+        if (currentLabel) {
+            currentLabel.textContent = formatNumber(activeIndex + 1);
+        }
 
-                loop: false,
-                centeredSlides: false,
+        if (totalLabel) {
+             totalLabel.textContent = formatNumber(total);
+        }
 
-                slidesPerView: 1,
-                spaceBetween: 16,
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === total - 1;
 
-                observer: true,
-                observeParents: true,
-                watchOverflow: true,
+        pagination.querySelectorAll(".wwd-page-dot").forEach(
+            function (dot, i) {
+                const isActive = i === activeIndex;
 
-                pagination: {
-                    el: '.wwd-mobile-pagination',
-                    clickable: true,
-                },
+                dot.classList.toggle("is-active", isActive);
+                dot.setAttribute(
+                    "aria-current",
+                    isActive ? "true" : "false"
+                );
+            }
+        );
+    }
 
-                breakpoints: {
-                    768: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    1024: {
-                        slidesPerView: 2,
-                        spaceBetween: 24,
-                    },
-                },
+    /* ============================================
+       CREATE PAGINATION
+    ============================================ */
 
-                on: {
-                    init() {
-                        this.update();
-                    },
-                    resize() {
-                        this.update();
-                    }
-                }
-            });
+    cards.forEach(function (card, index) {
 
-            return () => {
-                swiper.destroy(true, true);
-                gsap.set(track, { clearProps: "all" });
-            };
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.className = "wwd-page-dot";
+        dot.setAttribute(
+            "aria-label",
+            "Show dome " + (index + 1)
+        );
+
+        dot.addEventListener("click", function () {
+            goToCard(index);
         });
+
+        pagination.appendChild(dot);
     });
+
+    updateUI(0);
+
+    /* ============================================
+       CENTER A DESKTOP CARD
+    ============================================ */
+
+    function getCardCenter(index) {
+
+        const card = cards[index];
+
+        return card.offsetLeft + card.offsetWidth / 2;
+    }
+
+    function getCenteredX(index) {
+
+        const viewportCenter = outer.clientWidth / 2;
+
+        return viewportCenter - getCardCenter(index);
+    }
+
+    function moveDesktopTrack(progress) {
+
+        if (total === 1) {
+            gsap.set(track, {
+                x: getCenteredX(0)
+            });
+            return;
+        }
+
+        const position = progress * (total - 1);
+
+        const firstIndex = Math.floor(position);
+        const secondIndex = Math.min(firstIndex + 1, total - 1);
+
+        const fraction = position - firstIndex;
+
+        const x1 = getCenteredX(firstIndex);
+        const x2 = getCenteredX(secondIndex);
+
+        const x = x1 + (x2 - x1) * fraction;
+
+        gsap.set(track, { x: x });
+
+        const nearest = Math.round(position);
+
+        if (nearest !== activeIndex) {
+            updateUI(nearest);
+        }
+    }
+
+    /* ============================================
+       DESKTOP: PIN + SCROLL THROUGH EACH CARD
+    ============================================ */
+
+    function initializeDesktop() {
+
+        if (
+            typeof gsap === "undefined" ||
+            typeof ScrollTrigger === "undefined"
+        ) {
+            return;
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        const scrollState = {
+            progress: 0
+        };
+
+        /*
+          Each dome receives approximately 75%
+          of one viewport height of scroll travel.
+        */
+
+        const distance = Math.max(
+            1,
+            (total - 1) * window.innerHeight * 0.75
+        );
+
+        gsap.set(track, {
+            x: getCenteredX(0)
+        });
+
+        if (total < 2 || reduceMotion) {
+            updateUI(0);
+            return;
+        }
+
+        const animation = gsap.to(scrollState, {
+
+            progress: 1,
+
+            ease: "none",
+
+            onUpdate: function () {
+                moveDesktopTrack(scrollState.progress);
+            },
+
+            scrollTrigger: {
+
+                trigger: section,
+
+                start: "top top",
+
+                end: "+=" + distance,
+
+                pin: true,
+
+                anticipatePin: 1,
+
+                scrub: 0.8,
+
+                invalidateOnRefresh: true,
+
+                snap: {
+                    snapTo: 1 / (total - 1),
+                    duration: {
+                        min: 0.2,
+                        max: 0.45
+                    },
+                    delay: 0.12,
+                    ease: "power2.inOut"
+                },
+
+                onRefresh: function (self) {
+                    moveDesktopTrack(self.progress);
+                }
+
+            }
+
+        });
+
+        desktopTrigger = animation.scrollTrigger;
+
+        ScrollTrigger.refresh();
+    }
+
+    /* ============================================
+       MOBILE / TABLET: SWIPER CENTER MODE
+    ============================================ */
+
+    function initializeMobile() {
+
+        if (typeof Swiper === "undefined") {
+            return;
+        }
+
+        mobileSwiper = new Swiper(outer, {
+
+            wrapperClass: "wwd-track",
+            slideClass: "wwd-card",
+
+            slidesPerView: 1.22,
+
+            centeredSlides: true,
+
+            spaceBetween: 12,
+
+            initialSlide: 0,
+
+            loop: false,
+
+            speed: reduceMotion ? 0 : 550,
+
+            grabCursor: true,
+
+            allowTouchMove: true,
+
+            simulateTouch: true,
+
+            touchRatio: 1,
+
+            touchAngle: 45,
+
+            threshold: 5,
+
+            resistanceRatio: 0.65,
+
+            watchOverflow: true,
+
+            observer: true,
+
+            observeParents: true,
+
+            breakpoints: {
+
+                768: {
+                    slidesPerView: 2.15,
+                    spaceBetween: 18
+                },
+
+                1024: {
+                    slidesPerView: 2.45,
+                    spaceBetween: 22
+                }
+
+            },
+
+            on: {
+
+                init: function (swiper) {
+                    updateUI(swiper.activeIndex);
+                },
+
+                slideChange: function (swiper) {
+                    updateUI(swiper.activeIndex);
+                }
+
+            }
+
+        });
+    }
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+
+    function goToCard(index) {
+
+        index = clamp(index, 0, total - 1);
+
+        if (mobileSwiper) {
+
+            mobileSwiper.slideTo(index);
+
+            return;
+        }
+
+        if (desktopTrigger) {
+
+            const progress = total > 1
+                ? index / (total - 1)
+                : 0;
+
+            const targetScroll =
+                desktopTrigger.start +
+                (desktopTrigger.end - desktopTrigger.start) * progress;
+
+            window.scrollTo({
+                top: targetScroll,
+                behavior: reduceMotion ? "instant" : "smooth"
+            });
+
+            return;
+        }
+
+        updateUI(index);
+        moveDesktopTrack(total > 1 ? index / (total - 1) : 0);
+    }
+
+    prevBtn.addEventListener("click", function () {
+        goToCard(activeIndex - 1);
+    });
+
+    nextBtn.addEventListener("click", function () {
+        goToCard(activeIndex + 1);
+    });
+
+    /* ============================================
+       RESPONSIVE INITIALIZATION
+    ============================================ */
+
+    const mediaQuery = window.matchMedia("(min-width: 1200px)");
+
+    function initializeForScreen() {
+
+        if (desktopTrigger) {
+            desktopTrigger.kill();
+            desktopTrigger = null;
+        }
+
+        if (mobileSwiper) {
+            mobileSwiper.destroy(true, true);
+            mobileSwiper = null;
+        }
+
+        gsap.set(track, {
+            clearProps: "transform"
+        });
+
+        updateUI(0);
+
+        if (mediaQuery.matches) {
+            initializeDesktop();
+        } else {
+            initializeMobile();
+        }
+    }
+
+    if (typeof gsap !== "undefined") {
+
+        initializeForScreen();
+
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener("change", initializeForScreen);
+        } else {
+            mediaQuery.addListener(initializeForScreen);
+        }
+    }
+
+});
 </script>
 
 <script>
@@ -5852,6 +8991,315 @@ document.addEventListener('DOMContentLoaded', () => {
 
 {% comment %} features domes js end  {% endcomment %}
 
+{% comment %} activity js start {% endcomment %}
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const section = document.querySelector(".dih-activities-section");
+    if (!section) return;
+
+    const items = Array.from(
+        section.querySelectorAll(".dih-act-list-item")
+    );
+
+    const panels = Array.from(
+        section.querySelectorAll(".dih-act-feature")
+    );
+
+    const prevButton = section.querySelector(".dih-act-prev");
+    const nextButton = section.querySelector(".dih-act-next");
+    const currentLabel = section.querySelector(".dih-act-current");
+
+    const total = Math.min(items.length, panels.length);
+
+    if (!total) {
+        if (prevButton) prevButton.disabled = true;
+        if (nextButton) nextButton.disabled = true;
+        return;
+    }
+
+    let currentIndex = 0;
+    let autoplayTimer = null;
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function activateActivity(index) {
+
+        currentIndex = (index + total) % total;
+
+        items.forEach(function (item, i) {
+            const active = i === currentIndex;
+
+            item.classList.toggle("is-active", active);
+            item.setAttribute("aria-pressed", String(active));
+        });
+
+        panels.forEach(function (panel, i) {
+            const active = i === currentIndex;
+
+            panel.classList.toggle("is-active", active);
+            panel.setAttribute("aria-hidden", String(!active));
+
+            const link = panel.querySelector("a");
+            if (link) {
+                link.tabIndex = active ? 0 : -1;
+            }
+        });
+
+        if (currentLabel) {
+            currentLabel.textContent = String(
+                currentIndex + 1
+            ).padStart(2, "0");
+        }
+    }
+
+    function stopAutoplay() {
+        if (autoplayTimer !== null) {
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        }
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+
+        if (total < 2 || reducedMotion.matches) return;
+
+        autoplayTimer = window.setInterval(function () {
+            activateActivity(currentIndex + 1);
+        }, 4500);
+    }
+
+    function selectActivity(index) {
+        activateActivity(index);
+        startAutoplay();
+    }
+
+    items.forEach(function (item, index) {
+        item.addEventListener("click", function () {
+            selectActivity(index);
+        });
+    });
+
+    if (prevButton) {
+        prevButton.addEventListener("click", function () {
+            selectActivity(currentIndex - 1);
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener("click", function () {
+            selectActivity(currentIndex + 1);
+        });
+    }
+
+    section.addEventListener("mouseenter", stopAutoplay);
+    section.addEventListener("mouseleave", startAutoplay);
+
+    section.addEventListener("focusin", stopAutoplay);
+
+    section.addEventListener("focusout", function (event) {
+        if (!section.contains(event.relatedTarget)) {
+            startAutoplay();
+        }
+    });
+
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            stopAutoplay();
+        } else {
+            startAutoplay();
+        }
+    });
+
+    if (typeof reducedMotion.addEventListener === "function") {
+        reducedMotion.addEventListener("change", function () {
+            if (reducedMotion.matches) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+    }
+
+    activateActivity(0);
+    startAutoplay();
+
+});
+</script>
+
+
+{% comment %} activity js end  {% endcomment %}
+
+
+{% comment %} testimonials js start {% endcomment %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slider = document.getElementById("dihFeaturedSlider");
+
+    if (!slider) return;
+
+    const slides = Array.from(
+        slider.querySelectorAll(".dih-ft-slide")
+    );
+
+    const prevButton = slider.querySelector(".dih-ft-prev");
+    const nextButton = slider.querySelector(".dih-ft-next");
+    const currentCounter = slider.querySelector(".dih-ft-current");
+
+    if (!slides.length) return;
+
+    let currentIndex = 0;
+
+    function resetReview(slide) {
+
+        const review = slide.querySelector(".dih-ft-review-text");
+        const button = slide.querySelector(".dih-ft-readmore");
+
+        if (!review || !button) return;
+
+        review.classList.remove("is-expanded");
+        review.scrollTop = 0;
+
+        button.setAttribute("aria-expanded", "false");
+        button.querySelector(".dih-ft-btn-text").textContent = "Read more";
+    }
+
+    function updateReadMore(slide) {
+
+        const review = slide.querySelector(".dih-ft-review-text");
+        const button = slide.querySelector(".dih-ft-readmore");
+
+        if (!review || !button) return;
+
+        if (review.classList.contains("is-expanded")) {
+            button.hidden = false;
+            return;
+        }
+
+        button.hidden = review.scrollHeight <= review.clientHeight + 2;
+    }
+
+    function showSlide(index) {
+
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides.forEach(function (slide, slideIndex) {
+
+            const active = slideIndex === currentIndex;
+
+            slide.hidden = !active;
+            slide.classList.toggle("is-active", active);
+
+            if (!active) {
+                resetReview(slide);
+            }
+        });
+
+        const activeSlide = slides[currentIndex];
+
+        updateReadMore(activeSlide);
+
+        currentCounter.textContent = String(currentIndex + 1).padStart(2, "0");
+
+        const singleSlide = slides.length <= 1;
+
+        prevButton.disabled = singleSlide;
+        nextButton.disabled = singleSlide;
+    }
+
+    prevButton.addEventListener("click", function () {
+        showSlide(currentIndex - 1);
+    });
+
+    nextButton.addEventListener("click", function () {
+        showSlide(currentIndex + 1);
+    });
+
+    slider.querySelectorAll(".dih-ft-readmore").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const slide = button.closest(".dih-ft-slide");
+            const review = slide.querySelector(".dih-ft-review-text");
+
+            const expanded = review.classList.toggle("is-expanded");
+
+            button.setAttribute("aria-expanded", String(expanded));
+
+            button.querySelector(".dih-ft-btn-text").textContent =
+                expanded ? "Show less" : "Read more";
+
+            if (!expanded) {
+                review.scrollTop = 0;
+            }
+        });
+
+    });
+
+    /* KEYBOARD NAVIGATION */
+
+    slider.addEventListener("keydown", function (event) {
+
+        if (event.target.closest(".dih-ft-review-text")) return;
+
+        if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showSlide(currentIndex + 1);
+        }
+
+        if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showSlide(currentIndex - 1);
+        }
+
+    });
+
+    /* MOBILE SWIPE */
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    slider.addEventListener("touchstart", function (event) {
+
+        if (event.target.closest(".dih-ft-review-text.is-expanded")) return;
+
+        touchStartX = event.changedTouches[0].screenX;
+        touchStartY = event.changedTouches[0].screenY;
+
+    }, { passive: true });
+
+    slider.addEventListener("touchend", function (event) {
+
+        if (event.target.closest(".dih-ft-review-text.is-expanded")) return;
+
+        const diffX = event.changedTouches[0].screenX - touchStartX;
+        const diffY = event.changedTouches[0].screenY - touchStartY;
+
+        if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
+
+            if (diffX < 0) {
+                showSlide(currentIndex + 1);
+            } else {
+                showSlide(currentIndex - 1);
+            }
+        }
+
+    }, { passive: true });
+
+    window.addEventListener("resize", function () {
+        updateReadMore(slides[currentIndex]);
+    });
+
+    showSlide(0);
+
+});
+</script>
+
+{% comment %} testimonials js end {% endcomment %}
 
 {% endblock %}
